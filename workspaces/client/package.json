@@ -5,7 +5,7 @@
   "scripts": {
     "start": "parcel src/index.html --open --https --no-source-maps",
     "serve": "parcel serve src/index.html",
-    "build": "parcel build src/index.html --public-url ./ -d www/public --no-source-maps",
+    "build": "parcel build src/index.html --public-url ./  --no-source-maps",
     "clean": "rimraf dist .cache www/public",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
     "prestart": "yarn"

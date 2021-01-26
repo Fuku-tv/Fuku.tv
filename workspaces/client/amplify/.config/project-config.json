@@ -1,12 +1,12 @@
 {
-  "projectName": "authcra",
+  "projectName": "fuku.tv",
   "version": "1.0",
   "frontend": "javascript",
   "javascript": {
     "framework": "react",
     "config": {
       "SourceDir": "src",
-      "DistributionDir": "build",
+      "DistributionDir": "dist",
       "BuildCommand": "yarn build",
       "StartCommand": "yarn serve"
     }
