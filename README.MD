@@ -1,6 +1,6 @@
 # Fuku.tv
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ea724180-2f3a-4617-b1a3-e92e40808302/deploy-status)](https://app.netlify.com/sites/inspiring-pike-fd13b4/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fedd9d52-a656-4216-8041-2cee0ae035e0/deploy-status)](https://app.netlify.com/sites/trusting-allen-033a44/deploys)
 
 welcome to fuku.tv! 😊
 
