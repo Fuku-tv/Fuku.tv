@@ -1,0 +1,7 @@
+.side-scroll-container {
+  position: relative;
+  overflow-x: auto;
+  ul {
+    display: flex;
+  }
+}

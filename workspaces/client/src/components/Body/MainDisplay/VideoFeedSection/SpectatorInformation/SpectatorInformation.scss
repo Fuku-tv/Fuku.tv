@@ -1,0 +1,42 @@
+.spectator-information-container {
+	// background-color: rgba(255, 255, 255, 0.8);
+	background-color: var(--gold);
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	padding: 3px 10px;
+	border-radius: 50px;
+	// position: relative;
+	// margin: 1em;
+	// padding-bottom: .8em;
+	// border-bottom: 1px solid #eaeaea;
+	// display: -webkit-box;
+	// display: -ms-flexbox;
+	// display: flex;
+	-ms-flex-pack: distribute;
+	justify-content: space-around;
+	.que-icon-wrapper {
+		display: inline-block;
+		// margin: 5px;
+		font-size: 14px;
+		&:nth-child(2) {
+			margin-left: 10px;
+			padding-left: 10px;
+			border: none;
+			border-left: 1px solid var(--goldAccent);
+		}
+		span {
+			display: inline;
+		}
+		svg {
+			height: 14px;
+			margin-right: 4px;
+			margin-bottom: -2px;
+		}
+
+		.number {
+			font-weight: 500;
+			margin-left: 4px;
+		}
+	}
+}

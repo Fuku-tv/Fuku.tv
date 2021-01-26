@@ -1,0 +1,52 @@
+{
+  "name": "fuku.tv",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "workspaces/*",
+    "tools/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap --use-workspaces",
+    "clean": "lerna run clean",
+    "start": "lerna run start",
+    "start:client": "yarn workspace fuku.tv-client start",
+    "start:server": "yarn workspace fuku.tv-server start",
+    "lint": "lerna run lint",
+    "lint:client": "yarn workspace fuku.tv-client lint",
+    "lint:server": "yarn workspace fuku.tv-server lint",
+    "test": "lerna run test",
+    "build": "lerna run build",
+    "build:client": "yarn workspace fuku.tv-client build",
+    "build:server": "yarn workspace fuku.tv-server build",
+    "update": "yarn upgrade-interactive --latest",
+    "assemble": "lerna run assemble"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "cp-cli": "^2.0.0",
+    "husky": "^4.3.7",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.5.3",
+    "prettier": "2.2.1",
+    "pretty-quick": "^3.1.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2",
+    "wscat": "^4.0.1"
+  },
+  "dependencies": {
+    "eslint-config-core": "*",
+    "ts-compile": "*"
+  }
+}

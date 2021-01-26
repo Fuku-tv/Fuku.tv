@@ -1,0 +1,11 @@
+{
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "npm.packageManager": "yarn",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "breadcrumbs.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

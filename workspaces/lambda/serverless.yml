@@ -1,0 +1,77 @@
+service: FukuController
+
+configValidationMode: error
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: Prod
+  profile: default
+  region: us-east-1
+  environment:
+    playersTable: ${self:custom.players}
+    gamesTable: ${self:custom.games}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-offline
+custom:
+  players: Players
+  games: Games
+
+functions:
+  websocket-connect:
+    handler: src/websockets/handler.connect
+    events:
+      - websocket: $connect
+  websocket-disconnect:
+    handler: src/websockets/handler.disconnect
+    events:
+      - websocket: $disconnect
+  websocket-default:
+    handler: src/websockets/handler.default
+    events:
+      - websocket: $default
+  enter-queue:
+    handler: src/websockets/enterQueue.default
+    events:
+      - websocket: enterQueue
+  start-game:
+    handler: src/websockets/startGame.default
+    events:
+      - websocket: startGame
+  end-game:
+    handler: src/websockets/endGame.default
+    events:
+      - websocket: endGame
+
+resources:
+  Resources:
+    PlayersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.players}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    GamesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.games}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

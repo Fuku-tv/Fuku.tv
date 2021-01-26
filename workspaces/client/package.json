@@ -1,0 +1,56 @@
+{
+  "name": "fuku.tv-client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "parcel src/index.html --open --https --no-source-maps",
+    "serve": "parcel serve src/index.html",
+    "build": "parcel build src/index.html --public-url ./ -d www/public --no-source-maps",
+    "clean": "rimraf dist .cache www/public",
+    "lint": "tsc && eslint . --ext .ts,.tsx --fix",
+    "prestart": "yarn"
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^1.2.0",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@types/react-redux": "^7.1.12",
+    "@types/redux": "^3.6.0",
+    "canvas-confetti": "^1.3.2",
+    "fuku.tv-shared": "*",
+    "h264-live-player": "*",
+    "hamburger-react": "^2.4.0",
+    "lodash": "^4.17.20",
+    "react": ">=16",
+    "react-awesome-button": "^6.5.1",
+    "react-device-detect": "^1.15.0",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-transition-group": "^4.4.1",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "autoprefixer": "^9.0.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-pwa-manifest": "^3.0.10",
+    "parcel-plugin-sw-precache": "^1.1.2",
+    "sass": "^1.30.0",
+    "typescript": "^4.1.2"
+  },
+  "alias": {
+    "src": "./src"
+  },
+  "pwaManifest": {
+    "name": "Fuku.tv",
+    "shortName": "Fuku.tv",
+    "startURL": "/",
+    "theme": "#000000",
+    "generateIconOptions": {
+      "baseIcon": "./static/fuku.png",
+      "genFavicons": true
+    }
+  }
+}
