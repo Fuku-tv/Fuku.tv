@@ -1,0 +1,151 @@
+.map-switcher-container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-box-shadow: var(--boxShadow);
+          box-shadow: var(--boxShadow);
+  border: 1px solid #dddddd5e;
+  margin: 30px 0;
+  border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  margin-left: 30px;
+  display: -ms-grid;
+  display: grid;
+  height: 50px;
+}
+
+.map-switcher-container .state-container {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.map-switcher-container .state-container svg {
+  height: 20px;
+}
+
+.map-switcher-container .state-container .change-state-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.map-switcher-container .state-container .state-dropdown-container {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  top: 100%;
+  left: 0;
+  background: white;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.map-switcher-container .state-container .state-dropdown-container .state-option {
+  font-size: 12px;
+  padding: 6px 0;
+  text-align: center;
+  border: 1px solid var(--borderColor);
+  cursor: pointer;
+  outline: none;
+}
+
+.map-switcher-container .state-container .state-dropdown-container .state-option:hover {
+  color: var(--blue);
+}
+
+.map-switcher-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.map-switcher-container button:nth-child(2) {
+  border-right: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+}
+
+.map-switcher-container button.coming-soon {
+  position: relative;
+}
+
+.map-switcher-container button.coming-soon:after {
+  content: 'Coming Soon';
+  color: black !important;
+  position: absolute;
+  bottom: -8px;
+  background-color: var(--lightGreen);
+  font-size: 10px;
+  width: 70px;
+  border-radius: 50px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.map-switcher-container .map-switcher-button {
+  cursor: pointer;
+  outline: none;
+}
+
+.map-switcher-container .map-switcher-button:hover {
+  color: var(--blue);
+}
+
+.map-switcher-container .--active {
+  font-weight: 600;
+  position: relative;
+  color: var(--blue);
+}
+
+.map-switcher-container .--active:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: var(--blue);
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  bottom: 0px;
+}
+
+@media only screen and (max-width: 900px) {
+  .map-switcher-container {
+    padding: 0 !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    max-width: 200px !important;
+  }
+  button {
+    font-size: 12px;
+  }
+  h2 {
+    font-size: 16px;
+  }
+}
+/*# sourceMappingURL=MapSwitcher.css.map */

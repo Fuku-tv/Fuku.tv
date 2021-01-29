@@ -1,0 +1,61 @@
+.depth-button2-container {
+	position: relative;
+
+	display: flex;
+	justify-content: center;
+	button {
+		position: relative;
+		background: transparent;
+		border: none;
+		z-index: 11;
+		width: 100%;
+		height: 100%;
+		transition: 80ms ease;
+		outline: none;
+		cursor: pointer;
+		.button__content-wrapper {
+			width: 100%;
+
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-weight: 600;
+			color: #ffffff;
+			font-size: 14px;
+			outline: none;
+			&.purple {
+				background-color: var(--purpleSecondary);
+			}
+			&.red {
+				background-color: #c9132a;
+			}
+			&.yellow {
+				background-color: #bd9e3c;
+			}
+		}
+		&.button--down {
+			transform: translateY(3px) !important;
+		}
+		&:hover {
+			transform: translateY(.5px);
+		}
+	}
+	.shadow {
+		border-radius: 3px;
+		position: absolute;
+		width: 100%;
+		// height: 56px;
+		top: 4px;
+		z-index: 1;
+		&.purple {
+			background: #593a8a;
+		}
+		&.red {
+			background: #4a0710;
+		}
+		&.yellow {
+			background: #816715;
+		}
+	}
+}
