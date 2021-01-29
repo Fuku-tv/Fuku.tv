@@ -1,0 +1,11 @@
+.card {
+  margin: 0;
+  padding: 1em;
+  border-radius: 2px;
+  color: #333333;
+  -webkit-box-shadow: var(--boxShadow);
+          box-shadow: var(--boxShadow);
+  border: 1px solid var(--borderColor);
+  overflow: hidden;
+}
+/*# sourceMappingURL=Card.css.map */
