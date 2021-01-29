@@ -2,10 +2,6 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import ControlButton from './ControlButton';
 import DropClawButton from '../DropClawButton/DropClawButton';
-// import StopGameButton from '../StopGameButton/StopGameButton'; import
-// StartGameButton from '../StartGameButton/StartGameButton';
-
-import DepthButton from '../../../../../../../shared/components/UIElements/DepthButton/DepthButton';
 import './Controls.scss';
 
 const Controls: React.FC = () => {
@@ -78,14 +74,6 @@ const Controls: React.FC = () => {
 		</div>
 	);
 
-	// const startGameStopGameBtns = (   <div id="start"
-	// className="start-stop-buttons-container">     <DepthButton
-	// buttonSizeLarge       id="btnStop"       dataType="stop"
-	// buttonText="End Game"       type='secondary'       height={50}/>
-	// <DepthButton       buttonSizeLarge       id="btnStart"       dataType="start"
-	//       buttonText="Start Round"       width={160}       height={50}/>   </div>
-	// );
-
 	const arrowBtns = (
 		<div className="button-controls-container">
 			{
@@ -93,13 +81,6 @@ const Controls: React.FC = () => {
 				sideContolBtns}
 		</div>
 	);
-
-	// const cont = (   <div className="button-controls-container"
-	// style={{transform: props.cameraIsFront? 'rotate(0deg)': 'rotate(90deg)'}}>
-	// <ControlButton id="btnLeft" type="up"/>     <div className="left-right-row">
-	// <ControlButton id="btnDown" type="left"/>       <ControlButton id="btnUp"
-	// type="right"/>     </div>     <ControlButton id="btnRight" type="down"/>
-	// </div> );
 
 	return (
 		<div id="controls" className="controls-container">

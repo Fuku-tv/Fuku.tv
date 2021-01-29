@@ -2,13 +2,9 @@ import * as React from 'react';
 // import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
 import Controls from './Controls/Controls';
-import PlayGameButton from './PlayGameButton/PlayGameButton';
 import TitleDescription from './TitleDescription/TitleDescription';
-import DepthButton from '../../../../../../shared/components/UIElements/DepthButton/DepthButton';
-import DepthButton2 from 'src/shared/components/UIElements/DepthButton2/DepthButton2';
+import DepthButton from 'src/shared/components/UIElements/DepthButton_OLD/DepthButton';
 import SlideableContent from '../../../../../../shared/components/UIElements/SlideableContent/SlideableContent';
-import StopGameButton from './StopGameButton/StopGameButton';
-import StartGameButton from './StartGameButton/StartGameButton';
 import './ControlsSection.scss';
 import Timer from './Timer/Timer';
 
@@ -21,8 +17,8 @@ const ControlsSection: React.FC<Props> = () => {
 
 	const startGameStopGameBtns = (
 		<div id="start" className="start-stop-buttons-container">
-			<DepthButton2 id="btnStop" dataType="stop" buttonText="End Game" width={110} height={42} color="red" />
-			<DepthButton2
+			<DepthButton id="btnStop" dataType="stop" buttonText="End Game" width={110} height={42} color="red" />
+			<DepthButton
 				id="btnStart"
 				dataType="start"
 				buttonText="Start Round"
@@ -43,7 +39,7 @@ const ControlsSection: React.FC<Props> = () => {
 					descriptionEnd="players in front of you."
 				/>
 
-				<DepthButton2
+				<DepthButton
 					id="btnPlay"
 					dataType="join"
 					buttonText="Enter Player Queue"

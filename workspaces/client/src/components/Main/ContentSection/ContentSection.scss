@@ -4,6 +4,7 @@
 	padding: 10px;
 	flex-grow: 1;
 	overflow-y: auto;
+	overflow-x: hidden;
 	.inner-wrapper {
 		width: 100%;
 		max-width: 680px;

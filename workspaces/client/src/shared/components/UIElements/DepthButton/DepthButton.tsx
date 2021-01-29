@@ -1,76 +1,96 @@
 import * as React from 'react';
-import {AwesomeButton} from 'react-awesome-button';
+
 import './DepthButton.scss';
 
-import {useAuthState, useGameState} from 'src/state/hooks';
+import { useAuthState, useGameState } from 'src/state/hooks';
 interface Props {
-  dataType : string;
-  onClick : () => void;
-  isSignedIn : boolean;
-  id : string;
-  buttonText : string;
-  buttonSizeLarge?: any;
-  buttonIcon : any;
-  width?: number;
-  height?: number;
-  type?: string;
+	dataType: string;
+	onClick?: () => void;
+	onPointerDown?: () => void;
+	onPointerUp?: () => void;
+	id: string;
+	buttonText: string;
+	width?: number;
+	height?: number;
+	color?: string;
+	center?: boolean;
+	borderRadius?: number;
 }
 
-const DepthButton : React.FC < Props > = ({
-  dataType,
-  onClick,
-  isSignedIn,
-  buttonText,
-  id,
-  buttonSizeLarge,
-  buttonIcon,
-  width,
-  height,
-  type
+const DepthButton: React.FC<Props> = ({
+	dataType,
+	buttonText,
+	id,
+	width,
+	height,
+	onPointerUp,
+	onPointerDown,
+	center,
+	color,
+	borderRadius
 }) => {
-  const {actions, state} = useGameState();
-  const authState = useAuthState();
-  const visible = (state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') && authState.state.isAuthenticated;
-  const playBtn = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      data-prefix="fas"
-      data-icon="play"
-      className="svg-inline--fa fa-play fa-w-14"
-      role="img"
-      viewBox="0 0 448 512">
-      <path
-        fill="currentColor"
-        d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
-    </svg>
-  );
+	const { actions, state } = useGameState();
+	const authState = useAuthState();
+	const [ buttonIsDown, setButtonIsDown ] = React.useState<boolean>(false);
+	const buttonStyles = {
+		width: width,
+		height: height,
+		margin:
+			!center ? '0 6px' :
+			'0 auto'
+	};
 
-  const buttonStyles = {
-    width: width,
-    height: height
-  };
-  return (
-    <div className="depth-button-container">
-      <button
-        onPointerUp={actions.buttonUpEvent}
-        onPointerDown={actions.buttonDownEvent}
-        id={id}
-        data-type={dataType}
-        style={buttonStyles}>
-        <AwesomeButton
-          type={type}
-          size={buttonSizeLarge
-          ? 'large'
-          : 'normal'}>
-          <div className="button-inner-wrapper">
-            <span>{buttonText}</span>
-          </div>
-        </AwesomeButton>
-      </button>
-    </div>
-  );
+	const buttonContentWrapperStyles = {
+		borderRadius:
+			borderRadius ? borderRadius :
+			3
+	};
+	const shadowStyles = {
+		height: height,
+		borderRadius:
+			borderRadius ? borderRadius :
+			3
+	};
+
+	const mouseDownHandler = () => {
+		// actions.buttonDownEvent();
+		setButtonIsDown(true);
+		console.log('down');
+	};
+	const mouseUpHandler = () => {
+		// actions.buttonUpEvent();
+		setButtonIsDown(false);
+		console.log('up');
+	};
+	return (
+		<div
+			onMouseDown={mouseDownHandler}
+			onMouseUp={mouseUpHandler}
+			style={buttonStyles}
+			className="depth-button2-container"
+		>
+			<div style={shadowStyles} className={`shadow ${color}`} />
+			<button
+				onPointerUp={
+
+						onPointerUp ? onPointerUp :
+						actions.buttonUpEvent
+				}
+				onPointerDown={
+
+						onPointerDown ? onPointerDown :
+						actions.buttonDownEvent
+				}
+				className={buttonIsDown && 'button--down'}
+				id={id}
+				data-type={dataType}
+			>
+				<div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
+					{buttonText}
+				</div>
+			</button>
+		</div>
+	);
 };
 
 export default DepthButton;

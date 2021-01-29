@@ -7,7 +7,7 @@ import PrizesTab from './Tabs/PrizesTab/PrizesTab';
 import Store from './Tabs/Store/Store';
 import Leaderboards from './Tabs/Leaderboards/Leaderboards';
 import UserProfile from './Tabs/UserProfile/UserProfile';
-
+import Controls from './Tabs/PlayGame/ControlsSection/Controls/Controls';
 import './ContentSection.scss';
 
 const ContentSection: React.FC = () => {

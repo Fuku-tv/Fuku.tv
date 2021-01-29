@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { AwesomeButton } from 'react-awesome-button';
-import DepthButton2 from 'src/shared/components/UIElements/DepthButton2/DepthButton2';
-import DepthButton from 'src/shared/components/UIElements/DepthButton2/DepthButton2';
+
+import DepthButton from 'src/shared/components/UIElements/DepthButton_OLD/DepthButton';
+
 import { upArrow, downArrow, rightArrow, leftArrow } from './Arrows';
 
 interface Props {
@@ -41,7 +41,7 @@ const ControlButton: React.FC<Props> = (props) => {
 		[ props.direction ]
 	);
 	return (
-		<DepthButton2
+		<DepthButton
 			id="btn"
 			dataType={props.type}
 			buttonText={arrowDirection}
@@ -49,7 +49,7 @@ const ControlButton: React.FC<Props> = (props) => {
 			width={55}
 			height={55}
 			borderRadius={55}
-			color="red"
+			color="purple"
 			onPointerDown={props.onButtonDown}
 			onPointerUp={props.onButtonUp}
 		/>
@@ -57,8 +57,3 @@ const ControlButton: React.FC<Props> = (props) => {
 };
 
 export default ControlButton;
-{
-	/* <button onPointerDown={props.onButtonDown} onPointerUp={props.onButtonUp} className="control-button-wrapper" data-type={props.type}>
-<AwesomeButton type="primary">{arrowDirection}</AwesomeButton>
-</button> */
-}

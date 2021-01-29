@@ -8,6 +8,7 @@
 	box-shadow: var(--boxShadow3);
 	.nav-tab {
 		// border-right: 1px solid var(--blackBorder);
+		padding: 10px;
 		cursor: pointer;
 		position: relative;
 		display: flex;
@@ -31,7 +32,6 @@
 			.nav-tab__title {
 				font-size: 12px;
 				line-height: 1em;
-				padding: 10px;
 				flex-grow: 1;
 				text-align: center;
 			}
