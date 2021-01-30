@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import DepthButton from 'src/shared/components/UIElements/DepthButton_OLD/DepthButton';
+import DepthButton from 'src/shared/components/UIElements/DepthButton/DepthButton';
 
 import { upArrow, downArrow, rightArrow, leftArrow } from './Arrows';
 
