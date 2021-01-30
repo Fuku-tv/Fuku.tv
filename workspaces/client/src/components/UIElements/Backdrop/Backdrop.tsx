@@ -11,19 +11,19 @@ const removeConfetti = () => {
 };
 
 const blastConfetti = () => {
-  //Variables
-  let canvas = document.getElementById('confetti');
+  // Variables
+  const canvas: any = document.getElementById('confetti');
   canvas.confetti = canvas.confetti || confetti.create(canvas, { resize: true });
-  let end = Date.now() + 15 * 1000;
-  let colors = ['#FF70FA', '#e2a803'];
-  let count = 200;
-  let defaults = {
+  const end = Date.now() + 15 * 1000;
+  const colors = ['#FF70FA', '#e2a803'];
+  const count = 200;
+  const defaults = {
     origin: { y: 0.7 },
   };
   //--
-  //End Variables
+  // End Variables
 
-  //Confetti Functions
+  // Confetti Functions
   function randomConfetti() {
     canvas.confetti({
       angle: randomInRange(55, 125),
@@ -33,18 +33,14 @@ const blastConfetti = () => {
     });
   }
   function fire(particleRatio, opts) {
-    canvas.confetti(
-      Object.assign({}, defaults, opts, {
-        particleCount: Math.floor(count * particleRatio),
-      })
-    );
+    canvas.confetti({ ...defaults, ...opts, particleCount: Math.floor(count * particleRatio) });
   }
   function randomInRange(min, max) {
     return Math.random() * (max - min) + min;
   }
   // ---
 
-  //initial blast
+  // initial blast
   fire(0.25, {
     spread: 26,
     startVelocity: 55,
@@ -68,11 +64,11 @@ const blastConfetti = () => {
     startVelocity: 45,
   });
   //---
-  //End initial blast
+  // End initial blast
 
-  //Delayed confetti
+  // Delayed confetti
 
-  let intervals = [2000, 4000, 6500, 7200, 8400, 9500, 11000, 12000];
+  const intervals = [2000, 4000, 6500, 7200, 8400, 9500, 11000, 12000];
 
   intervals.forEach((num) => {
     setTimeout(() => {
@@ -80,21 +76,21 @@ const blastConfetti = () => {
     }, num);
   });
   //---
-  //End delayed confetti
+  // End delayed confetti
   (function frame() {
     canvas.confetti({
       particleCount: 2,
       angle: 60,
       spread: 55,
       origin: { x: 0 },
-      colors: colors,
+      colors,
     });
     canvas.confetti({
       particleCount: 2,
       angle: 120,
       spread: 55,
       origin: { x: 1 },
-      colors: colors,
+      colors,
     });
 
     if (Date.now() < end) {
@@ -115,7 +111,7 @@ const Backdrop: React.FC<Props> = ({ onClick }) => {
   }, []);
 
   const content = (
-    <div className="backdrop" onClick={onClick}>
+    <div className="backdrop" onClick={onClick} onKeyDown={onClick} role="button" tabIndex={0}>
       <canvas id="confetti" height="100%" width="100%" />
     </div>
   );
