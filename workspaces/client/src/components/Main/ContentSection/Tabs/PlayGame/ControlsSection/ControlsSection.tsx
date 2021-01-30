@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import Controls from './Controls/Controls';
 import TitleDescription from './TitleDescription/TitleDescription';
-import DepthButton from 'src/shared/components/UIElements/DepthButton_OLD/DepthButton';
+import DepthButton from 'src/shared/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from '../../../../../../shared/components/UIElements/SlideableContent/SlideableContent';
 import './ControlsSection.scss';
 import Timer from './Timer/Timer';
