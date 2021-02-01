@@ -1,5 +1,5 @@
 {
   "environment": "alpha",
   "sslpath": "/home/ubuntu/ssl/",
-  "httpspath": "/home/ubuntu/Fuku.tv/workspaces/client/www/public"
+  "httpspath": "/home/ubuntu/Fuku.tv/workspaces/client/dist"
 }
