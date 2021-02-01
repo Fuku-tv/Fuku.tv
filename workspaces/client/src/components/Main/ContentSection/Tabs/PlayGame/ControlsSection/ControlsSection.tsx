@@ -17,8 +17,26 @@ const ControlsSection: React.FC = () => {
 
   const startGameStopGameBtns = (
     <div id="start" className="start-stop-buttons-container">
-      <DepthButton id="btnStop" dataType="stop" buttonText="End Game" width={110} height={42} color="red" />
-      <DepthButton id="btnStart" dataType="start" buttonText="Start Round" width={160} height={42} color="purple" />
+      <DepthButton
+        onPointerUp={actions.buttonUpEvent}
+        onPointerDown={actions.buttonDownEvent}
+        id="btnStop"
+        dataType="stop"
+        buttonText="End Game"
+        width={110}
+        height={42}
+        color="red"
+      />
+      <DepthButton
+        onPointerUp={actions.buttonUpEvent}
+        onPointerDown={actions.buttonDownEvent}
+        id="btnStart"
+        dataType="start"
+        buttonText="Start Round"
+        width={160}
+        height={42}
+        color="purple"
+      />
     </div>
   );
 
@@ -32,7 +50,17 @@ const ControlsSection: React.FC = () => {
           descriptionEnd="players in front of you."
         />
 
-        <DepthButton id="btnPlay" dataType="join" buttonText="Enter Player Queue" width={200} height={42} color="purple" center />
+        <DepthButton
+          onPointerDown={actions.buttonDownEvent}
+          onPointerUp={actions.buttonUpEvent}
+          id="btnPlay"
+          dataType="join"
+          buttonText="Enter Player Queue"
+          width={200}
+          height={42}
+          color="purple"
+          center
+        />
       </div>
     </SlideableContent>
   );
