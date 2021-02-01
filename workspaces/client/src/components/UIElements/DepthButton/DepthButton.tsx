@@ -19,8 +19,6 @@ interface Props {
 }
 
 const DepthButton: React.FC<Props> = ({ dataType, buttonText, id, width, height, onPointerUp, onPointerDown, center, color, borderRadius }) => {
-  const { actions, state } = useGameState();
-  const authState = useAuthState();
   const [buttonIsDown, setButtonIsDown] = React.useState<boolean>(false);
   const buttonStyles = {
     width,
@@ -39,12 +37,10 @@ const DepthButton: React.FC<Props> = ({ dataType, buttonText, id, width, height,
   const mouseDownHandler = () => {
     // actions.buttonDownEvent();
     setButtonIsDown(true);
-    console.log('down');
   };
   const mouseUpHandler = () => {
     // actions.buttonUpEvent();
     setButtonIsDown(false);
-    console.log('up');
   };
   return (
     <div
@@ -56,13 +52,7 @@ const DepthButton: React.FC<Props> = ({ dataType, buttonText, id, width, height,
       className="depth-button2-container"
     >
       <div style={shadowStyles} className={`shadow ${color}`} />
-      <button
-        onPointerUp={onPointerUp || actions.buttonUpEvent}
-        onPointerDown={onPointerDown || actions.buttonDownEvent}
-        className={buttonIsDown && 'button--down'}
-        id={id}
-        data-type={dataType}
-      >
+      <button onPointerUp={onPointerUp} onPointerDown={onPointerDown} className={buttonIsDown && 'button--down'} id={id} data-type={dataType}>
         <div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
           {buttonText}
         </div>

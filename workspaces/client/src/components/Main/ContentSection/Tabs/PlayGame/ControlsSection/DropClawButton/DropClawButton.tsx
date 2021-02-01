@@ -21,7 +21,19 @@ const DropClawButton: React.FC = () => {
       <span>Drop The Claw</span>
     </>
   );
-  return <DepthButton id="btnDrop" dataType="drop" buttonText={text} width={140} height={110} borderRadius={8} color="yellow" />;
+  return (
+    <DepthButton
+      onPointerUp={actions.buttonUpEvent}
+      onPointerDown={actions.buttonDownEvent}
+      id="btnDrop"
+      dataType="drop"
+      buttonText={text}
+      width={140}
+      height={110}
+      borderRadius={8}
+      color="yellow"
+    />
+  );
 };
 
 export default DropClawButton;
