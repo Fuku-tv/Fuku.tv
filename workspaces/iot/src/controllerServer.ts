@@ -21,6 +21,7 @@ buttons['left'] = ioDown;
 buttons['right'] = ioUp;
 buttons['drop'] = ioDrop;
 buttons['button'] = ioDrop;
+buttons['start'] = null;
 
 const port = 10777;
 
@@ -36,7 +37,9 @@ function resetClaw() {
   buttons['drop'].writeSync(1);
   setTimeout(() => {
     Object.keys(buttons).forEach((b) => {
-      buttons[b].writeSync(0);
+      if (buttons[b] !== null) {
+        buttons[b].writeSync(0);
+      }
     });
   }, 50);
 }
@@ -55,11 +58,13 @@ wss.on('connection', (socket: any, req: any) => {
         buttons[msg.button].writeSync(1); // turn pin on
         break;
       case constants.ControllerCommand.buttonstop:
-        if (msg.button === null || msg.button === undefined || buttons[msg.button] === null) {
+        if (msg.button === null || msg.button === undefined || buttons[msg.button] === null || buttons[msg.button] === undefined) {
           logger.log(LogLevel.error, ipAddr + ' - bad button ' + msg.button);
           break;
         }
-        buttons[msg.button].writeSync(0);
+        else if (buttons[msg.button] !== null && buttons[msg.button] !== undefined) {
+          buttons[msg.button].writeSync(0);
+        }
         break;
       case constants.ControllerCommand.resetclaw:
         resetClaw();
