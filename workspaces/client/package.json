@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "parcel src/index.html --open --https --no-source-maps",
-    "serve": "parcel serve dist/index.html",
     "build": "parcel build src/index.html --public-url ./  --no-source-maps",
     "clean": "rimraf dist .cache www/public",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
@@ -19,7 +18,6 @@
     "fuku.tv-shared": "*",
     "h264-live-player": "*",
     "hamburger-react": "^2.4.0",
-    "lodash": "^4.17.20",
     "react": ">=16",
     "react-awesome-button": "^6.5.1",
     "react-device-detect": "^1.15.0",

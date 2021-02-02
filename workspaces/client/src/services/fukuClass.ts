@@ -85,6 +85,7 @@ class Fuku {
    */
   buttonStartEvent = (type: string): void => {
     // switch statement for type because command objects arent consistent.
+
     switch (type) {
       case 'join':
         this.send({ command: constants.PlayerCommand.queue, action: 'join' });
