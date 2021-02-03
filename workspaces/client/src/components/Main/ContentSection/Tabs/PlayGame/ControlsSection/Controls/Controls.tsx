@@ -83,6 +83,7 @@ const Controls: React.FC = () => {
 			</div>
 		</div>
 	);
+
 };
 
 export default Controls;

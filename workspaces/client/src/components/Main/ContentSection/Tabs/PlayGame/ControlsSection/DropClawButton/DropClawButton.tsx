@@ -15,6 +15,7 @@ const DropClawButton: React.FC = () => {
 		</svg>
 	);
 
+
 	const text = (
 		<React.Fragment>
 			{clawIcon}

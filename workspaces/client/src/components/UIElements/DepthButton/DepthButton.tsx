@@ -18,6 +18,7 @@ interface Props {
 	borderRadius?: number;
 }
 
+
 const DepthButton: React.FC<Props> = ({
 	dataType,
 	buttonText,
@@ -34,6 +35,7 @@ const DepthButton: React.FC<Props> = ({
 	const authState = useAuthState();
 	const [ buttonIsDown, setButtonIsDown ] = React.useState<boolean>(false);
 
+
 	const buttonStyles = {
 		width,
 		height,
@@ -41,6 +43,7 @@ const DepthButton: React.FC<Props> = ({
 			!center ? '0 6px' :
 			'0 auto'
 	};
+
 
 	const buttonContentWrapperStyles = {
 		borderRadius: borderRadius || 3
@@ -83,6 +86,7 @@ const DepthButton: React.FC<Props> = ({
 			</button>
 		</div>
 	);
+
 };
 
 export default DepthButton;
