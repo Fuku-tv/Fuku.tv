@@ -67,7 +67,9 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
+    console.log(canvasRef);
 
+    this.connectSocket();
     // WSAvcPlayer is loaded globally from "/js/liveplayer-min.js"
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
   }
