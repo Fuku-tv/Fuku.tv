@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
+import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import ControlButton from './ControlButton';
 import DropClawButton from '../DropClawButton/DropClawButton';
 import './Controls.scss';
@@ -7,6 +8,8 @@ import './Controls.scss';
 const Controls: React.FC = () => {
 	const { state, actions } = useGameState();
 	const gameplay = state.gameStatus === 'gameplay';
+	const buttonControls = React.useRef(null);
+
 	const forwardContolBtns = (
 		<React.Fragment>
 			<ControlButton
@@ -68,28 +71,16 @@ const Controls: React.FC = () => {
 		</React.Fragment>
 	);
 
-	const dropClawBtn = (
-		<div className="drop-claw-button-container">
-			<DropClawButton />
-		</div>
-	);
-
-	const arrowBtns = (
-		<div className="button-controls-container">
-			{
-				state.cameraIsForward ? forwardContolBtns :
-				sideContolBtns}
-		</div>
-	);
+	const arrowBtns = <div ref={buttonControls} className="button-controls-container" />;
 
 	return (
 		<div id="controls" className="controls-container">
-			{gameplay && (
-				<div className="control-buttons-container">
-					{dropClawBtn}
-					{arrowBtns}
-				</div>
-			)}
+			<DropClawButton />
+			<div className="button-controls-container">
+				{
+					state.cameraIsForward ? forwardContolBtns :
+					sideContolBtns}
+			</div>
 		</div>
 	);
 };
