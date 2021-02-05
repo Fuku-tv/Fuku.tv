@@ -5,11 +5,12 @@ header {
 	background: #593a8a;
 	background: -webkit-linear-gradient(to right, #6e48aa, #593a8a);
 	background: linear-gradient(to right, #6e48aa, #593a8a);
-	padding: 10px;
-	height: 52px;
+	// padding: 10px;
+	height: var(--headerHeight);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 100;
 	.header-inner-wrapper {
 		width: 100%;
 		display: flex;
@@ -17,6 +18,8 @@ header {
 		a {
 			display: flex;
 			text-decoration: none;
+			// display: block;
+			margin: 0 auto;
 		}
 		.logo {
 			font-family: 'East Sea Dokdo', cursive;
@@ -41,11 +44,11 @@ header {
 			}
 		}
 	}
-	.sign-in-icon-wrapper {
+	.icon-wrapper {
 		padding: 14px;
 		svg {
 			display: block;
-			height: 24px;
+			height: 22px;
 			color: #ffffff;
 		}
 	}
@@ -55,7 +58,8 @@ header {
 		// right: 5px;
 		// right: 15px;
 		// top: 50%;
-		transform: translateX(5px);
+		align-items: center;
+		// transform: translateX(5px);
 		// transform: translateY(-50%);
 		// -webkit-transform: translateY(-50%);
 		// -moz-transform: translateY(-50%);

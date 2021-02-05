@@ -1,0 +1,36 @@
+#prizes-tab-section {
+	position: relative;
+	display: flex;
+	flex-basis: 90%;
+	.prizes-item-container {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		// justify-content: space-around;
+		&:after {
+			content: "";
+			flex: auto;
+		}
+		.prize-item {
+			border: 1px solid white;
+			flex-basis: 180px;
+			margin: 10px;
+			border-radius: 4px;
+			overflow: hidden;
+			flex-basis: 150px;
+			& .prize-item__image {
+				position: relative;
+				height: 80px;
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					display: block;
+				}
+			}
+			.prize-item__title {
+				padding: 5px;
+			}
+		}
+	}
+}

@@ -18,53 +18,61 @@ const Header: React.FC = () => {
 	// testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
 	// > (false);
 
-	const [ drawerIsOpen, setDrawerIsOpen ] = React.useState<boolean>(false);
+	const [ navIsOpen, setNavIsOpen ] = React.useState<boolean>(false);
+	const [ chatIsOpen, setChatIsOpen ] = React.useState<boolean>(false);
 
 	const closeDrawer = () => {
-		setDrawerIsOpen(false);
+		setNavIsOpen(false);
 	};
 
 	// const modalTestHandler = () => { 		setModalIsActive((prev) => !prev); };
 
-	const sideDrawerContent = (
-		<SideDrawer closeDrawer={closeDrawer} show={drawerIsOpen}>
+	const sideDrawerContent_Chat = (
+		<SideDrawer closeDrawer={closeDrawer} show={chatIsOpen}>
 			<SideBar />
 		</SideDrawer>
 	);
 	const sideDrawerContent_Links = (
-		<SideDrawer closeDrawer={closeDrawer} show={drawerIsOpen}>
-			<nav className="nav-links-container">
-				<NavLinks />
-			</nav>
+		<SideDrawer closeDrawer={closeDrawer} show={navIsOpen}>
+			<NavLinks />
 		</SideDrawer>
 	);
 
-	const animatedNavBtn =
-
-			!state.isAuthenticated && !drawerIsOpen ? signInIcon :
-			<Hamburger distance="lg" duration={0.3} size={24} toggled={drawerIsOpen} />;
+	const chatClickHandler = () => {
+		setChatIsOpen((d) => !d);
+		setNavIsOpen(false);
+	};
+	const navClickHandler = () => {
+		setNavIsOpen((d) => !d);
+		setChatIsOpen(false);
+	};
 
 	return (
 		<React.Fragment>
 			<header>
 				<ContentContainer>
 					<div className="header-inner-wrapper">
+						{isMobile && (
+							<div onClick={chatClickHandler} className="icon-wrapper">
+								{chatIcon}
+							</div>
+						)}
+
 						<NavLink to="/" exact>
 							<div className="logo">
 								<span className="logo__icon">{fukuIcon}</span>
 								<span>fuku.tv</span>
 							</div>
 						</NavLink>
-						<nav className="nav-links-container">
-							<NavLinks />
-						</nav>
+
 						{isMobile && (
-							<div onClick={() => setDrawerIsOpen((d) => !d)} className="hamburger-icon-wrapper">
-								{animatedNavBtn}
+							<div onClick={navClickHandler} className="hamburger-icon-wrapper">
+								<Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
 							</div>
 						)}
 					</div>
 					{sideDrawerContent_Links}
+					{sideDrawerContent_Chat}
 				</ContentContainer>
 			</header>
 		</React.Fragment>
