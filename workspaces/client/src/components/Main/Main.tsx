@@ -45,7 +45,7 @@ const Main: React.FC = () => {
 			<div className="main-inner-wrapper">
 				<div className="content-area">
 					<VideoFeedSection />
-					<Navigation tabs={tabs} />
+
 					<ContentSection />
 				</div>
 				{!isMobile && <Sidebar />}
