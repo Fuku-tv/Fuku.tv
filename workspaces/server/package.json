@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/viewerControllerServer.js",
+    "start": "node dist/viewerControllerServer.js && node dist/viewerVideoServer.js",
     "clean": "rimraf dist",
     "build": "tsc",
     "build:ts-node": "ts-node src/index.ts -F",
