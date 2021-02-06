@@ -5,17 +5,17 @@ import crypto from 'crypto';
 import { LogLevel, LoggerClass } from 'fuku.tv-shared';
 import { constants } from 'fuku.tv-shared';
 
-const config = require('/etc/fuku/config/global.json');
+// const config = require('/etc/fuku/config/global.json');
 const logger = new LoggerClass('viewerVideoServer');
 
-var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
-var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
-var credentials = {
-  key: privateKey,
-  cert: certificate,
-};
+// var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
+// var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
+// var credentials = {
+//   key: privateKey,
+//   cert: certificate,
+// };
 
-const httpsServer = https.createServer(credentials);
+const httpsServer = https.createServer();
 httpsServer.listen(10889);
 
 const uriVideo1 = 'ws://96.61.12.109:10778';
