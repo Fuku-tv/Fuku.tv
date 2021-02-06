@@ -7,18 +7,18 @@ import { player } from 'fuku.tv-shared';
 import { LogLevel, LoggerClass } from 'fuku.tv-shared';
 import { constants } from 'fuku.tv-shared';
 
-const config = require('/etc/fuku/config/global.json');
+//const config = require('/etc/fuku/config/global.json');
 const logger = new LoggerClass('viewerControllerServer');
-const mongouri = 'mongodb://localhost:27017/';
+//const mongouri = 'mongodb://localhost:27017/';
 
-var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
-var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
-var credentials = {
-  key: privateKey,
-  cert: certificate,
-};
+// var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
+// var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
+// var credentials = {
+//   key: privateKey,
+//   cert: certificate,
+// };
 
-const httpsServer = https.createServer(credentials);
+const httpsServer = https.createServer();
 httpsServer.listen(10888);
 
 const uriController = 'ws://96.61.12.109';
