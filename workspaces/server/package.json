@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/viewerControllerServer.js",
+    "clean": "rimraf dist",
     "build": "tsc",
     "build:ts-node": "ts-node src/index.ts -F",
     "serve": "node dist/index.js"
