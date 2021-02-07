@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm-run-all --parallel serve:controller serve:video",
+    "start": "serve:controller & serve:video",
     "clean": "rimraf dist",
     "build": "webpack",
     "serve:controller": "node dist/controller.js",
