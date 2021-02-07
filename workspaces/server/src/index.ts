@@ -4,7 +4,11 @@ import { ControllerServer } from './viewerControllerServer';
 
 import { VideoServer } from './viewerVideoServer';
 
-const controllerHttpsServer = http.createServer();
+const controllerHttpsServer = http.createServer((req, res) => {
+  res.writeHead(200);
+  res.write('ok, good here!');
+  res.end();
+});
 controllerHttpsServer.listen(8080);
 
 // const videoHttpsServer = http.createServer();
