@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/controller.js",
+    "start": "node dist/sample.js",
     "clean": "rimraf dist",
     "build": "webpack",
     "serve:controller": "node dist/controller.js",
