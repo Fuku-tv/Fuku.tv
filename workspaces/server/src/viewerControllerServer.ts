@@ -1,31 +1,16 @@
-import fs from 'fs';
-import { MongoClient } from 'mongodb';
 import ws from 'ws';
-import https from 'https';
-import fetch from 'node-fetch';
+import http from 'http';
 import { player } from 'fuku.tv-shared';
 import { LogLevel, LoggerClass } from 'fuku.tv-shared';
 import { constants } from 'fuku.tv-shared';
 
-//const config = require('/etc/fuku/config/global.json');
-const logger = new LoggerClass('viewerControllerServer');
-//const mongouri = 'mongodb://localhost:27017/';
-
-// var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
-// var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
-// var credentials = {
-//   key: privateKey,
-//   cert: certificate,
-// };
-
-const httpsServer = https.createServer();
-httpsServer.listen(10888);
+const logger = new LoggerClass('viewerServer');
 
 const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
-class server {
+export class ControllerServer {
   queue: any[];
   players: any[];
   currentPlayer: any;
@@ -38,7 +23,7 @@ class server {
   clientVideo2: any;
   wss: any;
 
-  constructor() {
+  constructor(server: http.Server) {
     this.queue = [];
     this.players = [];
     this.currentPlayer = null;
@@ -57,7 +42,7 @@ class server {
     this.connectController();
 
     // client->us
-    this.wss = new ws.Server({ server: httpsServer });
+    this.wss = new ws.Server({ server: server });
 
     this.wss.on('connection', (socket: any, req: any) => {
       var clientPlayer = new player(socket, this.players.length + 1, this.queue.length, 800, 480, req.connection.remoteAddress);
@@ -288,5 +273,3 @@ class server {
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
   }
 }
-
-new server();

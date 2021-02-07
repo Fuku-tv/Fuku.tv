@@ -5,8 +5,6 @@ import ws from 'ws';
 const logger = new LoggerClass('viewerControllerServer');
 const port = process.env.PORT || 8080;
 
-// const html = fs.readFileSync('index.html');
-
 const log = (entry) => {
   fs.appendFileSync('/tmp/sample-app.log', `${new Date().toISOString()} - ${entry}\n`);
 };

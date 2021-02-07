@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/sample.js",
+    "start": "node dist/bundle.js",
     "clean": "rimraf dist",
-    "build": "webpack",
-    "serve:controller": "node dist/controller.js",
-    "serve:video": "node dist/video.js"
+    "build": "webpack"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
