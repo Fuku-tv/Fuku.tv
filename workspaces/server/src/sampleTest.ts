@@ -1,7 +1,9 @@
-import http from 'http';
 import fs from 'fs';
-
-const port = process.env.PORT || 3000;
+import { LoggerClass, LogLevel } from 'fuku.tv-shared';
+import http from 'http';
+import ws from 'ws';
+const logger = new LoggerClass('viewerControllerServer');
+const port = process.env.PORT || 8080;
 
 // const html = fs.readFileSync('index.html');
 
@@ -9,7 +11,7 @@ const log = (entry) => {
   fs.appendFileSync('/tmp/sample-app.log', `${new Date().toISOString()} - ${entry}\n`);
 };
 
-const server = http.createServer((req, res) => {
+const middleware = (req, res) => {
   if (req.method === 'POST') {
     let body = '';
 
@@ -32,7 +34,29 @@ const server = http.createServer((req, res) => {
     res.write('ok, good here!');
     res.end();
   }
-});
+};
+
+const server = http.createServer();
+class Server {
+  wss: ws.Server;
+
+  constructor() {
+    this.wss = new ws.Server({ server: server });
+
+    this.wss.on('connection', (socket: ws, req: any) => {
+      socket.send('Connection Established Fuku');
+      socket.on('message', (data: any) => {
+        socket.send('Test Message');
+      });
+      socket.on('close', () => {});
+      socket.on('error', (err: any) => {});
+    });
+  }
+  send(socket: any, data: object) {
+    if (socket !== null && socket !== undefined) socket.send(JSON.stringify(data));
+  }
+}
 
 console.log('listening on port 8080');
-server.listen(8080);
+server.listen(port);
+new Server();
