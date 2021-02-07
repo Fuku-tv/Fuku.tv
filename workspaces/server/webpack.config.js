@@ -1,7 +1,7 @@
 const path = require('path');
 const { NODE_ENV = 'production' } = process.env;
 module.exports = {
-  entry: { controller: './src/viewerControllerServer.ts', video: './src/viewerVideoServer.ts' },
+  entry: { controller: './src/viewerControllerServer.ts', video: './src/viewerVideoServer.ts', sample: './src/sampleTest.ts' },
   mode: NODE_ENV,
   target: 'node',
   output: {
