@@ -1,4 +1,5 @@
 import https from 'https';
+import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { ControllerServer } from './viewerControllerServer';
@@ -12,7 +13,7 @@ var credentials = {
   cert: certificate,
 };
 
-const controllerHttpsServer = https.createServer(credentials, (req, res) => {
+const controllerHttpsServer = http.createServer((req, res) => {
   res.writeHead(200);
   res.write('ok, good here!');
   res.end();
