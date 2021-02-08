@@ -1,22 +1,9 @@
-import fs from 'fs';
 import ws from 'ws';
-import https from 'https';
+import http from 'http';
 import crypto from 'crypto';
 import { LogLevel, LoggerClass } from 'fuku.tv-shared';
 import { constants } from 'fuku.tv-shared';
-
-const config = require('/etc/fuku/config/global.json');
 const logger = new LoggerClass('viewerVideoServer');
-
-var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
-var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
-var credentials = {
-  key: privateKey,
-  cert: certificate,
-};
-
-const httpsServer = https.createServer(credentials);
-httpsServer.listen(10889);
 
 const uriVideo1 = 'ws://96.61.12.109:10778';
 const uriVideo2 = 'ws://96.61.12.109:10779';
@@ -41,18 +28,18 @@ class Viewer {
   }
 }
 
-class server {
+export class VideoServer {
   viewers: any[];
   clientVideo1: any;
   clientVideo2: any;
   wss: any;
 
-  constructor() {
+  constructor(server: http.Server) {
     this.viewers = [];
     this.connectVideo(this.clientVideo1, uriVideo1, constants.Video.front);
     this.connectVideo(this.clientVideo2, uriVideo2, constants.Video.side);
 
-    this.wss = new ws.Server({ server: httpsServer });
+    this.wss = new ws.Server({ server: server });
 
     this.wss.on('connection', (socket: any, req: any) => {
       var viewer = new Viewer(socket, req.connection.remoteAddress);
@@ -125,5 +112,3 @@ class server {
     });
   }
 }
-
-new server();

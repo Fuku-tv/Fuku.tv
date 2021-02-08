@@ -3,22 +3,26 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/viewerControllerServer.js",
-    "build": "tsc",
-    "build:ts-node": "ts-node src/index.ts -F",
-    "serve": "node dist/index.js"
+    "start": "node dist/bundle.js",
+    "clean": "rimraf dist",
+    "build": "webpack"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
+    "fuku.tv-shared": "*",
     "mongodb": "^3.6.3",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0",
-    "ws": "^7.4.1",
-    "fuku.tv-shared": "*"
+    "ws": "^7.4.1"
   },
   "devDependencies": {
+    "@types/ws": "^7.4.0",
+    "npm-run-all": "^4.1.5",
+    "ts-loader": "^8.0.15",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "webpack": "^5.21.0",
+    "webpack-cli": "^4.5.0"
   }
 }

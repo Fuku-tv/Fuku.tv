@@ -30,7 +30,6 @@ const ContentSection: React.FC = () => {
 			{navState.state.tab === 'Leaderboard' && <Leaderboards />}
 			{navState.state.tab === 'Store' && <Store />}
 			{navState.state.tab === 'Prizes' && <PrizesTab />}
-			{navState.state.tab === 'Profile' && <UserProfile />}
 		</React.Fragment>
 	);
 
