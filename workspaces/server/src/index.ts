@@ -15,13 +15,18 @@ var credentials = {
 
 const controllerHttpsServer = http.createServer((req, res) => {
   res.writeHead(200);
-  res.write('ok, good here!');
+  res.write('ok, controller good here!');
   res.end();
 });
-controllerHttpsServer.listen(8080);
 
-// const videoHttpsServer = http.createServer();
-// videoHttpsServer.listen(10889);
+const videoHttpsServer = http.createServer((req, res) => {
+  res.writeHead(200);
+  res.write('ok, video good here!');
+  res.end();
+});
+controllerHttpsServer.listen(10888);
+
+videoHttpsServer.listen(10889);
 
 new ControllerServer(controllerHttpsServer);
-// new VideoServer(videoHttpsServer);
+new VideoServer(videoHttpsServer);
