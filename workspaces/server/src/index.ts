@@ -18,7 +18,7 @@ var credentials = {
  */
 const hcServer = http.createServer((req, res) => {
   res.writeHead(200);
-  res.write('ok, controller good here!');
+  res.write('ok, default endpoint good here!');
   res.end();
 });
 
