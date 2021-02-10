@@ -10,18 +10,16 @@ const MapSwitcher = (props) => {
 	const handleStateSelect = (state) => {
 		setStateName(state);
 		setStateSelectIsActive(false);
-		props.updateStateHandler(state)
+		props.updateStateHandler(state);
 	};
 
-
-	const stateHandler=(state)=>{
+	const stateHandler = (state) => {
 		// setStateName(state);
-		if(props.activeMapRegion === 'STATE'){
-
+		if (props.activeMapRegion === 'STATE') {
 			setStateSelectIsActive((a) => !a);
 		}
-		props.mapSwitcherHandler('STATE', 'mapOfUSA')
-	}
+		props.mapSwitcherHandler('STATE', 'mapOfUSA');
+	};
 	// ((a) => !a)}
 	useEffect(
 		() => {
@@ -31,7 +29,11 @@ const MapSwitcher = (props) => {
 		[ props ]
 	);
 	return (
-		<div className={`map-switcher-container ${props.usStateName ? 'three-col' : 'two-col'}`}>
+		<div
+			className={`map-switcher-container ${
+				props.usStateName ? 'three-col' :
+				'two-col'}`}
+		>
 			{props.usStateName && (
 				<div className="state-container">
 					<button
@@ -42,7 +44,9 @@ const MapSwitcher = (props) => {
 					</button>
 					{props.activeMapRegion === 'STATE' && (
 						<div className="change-state-button">
-							{stateSelectIsActive && props.activeMapRegion === 'STATE' ? <SortUp /> : <SortDown />}
+							{
+								stateSelectIsActive && props.activeMapRegion === 'STATE' ? <SortUp /> :
+								<SortDown />}
 						</div>
 					)}
 
@@ -51,7 +55,7 @@ const MapSwitcher = (props) => {
 							{usaData.map((state) => (
 								<span
 									onClick={() => handleStateSelect(state.state)}
-									class="state-option"
+									className="state-option"
 									id={state.state}
 								>
 									{state.state}

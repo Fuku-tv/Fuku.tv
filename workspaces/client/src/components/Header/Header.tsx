@@ -4,17 +4,22 @@ import { isMobile } from 'react-device-detect';
 import { NavLink } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
 import useAuthState from 'src/state/hooks/useAuthState';
+import { useGameState } from 'src/state/hooks';
 
 import ContentContainer from '../UIElements/ContentContainer/ContentContainer';
 import Modal from '../UIElements/Modal/Modal';
 import NavLinks from './NavLinks/NavLinks';
-import SideBar from '../Sidebar/Sidebar';
+import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import SideBar from '../Screens/MainScreen/Sidebar/Sidebar';
 import SideDrawer from '../UIElements/SideDrawer/SideDrawer';
 import './Header.scss';
+import FlatButton from '../UIElements/FlatButton/FlatButton';
+import DropdownButton from './DropdownButton/DropdownButton';
+import NotificationDropdown from './NotificationsDropdown/NotificationsDropdown';
 
 const Header: React.FC = () => {
 	const { state, actions } = useAuthState();
-
+	const gameState = useGameState();
 	// testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
 	// > (false);
 
@@ -47,39 +52,91 @@ const Header: React.FC = () => {
 		setChatIsOpen(false);
 	};
 
+	// const loggedInContent = (
+	// 	<div className="user-actions-container">
+	// 		{/* <NotificationDropdown id="header-notification-button" /> */}
+	// 		<DropdownButton id="header-profile-button" />
+	// 	</div>
+	// );
+
+	let profileButton = (
+		<div className="user-actions-container">
+			{
+				state.isAuthenticated ? <DropdownButton id="header-profile-button" /> :
+				<FlatButton
+					id="profile-dropdown-button"
+					width={180}
+					text="Sign In"
+					onClick={actions.loginWithPopup}
+					ghost
+				/>}
+		</div>
+	);
+
 	return (
 		<React.Fragment>
 			<header>
-				<ContentContainer>
-					<div className="header-inner-wrapper">
-						{isMobile && (
-							<div onClick={chatClickHandler} className="icon-wrapper">
-								{chatIcon}
-							</div>
-						)}
+				<div className="header-inner-wrapper">
+					{isMobile && (
+						<div onClick={chatClickHandler} className="icon-wrapper">
+							{chatIcon}
+						</div>
+					)}
 
-						<NavLink to="/" exact>
-							<div className="logo">
-								<span className="logo__icon">{fukuIcon}</span>
-								<span>fuku.tv</span>
-							</div>
-						</NavLink>
-
-						{isMobile && (
-							<div onClick={navClickHandler} className="hamburger-icon-wrapper">
-								<Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
-							</div>
-						)}
-					</div>
-					{sideDrawerContent_Links}
-					{sideDrawerContent_Chat}
-				</ContentContainer>
+					<NavLink to="/" exact>
+						<div className="logo">
+							<span className="logo__icon">{fukuIcon}</span>
+							<span>fuku.tv</span>
+						</div>
+					</NavLink>
+					{!isMobile && <ContentContainer> {profileButton} </ContentContainer>}
+					{isMobile && (
+						<div onClick={navClickHandler} className="hamburger-icon-wrapper">
+							<Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen || chatIsOpen} />
+						</div>
+					)}
+				</div>
+				{sideDrawerContent_Links}
+				{sideDrawerContent_Chat}
 			</header>
 		</React.Fragment>
 	);
 };
 
 export default Header;
+const downArrow = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+		focusable="false"
+		data-prefix="fas"
+		data-icon="caret-down"
+		className="svg-inline--fa fa-caret-down fa-w-10"
+		role="img"
+		viewBox="0 0 320 512"
+	>
+		<path
+			fill="currentColor"
+			d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+		/>
+	</svg>
+);
+
+const credit = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+		focusable="false"
+		data-prefix="fas"
+		data-icon="coins"
+		className="svg-inline--fa fa-coins fa-w-16"
+		role="img"
+		viewBox="0 0 512 512"
+	>
+		<path d="M0 405.3V448c0 35.3 86 64 192 64s192-28.7 192-64v-42.7C342.7 434.4 267.2 448 192 448S41.3 434.4 0 405.3zM320 128c106 0 192-28.7 192-64S426 0 320 0 128 28.7 128 64s86 64 192 64zM0 300.4V352c0 35.3 86 64 192 64s192-28.7 192-64v-51.6c-41.3 34-116.9 51.6-192 51.6S41.3 334.4 0 300.4zm416 11c57.3-11.1 96-31.7 96-55.4v-42.7c-23.2 16.4-57.3 27.6-96 34.5v63.6zM192 160C86 160 0 195.8 0 240s86 80 192 80 192-35.8 192-80-86-80-192-80zm219.3 56.3c60-10.8 100.7-32 100.7-56.3v-42.7c-35.5 25.1-96.5 38.6-160.7 41.8 29.5 14.3 51.2 33.5 60 57.2z" />{' '}
+	</svg>
+);
+
 const chatIcon = (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"

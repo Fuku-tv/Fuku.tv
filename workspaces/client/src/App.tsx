@@ -4,24 +4,25 @@ import './App.scss';
 // workaround for react-awesome-button css import bug
 import './styles.css';
 import Header from './components/Header/Header';
-import Main from './components/Main/Main';
 import AboutScreen from './components/Screens/AboutScreen/AboutScreen';
 import ProfileScreen from './components/Screens/ProfileScreen/ProfileScreen';
-import Sidebar from './components/Sidebar/Sidebar';
+import Sidebar from './components/Screens/MainScreen/Sidebar/Sidebar';
 import Provider from './state';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import ContentContainer from './components/UIElements/ContentContainer/ContentContainer';
 import VerticalNavigation from './components/VerticalNavigation/VerticalNavigation';
-import Leaderboards from './components/Screens/LeaderboardsScreen/LeaderboardsScreen';
+import MainScreen from './components/Screens/MainScreen/MainScreen';
+import LeaderboardsScreen from './components/Screens/LeaderboardsScreen/LeaderboardsScreen';
 import StoreScreen from './components/Screens/StoreScreen/StoreScreen';
 import PrizesScreen from './components/Screens/PrizesScreen/PrizesScreen';
+import ClawCustomizationScreen from './components/Screens/ClawCustomizationScreen/ClawCustomizationScreen';
 // import SideBar from './components';
 
 const App: React.FC = () => {
 	let routes = (
 		<Switch>
 			<Route path="/" exact>
-				<Main />
+				<MainScreen />
 			</Route>
 			<Route path="/about" exact>
 				<AboutScreen />
@@ -30,13 +31,16 @@ const App: React.FC = () => {
 				<ProfileScreen />
 			</Route>
 			<Route path="/leaderboards" exact>
-				<Leaderboards />
+				<LeaderboardsScreen />
 			</Route>
 			<Route path="/prizes" exact>
 				<PrizesScreen />
 			</Route>
 			<Route path="/store" exact>
 				<StoreScreen />
+			</Route>
+			<Route path="/claw-customization" exact>
+				<ClawCustomizationScreen />
 			</Route>
 			<Redirect to="/" />
 		</Switch>

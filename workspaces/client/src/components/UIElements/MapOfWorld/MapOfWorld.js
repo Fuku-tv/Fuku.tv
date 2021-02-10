@@ -7,7 +7,7 @@ const MapOfWorld = () => {
 		console.log(country.target);
 	};
 	return (
-		<div class="map-container">
+		<div className="map-container">
 			<Map onClick={clickHandler} backgroundColor={'#222'} hoverColor={'#9e123c'} />
 		</div>
 	);
