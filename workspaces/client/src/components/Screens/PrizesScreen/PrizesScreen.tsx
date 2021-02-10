@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import './PrizesScreen.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
+import Screen from 'src/components/UIElements/Screen/Screen';
 
 const PrizesScreen: React.FC = () => {
 	const { state, actions } = useAuthState();
@@ -30,11 +31,13 @@ const PrizesScreen: React.FC = () => {
 	];
 
 	return (
-		<section id="prizes-tab-section">
-			<div className="prizes-item-container">
-				{SAMPLE_PRIZE_DATA.map((prize) => <PrizeItem title={prize.title} image={prize.image} />)}
-			</div>
-		</section>
+		<Screen id="prizes" title="Prizes">
+			<section id="prizes-tab-section">
+				<div className="prizes-item-container">
+					{SAMPLE_PRIZE_DATA.map((prize) => <PrizeItem title={prize.title} image={prize.image} />)}
+				</div>
+			</section>
+		</Screen>
 	);
 };
 

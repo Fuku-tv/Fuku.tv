@@ -5,10 +5,10 @@ import { isMobile } from 'react-device-detect';
 import VideoFeedSection from './VideoFeedSection/VideoFeedSection';
 import Navigation from './Navigation/Navigation';
 import ContentSection from './ContentSection/ContentSection';
-import Sidebar from '../Sidebar/Sidebar';
-import './Main.scss';
+import Sidebar from './Sidebar/Sidebar';
+import './MainScreen.scss';
 
-const Main: React.FC = () => {
+const MainScreen: React.FC = () => {
 	const { actions, state } = useGameState();
 	const authState = useAuthState();
 	const navState = useNavigationState();
@@ -54,7 +54,7 @@ const Main: React.FC = () => {
 	);
 };
 
-export default Main;
+export default MainScreen;
 
 // ICONS
 
@@ -72,24 +72,6 @@ const play = (
 		<path
 			fill="currentColor"
 			d="M371.7 238l-176-107c-15.8-8.8-35.7 2.5-35.7 21v208c0 18.4 19.8 29.8 35.7 21l176-101c16.4-9.1 16.4-32.8 0-42zM504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256z"
-		/>
-	</svg>
-);
-
-const profile = (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
-		focusable="false"
-		data-prefix="fas"
-		data-icon="user-alt"
-		className="svg-inline--fa fa-user-alt fa-w-16"
-		role="img"
-		viewBox="0 0 512 512"
-	>
-		<path
-			fill="currentColor"
-			d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z"
 		/>
 	</svg>
 );

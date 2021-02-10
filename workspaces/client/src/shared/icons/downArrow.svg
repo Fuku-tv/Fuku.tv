@@ -4,7 +4,7 @@
 				focusable="false"
 				data-prefix="fas"
 				data-icon="chevron-down"
-				class="svg-inline--fa fa-chevron-down fa-w-14"
+				className="svg-inline--fa fa-chevron-down fa-w-14"
 				role="img"
 				viewBox="0 0 448 512">
 				<path

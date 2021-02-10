@@ -3,6 +3,7 @@ import * as React from 'react';
 import './LeaderboardsScreen.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import Screen from 'src/components/UIElements/Screen/Screen';
 
 const LeaderboardsScreen: React.FC = () => {
 	const { state, actions } = useAuthState();
@@ -39,13 +40,13 @@ const LeaderboardsScreen: React.FC = () => {
 	];
 
 	return (
-		<section id="leaderboards-section">
+		<Screen id="leaderboards" title="Leaderboards">
 			<div className="table leaderboards-table">
 				{SAMPLE_LEADERBOARD_DATA.map((u, i) => (
 					<LeaderboardUser position={i} name={u.userName} score={u.userScore} />
 				))}
 			</div>
-		</section>
+		</Screen>
 	);
 };
 

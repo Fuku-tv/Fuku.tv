@@ -3,6 +3,7 @@ import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import './StoreScreen.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import Screen from 'src/components/UIElements/Screen/Screen';
 
 const StoreScreen: React.FC = () => {
 	const { state, actions } = useAuthState();
@@ -34,15 +35,13 @@ const StoreScreen: React.FC = () => {
 	];
 
 	return (
-		<section id="store-section">
-			<div className="store-table">
-				{SAMPLE_STOREITEM_DATA.map((i) => <StoreItemRow key={i} coins={i.coins} price={i.price} />)}
-			</div>
-			<div id="current-credits" className="dynamic-number">
-				<span>Current Credits:</span>
-				<span>10</span>
-			</div>
-		</section>
+		<Screen id="store" title="Store">
+			<section id="store-section">
+				<div className="store-table">
+					{SAMPLE_STOREITEM_DATA.map((i) => <StoreItemRow key={i} coins={i.coins} price={i.price} />)}
+				</div>
+			</section>
+		</Screen>
 	);
 };
 

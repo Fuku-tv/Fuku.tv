@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useAuthState, useGameState } from 'src/state/hooks';
 import useNavigationState from 'src/state/hooks/useNavigationState';
 
-import PlayGameTab from './Tabs/PlayGame/PlayGameTab';
-import PrizesTab from './Tabs/PrizesTab/PrizesTab';
-import Store from './Tabs/Store/Store';
-import Leaderboards from './Tabs/Leaderboards/Leaderboards';
-import UserProfile from './Tabs/UserProfile/UserProfile';
-import Controls from './Tabs/PlayGame/ControlsSection/Controls/Controls';
+import PlayGameTab from './PlayGame/PlayGameTab';
+// import PrizesTab from './Tabs/PrizesTab/PrizesTab';
+// import Store from './Tabs/Store/Store';
+// import Leaderboards from './Tabs/Leaderboards/Leaderboards';
+// import UserProfile from './Tabs/UserProfile/UserProfile';
+// import Controls from './Tabs/PlayGame/ControlsSection/Controls/Controls';
 import './ContentSection.scss';
 
 const ContentSection: React.FC = () => {
@@ -24,18 +24,20 @@ const ContentSection: React.FC = () => {
 	// 	(state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') &&
 	// 	authState.state.isAuthenticated;
 
-	const mainContentArea = (
-		<React.Fragment>
-			{navState.state.tab === 'Play' && <PlayGameTab />}
-			{navState.state.tab === 'Leaderboard' && <Leaderboards />}
-			{navState.state.tab === 'Store' && <Store />}
-			{navState.state.tab === 'Prizes' && <PrizesTab />}
-		</React.Fragment>
-	);
+	// const mainContentArea = (
+	// 	<React.Fragment>
+	// 		{navState.state.tab === 'Play' && <PlayGameTab />}
+	// 		{navState.state.tab === 'Leaderboard' && <Leaderboards />}
+	// 		{navState.state.tab === 'Store' && <Store />}
+	// 		{navState.state.tab === 'Prizes' && <PrizesTab />}
+	// 	</React.Fragment>
+	// );
 
 	return (
 		<section id="content-section">
-			<div className="inner-wrapper">{mainContentArea}</div>
+			<div className="inner-wrapper">
+				<PlayGameTab />
+			</div>
 		</section>
 	);
 };
