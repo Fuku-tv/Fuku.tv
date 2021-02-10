@@ -9,7 +9,7 @@ export const FukuControllerServerURL = (): string => {
     URL = 'wss://dev.fuku.tv/controller';
   } else {
     // Prod Environment
-    URL = 'wss://alpha.fuku.tv:10888';
+    URL = 'wss:/prod.fuku.tv/controller';
   }
 
   return URL;
@@ -26,7 +26,7 @@ export const FukuVideoServerURL = (): string => {
     URL = 'wss://dev.fuku.tv/video';
   } else {
     // Prod Environment
-    URL = 'wss://alpha.fuku.tv:10889';
+    URL = 'wss:/prod.fuku.tv/video';
   }
 
   return URL;
