@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "parcel src/index.html --open --https --no-source-maps",
+    "dev": "yarn start",
     "build": "parcel build src/index.html --public-url ./  --no-source-maps",
     "clean": "rimraf dist .cache www/public",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
@@ -14,6 +15,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@types/react-redux": "^7.1.12",
     "@types/redux": "^3.6.0",
+    "aws-amplify": "^3.3.18",
     "canvas-confetti": "^1.3.2",
     "fuku.tv-shared": "*",
     "h264-live-player": "*",

@@ -3,12 +3,12 @@ import { isMobile } from 'react-device-detect';
 import './App.scss';
 // workaround for react-awesome-button css import bug
 import './styles.css';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './components/Header/Header';
 import AboutScreen from './components/Screens/AboutScreen/AboutScreen';
 import ProfileScreen from './components/Screens/ProfileScreen/ProfileScreen';
 import Sidebar from './components/Screens/MainScreen/Sidebar/Sidebar';
 import Provider from './state';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import ContentContainer from './components/UIElements/ContentContainer/ContentContainer';
 import VerticalNavigation from './components/VerticalNavigation/VerticalNavigation';
 import MainScreen from './components/Screens/MainScreen/MainScreen';
@@ -19,7 +19,8 @@ import ClawCustomizationScreen from './components/Screens/ClawCustomizationScree
 // import SideBar from './components';
 
 const App: React.FC = () => {
-	let routes = (
+
+	const routes = (
 		<Switch>
 			<Route path="/" exact>
 				<MainScreen />
@@ -58,6 +59,7 @@ const App: React.FC = () => {
 			</Router>
 		</Provider>
 	);
+
 };
 
 export default App;

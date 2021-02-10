@@ -11,6 +11,7 @@
     "bootstrap": "lerna bootstrap --use-workspaces",
     "clean": "lerna run clean",
     "start": "lerna run start",
+    "dev": "lerna run dev",
     "start:client": "yarn workspace fuku.tv-client start",
     "start:server": "yarn workspace fuku.tv-server start",
     "lint": "lerna run lint",
