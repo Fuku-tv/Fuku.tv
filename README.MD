@@ -29,7 +29,7 @@ yarn
 ### run dev instance (should apply to both client and server)
 
 ```bash
-yarn start
+yarn dev
 ```
 
 #### run client
@@ -38,7 +38,7 @@ yarn start
 yarn start:client
 ```
 
-#### run Server (WIP)
+#### run Server
 
 ```bash
 yarn start:server
