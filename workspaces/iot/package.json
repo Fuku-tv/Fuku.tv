@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/viewerServer.js",
     "build": "tsc",
     "build:ts-node": "ts-node src/index.ts -F",
     "serve": "node dist/index.js"

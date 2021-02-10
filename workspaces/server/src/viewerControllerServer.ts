@@ -1,44 +1,38 @@
-import fs from 'fs';
-import { MongoClient } from 'mongodb';
-import ws from 'ws';
-import https from 'https';
-import fetch from 'node-fetch';
-import { player } from 'fuku.tv-shared';
-import { LogLevel, LoggerClass } from 'fuku.tv-shared';
-import { constants } from 'fuku.tv-shared';
+/* eslint-disable no-param-reassign */
+import WS from 'ws';
+import http from 'http';
+import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
-const config = require('/etc/fuku/config/global.json');
-const logger = new LoggerClass('viewerControllerServer');
-const mongouri = 'mongodb://localhost:27017/';
-
-var privateKey = fs.readFileSync(config.sslpath + 'privkey.pem', 'utf8');
-var certificate = fs.readFileSync(config.sslpath + 'fullchain.pem', 'utf8');
-var credentials = {
-  key: privateKey,
-  cert: certificate,
-};
-
-const httpsServer = https.createServer(credentials);
-httpsServer.listen(10888);
+const logger = new LoggerClass('viewerServer');
 
 const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
-class server {
+export class ControllerServer {
   queue: any[];
-  players: any[];
-  currentPlayer: any;
-  watchCounter: number;
-  queueCounter: number;
-  db: any;
-  mongo: any;
-  clientController: any;
-  clientVideo1: any;
-  clientVideo2: any;
-  wss: any;
 
-  constructor() {
+  players: any[];
+
+  currentPlayer: any;
+
+  watchCounter: number;
+
+  queueCounter: number;
+
+  db: any;
+
+  mongo: any;
+
+  clientController: any;
+
+  clientVideo1: any;
+
+  clientVideo2: any;
+
+  wss: WS.Server;
+
+  constructor(server: http.Server) {
     this.queue = [];
     this.players = [];
     this.currentPlayer = null;
@@ -57,16 +51,16 @@ class server {
     this.connectController();
 
     // client->us
-    this.wss = new ws.Server({ server: httpsServer });
+    this.wss = new WS.Server({ server });
 
     this.wss.on('connection', (socket: any, req: any) => {
-      var clientPlayer = new player(socket, this.players.length + 1, this.queue.length, 800, 480, req.connection.remoteAddress);
-      logger.log(LogLevel.info, clientPlayer.ipAddr + ' - socket open. id: ' + clientPlayer.uid);
+      const clientPlayer = new Player(socket, this.players.length + 1, this.queue.length, 800, 480, req.connection.remoteAddress);
+      logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
       socket.player = clientPlayer;
 
       socket.on('message', (data: any) => {
-        var msg = JSON.parse(data);
+        const msg = JSON.parse(data);
         /*
         if (data.token === null || data.token === undefined) {
           logger.log(LogLevel.info, clientPlayer.uid + ' - Got message but no token?');
@@ -82,11 +76,11 @@ class server {
           }).then((res) => {
             logger.log(LogLevel.info, 'token response: ' + res);
           });
-        }*/
+        } */
         switch (msg.command) {
           case constants.PlayerCommand.control:
             if (this.currentPlayer === null || this.currentPlayer === undefined) {
-              logger.log(LogLevel.info, clientPlayer.uid + ' - Got control message but currentPlayer deref');
+              logger.log(LogLevel.info, `${clientPlayer.uid} - Got control message but currentPlayer deref`);
               break;
             }
             if (clientPlayer !== this.currentPlayer) break;
@@ -97,15 +91,13 @@ class server {
                 break;
               case constants.GameState.playing:
                 if (msg.button === constants.Button.drop && msg.action === constants.Action.start) this.playEnd();
-                else {
-                  if (msg.action === constants.Action.start)
-                    this.send(this.clientController, { command: constants.ControllerCommand.buttonstart, button: msg.button });
-                  else if (msg.action === constants.Action.stop)
-                    this.send(this.clientController, { command: constants.ControllerCommand.buttonstop, button: msg.button });
-                }
+                else if (msg.action === constants.Action.start)
+                  send(this.clientController, { command: constants.ControllerCommand.buttonstart, button: msg.button });
+                else if (msg.action === constants.Action.stop)
+                  send(this.clientController, { command: constants.ControllerCommand.buttonstop, button: msg.button });
                 break;
               default:
-                logger.log(LogLevel.error, clientPlayer.uid + ' - sent control message, but no valid playstate: ' + this.currentPlayer.gameState);
+                logger.log(LogLevel.error, `${clientPlayer.uid} - sent control message, but no valid playstate: ${this.currentPlayer.gameState}`);
                 break;
             }
             break;
@@ -114,12 +106,13 @@ class server {
             break;
           case constants.PlayerCommand.dequeue:
             this.dequeuePlayer(socket.player);
+            break;
           case constants.PlayerCommand.login:
             break;
           case constants.PlayerCommand.logout:
             break;
           case constants.PlayerCommand.prizeget:
-            this.send(socket, { command: constants.PlayerCommand.prizeget, points: 10 });
+            send(socket, { command: constants.PlayerCommand.prizeget, points: 10 });
             break;
           default:
             break;
@@ -127,25 +120,23 @@ class server {
       });
 
       socket.on('close', () => {
-        logger.log(LogLevel.info, clientPlayer.ipAddr + ' - socket closed');
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed`);
         this.players.forEach((p, i) => {
           if (p === clientPlayer) {
             this.dequeuePlayer(p);
             this.deactivatePlayer(p);
             this.players.splice(i, 1);
-            return;
           }
         });
       });
 
       socket.on('error', (err: any) => {
-        logger.log(LogLevel.info, clientPlayer.ipAddr + ' - socket error ' + err);
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
         this.players.forEach((p, i) => {
           if (p === clientPlayer) {
             this.dequeuePlayer(p);
             this.deactivatePlayer(p);
             this.players.splice(i, 1);
-            return;
           }
         });
       });
@@ -159,19 +150,15 @@ class server {
     }, 1000);
   }
 
-  send(socket: any, data: object) {
-    if (socket !== null && socket !== undefined) socket.send(JSON.stringify(data));
-  }
-
   connectController() {
     // us->controller
-    logger.log(LogLevel.info, 'Connecting controller ' + uriController + ':' + portController);
-    this.clientController = new ws(uriController + ':' + portController);
+    logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
+    this.clientController = new WS(`${uriController}:${portController}`);
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
     });
     this.clientController.on('error', (err: any) => {
-      logger.log(LogLevel.info, 'clientController error ' + err);
+      logger.log(LogLevel.info, `clientController error ${err}`);
     });
     this.clientController.on('close', () => {
       logger.log(LogLevel.info, 'clientController closed');
@@ -207,7 +194,7 @@ class server {
 
   // forces machine to drop the claw and reset to home
   resetClaw() {
-    this.send(this.clientController, { command: constants.ControllerCommand.resetclaw });
+    send(this.clientController, { command: constants.ControllerCommand.resetclaw });
   }
 
   playStart() {
@@ -239,11 +226,10 @@ class server {
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) this.currentPlayer.gameEnd();
     this.currentPlayer = null;
     this.resetClaw();
-    return;
   }
 
   activatePlayer(p: any) {
-    logger.log(LogLevel.info, p.uid + ' - activatePlayer');
+    logger.log(LogLevel.info, `${p.uid} - activatePlayer`);
     this.gameEnd();
     this.currentPlayer = p;
     this.dequeuePlayer(p);
@@ -254,39 +240,42 @@ class server {
   }
 
   deactivatePlayer(p: any) {
-    logger.log(LogLevel.info, p.uid + ' - deactivatePlayer');
+    logger.log(LogLevel.info, `${p.uid} - deactivatePlayer`);
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) {
       if (this.currentPlayer !== p) {
-        logger.log(LogLevel.info, p.uid + ' - bad player!');
+        logger.log(LogLevel.info, `${p.uid} - bad player!`);
         return;
       }
       this.gameEnd();
     }
   }
 
-  queuePlayer(p: any) {
+  queuePlayer(p: any): void {
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
-    logger.log(LogLevel.info, p.uid + ' - Queue');
+    logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
       p.send({ command: constants.PlayerCommand.queue, success: true });
-      logger.log(LogLevel.info, p.uid + ' - player queued');
+      logger.log(LogLevel.info, `${p.uid} - player queued`);
     } else {
       p.send({ command: constants.PlayerCommand.queue, success: false });
-      logger.log(LogLevel.info, p.uid + ' - player already queued');
+      logger.log(LogLevel.info, `${p.uid} - player already queued`);
     }
   }
 
-  dequeuePlayer(p: any) {
-    logger.log(LogLevel.info, p.uid + ' - dequeue');
-    this.queue.forEach(function (item, index, object) {
+  dequeuePlayer(p: Player): void {
+    logger.log(LogLevel.info, `${p.uid} - dequeue`);
+    this.queue.forEach((item, index, object) => {
       if (item === p) {
         object.splice(index, 1);
-        return;
       }
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
   }
 }
 
-new server();
+const send = (socket: WS, data: any) => {
+  if (socket !== null && socket !== undefined) socket.send(JSON.stringify(data));
+};
+
+export default ControllerServer;
