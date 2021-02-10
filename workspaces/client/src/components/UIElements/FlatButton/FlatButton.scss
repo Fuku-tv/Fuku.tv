@@ -1,10 +1,12 @@
 .flat-button-container {
 	position: relative;
+	// width: 100%;
 	button {
 		display: block;
 		background: none;
 		color: #ffffff;
 		padding: 10px 22px;
+		// width: inherit;
 		// font-weight: bold;
 		font-size: inherit;
 		border: none;
@@ -18,7 +20,7 @@
 		-o-border-radius: 50px;
 		&:hover {
 			background-color: var(--purplePrimary);
-			border: 1px solid var(--purplePrimary) !important;
+			// border: 1px solid var(--purplePrimary) !important;
 		}
 		&.solid {
 			background-color: var(--purpleSecondary);

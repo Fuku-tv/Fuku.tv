@@ -11,6 +11,8 @@ header {
 	justify-content: center;
 	align-items: center;
 	z-index: 100;
+	// padding: 0 1.5em;
+
 	.header-inner-wrapper {
 		width: 100%;
 		display: flex;
@@ -18,12 +20,15 @@ header {
 		a {
 			display: flex;
 			text-decoration: none;
+			align-items: center;
 			// display: block;
-			margin: 0 auto;
+			// margin: 0 auto;
+			color: #ffffff;
 		}
 		.logo {
 			font-family: 'East Sea Dokdo', cursive;
-			font-size: 36px;
+			// font-size: 36px;
+			font-size: 24px;
 			line-height: 0;
 			color: #ffffff;
 			line-height: 11px;
@@ -37,13 +42,32 @@ header {
 				margin-right: 8px;
 				svg {
 					display: inline-block;
-					height: 20px;
+					height: 16px;
 					color: #ffffff;
 					fill: #ffffff;
 				}
 			}
 		}
+
+		.user-actions-container {
+			position: absolute;
+			right: 0;
+			top: -52%;
+			display: flex;
+			#header-notification-button {
+				// position: absolute;
+				width: 150px;
+				display: inline-block;
+			}
+			#header-profile-button {
+				// top: 50%;
+				// transform: translateY(-50%);
+				width: 220px;
+				display: inline-block;
+			}
+		}
 	}
+
 	.icon-wrapper {
 		padding: 14px;
 		svg {
@@ -83,5 +107,11 @@ header {
 		font-size: 12px;
 		top: 15px;
 		right: 15px;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	header {
+		padding: 0 1.5em;
 	}
 }
