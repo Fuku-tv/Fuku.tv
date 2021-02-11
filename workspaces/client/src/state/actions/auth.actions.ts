@@ -9,6 +9,8 @@ export const loginPopup = createAsyncThunk('LOGIN_POPUP', async (auth: Auth0Cont
 
 export const loginRedirect = createAsyncThunk('LOGIN_REDIRECT', async (auth: Auth0ContextInterface) => {
   await auth.loginWithRedirect();
+  const token = await auth.getAccessTokenSilently();
+  return token;
 });
 
 export const getAccessTokenSilent = createAsyncThunk('GET_ACCESS_TOKEN_SILENT', async (auth: Auth0ContextInterface) => {

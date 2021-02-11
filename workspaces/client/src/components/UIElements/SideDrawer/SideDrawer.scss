@@ -5,33 +5,15 @@ aside.side-drawer {
   z-index: 100000;
   height: 90%;
   width: 100%;
-  // background: var(--blackAccent);
   background: var(--purpleSecondary);
-
-  #nav-links__profile-content {
-    li {
-      // margin-bottom: 0;
-      a {
-        // padding: 15px 0;
-        // display: flex;
-        // align-items: center;
-        // flex-direction: column;
-      }
-    }
-  }
 
   #nav-links__profile-content {
     margin-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.235);
     text-align: center;
     a {
-      // display: block;
       text-decoration: none;
       padding: 15px 0;
-      // display: flex;
-      // align-items: center;
-      // flex-direction: column;
-      // flex-direction: row !important;
     }
     .profile-link__name {
       display: flex;
@@ -140,6 +122,11 @@ aside.side-drawer {
           border-radius: 40px;
         }
       }
+    }
+
+    .sign-in-prompt button {
+      border: 1px solid #ffffff;
+      margin-bottom: 10px;
     }
   }
 
