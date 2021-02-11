@@ -30,7 +30,6 @@ const useAuthState = () => {
     state,
     actions: {
       loginWithRedirect,
-      loginWithPopup,
       getAccessTokenSilent,
       logout,
     },

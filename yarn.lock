@@ -11198,6 +11198,15 @@ parcel-bundler@^1.12.4:
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
 
+
+parcel-plugin-pwa-manifest@^3.0.10:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-pwa-manifest/-/parcel-plugin-pwa-manifest-3.0.10.tgz#c295d9903533df507de3298fe7861ed93998ac81"
+  integrity sha512-ZAo8VKqcGgjfJztxIIIGUGFiHhRV50h/FAr/4afsti9u60bGl5ETQdyPxq0kWKV4M07fqaNKGswieP0ayzRtjw==
+  dependencies:
+    "@pwa-manifest/core" "^1.4.1"
+
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"
@@ -14205,6 +14214,20 @@ tar@^4.4.10, tar@^4.4.12, tar@^4.4.2, tar@^4.4.8:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
+
+
+tar@^6.0.2:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.0.tgz#d1724e9bcc04b977b18d5c573b333a2207229a83"
+  integrity sha512-DUCttfhsnLCjwoDoFcI+B2iJgYa93vBnDUATYEeRx6sntCTdN01VnqsIuTlALXla/LWooNg0yEGeB+Y8WdFxGA==
+  dependencies:
+    chownr "^2.0.0"
+    fs-minipass "^2.0.0"
+    minipass "^3.0.0"
+    minizlib "^2.1.1"
+    mkdirp "^1.0.3"
+    yallist "^4.0.0"
+
 
 tar@^6.0.5:
   version "6.0.5"
