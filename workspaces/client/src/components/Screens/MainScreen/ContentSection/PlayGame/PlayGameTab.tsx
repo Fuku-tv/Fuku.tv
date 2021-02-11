@@ -12,7 +12,9 @@ const PlayGameTab: React.FC = () => {
   const signInPrompt = (
     <div className="sign-in-prompt">
       <TitleDescription title="You must be logged in to play." descriptionStart="Please login with your Gmail or Discord account." />
+
       <FlatButton text="Sign In" width={165} onClick={actions.loginWithRedirect} ghost />
+
     </div>
   );
 

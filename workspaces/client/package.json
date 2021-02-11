@@ -42,15 +42,5 @@
   },
   "alias": {
     "src": "./src"
-  },
-  "pwaManifest": {
-    "name": "Fuku.tv",
-    "shortName": "Fuku.tv",
-    "startURL": "/",
-    "theme": "#000000",
-    "generateIconOptions": {
-      "baseIcon": "./static/fuku.png",
-      "genFavicons": true
-    }
   }
 }

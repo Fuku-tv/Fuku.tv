@@ -57,7 +57,7 @@ const Header: React.FC = () => {
       {state.isAuthenticated ? (
         <HeaderProfileDropdown id="header-profile-button" />
       ) : (
-        <FlatButton id="profile-dropdown-button" width={180} text="Sign In" onClick={actions.loginWithRedirect} ghost />
+        <FlatButton id="profile-dropdown-button" width={180} text="Sign In" onClick={actions.loginWithPopup} ghost />
       )}
     </div>
   );
