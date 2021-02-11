@@ -12,11 +12,9 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.2.0",
-    "@aws-amplify/ui-react": "^0.2.38",
     "@reduxjs/toolkit": "^1.5.0",
     "@types/react-redux": "^7.1.12",
     "@types/redux": "^3.6.0",
-    "aws-amplify": "^3.3.18",
     "canvas-confetti": "^1.3.2",
     "fuku.tv-shared": "*",
     "h264-live-player": "*",
@@ -38,22 +36,10 @@
     "@types/react-dom": "^17.0.0",
     "autoprefixer": "^9.0.0",
     "parcel-bundler": "^1.12.4",
-    "parcel-plugin-pwa-manifest": "^3.0.10",
-    "parcel-plugin-sw-precache": "^1.1.2",
     "sass": "^1.30.0",
     "typescript": "^4.1.2"
   },
   "alias": {
     "src": "./src"
-  },
-  "pwaManifest": {
-    "name": "Fuku.tv",
-    "shortName": "Fuku.tv",
-    "startURL": "/",
-    "theme": "#000000",
-    "generateIconOptions": {
-      "baseIcon": "./static/fuku.png",
-      "genFavicons": true
-    }
   }
 }
