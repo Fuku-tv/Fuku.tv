@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
+import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import './NavLinks.scss';
 import { isMobile } from 'react-device-detect';
-import { useGameState } from 'src/state/hooks';
 const NavLinks: React.FC = () => {
 	// testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
 	// > (false);
@@ -30,14 +30,41 @@ const NavLinks: React.FC = () => {
 	);
 	return (
 		<nav className="nav-links-container">
-			{state.isAuthenticated && (
+			{state.isAuthenticated &&
+			isMobile && (
 				<ul id="profile-link">
 					<li>
-						<NavLink activeClassName="nav-link__active" to="/profile" exact>
+						<div className="profile-link__name">
 							<ProfileImage image={state.picture} size={36} />
 							<h2>{state.name}</h2>
-							{isMobile && stats}
-						</NavLink>
+						</div>
+						{isMobile && stats}
+						<div className="profile-link__profile-sub-links">
+							<NavLink activeClassName="nav-link__active--mobile" to="/profile" exact>
+								<div className="profile-sub-link">
+									<span>{profile}</span>
+									<span>Profile</span>
+								</div>
+							</NavLink>
+							<NavLink activeClassName="nav-link__active--mobile" to="/claw-customization" exact>
+								<div className="profile-sub-link">
+									<span>{clawIcon}</span>
+									<span>Claw</span>
+								</div>
+							</NavLink>
+							<NavLink to="/" exact>
+								<div className="profile-sub-link">
+									<span>{bellIcon}</span>
+									<span>Notifications</span>
+								</div>
+							</NavLink>
+							<a onClick={() => actions.logout()}>
+								<div className="profile-sub-link">
+									<span>{logoutIcon}</span>
+									<span>Logout</span>
+								</div>
+							</a>
+						</div>
 					</li>
 				</ul>
 			)}
@@ -86,23 +113,6 @@ const NavLinks: React.FC = () => {
 };
 
 export default NavLinks;
-const profile = (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
-		focusable="false"
-		data-prefix="fas"
-		data-icon="user-alt"
-		className="svg-inline--fa fa-user-alt fa-w-16"
-		role="img"
-		viewBox="0 0 512 512"
-	>
-		<path
-			fill="currentColor"
-			d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z"
-		/>
-	</svg>
-);
 
 const play = (
 	<svg
@@ -111,7 +121,7 @@ const play = (
 		focusable="false"
 		data-prefix="fas"
 		data-icon="play"
-		class="svg-inline--fa fa-play fa-w-14"
+		className="svg-inline--fa fa-play fa-w-14"
 		role="img"
 		viewBox="0 0 448 512"
 	>
@@ -122,6 +132,33 @@ const play = (
 	</svg>
 );
 
+const bellIcon = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+		focusable="false"
+		data-prefix="far"
+		data-icon="bell"
+		className="svg-inline--fa fa-bell fa-w-14"
+		role="img"
+		viewBox="0 0 448 512"
+	>
+		<path
+			fill="currentColor"
+			d="M439.39 362.29c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71zM67.53 368c21.22-27.97 44.42-74.33 44.53-159.42 0-.2-.06-.38-.06-.58 0-61.86 50.14-112 112-112s112 50.14 112 112c0 .2-.06.38-.06.58.11 85.1 23.31 131.46 44.53 159.42H67.53zM224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64z"
+		/>
+	</svg>
+);
+
+const clawIcon = (
+	<svg id="claw" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 80">
+		<path
+			d="M294.5,74.5h-68a2,2,0,0,0-2,2v4a10,10,0,0,0,10,10h14v6a2,2,0,0,0,2,2h8v13.23L241,131.16a2,2,0,0,0-.37,2.08l8,20a2,2,0,0,0,1.86,1.26,1.91,1.91,0,0,0,.74-.14,2,2,0,0,0,1.12-2.6l-7.54-18.85,13.68-15.2V152.5a2,2,0,0,0,4,0V117.71l13.68,15.2-7.54,18.85a2,2,0,0,0,1.12,2.6,1.91,1.91,0,0,0,.74.14,2,2,0,0,0,1.86-1.26l8-20a2,2,0,0,0-.37-2.08L262.5,111.73V98.5h8a2,2,0,0,0,2-2v-6h14a10,10,0,0,0,10-10v-4A2,2,0,0,0,294.5,74.5Zm-26,20h-16v-4h16Zm24-14a6,6,0,0,1-6,6h-52a6,6,0,0,1-6-6v-2h64Z"
+			transform="translate(-224.5 -74.5)"
+		/>
+	</svg>
+);
+
 const profile = (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -136,6 +173,24 @@ const profile = (
 		<path
 			fill="currentColor"
 			d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z"
+		/>
+	</svg>
+);
+
+const logoutIcon = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+		focusable="false"
+		data-prefix="fas"
+		data-icon="sign-out-alt"
+		className="svg-inline--fa fa-sign-out-alt fa-w-16"
+		role="img"
+		viewBox="0 0 512 512"
+	>
+		<path
+			fill="currentColor"
+			d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"
 		/>
 	</svg>
 );

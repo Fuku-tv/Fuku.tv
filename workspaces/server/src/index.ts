@@ -6,9 +6,9 @@ import { ControllerServer } from './viewerControllerServer';
 
 import { VideoServer } from './viewerVideoServer';
 
-var privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
-var certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
-var credentials = {
+const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
+const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
+const credentials = {
   key: privateKey,
   cert: certificate,
 };
@@ -38,5 +38,5 @@ hcServer.listen(8080);
 controllerHttpsServer.listen(10888);
 videoHttpsServer.listen(10889);
 
-new ControllerServer(controllerHttpsServer);
-new VideoServer(videoHttpsServer);
+const controller = new ControllerServer(controllerHttpsServer);
+const video = new VideoServer(videoHttpsServer);

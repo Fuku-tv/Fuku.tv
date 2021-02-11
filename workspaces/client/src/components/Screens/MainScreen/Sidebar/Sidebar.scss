@@ -23,7 +23,7 @@
 			// padding: 10px;
 			padding-top: 10px;
 			text-align: center;
-			z-index: 11111;
+			// z-index: 11111;
 			background-color: #2e3136;
 
 			&:after {
@@ -70,24 +70,24 @@
 				// position: absolute; // top: 0;
 				// left: 0;
 				// width: 100%;
-				padding: 0 10px;
+				// padding: 0 10px;
 				height: 100%;
-				&:after,
-				&:before {
-					content: 'da';
-					position: absolute;
-					top: 0;
-					height: 94%;
-					background: #36393e;
-					/* background: red; */
-					width: 10px;
-				}
-				&:after {
-					right: 2px;
-				}
-				&:before {
-					left: 2px;
-				}
+				// &:after,
+				// &:before {
+				// 	content: '';
+				// 	position: absolute;
+				// 	top: 0;
+				// 	height: 94%;
+				// 	background: #36393e;
+				// 	/* background: red; */
+				// 	width: 10px;
+				// }
+				// &:after {
+				// 	right: 2px;
+				// }
+				// &:before {
+				// 	left: 2px;
+				// }
 
 				iframe {
 					height: 100%;

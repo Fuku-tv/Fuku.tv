@@ -4,7 +4,7 @@ import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import Controls from './Controls/Controls';
 import TitleDescription from './TitleDescription/TitleDescription';
-import SlideableContent from '../../../../../UIElements/SlideableContent/SlideableContent';
+import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import './ControlsSection.scss';
 import Timer from './Timer/Timer';
 
