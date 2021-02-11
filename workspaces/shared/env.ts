@@ -3,7 +3,6 @@ export const FukuControllerServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     URL = 'ws://localhost:10888';
-    console.log('local hit');
   } else if (process.env.EB_ENVIRONMENT !== 'production') {
     // Dev Environment
     URL = 'wss://dev.fuku.tv/controller';
