@@ -1,117 +1,114 @@
 header {
-	position: relative;
-	width: 100%;
-	text-align: center;
-	background: #593a8a;
-	background: -webkit-linear-gradient(to right, #6e48aa, #593a8a);
-	background: linear-gradient(to right, #6e48aa, #593a8a);
-	// padding: 10px;
-	height: var(--headerHeight);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 100;
-	// padding: 0 1.5em;
+  // position: relative;
+  position: fixed;
+  width: 100%;
+  // height: inherit;
+  text-align: center;
+  background: #593a8a;
+  background: -webkit-linear-gradient(to right, #6e48aa, #593a8a);
+  background: linear-gradient(to right, #6e48aa, #593a8a);
+  // padding: 10px;
+  height: var(--headerHeight);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  // padding: 0 1.5em;
 
-	.header-inner-wrapper {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		a {
-			display: flex;
-			text-decoration: none;
-			align-items: center;
-			// display: block;
-			// margin: 0 auto;
-			color: #ffffff;
-		}
-		.logo {
-			font-family: 'East Sea Dokdo', cursive;
-			// font-size: 36px;
-			font-size: 24px;
-			line-height: 0;
-			color: #ffffff;
-			line-height: 11px;
-			color: #ffffff;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			.logo__icon {
-				position: relative;
-				display: inline-block;
-				margin-right: 8px;
-				svg {
-					display: inline-block;
-					height: 16px;
-					color: #ffffff;
-					fill: #ffffff;
-				}
-			}
-		}
+  .header-inner-wrapper {
+    height: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    a {
+      // display: flex;
+      // text-decoration: none;
+      // align-items: center;
+      // color: #ffffff;
+      // display: block;
+      // margin: 0 auto;
+    }
 
-		.user-actions-container {
-			position: absolute;
-			right: 0;
-			top: -52%;
-			display: flex;
-			#header-notification-button {
-				// position: absolute;
-				width: 150px;
-				display: inline-block;
-			}
-			#header-profile-button {
-				// top: 50%;
-				// transform: translateY(-50%);
-				width: 220px;
-				display: inline-block;
-			}
-		}
-	}
+    button {
+      background-color: transparent;
+      border: none;
+    }
+    #logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        display: inline-block;
+        height: 28px;
+        color: #ffffff;
+        fill: #ffffff;
+      }
+    }
 
-	.icon-wrapper {
-		padding: 14px;
-		svg {
-			display: block;
-			height: 22px;
-			color: #ffffff;
-		}
-	}
-	.hamburger-icon-wrapper {
-		// position: absolute;
-		display: flex;
-		// right: 5px;
-		// right: 15px;
-		// top: 50%;
-		align-items: center;
-		// transform: translateX(5px);
-		// transform: translateY(-50%);
-		// -webkit-transform: translateY(-50%);
-		// -moz-transform: translateY(-50%);
-		// -ms-transform: translateY(-50%);
-		// -o-transform: translateY(-50%);
-		.hamburger-react {
-			display: inline-block;
-			height: 16px;
-			color: #ffffff;
-			fill: #ffffff;
-		}
-		svg {
-			display: inline-block;
-			height: 20px;
-			color: #ffffff;
-			fill: #ffffff;
-		}
-	}
-	.test-btn {
-		position: absolute;
-		font-size: 12px;
-		top: 15px;
-		right: 15px;
-	}
+    .user-actions-container {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      #header-notification-button {
+        // position: absolute;
+        width: 150px;
+        display: inline-block;
+      }
+      #header-profile-button {
+        // top: 50%;
+        // transform: translateY(-50%);
+        width: 220px;
+        display: inline-block;
+      }
+    }
+  }
+
+  .icon-wrapper {
+    padding: 14px;
+    svg {
+      display: block;
+      height: 22px;
+      color: #ffffff;
+    }
+  }
+  .hamburger-icon-wrapper {
+    // position: absolute;
+    display: flex;
+    // right: 5px;
+    // right: 15px;
+    // top: 50%;
+    align-items: center;
+    // transform: translateX(5px);
+    // transform: translateY(-50%);
+    // -webkit-transform: translateY(-50%);
+    // -moz-transform: translateY(-50%);
+    // -ms-transform: translateY(-50%);
+    // -o-transform: translateY(-50%);
+    .hamburger-react {
+      display: inline-block;
+      height: 16px;
+      color: #ffffff;
+      fill: #ffffff;
+    }
+    svg {
+      display: inline-block;
+      height: 20px;
+      color: #ffffff;
+      fill: #ffffff;
+    }
+  }
+  .test-btn {
+    position: absolute;
+    font-size: 12px;
+    top: 15px;
+    right: 15px;
+  }
 }
 
 @media only screen and (min-width: 600px) {
-	header {
-		padding: 0 1.5em;
-	}
+  header {
+    padding: 0 1.5em;
+  }
 }

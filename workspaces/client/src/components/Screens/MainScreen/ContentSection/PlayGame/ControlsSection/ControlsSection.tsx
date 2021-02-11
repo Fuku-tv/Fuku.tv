@@ -2,9 +2,9 @@ import * as React from 'react';
 // import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
-import Controls from './Controls/Controls';
-import TitleDescription from './TitleDescription/TitleDescription';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
+import Controls from './Controls/Controls';
+import TitleDescription from '../../../../../UIElements/TitleDescription/TitleDescription';
 import './ControlsSection.scss';
 import Timer from './Timer/Timer';
 
