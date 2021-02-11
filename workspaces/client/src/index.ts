@@ -38,6 +38,7 @@ window.addEventListener(`load`, () => {
 //   }
 // });
 
+
 if ((module as HotModule).hot) {
   (module as HotModule).hot.accept();
 }
