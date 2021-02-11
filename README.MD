@@ -1,7 +1,5 @@
 # Fuku.tv
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/fedd9d52-a656-4216-8041-2cee0ae035e0/deploy-status)](https://app.netlify.com/sites/trusting-allen-033a44/deploys)
-
 ![AWS Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiN3RPYzUwY2g3SmdTS3cweGY3dG5wbkJkTGd3bDNPelhLd3BkSzFjYlhKM2xNQ0dzMEVQUXZUaFVuYUp3azBVOVQ3dm13bkxTZzZld2hkcjd2MDVTTmcwPSIsIml2UGFyYW1ldGVyU3BlYyI6IlNrYTRJMmV6eW8ra1BzV0giLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
 
 welcome to fuku.tv! 😊
