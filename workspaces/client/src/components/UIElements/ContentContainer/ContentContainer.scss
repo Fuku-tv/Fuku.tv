@@ -1,15 +1,15 @@
 .outer-content-wrapper {
-	max-width: 1310px;
-	margin: 0 auto;
-	width: 100%;
-	height: auto;
-	position: relative;
+  max-width: 1310px;
+  margin: 0 auto;
+  width: 100%;
+  height: inherit;
+  position: relative;
 }
 
 @media only screen and (max-width: 1600px) {
-	.outer-content-wrapper {
-		max-width: 1050px !important;
-		// padding-top: 0px !important;
-		// padding: 10px;
-	}
+  .outer-content-wrapper {
+    max-width: 1050px !important;
+    // padding-top: 0px !important;
+    // padding: 10px;
+  }
 }

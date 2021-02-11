@@ -1,18 +1,19 @@
 import * as React from 'react';
 import './TitleDescription.scss';
+
 interface Props {
-  title : string;
-  descriptionStart : string;
+  title: string;
+  descriptionStart: string;
   descriptionEnd?: string;
-  dynamicNumber?: any;
+  dynamicNumber?: string | number;
 }
 
-const TitleDescription : React.FC < Props > = ({title, descriptionStart, descriptionEnd, dynamicNumber}) => {
+const TitleDescription: React.FC<Props> = ({ title, descriptionStart, descriptionEnd, dynamicNumber }) => {
   const extendedContent = (
-    <React.Fragment>
+    <>
       <span className="inline-number">{dynamicNumber}</span>
       {descriptionEnd}
-    </React.Fragment>
+    </>
   );
 
   return (

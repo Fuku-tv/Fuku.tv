@@ -19,47 +19,45 @@ import ClawCustomizationScreen from './components/Screens/ClawCustomizationScree
 // import SideBar from './components';
 
 const App: React.FC = () => {
-
-	const routes = (
-		<Switch>
-			<Route path="/" exact>
-				<MainScreen />
-			</Route>
-			<Route path="/about" exact>
-				<AboutScreen />
-			</Route>
-			<Route path="/profile" exact>
-				<ProfileScreen />
-			</Route>
-			<Route path="/leaderboards" exact>
-				<LeaderboardsScreen />
-			</Route>
-			<Route path="/prizes" exact>
-				<PrizesScreen />
-			</Route>
-			<Route path="/store" exact>
-				<StoreScreen />
-			</Route>
-			<Route path="/claw-customization" exact>
-				<ClawCustomizationScreen />
-			</Route>
-			<Redirect to="/" />
-		</Switch>
-	);
-	return (
-		<Provider>
-			<Router>
-				<Header />
-				<div className="app-body-wrapper">
-					{!isMobile && <VerticalNavigation />}
-					<main>
-						<ContentContainer>{routes}</ContentContainer>
-					</main>
-				</div>
-			</Router>
-		</Provider>
-	);
-
+  const routes = (
+    <Switch>
+      <Route path="/" exact>
+        <MainScreen />
+      </Route>
+      <Route path="/about" exact>
+        <AboutScreen />
+      </Route>
+      <Route path="/profile" exact>
+        <ProfileScreen />
+      </Route>
+      <Route path="/leaderboards" exact>
+        <LeaderboardsScreen />
+      </Route>
+      <Route path="/prizes" exact>
+        <PrizesScreen />
+      </Route>
+      <Route path="/store" exact>
+        <StoreScreen />
+      </Route>
+      <Route path="/claw-customization" exact>
+        <ClawCustomizationScreen />
+      </Route>
+      <Redirect to="/" />
+    </Switch>
+  );
+  return (
+    <Provider>
+      <Router>
+        <Header />
+        <div className="app-body-wrapper">
+          {!isMobile && <VerticalNavigation />}
+          <main>
+            <ContentContainer>{routes}</ContentContainer>
+          </main>
+        </div>
+      </Router>
+    </Provider>
+  );
 };
 
 export default App;

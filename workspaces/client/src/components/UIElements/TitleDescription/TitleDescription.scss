@@ -1,0 +1,28 @@
+.title-description-container {
+  position: relative;
+  // margin-bottom: 20px;
+  padding: 20px 0;
+  // background: linear-gradient(transparent, #00000017);
+  .text-wrapper {
+    // transform-style: preserve-3d;
+    // transition: all 500ms ease-in;
+    // transform: rotateY(-20deg) rotateX(40deg) rotateZ(0deg);
+    h2 {
+      // padding: 0 10px;
+      font-size: 22px;
+    }
+    p {
+      margin-top: 5px;
+      font-size: 15px;
+    }
+    .inline-number {
+      font-weight: 500;
+      margin: 0px 6px;
+      padding: 0px 3px;
+      color: #ffffff;
+      border-radius: 2px;
+      color: var(--purpleSecondary);
+      border: 1px solid var(--purpleSecondary);
+    }
+  }
+}
