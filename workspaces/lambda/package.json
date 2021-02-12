@@ -5,7 +5,7 @@
   "main": "index.js",
   "module": "index.ts",
   "scripts": {
-    "clean": "rimraf .build .serverless",
+    "clean": "rimraf .build .serverless .dynamodb",
     "deploy": "sls deploy",
     "dev": "sls offline",
     "destroy": "sls remove"
