@@ -11,6 +11,7 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - yarn
+      - yarn global add serverless
   build:
     commands:
       - mkdir -p target/dev
