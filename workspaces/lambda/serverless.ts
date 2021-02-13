@@ -1,10 +1,13 @@
 import type { Serverless } from 'serverless/aws';
 
-import * as aws from 'aws-sdk';
 import { devDependencies } from './package.json';
 
-const PLAYERS_TABLE = 'Players';
-const GAMES_TABLE = 'Games';
+// get the stage option from arguments
+// eslint-disable-next-line no-template-curly-in-string
+const STAGE = '${opt:stage}';
+
+const PLAYERS_TABLE = `${STAGE}_Players`;
+const GAMES_TABLE = `${STAGE}_Games`;
 
 const AWS_DYMANODB_TABLE = 'AWS::DynamoDB::Table';
 
@@ -23,10 +26,6 @@ const serverlessConfiguration: Serverless = {
     runtime: 'nodejs12.x',
     stage: 'local',
     region: 'us-east-1',
-    environment: {
-      playersTable: PLAYERS_TABLE,
-      gamesTable: GAMES_TABLE,
-    },
     iamRoleStatements: [
       {
         Effect: 'Allow',
@@ -38,13 +37,8 @@ const serverlessConfiguration: Serverless = {
   plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
-    'websocket-connect': {
-      handler: 'src/websockets/handler.connect',
-      events: [{ websocket: { route: '$connect' } }],
-    },
-    'websocket-disconnect': {
-      handler: 'src/websockets/handler.connect',
-      events: [{ websocket: { route: '$disconnect' } }],
+    index: {
+      handler: 'src/http/index.handler',
     },
   },
 
@@ -85,7 +79,7 @@ const serverlessConfiguration: Serverless = {
               KeyType: 'HASH',
             },
           ],
-          BillingMode: 'PAY_PER_REQUEST',
+          BillingMode: BillingMode.PAY_PER_REQUEST,
         },
       },
     },
