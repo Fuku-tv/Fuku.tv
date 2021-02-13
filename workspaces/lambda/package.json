@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "rimraf .build .serverless .dynamodb",
     "deploy": "sls deploy",
+    "build": "sls package",
     "dev": "sls offline",
     "destroy": "sls remove"
   },
@@ -14,6 +15,7 @@
     "@types/aws-lambda": "^8.10.70",
     "@types/node": "^14.14.20",
     "@types/node-fetch": "^2.5.7",
+    "@types/serverless": "^1.78.20",
     "serverless": "^2.17.0",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
