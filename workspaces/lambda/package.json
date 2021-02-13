@@ -5,15 +5,16 @@
   "main": "index.js",
   "module": "index.ts",
   "scripts": {
-    "clean": "rimraf .build .serverless",
-    "deploy": "sls deploy",
-    "dev": "sls offline",
+    "clean": "rimraf .build .serverless .dynamodb",
+    "build": "sls package",
+    "dev": "sls offline --stage local",
     "destroy": "sls remove"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.70",
     "@types/node": "^14.14.20",
     "@types/node-fetch": "^2.5.7",
+    "@types/serverless": "^1.78.20",
     "serverless": "^2.17.0",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
