@@ -24,7 +24,7 @@ const serverlessConfiguration: Serverless = {
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
-    stage: 'local',
+    stage: STAGE,
     region: 'us-east-1',
     iamRoleStatements: [
       {
@@ -38,7 +38,26 @@ const serverlessConfiguration: Serverless = {
 
   functions: {
     index: {
-      handler: 'src/http/index.handler',
+      handler: 'src/http/handler.index',
+      events: [
+        {
+          http: {
+            path: '/',
+            method: 'get',
+          },
+        },
+      ],
+    },
+    test: {
+      handler: 'src/http/handler.test',
+      events: [
+        {
+          http: {
+            path: '/test',
+            method: 'get',
+          },
+        },
+      ],
     },
   },
 

@@ -6,9 +6,8 @@
   "module": "index.ts",
   "scripts": {
     "clean": "rimraf .build .serverless .dynamodb",
-    "deploy": "bash deploy.sh",
     "build": "sls package",
-    "dev": "sls offline",
+    "dev": "sls offline --stage local",
     "destroy": "sls remove"
   },
   "devDependencies": {
