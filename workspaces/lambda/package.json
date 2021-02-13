@@ -6,7 +6,7 @@
   "module": "index.ts",
   "scripts": {
     "clean": "rimraf .build .serverless .dynamodb",
-    "deploy": "sls deploy",
+    "deploy": "bash deploy.sh",
     "build": "sls package",
     "dev": "sls offline",
     "destroy": "sls remove"
