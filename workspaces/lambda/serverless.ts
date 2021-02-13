@@ -22,6 +22,9 @@ const serverlessConfiguration: Serverless = {
   service: 'Fuku-Serverless',
   configValidationMode: 'error',
   provider: {
+    apiGateway: {
+      shouldStartNameWithService: true,
+    },
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
