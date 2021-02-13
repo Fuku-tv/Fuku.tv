@@ -22,7 +22,6 @@ const serverlessConfiguration: Serverless = {
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: 'local',
-    profile: 'default',
     region: 'us-east-1',
     environment: {
       playersTable: PLAYERS_TABLE,
