@@ -19,7 +19,7 @@ enum BillingMode {
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
-  service: 'Fuku-Serverless',
+  service: 'fuku-serverless',
   configValidationMode: 'error',
   provider: {
     apiGateway: {
