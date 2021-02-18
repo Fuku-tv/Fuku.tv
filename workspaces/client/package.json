@@ -5,6 +5,7 @@
   "scripts": {
     "start": "parcel src/index.html --open --https --no-source-maps",
     "dev": "yarn start",
+    "postbuild": "ts-node ./scripts/sitemap.ts",
     "build": "parcel build src/index.html --public-url ./  --no-source-maps",
     "clean": "rimraf dist .cache www/public",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
@@ -26,6 +27,7 @@
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-router-sitemap": "^1.2.0",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.8",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9.0.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-pwa-manifest": "^3.0.10",
