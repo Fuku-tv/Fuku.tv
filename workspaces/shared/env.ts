@@ -1,32 +1,38 @@
 export const FukuControllerServerURL = (): string => {
-  let URL: string;
   if (process.env.NODE_ENV === 'development') {
     // Local Development
-    URL = 'ws://localhost:10888';
-  } else if (process.env.EB_ENVIRONMENT !== 'production') {
-    // Dev Environment
-    URL = 'wss://dev.fuku.tv/controller';
-  } else {
-    // Prod Environment
-    URL = 'wss:/prod.fuku.tv/controller';
+    return 'ws://localhost:10888';
   }
-
-  return URL;
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'wss://dev.fuku.tv/controller';
+  }
+  // Prod Environment
+  return 'wss:/prod.fuku.tv/controller';
 };
 
 export const FukuVideoServerURL = (): string => {
-  let URL: string;
-
   if (process.env.NODE_ENV === 'development') {
     // Local Development
-    URL = 'ws://localhost:10889';
-  } else if (process.env.EB_ENVIRONMENT !== 'production') {
-    // Dev Environment
-    URL = 'wss://dev.fuku.tv/video';
-  } else {
-    // Prod Environment
-    URL = 'wss:/prod.fuku.tv/video';
+    return 'ws://localhost:10889';
   }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'wss://dev.fuku.tv/video';
+  }
+  // Prod Environment
+  return 'wss:/prod.fuku.tv/video';
+};
 
-  return URL;
+export const FukuApiServerURL = (): string => {
+  if (process.env.NODE_ENV === 'development') {
+    // Local Development
+    return 'http://localhost:3000';
+  }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'https://api-dev.fuku.tv';
+  }
+  // Prod Environment
+  return 'https://api.fuku.tv';
 };
