@@ -1,0 +1,45 @@
+.__react_component_tooltip {
+  padding: 8px !important;
+  opacity: 1;
+  max-width: 190px;
+  .tooltip-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.146);
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    .tooltip-header__title {
+      font-weight: bold;
+      justify-content: space-between;
+      font-size: 15px;
+      width: 100%;
+    }
+    .tooltip-header__icon {
+      position: relative;
+      svg {
+        display: block;
+        height: 24px;
+        width: auto;
+        margin: 0 !important;
+      }
+    }
+  }
+  .tooltip-body {
+    position: relative;
+    line-height: 1.2em;
+    ul {
+      position: relative;
+      li {
+        // list-style-type: disc !important;
+        list-style: disc outside none;
+        display: list-item;
+        margin: 8px 15px;
+        // list-style-type: square !important;
+      }
+    }
+    .tooltip-value {
+      // margin-left: 2px;
+      font-weight: bold;
+    }
+  }
+}

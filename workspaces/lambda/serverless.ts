@@ -25,6 +25,10 @@ const serverlessConfiguration: Serverless = {
     apiGateway: {
       shouldStartNameWithService: true,
     },
+    environment: {
+      playersTable: PLAYERS_TABLE,
+      GamesTable: GAMES_TABLE,
+    },
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
