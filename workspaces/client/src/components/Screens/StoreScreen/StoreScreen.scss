@@ -1,0 +1,41 @@
+#store-screen {
+	position: relative;
+	#current-credits {
+		display: flex;
+		font-weight: bold;
+		margin: 25px auto;
+		font-size: 18px;
+		justify-content: center;
+		border: 1px dashed #ffffff;
+		padding: 10px;
+		width: 70%;
+	}
+	.store-table {
+		font-size: 14px;
+	}
+
+	#store-item-row {
+		display: flex;
+		border-bottom: 1px solid var(--blackAccentSecondary);
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 0;
+		display: grid;
+		grid-template-columns: 3fr 3fr 1fr;
+		button {
+			padding: 4px 20px;
+		}
+		.store-details {
+			width: 100%;
+			margin-left: 15px;
+
+			div {
+				display: flex;
+				align-items: center;
+			}
+			.user__score {
+				text-align: left;
+			}
+		}
+	}
+}

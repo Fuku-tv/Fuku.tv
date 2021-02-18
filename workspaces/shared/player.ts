@@ -1,5 +1,8 @@
 import crypto from 'crypto';
+import type ws from 'ws';
 import constants from './constants';
+
+import type Command from './command';
 
 /*
 IDLE -> QUEUE -> STANDBY -> PLAYING -> END
@@ -7,8 +10,8 @@ IDLE -> QUEUE -> STANDBY -> PLAYING -> END
  ^--------------------------------------|
                    */
 
-export class player {
-  socket: any;
+export class Player {
+  socket: ws;
 
   credits: number;
 
@@ -42,7 +45,7 @@ export class player {
 
   xp: number;
 
-  constructor(s: any, wc: number, qc: number, vw: number, vh: number, ip: any) {
+  constructor(s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
     this.credits = 10;
     this.timePlay = 30100;
@@ -65,15 +68,15 @@ export class player {
     // this.socket.on('message', (data) => { this.parseCommand(JSON.parse(data)); });
   }
 
-  send(data: object) {
+  send(data: Command): void {
     if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify(data));
   }
 
-  sendVideo(data: any) {
+  sendVideo(data: Command): void {
     if (this.socket !== null && this.socket !== undefined) this.socket.send(data, { binary: true });
   }
 
-  resetTimers() {
+  resetTimers(): void {
     if (this.playTimer !== null) clearTimeout(this.playTimer);
     if (this.standbyTimer !== null) clearTimeout(this.standbyTimer);
   }
@@ -115,4 +118,4 @@ export class player {
   }
 }
 
-export default player;
+export default Player;

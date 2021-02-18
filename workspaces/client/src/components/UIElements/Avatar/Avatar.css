@@ -8,6 +8,6 @@
 .avatar img {
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 /*# sourceMappingURL=Avatar.css.map */

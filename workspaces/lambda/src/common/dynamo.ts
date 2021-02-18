@@ -5,7 +5,7 @@ import { BaseModel } from './models';
 const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: 'us-east-1' });
 
 const Dynamo = {
-  async get<T>(id: string, tableName: string) {
+  async get<T>(id: string, tableName: string): Promise<T> {
     const params = {
       TableName: tableName,
       Key: {
@@ -22,7 +22,7 @@ const Dynamo = {
     return data.Item as T;
   },
 
-  async write<T extends BaseModel>(data: T, tableName: string) {
+  async write<T extends BaseModel>(data: T, tableName: string): Promise<void> {
     if (!data.id) {
       throw Error('no id on the data');
     }
@@ -38,7 +38,7 @@ const Dynamo = {
     }
   },
 
-  async delete(id: string, tableName: string) {
+  async delete(id: string, tableName: string): Promise<void> {
     const params = {
       TableName: tableName,
       Key: {

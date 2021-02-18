@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 
 import ReactDOM from 'react-dom';
@@ -13,8 +12,8 @@ interface ModalProps {
 }
 
 interface ModalOverlayProps {
-  onCancel?: () => void;
-  className?: any;
+  onCancel: () => void;
+  className?: string;
   style?: unknown;
   onSubmit?: string;
   contentClass?: string;
@@ -44,9 +43,9 @@ const ModalOverlay: React.FC<ModalOverlayProps> = (props) => {
   );
   const content = (
     <div className={`modal ${className}`} style={style}>
-      <div onClick={onCancel} role="button" tabIndex={0} onKeyDown={onCancel} className="cancel">
+      <button onClick={onCancel} className="cancel">
         {timesIcon}
-      </div>
+      </button>
 
       <div className={`modal__content ${contentClass}`}>{props.children}</div>
       {footer && <footer className={`modal__footer ${footerClass}`}>{footer}</footer>}

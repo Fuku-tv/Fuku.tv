@@ -4,10 +4,22 @@ import App from './App';
 
 ReactDOM.render(React.createElement(App), document.getElementById('app'));
 
-// register service.worker.js for PWA
-const swName = `/service-worker.js`;
-if (`serviceWorker` in navigator) {
-  window.addEventListener(`load`, () => {
-    navigator.serviceWorker.register(swName);
+interface HotModule {
+  hot?: {
+    accept: () => void;
+  };
+}
+
+// force uninstall obsolete service worker
+window.addEventListener(`load`, () => {
+  // unregister all service workers
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
+    }
   });
+});
+
+if ((module as HotModule).hot) {
+  (module as HotModule).hot.accept();
 }

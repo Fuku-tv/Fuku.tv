@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "parcel src/index.html --open --https --no-source-maps",
-    "serve": "parcel serve dist/index.html",
+    "dev": "yarn start",
+    "postbuild": "ts-node ./scripts/sitemap.ts",
     "build": "parcel build src/index.html --public-url ./  --no-source-maps",
     "clean": "rimraf dist .cache www/public",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
@@ -19,12 +20,15 @@
     "fuku.tv-shared": "*",
     "h264-live-player": "*",
     "hamburger-react": "^2.4.0",
-    "lodash": "^4.17.20",
     "react": ">=16",
     "react-awesome-button": "^6.5.1",
     "react-device-detect": "^1.15.0",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-router-sitemap": "^1.2.0",
+    "react-tooltip": "^4.2.14",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.8",
@@ -33,10 +37,11 @@
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9.0.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-pwa-manifest": "^3.0.10",
-    "parcel-plugin-sw-precache": "^1.1.2",
+    "parcel-plugin-static-files-copy": "^2.5.1",
     "sass": "^1.30.0",
     "typescript": "^4.1.2"
   },
@@ -52,5 +57,9 @@
       "baseIcon": "./static/fuku.png",
       "genFavicons": true
     }
+  },
+  "staticFiles": {
+    "staticPath": "static",
+    "watcherGlob": "**"
   }
 }

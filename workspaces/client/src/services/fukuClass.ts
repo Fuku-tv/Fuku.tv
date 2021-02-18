@@ -1,17 +1,17 @@
 import WSAvcPlayer from 'h264-live-player';
 
-import { constants } from 'fuku.tv-shared';
+import { constants, env } from 'fuku.tv-shared';
 import { EnhancedStore } from '@reduxjs/toolkit';
 
 /**
  * URL for fuku.tv controller
  */
-const FUKU_URL_CONTROLLER = 'wss://alpha.fuku.tv:10888';
+const FUKU_URL_CONTROLLER = env.FukuControllerServerURL();
 
 /**
  * URL for fuku.tv video
  */
-const FUKU_URL_VIDEO = 'wss://alpha.fuku.tv:10889';
+const FUKU_URL_VIDEO = env.FukuVideoServerURL();
 
 class Fuku {
   liveplayer: WSAvcPlayer;
@@ -67,7 +67,9 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
+    console.log(canvasRef);
 
+    this.connectSocket();
     // WSAvcPlayer is loaded globally from "/js/liveplayer-min.js"
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
   }
@@ -85,6 +87,7 @@ class Fuku {
    */
   buttonStartEvent = (type: string): void => {
     // switch statement for type because command objects arent consistent.
+
     switch (type) {
       case 'join':
         this.send({ command: constants.PlayerCommand.queue, action: 'join' });

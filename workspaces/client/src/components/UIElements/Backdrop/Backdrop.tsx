@@ -12,7 +12,7 @@ const removeConfetti = () => {
 
 const blastConfetti = () => {
   // Variables
-  const canvas = document.getElementById('confetti');
+  const canvas: any = document.getElementById('confetti');
   canvas.confetti = canvas.confetti || confetti.create(canvas, { resize: true });
   const end = Date.now() + 15 * 1000;
   const colors = ['#FF70FA', '#e2a803'];
@@ -111,7 +111,7 @@ const Backdrop: React.FC<Props> = ({ onClick }) => {
   }, []);
 
   const content = (
-    <div className="backdrop" onKeyDown={onClick} role="button" tabIndex={0} onClick={onClick}>
+    <div className="backdrop" onClick={onClick} onKeyDown={onClick} role="button" tabIndex={0}>
       <canvas id="confetti" height="100%" width="100%" />
     </div>
   );

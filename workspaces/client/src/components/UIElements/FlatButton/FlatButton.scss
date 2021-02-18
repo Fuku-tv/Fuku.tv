@@ -1,0 +1,32 @@
+.flat-button-container {
+	position: relative;
+	// width: 100%;
+	button {
+		display: block;
+		background: none;
+		color: #ffffff;
+		padding: 10px 22px;
+		// width: inherit;
+		// font-weight: bold;
+		font-size: inherit;
+		border: none;
+		cursor: pointer;
+		margin: 0 auto;
+		border-radius: 50px;
+		transition: 110ms;
+		-webkit-border-radius: 50px;
+		-moz-border-radius: 50px;
+		-ms-border-radius: 50px;
+		-o-border-radius: 50px;
+		&:hover {
+			background-color: var(--purplePrimary);
+			// border: 1px solid var(--purplePrimary) !important;
+		}
+		&.solid {
+			background-color: var(--purpleSecondary);
+		}
+		&.ghost {
+			border: 1px solid var(--purpleSecondary);
+		}
+	}
+}

@@ -1,13 +1,13 @@
 .image-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  img {
-    display: block;
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-  }
-  // display: grid;
-  // grid-template-columns: 180px 1fr;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	img {
+		display: block;
+		object-fit: cover;
+		height: 100%;
+		width: 100%;
+	}
+	// display: grid;
+	// grid-template-columns: 180px 1fr;
 }

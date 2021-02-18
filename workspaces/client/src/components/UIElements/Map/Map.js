@@ -5,36 +5,38 @@ import mapStyles from './mapStyles.json';
 import './Map.css';
 
 const Map = (props) => {
-  const mapContainerStyle = {
-    width: '100%',
-    height: '100%',
-  };
+	const mapContainerStyle = {
+		width  : '100%',
+		height : '100%'
+	};
 
-  const libraries = ['places'];
+	const libraries = [ 'places' ];
 
-  const { center, zoom } = props;
+	const { center, zoom } = props;
 
-  const options = {
-    styles: mapColor,
-    disableDefaultUI: true,
-  };
+	const options = {
+		styles           : mapColor,
+		disableDefaultUI : true
+	};
 
-  // const { isLoaded, loadError } = useLoadScript({
-  // 	googleMapsApiKey : process.env.REACT_APP_GOOGLE_API_KEY,
-  // 	libraries        : libraries
-  // });
+	// const { isLoaded, loadError } = useLoadScript({
+	// 	googleMapsApiKey : process.env.REACT_APP_GOOGLE_API_KEY,
+	// 	libraries        : libraries
+	// });
 
-  // if (loadError) return 'Error Loading Maps';
-  // if (!isLoaded) return 'Loading Maps';
-  // <Marker key={Math.random()} position={center} />
-  return (
-    <div className="map">
-      <GoogleMap mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options}>
-        {props.markers &&
-          props.markers.map((marker) => <Marker key={Math.random()} position={{ lat: marker.location.lat, lng: marker.location.lng }} />)}
-      </GoogleMap>
-    </div>
-  );
+	// if (loadError) return 'Error Loading Maps';
+	// if (!isLoaded) return 'Loading Maps';
+	// <Marker key={Math.random()} position={center} />
+	return (
+		<div className="map">
+			<GoogleMap mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options}>
+				{props.markers &&
+					props.markers.map((marker) => (
+						<Marker key={Math.random()} position={{ lat: marker.location.lat, lng: marker.location.lng }} />
+					))}
+			</GoogleMap>
+		</div>
+	);
 };
 
 export default Map;
