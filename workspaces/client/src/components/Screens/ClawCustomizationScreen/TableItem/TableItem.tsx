@@ -1,241 +1,54 @@
 import * as React from 'react';
-import { isMobile } from 'react-device-detect';
-import Screen from 'src/components/UIElements/Screen/Screen';
-import TableItemTooltip from './Tooltips/TableItemTooltip';
-import TableItem from './TableItem/TableItem';
-import './ClawCustomizationScreen.scss';
+// import './TableItemTooltip.scss';
+// import ReactTooltip from 'react-tooltip';
+import TableItemTooltip from '../Tooltips/TableItemTooltip';
 
-const ClawCustomizationScreen: React.FC = () => {
-  // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
-  // > (false);
-  const [appliedItemTab, setAppliedItemTab] = React.useState<string>('Stats');
-  const [inventoryIsActive, setInventoryIsActive] = React.useState<boolean>(false);
-  const claw = 'https://digitalmarketing.blob.core.windows.net/10030/files/claw.png';
+interface Props {
+  id: string;
+  symbol: string;
+  title: string;
+  description: string;
+  descriptionValue?: string;
+  timeRemainingValue: string;
+  classType: string;
+  color?: string;
+  backgroundColor?: string;
+  icon?: any;
+}
 
-  // const StrongClawTableItem = (props) => {
-  //   return (
-  //     <div data-tip data-for="table-item-tooltip" className="strong-claw table-item">
-  //       <div className="table-item__initials">{props.symbol}</div>
-  //       <div className="table-item__icon">{muscle}</div>
-  //       <div className="table-item__time-remaining">{props.timeRemainingValue}</div>
-  //       <TableItemTooltip
-  //         title={props.title}
-  //         description={props.description}
-  //         descriptionValue={props.descriptionValue}
-  //         timeRemainingValue={props.timeRemainingValue}
-  //         color="#111111"
-  //         backgroundColor="#d59c16"
-  //         icon={muscle}
-  //       />
-  //     </div>
-  //   );
-  // };
-  const LaserTableItem = (props) => {
-    return (
-      <div data-tip data-for="table-item-tooltip" className="laser table-item">
-        <div className="table-item__initials">LP</div>
-        <div className="table-item__icon">{laser}</div>
-        <div className="table-item__time-remaining">{infiniti}</div>
-        <TableItemTooltip
-          title={props.title}
-          description={props.description}
-          descriptionValue={props.descriptionValue}
-          timeRemainingValue={props.timeRemainingValue}
-          color="#111111"
-          backgroundColor="#01ff12"
-          icon={laser}
-        />
-      </div>
-    );
-  };
-
-  const playerTitleAppliedStats = (
-    <>
-      <div className="applied-item">
-        <div className="applied-item__type">Grip</div>
-        <div className="applied-item__value">+ 5</div>
-      </div>
-      <div className="applied-item">
-        <div className="applied-item__type">Time</div>
-        <div className="applied-item__value">+ 2</div>
-      </div>
-      <div className="applied-item">
-        <div className="applied-item__type">Overhead Laser</div>
-        <div className="applied-item__value">On</div>
-      </div>
-    </>
-  );
-  const playerTitleStats = (
-    <>
-      <div className="applied-item applied-grip">
-        <div className="applied-item__type">Grip</div>
-        <div className="applied-item__value">
-          <progress max="30" value="24" />
-          <div className="value">24/30</div>
-        </div>
-      </div>
-      <div className="applied-item applied-time">
-        <div className="applied-item__type">Time</div>
-        <div className="applied-item__value">
-          <progress max="50" value="30" />
-          <div className="value">30/50</div>
-        </div>
-      </div>
-      <div className="applied-item applied-speed">
-        <div className="applied-item__type">Speed</div>
-        <div className="applied-item__value">
-          <progress max="30" value="18" />
-          <div className="value">18/30</div>
-        </div>
-      </div>
-    </>
-  );
-
+const TableItem: React.FC<Props> = ({
+  id,
+  symbol,
+  title,
+  classType,
+  description,
+  descriptionValue,
+  timeRemainingValue,
+  color,
+  backgroundColor,
+  icon,
+}) => {
   return (
-    <Screen id="claw-customization" title="Claw Customization">
-      <div className="claw-customization-container">
-        <div id="inventory" className=" bordered-box">
-          <h2>Inventory</h2>
-          <div id="inventory" className={`${inventoryIsActive && 'expanded'} table-container`}>
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-            <div className="table-item" />
-          </div>
-          {isMobile && (
-            <button onClick={() => setInventoryIsActive((i) => !i)} onKeyDown={() => setInventoryIsActive((i) => !i)} className="expand-arrow">
-              <div className={`${inventoryIsActive && 'rotate'}   arrow-wrapper`}>{downArrow}</div>
-            </button>
-          )}
-        </div>
-        <div id="user-claw" className="bordered-box">
-          <div className="user-claw__stats">
-            <h2>My Claw</h2>
-            <div id="applied-items">
-              <div className="applied-item-group-titles">
-                <button
-                  onClick={() => setAppliedItemTab('Stats')}
-                  onKeyDown={() => setAppliedItemTab('Applied')}
-                  className={`applied-item__title ${appliedItemTab === 'Stats' && 'active'}`}
-                >
-                  <h3>Stats</h3>
-                </button>
-                <button
-                  onClick={() => setAppliedItemTab('Applied')}
-                  onKeyDown={() => setAppliedItemTab('Applied')}
-                  className={`applied-item__title ${appliedItemTab === 'Applied' && 'active'}`}
-                >
-                  <h3>Applied</h3>
-                </button>
-              </div>
-              <div className="applied-item__container">{appliedItemTab === 'Stats' ? playerTitleStats : playerTitleAppliedStats}</div>
-            </div>
-            <div id="temporary-items ">
-              <h3>Temporary Boosts</h3>
-              <div className="table-container">
-                <TableItem
-                  id="1"
-                  symbol="SC"
-                  description="Increases the grip of the claw by"
-                  title="Strong Claw"
-                  descriptionValue="1"
-                  timeRemainingValue="18 hours"
-                  color="#111111"
-                  backgroundColor="#d59c16"
-                  classType="strong-claw"
-                  icon={muscle}
-                />
-                <TableItem
-                  id="2"
-                  symbol="SC4"
-                  title="Strong Claw"
-                  description="Increases the grip of the claw by"
-                  descriptionValue="4"
-                  timeRemainingValue="2 days"
-                  color="#111111"
-                  backgroundColor="#d59c16"
-                  classType="strong-claw"
-                  icon={muscle}
-                />
-                <TableItem
-                  id="3"
-                  symbol="T2"
-                  title="Time"
-                  description="Increases the the time per round by"
-                  descriptionValue="2"
-                  timeRemainingValue="3 days"
-                  color="#111111"
-                  backgroundColor="#a57deb"
-                  classType="time"
-                  icon={hourglass}
-                />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-              </div>
-            </div>
-            <div id="permanant-items ">
-              <h3>Permanent</h3>
-              <div className="table-container">
-                {/* <LaserTableItem /> */}
-                <TableItem
-                  id="4"
-                  symbol="LP"
-                  title="Laser"
-                  description="Activates a laser pointer for increased accuracy"
-                  timeRemainingValue="Permanent"
-                  color="#111111"
-                  backgroundColor="#01ff12"
-                  classType="laser"
-                  icon={laser}
-                />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-                <div className="table-item" />
-              </div>
-            </div>
-          </div>
-          <div className="user-claw__image-preview ">
-            <img src="https://digitalmarketing.blob.core.windows.net/10030/files/claw.png" alt="" />
-          </div>
-        </div>
-      </div>
-    </Screen>
+    <div data-tip data-for={id} className={`${classType} table-item`}>
+      <div className="table-item__initials">{symbol}</div>
+      <div className="table-item__icon">{icon}</div>
+      <div className="table-item__time-remaining">{timeRemainingValue}</div>
+      <TableItemTooltip
+        id={id}
+        title={title}
+        description={description}
+        descriptionValue={descriptionValue}
+        timeRemainingValue={timeRemainingValue}
+        color={color}
+        backgroundColor={backgroundColor}
+        icon={icon}
+        classType={classType}
+      />
+    </div>
   );
 };
 
-export default ClawCustomizationScreen;
-
-const downArrow = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="chevron-down"
-    className="svg-inline--fa fa-chevron-down fa-w-14"
-    role="img"
-    viewBox="0 0 448 512"
-  >
-    <path
-      fill="currentColor"
-      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-    />
-  </svg>
-);
+export default TableItem;
 
 const infiniti = (
   <svg
