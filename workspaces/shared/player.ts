@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import type ws from 'ws';
 import constants from './constants';
-
+import { table } from './dynamodb/table';
 import type Command from './command';
 
 /*

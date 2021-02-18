@@ -1,7 +1,7 @@
 export interface BaseModel {
   id: string;
-  domainName: string;
-  stage: string;
+  domainName?: string;
+  stage?: string;
 }
 
 export interface Player extends BaseModel {

@@ -12,9 +12,9 @@ const portController = 10777;
 export class ControllerServer {
   queue: any[];
 
-  players: any[];
+  players: Player[];
 
-  currentPlayer: any;
+  currentPlayer: Player;
 
   watchCounter: number;
 

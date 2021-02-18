@@ -19,11 +19,16 @@ enum BillingMode {
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
+
   service: 'fuku-serverless',
   configValidationMode: 'error',
   provider: {
     apiGateway: {
       shouldStartNameWithService: true,
+    },
+    environment: {
+      playersTable: PLAYERS_TABLE,
+      gamesTable: GAMES_TABLE,
     },
     name: 'aws',
     runtime: 'nodejs12.x',

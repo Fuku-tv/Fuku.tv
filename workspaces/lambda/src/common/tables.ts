@@ -1,28 +1,40 @@
-import Dynamo from './dynamo';
-import { Game, Player } from './models';
+import { dynamo } from 'fuku.tv-shared/dynamodb';
+import { BaseModel, Game, Player } from 'fuku.tv-shared/dynamodb/models';
 
 const { gamesTable, playersTable } = process.env;
 
 export const gamesTableModel = {
   async write(data: Game): Promise<void> {
-    return Dynamo.write<Game>(data, gamesTable);
+    return dynamo.write<Game>(data, gamesTable);
   },
   async get(id: string): Promise<Game> {
-    return Dynamo.get<Game>(id, gamesTable);
+    return dynamo.get<Game>(id, gamesTable);
   },
   async delete(id: string) {
-    return Dynamo.delete(id, gamesTable);
+    return dynamo.delete(id, gamesTable);
   },
 };
 
 export const playersTableModel = {
   async write(data: Player): Promise<void> {
-    return Dynamo.write<Player>(data, playersTable);
+    return dynamo.write<Player>(data, playersTable);
   },
   async get(id: string): Promise<Player> {
-    return Dynamo.get<Player>(id, playersTable);
+    return dynamo.get<Player>(id, playersTable);
   },
   async delete(id: string) {
-    return Dynamo.delete(id, playersTable);
+    return dynamo.delete(id, playersTable);
   },
 };
+
+export const table = <T extends BaseModel>(tableName: string) => ({
+  async write(data: T): Promise<void> {
+    return dynamo.write<T>(data, tableName);
+  },
+  async get(id: string): Promise<T> {
+    return dynamo.get<T>(id, tableName);
+  },
+  async delete(id: string) {
+    return dynamo.delete(id, tableName);
+  },
+});

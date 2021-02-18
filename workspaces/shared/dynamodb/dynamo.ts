@@ -1,5 +1,4 @@
 import * as AWS from 'aws-sdk';
-import { PutItemInput } from 'aws-sdk/clients/dynamodb';
 import { BaseModel } from './models';
 
 const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: 'us-east-1' });
