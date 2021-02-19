@@ -24,6 +24,7 @@ export const FukuVideoServerURL = (): string => {
   return 'wss:/prod.fuku.tv/video';
 };
 
+
 /**
  * Gets the current stage of the application
  */
@@ -38,4 +39,17 @@ export const getStage = (): string => {
   }
   // Prod Environment
   return 'prod';
+
+export const FukuApiServerURL = (): string => {
+  if (process.env.NODE_ENV === 'development') {
+    // Local Development
+    return 'http://localhost:3000';
+  }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'https://api-dev.fuku.tv';
+  }
+  // Prod Environment
+  return 'https://api.fuku.tv';
+
 };

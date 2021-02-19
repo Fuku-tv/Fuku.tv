@@ -17,7 +17,6 @@ const serverlessConfiguration: Serverless = {
     apiGateway: {
       shouldStartNameWithService: true,
     },
-
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
