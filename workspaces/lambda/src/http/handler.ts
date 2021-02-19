@@ -1,8 +1,8 @@
-import type { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import type { APIGatewayProxyHandler } from 'aws-lambda';
 import * as Responses from '../common/ApiResponses';
 
-export const index: APIGatewayProxyHandlerV2 = async (event, context, callback) => {
-  const { domainName, stage } = event.requestContext;
+export const index: APIGatewayProxyHandler = async (event, context, callback) => {
+  const { domainName, stage, identity } = event.requestContext;
 
   try {
     return Responses.ok({ message: 'got a message' });
@@ -12,7 +12,7 @@ export const index: APIGatewayProxyHandlerV2 = async (event, context, callback) 
   }
 };
 
-export const test: APIGatewayProxyHandlerV2 = async (event, context, callback) => {
+export const test: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage } = event.requestContext;
 
   try {

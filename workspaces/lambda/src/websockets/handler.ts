@@ -1,7 +1,7 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import fetch from 'node-fetch';
+import { Player } from 'fuku.tv-shared/dynamodb/models';
 import * as Responses from '../common/ApiResponses';
-import { Player } from '../common/models';
 import { gamesTableModel, playersTableModel } from '../common/tables';
 import { sendMessage } from '../common/websocketMessage';
 

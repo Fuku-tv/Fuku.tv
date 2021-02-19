@@ -1,17 +1,16 @@
 import crypto from 'crypto';
 import type ws from 'ws';
 import constants from './constants';
-
+import { playersTableModel } from './dynamodb/table';
+import { Player as PlayerModel } from './dynamodb/models';
 import type Command from './command';
 
-/*
-IDLE -> QUEUE -> STANDBY -> PLAYING -> END
-                  ^----------|          |
- ^--------------------------------------|
-                   */
+// IDLE -> QUEUE -> STANDBY -> PLAYING -> END
 
 export class Player {
   socket: ws;
+
+  email: string;
 
   credits: number;
 
@@ -47,7 +46,6 @@ export class Player {
 
   constructor(s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
-    this.credits = 10;
     this.timePlay = 30100;
     this.timeStandby = 60100;
     this.playTimer = null;
@@ -57,13 +55,17 @@ export class Player {
     this.isQueued = false;
     this.gameState = constants.GameState.idle;
     this.video = constants.Video.front;
-    this.uid = crypto.randomBytes(256).toString('hex');
+    // this.uid = crypto.randomBytes(256).toString('hex');
     this.ipAddr = ip;
 
     this.level = 1;
     this.xp = 0;
 
-    this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, queue: qc, watch: wc, test: false });
+    this.fetchInitialPlayerData()
+      .then(() => {
+        this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, queue: qc, watch: wc, test: false });
+      })
+      .catch((error) => {});
 
     // this.socket.on('message', (data) => { this.parseCommand(JSON.parse(data)); });
   }
@@ -115,6 +117,27 @@ export class Player {
     this.resetTimers();
     this.gameState = constants.GameState.idle;
     this.send({ command: constants.PlayerCommand.gameend });
+  }
+
+  /**
+   * Fetch player data from Database, create new player if ID not found
+   */
+  private async fetchInitialPlayerData() {
+    // get current player
+    try {
+      // failing on purpose to prevent persist untill credit flow is complete
+      const player = await playersTableModel.get('noop');
+      this.credits = player.credits;
+      this.uid = player.id;
+    } catch {
+      // no player found, creating new player
+      const data: PlayerModel = {
+        id: this.ipAddr,
+        credits: 10,
+        ipAddress: this.ipAddr,
+      };
+      await playersTableModel.write(data);
+    }
   }
 }
 

@@ -70,7 +70,6 @@ class Fuku {
     console.log(canvasRef);
 
     this.connectSocket();
-    // WSAvcPlayer is loaded globally from "/js/liveplayer-min.js"
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
   }
 
@@ -89,10 +88,12 @@ class Fuku {
     // switch statement for type because command objects arent consistent.
 
     switch (type) {
+      // user joins
       case 'join':
         this.send({ command: constants.PlayerCommand.queue, action: 'join' });
         break;
 
+      // swap video
       case 'swapvideo':
         this.currentVideoUri = this.currentVideoUri === constants.Video.front ? constants.Video.side : constants.Video.front;
         this.liveplayer.sendMessage(
@@ -103,6 +104,7 @@ class Fuku {
         );
         break;
 
+      // all other messages
       default:
         this.send({
           command: constants.PlayerCommand.control,
@@ -250,13 +252,8 @@ class Fuku {
       console.log('socket null');
       return;
     }
-    const dataWithToken = {
-      ...data,
-      token: this.uglyHackStore.getState().auth.accessToken,
-    };
 
-    console.log(dataWithToken);
-    this.socket.send(JSON.stringify(dataWithToken));
+    this.socket.send(JSON.stringify(data));
   }
 }
 

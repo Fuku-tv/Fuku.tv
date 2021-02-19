@@ -2,16 +2,26 @@ import https from 'https';
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
+import { LoggerClass, LogLevel } from 'fuku.tv-shared';
 import { ControllerServer } from './viewerControllerServer';
-
 import { VideoServer } from './viewerVideoServer';
 
-const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
-const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-};
+// const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
+// const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+// };
+
+const logger = new LoggerClass('server');
+initializeDatabase()
+  .then(() => {
+    logger.log(LogLevel.info, 'Database Initialization Completed');
+  })
+  .catch((err) => {
+    logger.log(LogLevel.error, `stuff broke :( - ${err}`);
+  });
 
 /**
  * Health Check endpoint
