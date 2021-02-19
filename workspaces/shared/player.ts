@@ -136,6 +136,10 @@ export class Player {
         ipAddress: this.ipAddr,
       };
       await playersTableModel.write(data);
+      // read data once written
+      const player = await playersTableModel.get(this.ipAddr);
+      this.credits = player.credits;
+      this.uid = player.id;
     }
   }
 }
