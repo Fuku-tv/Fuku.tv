@@ -127,7 +127,7 @@ export class Player {
     try {
       // failing on purpose to prevent persist untill credit flow is complete
       const player = await playersTableModel.get('noop');
-      this.credits = player.credits;
+      this.credits = player.credits || 10;
       this.uid = player.id;
     } catch {
       // no player found, creating new player
