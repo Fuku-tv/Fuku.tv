@@ -34,7 +34,6 @@ function updateFfmpegArray() {
     '-f', ffmpegArgs.output_format,
     '-' // pipes to stdout
   ];
-  console.log(ffmpegArray);
 }
 
 updateFfmpegArray();
