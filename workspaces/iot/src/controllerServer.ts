@@ -21,7 +21,7 @@ buttons['left'] = ioDown;
 buttons['right'] = ioUp;
 buttons['drop'] = ioDrop;
 buttons['button'] = ioDrop;
-buttons['start'] = null;
+buttons['start'] = null; // just to catch start events sent over
 
 const port = 10777;
 
@@ -33,44 +33,49 @@ server.on('upgrade', (request: any, socket: any, header: any) => {
   });
 });
 
+function resetButtons() {
+  Object.keys(buttons).forEach((b) => {
+    if (buttons[b] !== null) {
+      buttons[b].writeSync(0);
+    }
+  });
+}
+
 function resetClaw() {
   buttons['drop'].writeSync(1);
-  setTimeout(() => {
-    Object.keys(buttons).forEach((b) => {
-      if (buttons[b] !== null) {
-        buttons[b].writeSync(0);
-      }
-    });
-  }, 50);
+  setTimeout(resetButtons, 50);
+}
+
+function doButton(btn: any, act: any) {
+  if (btn === null || btn === undefined) {
+    logger.log(LogLevel.error, 'Btn undefined');
+    return;
+  }
+  if (buttons[btn] === undefined) {
+    // what the fuck are we doing?
+    logger.log(LogLevel.error, 'Bad button - ' + btn + ' - ' + act);
+    return;
+  }
+  buttons[btn].writeSync(act);
 }
 
 wss.on('connection', (socket: any, req: any) => {
   var ipAddr = req.connection.remoteAddress;
-  logger.log(LogLevel.info, ipAddr + "' - connected");
+  logger.log(LogLevel.info, ipAddr + ' - connected');
   socket.on('message', (data) => {
     var msg = JSON.parse(data);
     switch (msg.command) {
       case constants.ControllerCommand.buttonstart:
-        if (msg.button === null || msg.button === undefined || buttons[msg.button] === null || buttons[msg.button] === undefined) {
-          logger.log(LogLevel.error, ipAddr + ' - bad button ' + msg.button);
-          break;
-        }
-        buttons[msg.button].writeSync(1); // turn pin on
+        doButton(msg.button, 1);
         break;
       case constants.ControllerCommand.buttonstop:
-        if (msg.button === null || msg.button === undefined || buttons[msg.button] === null || buttons[msg.button] === undefined) {
-          logger.log(LogLevel.error, ipAddr + ' - bad button ' + msg.button);
-          break;
-        }
-        else if (buttons[msg.button] !== null && buttons[msg.button] !== undefined) {
-          buttons[msg.button].writeSync(0);
-        }
+        doButton(msg.button, 0);
         break;
       case constants.ControllerCommand.resetclaw:
         resetClaw();
         break;
       default:
-        logger.log(LogLevel.error, ipAddr + ' - unknown command ' + msg.command);
+        logger.log(LogLevel.error, 'Bad command ' + msg.command);
         break;
     }
   });
