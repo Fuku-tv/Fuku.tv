@@ -6,16 +6,7 @@ import { devDependencies } from './package.json';
 // eslint-disable-next-line no-template-curly-in-string
 const STAGE = '${opt:stage}';
 
-const PLAYERS_TABLE = `${STAGE}_Players`;
-const GAMES_TABLE = `${STAGE}_Games`;
-
-const AWS_DYMANODB_TABLE = 'AWS::DynamoDB::Table';
-
 const frameworkVersion = devDependencies.serverless;
-
-enum BillingMode {
-  PAY_PER_REQUEST = 'PAY_PER_REQUEST',
-}
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
@@ -26,10 +17,7 @@ const serverlessConfiguration: Serverless = {
     apiGateway: {
       shouldStartNameWithService: true,
     },
-    environment: {
-      playersTable: PLAYERS_TABLE,
-      gamesTable: GAMES_TABLE,
-    },
+
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
@@ -66,49 +54,6 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
-    },
-  },
-
-  resources: {
-    Resources: {
-      PlayersTable: {
-        Type: AWS_DYMANODB_TABLE,
-        Properties: {
-          TableName: PLAYERS_TABLE,
-          AttributeDefinitions: [
-            {
-              AttributeName: 'id',
-              AttributeType: 'S',
-            },
-          ],
-          KeySchema: [
-            {
-              AttributeName: 'id',
-              KeyType: 'HASH',
-            },
-          ],
-          BillingMode: BillingMode.PAY_PER_REQUEST,
-        },
-      },
-      GamesTable: {
-        Type: AWS_DYMANODB_TABLE,
-        Properties: {
-          TableName: GAMES_TABLE,
-          AttributeDefinitions: [
-            {
-              AttributeName: 'id',
-              AttributeType: 'S',
-            },
-          ],
-          KeySchema: [
-            {
-              AttributeName: 'id',
-              KeyType: 'HASH',
-            },
-          ],
-          BillingMode: BillingMode.PAY_PER_REQUEST,
-        },
-      },
     },
   },
 };

@@ -1,7 +1,7 @@
 import * as AWS from 'aws-sdk';
 import { BaseModel } from './models';
 
-const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: 'us-east-1' });
+const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: 'latest', region: 'us-east-1' });
 
 const Dynamo = {
   async get<T>(id: string, tableName: string): Promise<T> {

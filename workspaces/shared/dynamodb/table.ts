@@ -1,15 +1,19 @@
 import dynamo from './dynamo';
-import { BaseModel } from './models';
+import { Player } from './models';
+import { tableList } from './index';
 
-export const table = <T extends BaseModel>(tableName: string) => ({
-  async write(data: T): Promise<void> {
-    return dynamo.write<T>(data, tableName);
+// Create the DynamoDB service object
+
+export const playersTableModel = {
+  async write(data: Player): Promise<void> {
+    return dynamo.write<Player>(data, tableList.PLAYERS_TABLE);
   },
-  async get(id: string): Promise<T> {
-    return dynamo.get<T>(id, tableName);
+  async get(id: string): Promise<Player> {
+    return dynamo.get<Player>(id, tableList.PLAYERS_TABLE);
   },
   async delete(id: string) {
-    return dynamo.delete(id, tableName);
+    return dynamo.delete(id, tableList.PLAYERS_TABLE);
   },
-});
-export default table;
+};
+
+export const createTable = () => {};
