@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/bundle.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist logs",
     "build": "webpack",
     "dev": "ts-node-dev src/index.ts"
   },
