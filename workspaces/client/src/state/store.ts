@@ -7,4 +7,6 @@ const store = configureStore({
   middleware: [thunkMiddleware],
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+export type RootDispatch = typeof store.dispatch;
 export default store;
