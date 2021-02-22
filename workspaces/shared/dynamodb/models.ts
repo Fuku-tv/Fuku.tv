@@ -4,6 +4,9 @@ export interface BaseModel {
 
 export interface Player extends BaseModel {
   credits: number;
+  points: number;
+  experience: number;
+  email: string;
   ipAddress: string;
 }
 

@@ -12,8 +12,10 @@ export const tableList = { PLAYERS_TABLE: `Players-${STAGE}`, GAMES_TABLE: `Game
  * Initialize DynamoDB tables
  */
 export const initializeDatabase = async (): Promise<void> => {
+  // get list of all tables in DynamoDB
   const result = await ddb.listTables().promise();
 
+  // check results for existing tables to prevent overwriting
   const list = Object.values(tableList).map((table) => {
     if (result.TableNames.includes(table)) {
       return null;
@@ -21,6 +23,7 @@ export const initializeDatabase = async (): Promise<void> => {
     return table;
   });
 
+  // create table if not listed in results
   list.forEach((table) => {
     if (table === null) {
       return;
