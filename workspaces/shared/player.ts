@@ -58,6 +58,7 @@ export class Player {
     // this.uid = crypto.randomBytes(256).toString('hex');
     this.ipAddr = ip;
 
+    this.email = '';
     this.level = 1;
     this.xp = 0;
 
@@ -83,7 +84,7 @@ export class Player {
     if (this.standbyTimer !== null) clearTimeout(this.standbyTimer);
   }
 
-  updateGameStats(qc: number, wc: number) {
+  updateGameStats(qc: number, wc: number): void {
     this.send({
       command: constants.PlayerCommand.gamestats,
       queue: qc,
@@ -92,14 +93,14 @@ export class Player {
     });
   }
 
-  standby(callback: any) {
+  standby(callback: () => void): void {
     this.resetTimers();
     this.gameState = constants.GameState.standby;
     this.standbyTimer = setTimeout(callback, this.timeStandby);
     this.send({ command: constants.PlayerCommand.gamestandby });
   }
 
-  play(callback: any) {
+  play(callback: () => void): void {
     this.resetTimers();
     this.credits -= 1;
     this.gameState = constants.GameState.playing;
@@ -108,12 +109,12 @@ export class Player {
     this.send({ command: constants.PlayerCommand.gameplay });
   }
 
-  playEnd() {
+  playEnd(): void {
     this.resetTimers();
     this.gameState = constants.GameState.ending;
   }
 
-  gameEnd() {
+  gameEnd(): void {
     this.resetTimers();
     this.gameState = constants.GameState.idle;
     this.send({ command: constants.PlayerCommand.gameend });
@@ -133,6 +134,9 @@ export class Player {
       const data: PlayerModel = {
         id: this.ipAddr,
         credits: 10,
+        points: 0,
+        xp: 0,
+        email: this.email,
         ipAddress: this.ipAddr,
       };
       await playersTableModel.write(data);
