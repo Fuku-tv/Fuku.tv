@@ -20,7 +20,7 @@ export class LoggerClass {
       transports: [
         new winstondrf({
           json: false,
-          filename: `./logs/${name}.log`,
+          filename: `/var/logs/fuku/${name}.log`,
           datePattern: 'YYY-MM-DD',
           zippedArchive: false,
           maxFiles: '90d',
