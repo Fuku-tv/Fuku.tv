@@ -1,0 +1,21 @@
+{
+  "ffmpegArgs" : {
+    "loglevel": "quiet",
+    "input_format": "video4linux2",
+    "input_dimensions": "800x480",
+    "input_framerate": "15",
+    "input_device": "/dev/video0",
+    "seek": "00:00:01",
+    "pix_fmt": "yuv420p",
+    "video_codec": "libx264",
+    "video_bitrate": "800k",
+    "buffersize": "2000k",
+    "video_profile": "baseline",
+    "video_preset": "ultrafast",
+    "video_tune": "zerolatency",
+    "gop": "30",
+    "output_format": "rawvideo"
+  },
+  "videoPort": 10779,
+  "controllerPort": 10777
+}
