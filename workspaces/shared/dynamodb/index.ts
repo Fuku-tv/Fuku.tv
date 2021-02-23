@@ -2,9 +2,6 @@ import { DynamoDB, config } from 'aws-sdk';
 import * as path from 'path';
 import { getStage } from '../env';
 
-// load AWS credentials
-config.loadFromPath(path.resolve(__dirname, '../../server/aws/config.json'));
-
 const ddb = new DynamoDB({ apiVersion: 'latest', region: 'us-east-1' });
 // get the stage option from arguments
 // eslint-disable-next-line no-template-curly-in-string
