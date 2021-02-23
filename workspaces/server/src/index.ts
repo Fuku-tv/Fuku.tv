@@ -20,7 +20,7 @@ initializeDatabase()
     logger.log(LogLevel.info, 'Database Initialization Completed');
   })
   .catch((err) => {
-    logger.log(LogLevel.error, `stuff broke :( - ${err}`);
+    logger.log(LogLevel.error, `Database Initialization Failed - ${err}`);
   });
 
 /**
