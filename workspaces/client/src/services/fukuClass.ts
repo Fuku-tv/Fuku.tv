@@ -49,7 +49,7 @@ class Fuku {
      */
     this.intervalConnection = setInterval(() => {
       if (this.socket !== null && this.socket !== undefined) return;
-      this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
+      this.connectSocket();
     }, 250);
   }
 
@@ -58,7 +58,13 @@ class Fuku {
    * @returns WebSocket, use this to subscribe to onMessage events
    */
   connectSocket(): WebSocket {
-    this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
+    if (this.liveplayer === null || this.liveplayer === undefined) {
+      throw new Error('Fuku video not found, did you forget to run bootstrapVideo?');
+    } else if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
+      throw new Error('Fuku store not found, did you forget to run bootstrapStore?');
+    } else {
+      this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
+    }
     return this.socket;
   }
 
@@ -67,10 +73,9 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
-    console.log(canvasRef);
 
-    this.connectSocket();
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
+    this.connectSocket();
   }
 
   /**
@@ -138,6 +143,7 @@ class Fuku {
     // pass opaque token to controller websocket
     this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
     this.socket.binaryType = 'arraybuffer';
+
     this.socket.onopen = () => {
       console.log('Socket Connected');
       this.liveplayer.connect(videoUri);
