@@ -62,13 +62,18 @@ export class ControllerServer {
       server,
       verifyClient: async (info, authenticated) => {
         const email = await authenticateConnection(info);
-        userRequestMap.set(info.req, email);
-        authenticated(email === null || email === undefined);
+        if (email === null || email === undefined) {
+          authenticated(false);
+        } else {
+          userRequestMap.set(info.req, email);
+          authenticated(true);
+        }
       },
     });
 
     this.wss.on('connection', (socket: any, req) => {
       const email = userRequestMap.get(req);
+      logger.log(LogLevel.info, `got email ${email}`);
       const clientPlayer = new Player(email, socket, this.players.length + 1, this.queue.length, 800, 480, req.socket.remoteAddress);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
