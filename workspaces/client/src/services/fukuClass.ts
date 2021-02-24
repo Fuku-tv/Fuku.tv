@@ -135,7 +135,8 @@ class Fuku {
 
   private connect(controllerUri, videoUri): void {
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
-    this.socket = new WebSocket(controllerUri);
+    // pass opaque token to controller websocket
+    this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
     this.socket.binaryType = 'arraybuffer';
     this.socket.onopen = () => {
       console.log('Socket Connected');

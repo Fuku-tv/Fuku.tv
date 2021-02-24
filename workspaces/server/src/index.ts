@@ -48,5 +48,5 @@ hcServer.listen(8080);
 controllerHttpsServer.listen(10888);
 videoHttpsServer.listen(10889);
 
-const controller = new ControllerServer(controllerHttpsServer);
 const video = new VideoServer(videoHttpsServer);
+const controller = new ControllerServer(controllerHttpsServer);

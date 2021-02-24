@@ -2,12 +2,19 @@
 import WS from 'ws';
 import http from 'http';
 import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
+import url from 'url';
+import querystring from 'querystring';
+
+import fetch from 'node-fetch';
 
 const logger = new LoggerClass('viewerServer');
 
 const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
+
+// hack to map authenticated email to current player
+const userRequestMap = new WeakMap();
 
 export class ControllerServer {
   queue: any[];
@@ -51,32 +58,25 @@ export class ControllerServer {
     this.connectController();
 
     // client->us
-    this.wss = new WS.Server({ server });
+    this.wss = new WS.Server({
+      server,
+      verifyClient: async (info, authenticated) => {
+        const email = await authenticateConnection(info);
+        userRequestMap.set(info.req, email);
+        authenticated(email === null || email === undefined);
+      },
+    });
 
-    this.wss.on('connection', (socket: any, req: any) => {
-      const clientPlayer = new Player(socket, this.players.length + 1, this.queue.length, 800, 480, req.connection.remoteAddress);
+    this.wss.on('connection', (socket: any, req) => {
+      const email = userRequestMap.get(req);
+      const clientPlayer = new Player(email, socket, this.players.length + 1, this.queue.length, 800, 480, req.socket.remoteAddress);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
       socket.player = clientPlayer;
 
       socket.on('message', (data: any) => {
         const msg = JSON.parse(data);
-        /*
-        if (data.token === null || data.token === undefined) {
-          logger.log(LogLevel.info, clientPlayer.uid + ' - Got message but no token?');
-          return;
-        }
-        /*
-        if (clientPlayer.isLoggedIn === false) {
-          fetch('https://fukutv-alpha.us.auth0.com/userinfo', {
-            method: 'get',
-            headers: new Headers({
-              'Authorization': 'bearer ' + data.token
-            })
-          }).then((res) => {
-            logger.log(LogLevel.info, 'token response: ' + res);
-          });
-        } */
+
         switch (msg.command) {
           case constants.PlayerCommand.control:
             if (this.currentPlayer === null || this.currentPlayer === undefined) {
@@ -276,6 +276,36 @@ export class ControllerServer {
 
 const send = (socket: WS, data: any) => {
   if (socket !== null && socket !== undefined) socket.send(JSON.stringify(data));
+};
+
+const authenticateConnection = async (info: { origin: string; secure: boolean; req: http.IncomingMessage }): Promise<string> => {
+  // parse querystring for token
+  const parsedUrl = url.parse(info.req.url);
+  const parsedQs = querystring.parse(parsedUrl.query);
+  const { token } = parsedQs;
+
+  // check if querystring for token exists
+  if (token === null || token === undefined) {
+    logger.log(LogLevel.info, `${info.req.socket.remoteAddress} - Got message but no token?`);
+    return null;
+  }
+
+  // pass token to auth0 for validation
+  try {
+    const res = await fetch('https://fukutv-alpha.us.auth0.com/userinfo', {
+      method: 'get',
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+
+    logger.log(LogLevel.info, `valided user: ${data.email}`);
+    return data.email;
+  } catch (err) {
+    logger.log(LogLevel.error, `Login Error: ${err}`);
+    return null;
+  }
 };
 
 export default ControllerServer;
