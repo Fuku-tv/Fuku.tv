@@ -56,6 +56,18 @@ header {
         width: 150px;
         display: inline-block;
       }
+
+      .credit-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+          display: block;
+          height: 28px;
+        }
+      }
+
       #header-profile-button {
         // top: 50%;
         // transform: translateY(-50%);
