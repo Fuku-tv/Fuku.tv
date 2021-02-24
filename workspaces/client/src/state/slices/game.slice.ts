@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {endStream, startStream} from '../actions/game.actions';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { endStream, startStream } from '../actions/game.actions';
 
 const initialState = {
   timer: 30,
@@ -7,55 +7,57 @@ const initialState = {
   watch: 0,
   credits: 0,
   gameStatus: '',
-  cameraIsForward: true
+  cameraIsForward: true,
+  error: {},
 };
 
 const gameSlice = createSlice({
   name: 'GAME',
   initialState,
   reducers: {
-    gamestats(state, action : PayloadAction < typeof initialState >) {
+    gamestats(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
         credits: action.payload.credits,
         queue: action.payload.queue,
-        watch: action.payload.watch
+        watch: action.payload.watch,
       };
     },
-    setTime(state, action : PayloadAction < typeof initialState >) {
+    setTime(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
-        timer: action.payload.timer
+        timer: action.payload.timer,
       };
     },
-    setGameStatus(state, action : PayloadAction < typeof initialState >) {
+    setGameStatus(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
-        gameStatus: action.payload.gameStatus
+        gameStatus: action.payload.gameStatus,
       };
     },
     toggleCameraDirection(state) {
       return {
         ...state,
-        cameraIsForward: !state.cameraIsForward
+        cameraIsForward: !state.cameraIsForward,
       };
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(startStream.fulfilled, (state, action) => {
       return state;
     });
     builder.addCase(startStream.rejected, (state, action) => {
-      return state;
+      return {
+        ...state,
+        error: action.error,
+      };
     });
     builder.addCase(endStream.fulfilled, (state) => {
       return state;
     });
-  }
+  },
 });
 
-export const {
-  actions
-} = gameSlice;
+export const { actions } = gameSlice;
 
 export default gameSlice.reducer;
