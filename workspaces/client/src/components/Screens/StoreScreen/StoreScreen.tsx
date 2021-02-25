@@ -3,13 +3,15 @@ import * as React from 'react';
 import './StoreScreen.scss';
 import Screen from 'src/components/UIElements/Screen/Screen';
 import useCommerceState from 'src/state/hooks/useCommerceState';
-import ScreenNavigation from 'src/components/UIElements/ScreenNavigation/ScreenNavigation';
+import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
+import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
 import StoreItem from './StoreItem/StoreItem';
 
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
   const [activeTab, setActiveTab] = React.useState<string>('Credits');
   const [selectedItem, SetSelectedItem] = React.useState({ price: '', quantity: 0 });
+
   const checkoutClickEvent = (priceId) => {
     const item = state.productList.find((x) => x.priceId === priceId);
     const lineItems = [
@@ -27,6 +29,7 @@ const StoreScreen: React.FC = () => {
     actions.getProducts();
   }, [actions]);
 
+  // SCREEN TAB CONTENT
   const comingSoonContent = (
     <>
       <div className="coming-soon-content">
@@ -34,6 +37,23 @@ const StoreScreen: React.FC = () => {
         <div>Please check back again sometime later.</div>
       </div>
     </>
+  );
+
+  const prizesContent = (
+    <div className="store-item-container">
+      <article id="prize" className="store-item">
+        <div className="store-item__price">1000 Points</div>
+        <div className="image-wrapper">
+          <img src="https://gamecardsdirect.com/content/picture/23009/amazon-gift-card-20-dollar.jpg" alt="" />
+        </div>
+        <div className="store-item__credits">
+          <div className="credits__title">
+            <h3>$20 Amazon Gift Card</h3>
+          </div>
+          <FlatButton width={220} text="Redeem Prize" />
+        </div>
+      </article>
+    </div>
   );
 
   const creditsContent = (
@@ -46,27 +66,9 @@ const StoreScreen: React.FC = () => {
     </div>
   );
 
+  const tabs = activeTab === 'Credits' ? creditsContent : prizesContent;
   return (
     <Screen id="store" title="Store">
-      <div className="player-stats-container">
-        <div id="level">
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Level:</span>
-            <span className="player-stats__value">6</span>
-          </div>
-          <progress min="0" max="100" value="63" />
-        </div>
-        <div id="points-and-credits">
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Credits:</span>
-            <span className="player-stats__value">15</span>
-          </div>
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Points:</span>
-            <span className="player-stats__value">1540</span>
-          </div>
-        </div>
-      </div>
       <div className="screen-navigation">
         {tabList.map((tab) => (
           <button
@@ -79,19 +81,9 @@ const StoreScreen: React.FC = () => {
           </button>
         ))}
       </div>
-      {activeTab === 'Credits' ? creditsContent : comingSoonContent}
+      {activeTab === 'Credits' || activeTab === 'Prizes' ? tabs : comingSoonContent}
     </Screen>
   );
 };
-const StoreItemRow = (props) => (
-  <div id="store-item-row">
-    <div className="dynamic-number">
-      <span>{props.coins}</span>
-    </div>
-    <div className="store__price">${props.price}</div>
-
-    <FlatButton text="Purchase" onClick={() => props.onClick(props.priceId)} />
-  </div>
-);
 
 export default StoreScreen;
