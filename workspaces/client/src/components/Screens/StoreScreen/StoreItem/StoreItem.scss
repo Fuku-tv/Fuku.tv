@@ -2,24 +2,21 @@ article.store-item {
   position: relative;
   background-color: #ffffff;
   color: var(--blackPrimary);
-  padding: 10px;
-  // margin: 20px;
+  padding: 15px 5px;
   display: flex;
   flex-grow: 1;
   flex-basis: 240px;
   height: 235px;
   flex-direction: column;
-  // padding-top: 70px;
   border-radius: 8px;
-  // align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   .store-item__price {
     position: absolute;
     top: 15px;
-    right: 15px;
+    left: 0;
     font-weight: 700;
     color: var(--purplePrimary);
-    padding: 4px;
+    padding: 4px 8px;
     background-color: #f0eef5;
   }
   .store-item__credits {

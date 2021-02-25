@@ -9,13 +9,19 @@ interface Props {
   coins: string;
   price: number;
   image: string;
+
   onClick: () => void;
 }
 
 const StoreItem: React.FC<Props> = ({ key, image, priceId, coins, price, onClick }) => {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const clickHandler = () => {
+    setIsLoading(true);
+    onClick(priceId);
+  };
   return (
     <article className="store-item">
-      {/* <div className="store-item__price">${price}.00</div> */}
+      <div className="store-item__price">${price}.00</div>
       <div className="store-item__credits">
         <div className="credits__icon">
           <img src={image} alt="" />
@@ -23,7 +29,7 @@ const StoreItem: React.FC<Props> = ({ key, image, priceId, coins, price, onClick
         <div className="credits__title">
           <h3>+ {coins}</h3>
         </div>
-        <FlatButton width={190} text={`Purchase for $${price}.00`} onClick={() => onClick(priceId)} />
+        <FlatButton isLoading={isLoading} height={40} width={190} text="Purchase Credits" onClick={clickHandler} />
       </div>
     </article>
   );
