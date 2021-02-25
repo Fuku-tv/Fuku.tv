@@ -44,7 +44,7 @@ export class Player {
 
   xp: number;
 
-  constructor(s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
+  constructor(email: string, s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
     this.timePlay = 30100;
     this.timeStandby = 60100;
@@ -58,7 +58,7 @@ export class Player {
     // this.uid = crypto.randomBytes(256).toString('hex');
     this.ipAddr = ip;
 
-    this.email = '';
+    this.email = email;
     this.level = 1;
     this.xp = 0;
 
@@ -101,8 +101,10 @@ export class Player {
   }
 
   play(callback: () => void): void {
+    console.log('called');
     this.resetTimers();
     this.credits -= 1;
+    playersTableModel.removeCredits(this.email, 1).then(() => {});
     this.gameState = constants.GameState.playing;
     this.updateGameStats(this.qc, this.wc);
     this.playTimer = setTimeout(callback, this.timePlay);
@@ -126,13 +128,13 @@ export class Player {
   private async fetchInitialPlayerData() {
     // get current player
     try {
-      const player = await playersTableModel.get(this.ipAddr);
+      const player = await playersTableModel.get(this.email);
       this.credits = player.credits;
       this.uid = player.id;
     } catch {
       // no player found, creating new player
       const data: PlayerModel = {
-        id: this.ipAddr,
+        id: this.email,
         credits: 10,
         points: 0,
         xp: 0,
@@ -141,7 +143,7 @@ export class Player {
       };
       await playersTableModel.write(data);
       // read data once written
-      const player = await playersTableModel.get(this.ipAddr);
+      const player = await playersTableModel.get(this.email);
       this.credits = player.credits;
       this.uid = player.id;
     }

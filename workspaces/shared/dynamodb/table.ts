@@ -14,6 +14,12 @@ export const playersTableModel = {
   async delete(id: string) {
     return dynamo.delete(id, tableList.PLAYERS_TABLE);
   },
+
+  async removeCredits(id: string, creditsToRemove: number) {
+    const player = await playersTableModel.get(id);
+    player.credits -= creditsToRemove;
+    await playersTableModel.write(player);
+  },
 };
 
 export const createTable = () => {};
