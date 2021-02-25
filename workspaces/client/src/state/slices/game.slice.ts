@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { endStream, startStream } from '../actions/game.actions';
+import { endStream, startFuku, startStream } from '../actions/game.actions';
 
 const initialState = {
   timer: 30,
@@ -54,6 +54,12 @@ const gameSlice = createSlice({
     });
     builder.addCase(endStream.fulfilled, (state) => {
       return state;
+    });
+    builder.addCase(startFuku.rejected, (state, action) => {
+      return {
+        ...state,
+        error: action.error,
+      };
     });
   },
 });

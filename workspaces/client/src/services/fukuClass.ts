@@ -26,8 +26,6 @@ class Fuku {
 
   intervalPlay: NodeJS.Timeout;
 
-  intervalConnection: NodeJS.Timeout;
-
   currentVideoUri: typeof constants.Video.front | typeof constants.Video.side;
 
   queue: number;
@@ -43,29 +41,20 @@ class Fuku {
     console.log('new fuku');
 
     this.currentVideoUri = constants.Video.front;
-
-    /**
-     * juryrig reconnect logic in case socket disconnects
-     */
-    this.intervalConnection = setInterval(() => {
-      if (this.socket !== null && this.socket !== undefined) return;
-      this.connectSocket();
-    }, 250);
   }
 
-  /**
-   * connect to websocket after camera and button components are bootstraped
-   * @returns WebSocket, use this to subscribe to onMessage events
-   */
-  connectSocket(): WebSocket {
-    if (this.liveplayer === null || this.liveplayer === undefined) {
-      throw new Error('Fuku video not found, did you forget to run bootstrapVideo?');
-    } else if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
+  start(): void {
+    if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
       throw new Error('Fuku store not found, did you forget to run bootstrapStore?');
+    } else if (this.uglyHackStore.getState().auth.accessToken === '') {
+      throw new Error('Cannot connect to socket with valid Login token, are you currently logged in?');
     } else {
-      this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
+      this.connect(FUKU_URL_CONTROLLER);
     }
-    return this.socket;
+  }
+
+  end(): void {
+    this.disconnect();
   }
 
   /**
@@ -75,7 +64,16 @@ class Fuku {
     const canvas = canvasRef;
 
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
-    this.connectSocket();
+    this.liveplayer.connect(FUKU_URL_VIDEO);
+    this.liveplayer.initCanvas(800, 480);
+
+    console.log('starting video');
+  }
+
+  disconnectVideo(): void {
+    console.log('unmount video');
+    this.liveplayer.running = false;
+    this.liveplayer.disconnect();
   }
 
   /**
@@ -135,10 +133,10 @@ class Fuku {
   private disconnect(): void {
     if (this.socket === null || this.socket === undefined) return;
     this.socket.close();
-    delete this.socket;
+    this.socket = null;
   }
 
-  private connect(controllerUri, videoUri): void {
+  private connect(controllerUri: string): void {
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
     // pass opaque token to controller websocket
     this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
@@ -146,7 +144,6 @@ class Fuku {
 
     this.socket.onopen = () => {
       console.log('Socket Connected');
-      this.liveplayer.connect(videoUri);
     };
     this.socket.onmessage = (e) => {
       if (typeof e.data === 'string') {
@@ -158,12 +155,10 @@ class Fuku {
     };
     this.socket.onclose = () => {
       console.log('Socket Closed');
-      this.liveplayer.running = false;
       this.disconnect();
     };
     this.socket.onerror = () => {
       console.log('Socket Error');
-      this.liveplayer.running = false;
       this.disconnect();
     };
   }
@@ -173,7 +168,6 @@ class Fuku {
     console.log(`Got command: ${cmd.command}`);
     switch (cmd.command) {
       case PlayerCommand.init:
-        this.liveplayer.initCanvas(cmd.width, cmd.height);
         this.resetTimers();
         this.setGameStatus(cmd.command);
         break;
