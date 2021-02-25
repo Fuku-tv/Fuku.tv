@@ -24,6 +24,11 @@
       // background-color: red;
       // border: 1px solid var(--purplePrimary) !important;
     }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+
     &:focus {
       outline: var(--purplePrimary);
     }
