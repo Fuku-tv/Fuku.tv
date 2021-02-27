@@ -11,15 +11,13 @@ const uriVideo2 = 'ws://96.61.12.109:10779';
 
 export class VideoServer {
   viewers: Viewer[];
-
-  // clientVideo1: WS;
-
-  // clientVideo2: WS;
+  keyframes: [];
 
   wss: WS.Server;
 
   constructor(server: http.Server) {
     this.viewers = [];
+    this.keyframes = [];
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
 
@@ -60,10 +58,8 @@ export class VideoServer {
 
   connectVideo(uri: string, position: string) {
     const socket = new WS(uri);
-    // if (socket !== null && socket !== undefined) {
-    //   logger.log(LogLevel.info, 'Attempted to connect socket, but socket not null!');
-    //   return;
-    // }
+
+
     socket.on('open', () => {
       logger.log(LogLevel.info, `${uri} - Socket opened`);
     });
@@ -79,6 +75,9 @@ export class VideoServer {
     });
 
     socket.on('message', (data: any) => {
+      if (data[4] === 104) {
+        this.keyframes[position] = data;
+      }
       this.viewers.forEach((p) => {
         if (p.video === position) p.sendVideo(data);
       });
@@ -89,6 +88,7 @@ export class VideoServer {
     this.viewers.forEach((p: any, i: number) => {
       if (p === v) {
         this.viewers[i].video = video;
+        p.sendVideo(this.keyframes[video]);
       }
     });
   }
