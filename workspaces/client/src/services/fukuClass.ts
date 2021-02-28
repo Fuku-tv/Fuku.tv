@@ -146,12 +146,13 @@ class Fuku {
       console.log('Socket Connected');
     };
     this.socket.onmessage = (e) => {
-      if (typeof e.data === 'string') {
-        this.parseCommand(JSON.parse(e.data));
-      } else {
-        if (this.waitforkeyframe && e.data[4] === 104) this.waitforkeyframe = false;
-        if (!this.waitforkeyframe) this.liveplayer.decode(e.data);
-      }
+      // if (typeof e.data === 'string') {
+      //   this.parseCommand(JSON.parse(e.data));
+      // } else {
+      //   if (this.waitforkeyframe && e.data[4] === 104) this.waitforkeyframe = false;
+      //   if (!this.waitforkeyframe) this.liveplayer.decode(e.data);
+      // }
+      this.parseCommand(JSON.parse(e.data));
     };
     this.socket.onclose = () => {
       console.log('Socket Closed');
