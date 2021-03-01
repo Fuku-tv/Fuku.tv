@@ -33,7 +33,6 @@ function updateFfmpegArray() {
     '-tune', ffmpegArgs.video_tune,
     '-g', ffmpegArgs.gop,
     '-an', // no audio
-    '-vf', 'drawtext=fontfile=/etc/fuku/Tandy.ttf:fontsize=28:fix_bounds=true:fontcolor=white:alpha=1.0:textfile=/etc/fuku/video_overlay_text.txt:reload=1:y=(h-text_h)-5:x=(w-text_w)/2',
     '-f', ffmpegArgs.output_format,
     '-' // pipes to stdout
   ];
@@ -50,7 +49,7 @@ server.on('upgrade', (request: any, socket: any, header: any) => {
 function configUpdate() {
   ffmpegArgs = config.get('ffmpegArgs');
   updateFfmpegArray();
-  console.log('config updated!');
+  logger.log(LogLevel.info, 'Config changed, respawning ffmpeg.');
   ffmpegServer.kill();
 }
 
