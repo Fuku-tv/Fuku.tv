@@ -4,8 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
 import { LoggerClass, LogLevel } from 'fuku.tv-shared';
+import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';
+
+const STAGE = getStage();
 
 // const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
 // const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
@@ -17,7 +20,7 @@ import { VideoServer } from './viewerVideoServer';
 const logger = new LoggerClass('server');
 initializeDatabase()
   .then(() => {
-    logger.log(LogLevel.info, 'Database Initialization Completed');
+    logger.log(LogLevel.info, `Database Initialization Completed - ${STAGE}`);
   })
   .catch((err) => {
     logger.log(LogLevel.error, `Database Initialization Failed - ${err}`);
