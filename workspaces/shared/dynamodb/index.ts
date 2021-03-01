@@ -4,7 +4,7 @@ import { getStage } from '../env';
 
 const ddb = new DynamoDB({ apiVersion: 'latest', region: 'us-east-1' });
 // get the stage option from arguments
-// eslint-disable-next-line no-template-curly-in-string
+
 const STAGE = getStage();
 
 export const tableList = { PLAYERS_TABLE: `Players-${STAGE}`, GAMES_TABLE: `Games-${STAGE}` };

@@ -10,14 +10,13 @@ const uriVideo1 = 'ws://96.61.12.109:10778';
 const uriVideo2 = 'ws://96.61.12.109:10779';
 
 export class VideoServer {
-  viewers: Viewer[];
-  keyframes: [];
+  viewers: Viewer[] = [];
+
+  keyframes: [] = [];
 
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.viewers = [];
-    this.keyframes = [];
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
 
@@ -58,7 +57,6 @@ export class VideoServer {
 
   connectVideo(uri: string, position: string) {
     const socket = new WS(uri);
-
 
     socket.on('open', () => {
       logger.log(LogLevel.info, `${uri} - Socket opened`);

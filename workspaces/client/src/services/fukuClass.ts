@@ -13,10 +13,11 @@ const FUKU_URL_CONTROLLER = env.FukuControllerServerURL();
  */
 const FUKU_URL_VIDEO = env.FukuVideoServerURL();
 
+/**
+ * Base class for all
+ */
 class Fuku {
   liveplayer: WSAvcPlayer;
-
-  waitforkeyframe: boolean;
 
   socket: WebSocket;
 
@@ -26,7 +27,7 @@ class Fuku {
 
   intervalPlay: NodeJS.Timeout;
 
-  currentVideoUri: typeof constants.Video.front | typeof constants.Video.side;
+  currentVideoUri: typeof constants.Video.front | typeof constants.Video.side = constants.Video.front;
 
   queue: number;
 
@@ -36,12 +37,6 @@ class Fuku {
 
   // TODO remove UGLY UGLY UGLY hack
   uglyHackStore: EnhancedStore;
-
-  constructor() {
-    console.log('new fuku');
-
-    this.currentVideoUri = constants.Video.front;
-  }
 
   start(): void {
     if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
@@ -146,12 +141,7 @@ class Fuku {
       console.log('Socket Connected');
     };
     this.socket.onmessage = (e) => {
-      if (typeof e.data === 'string') {
-        this.parseCommand(JSON.parse(e.data));
-      } else {
-        if (this.waitforkeyframe && e.data[4] === 104) this.waitforkeyframe = false;
-        if (!this.waitforkeyframe) this.liveplayer.decode(e.data);
-      }
+      this.parseCommand(JSON.parse(e.data));
     };
     this.socket.onclose = () => {
       console.log('Socket Closed');

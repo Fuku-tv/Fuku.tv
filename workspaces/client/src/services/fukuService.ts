@@ -40,6 +40,10 @@ export const unmountCanvas = (): void => {
   fuku.disconnectVideo();
 };
 
+/**
+ * Mounts redux store to fuku for socket subscriptions
+ * @param store
+ */
 export const mountStore = (store: EnhancedStore): void => {
   fuku.bootstrapStore(store);
 };
