@@ -29,7 +29,7 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-monorepo'],
 
   functions: {
     webhook_stripe: {
