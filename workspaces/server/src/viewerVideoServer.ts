@@ -10,15 +10,13 @@ const uriVideo1 = 'ws://96.61.12.109:10778';
 const uriVideo2 = 'ws://96.61.12.109:10779';
 
 export class VideoServer {
-  viewers: Viewer[];
+  viewers: Viewer[] = [];
 
-  keyframes: [];
+  keyframes: [] = [];
 
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.viewers = [];
-    this.keyframes = [];
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
 
