@@ -103,8 +103,9 @@ export class Player {
   play(callback: () => void): void {
     console.log('called');
     this.resetTimers();
-    this.credits -= 1;
-    playersTableModel.removeCredits(this.email, 1).then(() => {});
+    // todo remove patch once we start removing credits.
+    // this.credits -= 1;
+    // playersTableModel.removeCredits(this.email, 1).then(() => {});
     this.gameState = constants.GameState.playing;
     this.updateGameStats(this.qc, this.wc);
     this.playTimer = setTimeout(callback, this.timePlay);
