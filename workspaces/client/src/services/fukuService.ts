@@ -4,10 +4,14 @@ import Fuku from './fukuClass';
 const fuku = new Fuku();
 
 // TODO add event listeners here
-export const startGame = (): void => {};
+export const startFukuClass = (): void => {
+  fuku.start();
+};
 
 // TODO end current game
-export const endGame = (): void => {};
+export const endFukuClass = (): void => {
+  fuku.end();
+};
 
 export const buttonDownEvent = (type: string): void => {
   fuku.buttonStartEvent(type);
@@ -29,6 +33,17 @@ export const mountCanvas = (canvasRef: HTMLElement): void => {
   fuku.bootstrapVideo(canvasRef);
 };
 
+/**
+ * Unmount canvas for videofeed
+ */
+export const unmountCanvas = (): void => {
+  fuku.disconnectVideo();
+};
+
+/**
+ * Mounts redux store to fuku for socket subscriptions
+ * @param store
+ */
 export const mountStore = (store: EnhancedStore): void => {
   fuku.bootstrapStore(store);
 };

@@ -38,6 +38,14 @@ const useGameState = () => {
     dispatch(actions.toggleCameraDirection());
   };
 
+  const startFuku = () => {
+    dispatch(gameActions.startFuku());
+  };
+
+  const endFuku = () => {
+    dispatch(gameActions.endFuku());
+  };
+
   return {
     state,
     actions: {
@@ -47,6 +55,8 @@ const useGameState = () => {
       buttonDownEvent,
       buttonUpEvent,
       toggleCamera,
+      startFuku,
+      endFuku,
     },
   };
 };

@@ -20,14 +20,6 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    a {
-      // display: flex;
-      // text-decoration: none;
-      // align-items: center;
-      // color: #ffffff;
-      // display: block;
-      // margin: 0 auto;
-    }
 
     button {
       background-color: transparent;
@@ -56,10 +48,22 @@ header {
         width: 150px;
         display: inline-block;
       }
+
+      .credit-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+          display: block;
+          height: 28px;
+        }
+      }
+
       #header-profile-button {
         // top: 50%;
         // transform: translateY(-50%);
-        width: 220px;
+        min-width: 180px;
         display: inline-block;
       }
     }

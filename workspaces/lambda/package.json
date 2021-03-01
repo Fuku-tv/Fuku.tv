@@ -8,7 +8,8 @@
     "clean": "rimraf .build .serverless .dynamodb",
     "build": "sls package --stage local",
     "dev": "sls offline --stage local",
-    "destroy": "sls remove"
+    "deploy": "sls deploy --stage local",
+    "destroy": "sls remove --stage local"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.70",
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.822.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "fuku.tv-shared": "*"
   }
 }

@@ -1,15 +1,20 @@
-import { createSelectorHook, createDispatchHook, createStoreHook } from 'react-redux';
-import { Action } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AppThunk } from 'src/state/actions/helpers/appThunk';
-import { RootState } from 'src/state/slices';
+import { AnyAction, Store } from '@reduxjs/toolkit';
+import { createStoreHook, TypedUseSelectorHook, useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
 
-function CreateTypedHooks<T>() {
-  return {
-    useSelector: createSelectorHook<T>(),
-    useDispatch: createDispatchHook<T>(),
-    useStore: createStoreHook<T>(),
-  };
+import { RootDispatch, RootState } from 'src/state/store';
+
+interface TypedHooks<S, D> {
+  useSelector: TypedUseSelectorHook<S>;
+  useDispatch: () => D;
+  useStore: () => Store<S, AnyAction>;
 }
 
-export const { useSelector, useDispatch, useStore } = CreateTypedHooks<RootState>();
+const CreateTypedHooks = <S, D>(): TypedHooks<S, D> => {
+  return {
+    useSelector: useReduxSelector,
+    useDispatch: () => useReduxDispatch<D>(),
+    useStore: createStoreHook<S>(),
+  };
+};
+
+export const { useSelector, useDispatch, useStore } = CreateTypedHooks<RootState, RootDispatch>();
