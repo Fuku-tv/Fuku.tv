@@ -12,7 +12,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   }
 };
 
-export const test: APIGatewayProxyHandler = async (event, context, callback) => {
+export const stripeWebhook: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage } = event.requestContext;
 
   try {
