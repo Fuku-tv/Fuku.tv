@@ -75,7 +75,7 @@ function doButton(btn: any, act: any) {
 wss.on('connection', (socket: any, req: any) => {
   var ipAddr = req.connection.remoteAddress;
   logger.log(LogLevel.info, ipAddr + ' - connected');
-  socket.on('message', (data) => {
+  socket.on('message', (data: any) => {
     var msg = JSON.parse(data);
     switch (msg.command) {
       case constants.ControllerCommand.buttonstart:
