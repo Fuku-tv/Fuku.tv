@@ -16,8 +16,6 @@ export class VideoServer {
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.viewers = [];
-    this.keyframes = [];
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
 
@@ -58,7 +56,6 @@ export class VideoServer {
 
   connectVideo(uri: string, position: string) {
     const socket = new WS(uri);
-
 
     socket.on('open', () => {
       logger.log(LogLevel.info, `${uri} - Socket opened`);

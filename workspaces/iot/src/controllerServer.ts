@@ -46,16 +46,29 @@ function resetClaw() {
   setTimeout(resetButtons, 50);
 }
 
+var prevButton = {
+  button: null,
+  action: null
+};
+
 function doButton(btn: any, act: any) {
   if (btn === null || btn === undefined) {
     logger.log(LogLevel.error, 'Btn undefined');
     return;
   }
   if (buttons[btn] === undefined) {
-    // what the fuck are we doing?
+    // what are we doing?
     logger.log(LogLevel.error, 'Bad button - ' + btn + ' - ' + act);
     return;
   }
+
+  if (prevButton.button === btn && prevButton.action === act) {
+    // bounce protection
+    logger.log(LogLevel.error, 'Button bounce - ' + btn + ' - ' + act);
+    return;
+  }
+
+  resetButtons();
   buttons[btn].writeSync(act);
 }
 

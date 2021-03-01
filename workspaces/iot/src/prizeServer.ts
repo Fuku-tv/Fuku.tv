@@ -97,6 +97,7 @@ setInterval(() => {
   if (!response.status) {
     // no card found
     // this isn't an error
+    cardid = [];
     return;
   }
   var bitSize = response.bitSize;
