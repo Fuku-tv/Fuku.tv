@@ -61,7 +61,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
           <ProfileImage image={state.picture} size={28} />
 
           <div className="text-wrapper">
-            <h2>{state.name}</h2>
+            <h2>{state.nickname || state.name}</h2>
           </div>
         </div>
 
