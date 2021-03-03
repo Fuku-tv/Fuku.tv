@@ -104,7 +104,7 @@ export class Player {
     console.log('called');
     this.resetTimers();
     // todo remove patch once we start removing credits.
-    // this.credits -= 1;
+    this.credits -= 1;
     // playersTableModel.removeCredits(this.email, 1).then(() => {});
     this.gameState = constants.GameState.playing;
     this.updateGameStats(this.qc, this.wc);

@@ -74,7 +74,15 @@ export class ControllerServer {
     this.wss.on('connection', (socket: any, req) => {
       const email = userRequestMap.get(req);
       logger.log(LogLevel.info, `got email ${email}`);
-      const clientPlayer = new Player(email, socket, this.players.length + 1, this.queue.length, 800, 480, req.socket.remoteAddress);
+      const clientPlayer = new Player(
+        email,
+        socket,
+        this.players.length + 1,
+        this.queue.length,
+        800,
+        480,
+        req.headers['x-forwarded-for'] || req.socket.remoteAddress
+      );
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
       socket.player = clientPlayer;

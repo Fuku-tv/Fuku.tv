@@ -29,26 +29,26 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-monorepo'],
 
   functions: {
+    webhook_stripe: {
+      handler: 'src/http/handler.stripeWebhook',
+      events: [
+        {
+          http: {
+            path: '/webhooks/stripe',
+            method: 'post',
+          },
+        },
+      ],
+    },
     index: {
       handler: 'src/http/handler.index',
       events: [
         {
           http: {
             path: '/',
-            method: 'get',
-          },
-        },
-      ],
-    },
-    test: {
-      handler: 'src/http/handler.test',
-      events: [
-        {
-          http: {
-            path: '/test',
             method: 'get',
           },
         },
