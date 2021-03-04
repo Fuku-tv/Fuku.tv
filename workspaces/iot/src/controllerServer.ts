@@ -61,6 +61,7 @@ function doButton(btn: any, act: any) {
     logger.log(LogLevel.error, 'Bad button - ' + btn + ' - ' + act);
     return;
   }
+  if (buttons[btn] === null) return; // buttons we define but that don't have a writeSync action
 
   if (prevButton.button === btn && prevButton.action === act) {
     // bounce protection
