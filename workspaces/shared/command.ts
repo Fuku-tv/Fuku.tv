@@ -8,6 +8,7 @@ interface Command {
   test?: boolean;
   action?: string;
   success?: boolean;
+  points?: number;
 }
 
 export default Command;
