@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import WS from 'ws';
 import http from 'http';
-import Serial from 'raspi-serial';
+import { Serial } from 'raspi-serial';
 import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
 const logger = new LoggerClass('viewerServer');
