@@ -10,6 +10,9 @@ const frameworkVersion = devDependencies.serverless;
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
+  package: {
+    individually: true,
+  },
 
   service: 'fuku-serverless',
   configValidationMode: 'error',
@@ -29,15 +32,15 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-monorepo'],
+  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-optimize'],
 
   functions: {
     webhook_stripe: {
-      handler: 'src/http/handler.stripeWebhook',
+      handler: 'src/http/webhook/stripe.index',
       events: [
         {
           http: {
-            path: '/webhooks/stripe',
+            path: '/webhook/stripe',
             method: 'post',
           },
         },
