@@ -2,7 +2,7 @@ import onoff from 'onoff';
 import { Serial } from 'raspi-serial';
 import { LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
-const logger = new LoggerClass('controllerServer');
+const logger = new LoggerClass('prizeServer');
 
 const serial = new Serial();
 const gpio = onoff.Gpio;
@@ -17,6 +17,7 @@ ioPin.watch((err: any, val: any) => {
     return;
   }
   if (val === 1 && lastVal === 0) {
+    logger.log(LogLevel.info, 'prize get');
     serial.write('1');
     lastVal = val;
   }

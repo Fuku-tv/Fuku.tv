@@ -108,6 +108,7 @@ wss.on('connection', (socket: any, req: any) => {
     serial.on('data', (data: any) => {
       // player won a prize
       if (data === '1') {
+        logger.log(LogLevel.info, 'Prize get');
         socket.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
       }
     });
