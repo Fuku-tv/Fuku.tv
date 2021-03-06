@@ -89,6 +89,11 @@ export class ControllerServer {
         }
       });
 
+      // close always gets called after error
+      socket.on('error', (err: any) => {
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
+      });
+
       socket.on('close', () => {
         logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed`);
         this.players.forEach((p, i) => {
@@ -100,16 +105,6 @@ export class ControllerServer {
         });
       });
 
-      socket.on('error', (err: any) => {
-        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
-        this.players.forEach((p, i) => {
-          if (p === clientPlayer) {
-            this.dequeuePlayer(p);
-            this.deactivatePlayer(p);
-            this.players.splice(i, 1);
-          }
-        });
-      });
     });
 
     setInterval(() => {

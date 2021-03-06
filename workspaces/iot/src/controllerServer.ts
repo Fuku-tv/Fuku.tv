@@ -75,9 +75,26 @@ function doButton(btn: any, act: any) {
   buttons[btn].writeSync(act);
 }
 
+var sockets = [];
+
+// serial connection to prize detection
+serial.open(() => {
+  serial.on('data', (data: any) => {
+    logger.log(LogLevel.info, 'Got serial data: ' + data);
+    // player won a prize
+    if (data === '1') {
+      logger.log(LogLevel.info, 'Prize get');
+      sockets.forEach((s, i) => {
+        s.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
+      });
+    }
+  });
+});
+
 wss.on('connection', (socket: any, req: any) => {
   var ipAddr = req.connection.remoteAddress;
   logger.log(LogLevel.info, ipAddr + ' - connected');
+  sockets.push(socket);
   socket.on('message', (data: any) => {
     var msg = JSON.parse(data);
     switch (msg.command) {
@@ -101,16 +118,8 @@ wss.on('connection', (socket: any, req: any) => {
   });
   socket.on('close', () => {
     logger.log(LogLevel.info, ipAddr + ' - connection closed');
-  });
-
-  // serial connection to prize detection
-  serial.open(() => {
-    serial.on('data', (data: any) => {
-      // player won a prize
-      if (data === '1') {
-        logger.log(LogLevel.info, 'Prize get');
-        socket.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
-      }
+    sockets.forEach((s, i) => {
+      if (s === socket) sockets.splice(i, 1);
     });
   });
 });
