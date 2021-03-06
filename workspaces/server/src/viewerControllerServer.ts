@@ -48,6 +48,7 @@ export class ControllerServer {
             logger.log(LogLevel.info, 'Prize detected, but currentPlayer deref!');
             return;
           }
+          logger.log(LogLevel.info, `${this.currentPlayer.uid} - won prize!`);
           this.currentPlayer.send(constants.PlayerCommand.prizeget);
         }
       });
