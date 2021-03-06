@@ -59,6 +59,7 @@ const serverlessConfiguration: Serverless = {
     },
   },
 };
-
-// serverless doesnt support 'export default' syntax;
+// quick fix for type error when deploying on AWS
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 module.exports = serverlessConfiguration;
