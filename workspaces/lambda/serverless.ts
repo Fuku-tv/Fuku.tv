@@ -10,9 +10,6 @@ const frameworkVersion = devDependencies.serverless;
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
-  package: {
-    individually: true,
-  },
 
   service: 'fuku-serverless',
   configValidationMode: 'error',

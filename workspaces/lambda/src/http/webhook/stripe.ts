@@ -1,5 +1,6 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
 import { Stripe } from 'stripe';
+import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import * as Responses from '../../common/ApiResponses';
 
 const stripe = new Stripe('sk_test_51HxGG6Gx8BmO5evBad03IoM4XKEbncHHhA61RCm6pryKvtjbrUoQbk7a2sHViOv5s9LnpZbmIjEoRzfVvCsVnSiL00DVxIyf22', {
