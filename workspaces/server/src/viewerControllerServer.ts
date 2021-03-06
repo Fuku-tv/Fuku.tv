@@ -49,7 +49,7 @@ export class ControllerServer {
             return;
           }
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - won prize!`);
-          this.currentPlayer.send(constants.PlayerCommand.prizeget);
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
         }
       });
     });
