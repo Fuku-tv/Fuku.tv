@@ -24,9 +24,11 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "fuku.tv-shared": "*",
     "aws-sdk": "^2.822.0",
     "node-fetch": "^2.6.1",
     "stripe": "^8.137.0"
+  },
+  "peerDependencies": {
+    "fuku.tv-shared": "*"
   }
 }
