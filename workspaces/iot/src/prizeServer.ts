@@ -1,5 +1,5 @@
 import onoff from 'onoff';
-import Serial from 'raspi-serial';
+import { Serial } from 'raspi-serial';
 import { LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
 const logger = new LoggerClass('controllerServer');
