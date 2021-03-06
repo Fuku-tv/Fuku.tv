@@ -5,7 +5,7 @@ import { LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 const logger = new LoggerClass('controllerServer');
 
 const serial = new Serial();
-const gpio = onoff.gpio;
+const gpio = onoff.Gpio;
 
 const ioPin = new gpio(19, 'in', 'both');
 
