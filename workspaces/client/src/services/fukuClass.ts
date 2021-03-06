@@ -143,12 +143,12 @@ class Fuku {
     this.socket.onmessage = (e) => {
       this.parseCommand(JSON.parse(e.data));
     };
-    this.socket.onclose = () => {
-      console.log('Socket Closed');
+    this.socket.onclose = (ev) => {
+      console.log('Socket Closed:', ev);
       this.disconnect();
     };
-    this.socket.onerror = () => {
-      console.log('Socket Error');
+    this.socket.onerror = (ev) => {
+      console.log('Socket Error:', ev);
       this.disconnect();
     };
   }
