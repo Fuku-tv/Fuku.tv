@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import WS from 'ws';
 import http from 'http';
+import Serial from 'raspi-serial';
 import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
 const logger = new LoggerClass('viewerServer');
@@ -20,35 +21,37 @@ export class ControllerServer {
 
   queueCounter: number;
 
-  db: any;
-
-  mongo: any;
-
   clientController: any;
 
   clientVideo1: any;
 
   clientVideo2: any;
 
+  serial: any;
+
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.queue = [];
-    this.players = [];
     this.currentPlayer = null;
     this.watchCounter = 0;
     this.queueCounter = 0;
-    this.db = null;
-    /*
-    this.mongo = MongoClient.connect(mongouri, (err: any) => {
-      if (err) {
-        logger.log(LogLevel.error, 'Failed to connect to mongo. ' + err);
-        return process.exit(1);
-      }
-      this.db = this.mongo.db('fukutv');
-    });
-*/
     this.connectController();
+
+    // serial connection to prize detection
+    this.serial = new Serial();
+    this.serial.open(() => {
+      this.serial.on('data', (data: any) => {
+        // player won a prize
+        if (data === '1') {
+          // but they are a ghost :(
+          if (this.currentPlayer === null || this.currentPlayer === undefined) {
+            logger.log(LogLevel.info, 'Prize detected, but currentPlayer deref!');
+            return;
+          }
+          this.currentPlayer.send(constants.PlayerCommand.prizeget);
+        }
+      });
+    });
 
     // client->us
     this.wss = new WS.Server({ server });
@@ -61,22 +64,6 @@ export class ControllerServer {
 
       socket.on('message', (data: any) => {
         const msg = JSON.parse(data);
-        /*
-        if (data.token === null || data.token === undefined) {
-          logger.log(LogLevel.info, clientPlayer.uid + ' - Got message but no token?');
-          return;
-        }
-        /*
-        if (clientPlayer.isLoggedIn === false) {
-          fetch('https://fukutv-alpha.us.auth0.com/userinfo', {
-            method: 'get',
-            headers: new Headers({
-              'Authorization': 'bearer ' + data.token
-            })
-          }).then((res) => {
-            logger.log(LogLevel.info, 'token response: ' + res);
-          });
-        } */
         switch (msg.command) {
           case constants.PlayerCommand.control:
             if (this.currentPlayer === null || this.currentPlayer === undefined) {
