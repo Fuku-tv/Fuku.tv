@@ -1,8 +1,10 @@
 import onoff from 'onoff';
 import ws from 'ws';
 import express from 'express';
+import { Serial } from 'raspi-serial';
 import { LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
+const serial = new Serial();
 const gpio = onoff.Gpio;
 const logger = new LoggerClass('controllerServer');
 const ioUp = new gpio(17, 'out');
@@ -99,5 +101,15 @@ wss.on('connection', (socket: any, req: any) => {
   });
   socket.on('close', () => {
     logger.log(LogLevel.info, ipAddr + ' - connection closed');
+  });
+
+  // serial connection to prize detection
+  serial.open(() => {
+    serial.on('data', (data: any) => {
+      // player won a prize
+      if (data === '1') {
+        socket.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
+      }
+    });
   });
 });

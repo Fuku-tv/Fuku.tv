@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import WS from 'ws';
 import http from 'http';
-import { Serial } from 'raspi-serial';
 import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
 const logger = new LoggerClass('viewerServer');
@@ -36,23 +35,6 @@ export class ControllerServer {
     this.watchCounter = 0;
     this.queueCounter = 0;
     this.connectController();
-
-    // serial connection to prize detection
-    this.serial = new Serial();
-    this.serial.open(() => {
-      this.serial.on('data', (data: any) => {
-        // player won a prize
-        if (data === '1') {
-          // but they are a ghost :(
-          if (this.currentPlayer === null || this.currentPlayer === undefined) {
-            logger.log(LogLevel.info, 'Prize detected, but currentPlayer deref!');
-            return;
-          }
-          logger.log(LogLevel.info, `${this.currentPlayer.uid} - won prize!`);
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
-        }
-      });
-    });
 
     // client->us
     this.wss = new WS.Server({ server });
