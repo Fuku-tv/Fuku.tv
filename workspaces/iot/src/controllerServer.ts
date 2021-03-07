@@ -80,7 +80,6 @@ var sockets = [];
 // serial connection to prize detection
 serial.open(() => {
   serial.on('data', (data: any) => {
-    logger.log(LogLevel.info, 'Got serial data: ' + data);
     // player won a prize
     if (data === '1') {
       logger.log(LogLevel.info, 'Prize get');
