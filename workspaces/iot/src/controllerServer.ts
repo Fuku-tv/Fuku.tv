@@ -80,9 +80,9 @@ var sockets = [];
 // serial connection to prize detection
 serial.open(() => {
   logger.log(LogLevel.info, 'serial open');
-  serial.on('data', (data: any) => {
+  serial.on('data', (data: any) => { // data is presented in a Buffer
     // player won a prize
-    if (data === '1') {
+    if (data.toString() === '1') {
       logger.log(LogLevel.info, 'Prize get');
       sockets.forEach((s, i) => {
         s.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
