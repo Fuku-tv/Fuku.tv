@@ -27,15 +27,15 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   try {
     // Handle the checkout.session.completed event
 
-    if (stripeEvent.type === 'checkout.session.completed') {
-      const bleh = 123;
-    }
+    // if (stripeEvent.type === 'checkout.session.completed') {
+    //   const bleh = 123;
+    // }
     const session = stripeEvent.data.object as Stripe.Checkout.Session;
 
     // Fulfill the purchase...
 
     // const credits = getCreditsFromWebhookMetadata()
-    playersTableModel.addCredits(session.customer_email, Number.parseInt(session.metadata.credits, 2));
+    // playersTableModel.addCredits(session.customer_email, Number.parseInt(session.metadata.credits, 2));
 
     return Responses.ok(session);
   } catch (err) {
