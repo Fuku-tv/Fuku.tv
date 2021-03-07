@@ -158,6 +158,7 @@ export class ControllerServer {
             return;
           }
           this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          logger.log(LogLevel.info, `${this.currentPlayer.ipAddr} - prizeget!`);
           break;
       }
     });
