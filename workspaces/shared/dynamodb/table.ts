@@ -20,6 +20,18 @@ export const playersTableModel = {
     player.credits -= creditsToRemove;
     await playersTableModel.write(player);
   },
+
+  async addCredits(id: string, creditsToAdd: number) {
+    const player = await playersTableModel.get(id);
+    player.credits += creditsToAdd;
+    await playersTableModel.write(player);
+  },
+
+  async addPoints(id: string, pointsToAdd: number) {
+    const player = await playersTableModel.get(id);
+    player.points += pointsToAdd;
+    await playersTableModel.write(player);
+  },
 };
 
 export const createTable = () => {};
