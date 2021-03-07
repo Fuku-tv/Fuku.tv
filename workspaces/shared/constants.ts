@@ -44,6 +44,11 @@ const Video = {
   side: 'side',
 };
 
+const VideoState = {
+  active: 'active',
+  inactive: 'inactive'
+};
+
 const Button = {
   queue: 'queue',
   start: 'start',
@@ -65,6 +70,7 @@ export default {
   ControllerCommand,
   GameState,
   Video,
+  VideoState,
   Button,
   Action,
 };

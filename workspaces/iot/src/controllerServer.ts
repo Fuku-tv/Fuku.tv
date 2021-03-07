@@ -1,8 +1,10 @@
 import onoff from 'onoff';
 import ws from 'ws';
 import express from 'express';
+import { Serial } from 'raspi-serial';
 import { LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
 
+const serial = new Serial();
 const gpio = onoff.Gpio;
 const logger = new LoggerClass('controllerServer');
 const ioUp = new gpio(17, 'out');
@@ -46,23 +48,54 @@ function resetClaw() {
   setTimeout(resetButtons, 50);
 }
 
+var prevButton = {
+  button: null,
+  action: null
+};
+
 function doButton(btn: any, act: any) {
   if (btn === null || btn === undefined) {
     logger.log(LogLevel.error, 'Btn undefined');
     return;
   }
   if (buttons[btn] === undefined) {
-    // what the fuck are we doing?
+    // what are we doing?
     logger.log(LogLevel.error, 'Bad button - ' + btn + ' - ' + act);
     return;
   }
+  if (buttons[btn] === null) return; // buttons we define but that don't have a writeSync action
+
+  if (prevButton.button === btn && prevButton.action === act) {
+    // bounce protection
+    logger.log(LogLevel.error, 'Button bounce - ' + btn + ' - ' + act);
+    return;
+  }
+
+  resetButtons();
   buttons[btn].writeSync(act);
 }
+
+var sockets = [];
+
+// serial connection to prize detection
+serial.open(() => {
+  logger.log(LogLevel.info, 'serial open');
+  serial.on('data', (data: any) => { // data is presented in a Buffer
+    // player won a prize
+    if (data.toString() === '1') {
+      logger.log(LogLevel.info, 'Prize get');
+      sockets.forEach((s, i) => {
+        s.send(JSON.stringify({ command: constants.PlayerCommand.prizeget }));
+      });
+    }
+  });
+});
 
 wss.on('connection', (socket: any, req: any) => {
   var ipAddr = req.connection.remoteAddress;
   logger.log(LogLevel.info, ipAddr + ' - connected');
-  socket.on('message', (data) => {
+  sockets.push(socket);
+  socket.on('message', (data: any) => {
     var msg = JSON.parse(data);
     switch (msg.command) {
       case constants.ControllerCommand.buttonstart:
@@ -85,5 +118,8 @@ wss.on('connection', (socket: any, req: any) => {
   });
   socket.on('close', () => {
     logger.log(LogLevel.info, ipAddr + ' - connection closed');
+    sockets.forEach((s, i) => {
+      if (s === socket) sockets.splice(i, 1);
+    });
   });
 });
