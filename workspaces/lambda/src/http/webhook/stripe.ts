@@ -21,7 +21,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
     stripeEvent = stripe.webhooks.constructEvent(event.body, signature, webhookSecret);
   } catch (err) {
     // On error, log and return the error message
-    return Responses.badRequest(`Webhook Error: ${err.message} Headers: ${event.headers}`);
+    return Responses.badRequest(`Webhook Error: ${err.message} Headers: ${JSON.stringify(event.headers)}`);
   }
 
   try {
