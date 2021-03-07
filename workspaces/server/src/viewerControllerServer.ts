@@ -17,9 +17,9 @@ const portController = 10777;
 const userRequestMap = new WeakMap();
 
 export class ControllerServer {
-  queue: any[];
+  queue: any[] = [];
 
-  players: Player[];
+  players: Player[] = [];
 
   currentPlayer: Player;
 
@@ -130,7 +130,6 @@ export class ControllerServer {
           }
         });
       });
-
     });
 
     setInterval(() => {
@@ -158,6 +157,8 @@ export class ControllerServer {
             return;
           }
           this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          break;
+        default:
           break;
       }
     });
