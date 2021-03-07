@@ -27,34 +27,20 @@ export class ControllerServer {
 
   queueCounter: number;
 
-  db: any;
-
-  mongo: any;
-
   clientController: any;
 
   clientVideo1: any;
 
   clientVideo2: any;
 
+  serial: any;
+
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.queue = [];
-    this.players = [];
     this.currentPlayer = null;
     this.watchCounter = 0;
     this.queueCounter = 0;
-    this.db = null;
-    /*
-    this.mongo = MongoClient.connect(mongouri, (err: any) => {
-      if (err) {
-        logger.log(LogLevel.error, 'Failed to connect to mongo. ' + err);
-        return process.exit(1);
-      }
-      this.db = this.mongo.db('fukutv');
-    });
-*/
     this.connectController();
 
     // client->us
@@ -124,12 +110,14 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.logout:
             break;
-          case constants.PlayerCommand.prizeget:
-            send(socket, { command: constants.PlayerCommand.prizeget, points: 10 });
-            break;
           default:
             break;
         }
+      });
+
+      // close always gets called after error
+      socket.on('error', (err: any) => {
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
       });
 
       socket.on('close', () => {
@@ -143,16 +131,6 @@ export class ControllerServer {
         });
       });
 
-      socket.on('error', (err: any) => {
-        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
-        this.players.forEach((p, i) => {
-          if (p === clientPlayer) {
-            this.dequeuePlayer(p);
-            this.deactivatePlayer(p);
-            this.players.splice(i, 1);
-          }
-        });
-      });
     });
 
     setInterval(() => {
@@ -169,6 +147,19 @@ export class ControllerServer {
     this.clientController = new WS(`${uriController}:${portController}`);
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
+    });
+    this.clientController.on('message', (data: any) => {
+      const msg = JSON.parse(data);
+      switch (msg.command) {
+        case constants.PlayerCommand.prizeget:
+          // player scored a prize
+          if (this.currentPlayer === null || this.currentPlayer === undefined) {
+            logger.log(LogLevel.info, 'prizeget but currentPlayer deref!');
+            return;
+          }
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          break;
+      }
     });
     this.clientController.on('error', (err: any) => {
       logger.log(LogLevel.info, `clientController error ${err}`);
