@@ -17,9 +17,9 @@ const portController = 10777;
 const userRequestMap = new WeakMap();
 
 export class ControllerServer {
-  queue: any[];
+  queue: any[] = [];
 
-  players: Player[];
+  players: Player[] = [];
 
   currentPlayer: Player;
 
@@ -27,34 +27,20 @@ export class ControllerServer {
 
   queueCounter: number;
 
-  db: any;
-
-  mongo: any;
-
   clientController: any;
 
   clientVideo1: any;
 
   clientVideo2: any;
 
+  serial: any;
+
   wss: WS.Server;
 
   constructor(server: http.Server) {
-    this.queue = [];
-    this.players = [];
     this.currentPlayer = null;
     this.watchCounter = 0;
     this.queueCounter = 0;
-    this.db = null;
-    /*
-    this.mongo = MongoClient.connect(mongouri, (err: any) => {
-      if (err) {
-        logger.log(LogLevel.error, 'Failed to connect to mongo. ' + err);
-        return process.exit(1);
-      }
-      this.db = this.mongo.db('fukutv');
-    });
-*/
     this.connectController();
 
     // client->us
@@ -74,7 +60,15 @@ export class ControllerServer {
     this.wss.on('connection', (socket: any, req) => {
       const email = userRequestMap.get(req);
       logger.log(LogLevel.info, `got email ${email}`);
-      const clientPlayer = new Player(email, socket, this.players.length + 1, this.queue.length, 800, 480, req.socket.remoteAddress);
+      const clientPlayer = new Player(
+        email,
+        socket,
+        this.players.length + 1,
+        this.queue.length,
+        800,
+        480,
+        req.headers['x-forwarded-for'] || req.socket.remoteAddress
+      );
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
       socket.player = clientPlayer;
@@ -116,27 +110,18 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.logout:
             break;
-          case constants.PlayerCommand.prizeget:
-            send(socket, { command: constants.PlayerCommand.prizeget, points: 10 });
-            break;
           default:
             break;
         }
       });
 
-      socket.on('close', () => {
-        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed`);
-        this.players.forEach((p, i) => {
-          if (p === clientPlayer) {
-            this.dequeuePlayer(p);
-            this.deactivatePlayer(p);
-            this.players.splice(i, 1);
-          }
-        });
-      });
-
+      // close always gets called after error
       socket.on('error', (err: any) => {
         logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
+      });
+
+      socket.on('close', () => {
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed`);
         this.players.forEach((p, i) => {
           if (p === clientPlayer) {
             this.dequeuePlayer(p);
@@ -162,6 +147,22 @@ export class ControllerServer {
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
     });
+    this.clientController.on('message', (data: any) => {
+      const msg = JSON.parse(data);
+      switch (msg.command) {
+        case constants.PlayerCommand.prizeget:
+          // player scored a prize
+          if (this.currentPlayer === null || this.currentPlayer === undefined) {
+            logger.log(LogLevel.info, 'prizeget but currentPlayer deref!');
+            return;
+          }
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          logger.log(LogLevel.info, `${this.currentPlayer.ipAddr} - prizeget!`);
+          break;
+        default:
+          break;
+      }
+    });
     this.clientController.on('error', (err: any) => {
       logger.log(LogLevel.info, `clientController error ${err}`);
     });
@@ -182,6 +183,10 @@ export class ControllerServer {
   }
 
   checkPlayerQueue() {
+    if (this.queue === null || this.queue === undefined) {
+      logger.log(LogLevel.error, 'queue does not exist!');
+      return;
+    }
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
     }

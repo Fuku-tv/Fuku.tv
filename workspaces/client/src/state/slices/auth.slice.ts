@@ -4,6 +4,7 @@ import { getAccessTokenSilent, loginPopup, logout } from '../actions/auth.action
 const initialState = {
   nickname: '',
   name: '',
+  username: '',
   email: '',
   isAuthenticated: false,
   picture: '',

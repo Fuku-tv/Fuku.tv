@@ -11,6 +11,11 @@ const frameworkVersion = devDependencies.serverless;
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
 
+  custom: {
+    webpack: {
+      packager: 'yarn',
+    },
+  },
   service: 'fuku-serverless',
   configValidationMode: 'error',
   provider: {
@@ -29,15 +34,15 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-dynamodb-local', 'serverless-offline', 'serverless-webpack'],
 
   functions: {
     webhook_stripe: {
-      handler: 'src/http/handler.stripeWebhook',
+      handler: 'src/http/webhook/stripe.index',
       events: [
         {
           http: {
-            path: '/webhooks/stripe',
+            path: '/webhook/stripe',
             method: 'post',
           },
         },
@@ -56,6 +61,7 @@ const serverlessConfiguration: Serverless = {
     },
   },
 };
-
-// serverless doesnt support 'export default' syntax;
+// quick fix for type error when deploying on AWS
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 module.exports = serverlessConfiguration;

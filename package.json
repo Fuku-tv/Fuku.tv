@@ -12,6 +12,7 @@
     "clean": "lerna run clean",
     "start": "lerna run start",
     "dev": "lerna run dev",
+    "bump": "yarn upgrade --latest",
     "start:client": "yarn workspace fuku.tv-client start",
     "start:server": "yarn workspace fuku.tv-server start",
     "lint": "lerna run lint",
@@ -36,8 +37,9 @@
   },
   "devDependencies": {
     "cp-cli": "^2.0.0",
+    "cross-env": "^7.0.3",
     "husky": "^4.3.7",
-    "lerna": "^3.20.2",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.5.3",
     "prettier": "2.2.1",
     "pretty-quick": "^3.1.0",

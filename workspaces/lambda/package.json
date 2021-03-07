@@ -5,7 +5,7 @@
   "main": "index.js",
   "module": "index.ts",
   "scripts": {
-    "clean": "rimraf .build .serverless .dynamodb",
+    "clean": "rimraf .build .serverless .dynamodb .webpack",
     "build": "sls package --stage local",
     "dev": "sls offline --stage local",
     "deploy": "sls deploy --stage local",
@@ -19,12 +19,18 @@
     "serverless": "^2.17.0",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
+    "serverless-plugin-optimize": "^4.1.4-rc.1",
     "serverless-plugin-typescript": "^1.1.9",
+    "serverless-webpack": "^5.3.5",
+    "ts-loader": "^8.0.15",
     "typescript": "^4.1.3"
   },
   "dependencies": {
     "aws-sdk": "^2.822.0",
     "node-fetch": "^2.6.1",
+    "stripe": "^8.137.0"
+  },
+  "peerDependencies": {
     "fuku.tv-shared": "*"
   }
 }
