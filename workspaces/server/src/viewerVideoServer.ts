@@ -12,7 +12,7 @@ const uriVideo2 = 'ws://96.61.12.109:10779';
 export class VideoServer {
   viewers: Viewer[] = [];
   keyframes: [] = [];
-  videoState: [] = [];
+  videoState: String[] = [];
   wss: WS.Server;
 
   constructor(server: http.Server) {

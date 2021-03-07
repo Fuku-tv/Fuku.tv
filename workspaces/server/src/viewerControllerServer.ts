@@ -157,6 +157,7 @@ export class ControllerServer {
             return;
           }
           this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          logger.log(LogLevel.info, `${this.currentPlayer.ipAddr} - prizeget!`);
           break;
         default:
           break;
@@ -182,6 +183,10 @@ export class ControllerServer {
   }
 
   checkPlayerQueue() {
+    if (this.queue === null || this.queue === undefined) {
+      logger.log(LogLevel.error, 'queue does not exist!');
+      return;
+    }
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
     }
