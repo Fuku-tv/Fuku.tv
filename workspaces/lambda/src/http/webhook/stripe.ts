@@ -14,25 +14,28 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
 
   let stripeEvent: Stripe.Event;
 
+  const signature = event.headers['stripe-signature'];
   // try/catch block to verify and parse the webhook request
   try {
     // parse request body, add stripe signature and webhook secret.
-    stripeEvent = stripe.webhooks.constructEvent(event.body, event.headers['stripe-signature'], webhookSecret);
+    stripeEvent = stripe.webhooks.constructEvent(event.body, signature, webhookSecret);
   } catch (err) {
     // On error, log and return the error message
-    return Responses.badRequest(`Webhook Error: ${err.message}`);
+    return Responses.badRequest(`Webhook Error: ${err.message} Headers: ${event.headers}`);
   }
 
   try {
     // Handle the checkout.session.completed event
 
-    if (stripeEvent.type === 'wdw') {
-      const bleh = 123;
-    }
-    const session = stripeEvent.data.object;
+    // if (stripeEvent.type === 'checkout.session.completed') {
+    //   const bleh = 123;
+    // }
+    const session = stripeEvent.data.object as Stripe.Checkout.Session;
 
     // Fulfill the purchase...
-    // fulfillOrder(session);
+
+    // const credits = getCreditsFromWebhookMetadata()
+    // playersTableModel.addCredits(session.customer_email, Number.parseInt(session.metadata.credits, 2));
 
     return Responses.ok(session);
   } catch (err) {
