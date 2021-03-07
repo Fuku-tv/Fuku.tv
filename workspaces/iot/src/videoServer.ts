@@ -1,5 +1,5 @@
 declare const Buffer;
-import { LogLevel, LoggerClass, ConfigManager } from 'fuku.tv-shared';
+import { LogLevel, LoggerClass, constants, ConfigManager } from 'fuku.tv-shared';
 import ws from 'ws';
 import splitter from 'stream-split';
 import { spawn } from 'child_process';
@@ -15,6 +15,7 @@ var videoPort = config.get('videoPort');
 var ffmpegServer = null;
 var ffmpegReader = null;
 var ffmpegArray = [];
+var videoState = constants.VideoState.inactive;
 
 function updateFfmpegArray() {
   ffmpegArray = [
@@ -49,27 +50,39 @@ server.on('upgrade', (request: any, socket: any, header: any) => {
 function configUpdate() {
   ffmpegArgs = config.get('ffmpegArgs');
   updateFfmpegArray();
-  console.log('config updated!');
+  logger.log(LogLevel.info, 'Config changed, respawning ffmpeg.');
   ffmpegServer.kill();
 }
 
 function setupVideoServer() {
   updateFfmpegArray();
   ffmpegServer = spawn('ffmpeg', ffmpegArray);
+  swapVideoState(constants.VideoState.active);
   ffmpegServer.on('error', (code: any) => {
     logger.log(LogLevel.error, 'ffmpeg error ' + code);
+    swapVideoState(constants.VideoState.inactive);
   });
   ffmpegServer.on('exit', (code: any) => {
     logger.log(LogLevel.error, 'ffmpeg exit ' + code);
+    swapVideoState(constants.VideoState.inactive);
   });
   ffmpegServer.on('close', (code: any) => {
     logger.log(LogLevel.error, 'ffmpeg closed ' + code);
+    swapVideoState(constants.VideoState.inactive);
     logger.log(LogLevel.error, 'Respawning ffmpeg in 1 second');
     setTimeout(() => {
       logger.log(LogLevel.info, 'Respawning ffmpeg');
       setupVideoServer();
     }, 1000);
   });
+
+  function swapVideoState(state: any) {
+    videoState = state;
+    var msgState = { state: videoState };
+    wss.clients.forEach((socket: any) => {
+      socket.send(JSON.stringify(msgState));
+    });
+  }
 
   ffmpegServer.stderr.on('data', () => { }); // just get it out of the buffer
 
