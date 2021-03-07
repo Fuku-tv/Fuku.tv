@@ -14,14 +14,14 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
 
   let stripeEvent: Stripe.Event;
 
-  const signature = event.headers['stripe-signature'];
+  const signature = event.headers['Stripe-signature'];
   // try/catch block to verify and parse the webhook request
   try {
     // parse request body, add stripe signature and webhook secret.
     stripeEvent = stripe.webhooks.constructEvent(event.body, signature, webhookSecret);
   } catch (err) {
     // On error, log and return the error message
-    return Responses.badRequest(`Webhook Error: ${err.message} Headers: ${JSON.stringify(event.headers)}`);
+    return Responses.badRequest(`Webhook Error: ${err.message}`);
   }
 
   try {
