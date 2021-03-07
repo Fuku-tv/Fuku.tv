@@ -1,5 +1,5 @@
 import winston from 'winston';
-import winstondrf from 'winston-daily-rotate-file';
+import Winstondrf from 'winston-daily-rotate-file';
 
 export const LogLevel = {
   info: 'info',
@@ -17,17 +17,7 @@ export class LoggerClass {
         winston.format.align(),
         winston.format.printf((info: any) => `${info.timestamp} ${info.level}: ${info.message}`)
       ),
-      transports: [
-        new winstondrf({
-          json: false,
-          filename: `logs/${name}.log`,
-          datePattern: 'YYY-MM-DD',
-          zippedArchive: false,
-          maxFiles: '90d',
-          level: 'verbose',
-        }),
-        new winston.transports.Console({ level: 'info' }),
-      ],
+      transports: setTransport(name),
     });
   }
 
@@ -37,3 +27,32 @@ export class LoggerClass {
     else this.logger.info(message);
   }
 }
+
+const setTransport = (name: string) => {
+  try {
+    return [
+      new Winstondrf({
+        json: false,
+        filename: `/var/logs/fuku/${name}.log`,
+        datePattern: 'YYY-MM-DD',
+        zippedArchive: false,
+        maxFiles: '90d',
+        level: 'verbose',
+      }),
+      new winston.transports.Console({ level: 'info' }),
+    ];
+  } catch (err) {
+    // quick fix for permission denied error
+    return [
+      new Winstondrf({
+        json: false,
+        filename: `./logs/${name}.log`,
+        datePattern: 'YYY-MM-DD',
+        zippedArchive: false,
+        maxFiles: '90d',
+        level: 'verbose',
+      }),
+      new winston.transports.Console({ level: 'info' }),
+    ];
+  }
+};

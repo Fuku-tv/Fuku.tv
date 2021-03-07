@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,sBAAsB,CAAC;EACtB,QAAQ,EAAE,QAAQ;EAClB,UAAU,EAAE,IAAI;CAIhB;;AAND,AAGC,sBAHqB,CAGrB,EAAE,CAAC;EACF,OAAO,EAAE,IAAI;CACb",
-    "sources": [
-        "SideScrollContainer.scss"
-    ],
-    "names": [],
-    "file": "SideScrollContainer.css"
-}

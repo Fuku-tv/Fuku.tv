@@ -12,13 +12,4 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   }
 };
 
-export const test: APIGatewayProxyHandler = async (event, context, callback) => {
-  const { domainName, stage } = event.requestContext;
-
-  try {
-    return Responses.ok({ message: 'got a message' });
-  } catch (error) {
-    callback(error);
-    return Responses.badRequest({ message: 'message could not be received' });
-  }
-};
+export default index;

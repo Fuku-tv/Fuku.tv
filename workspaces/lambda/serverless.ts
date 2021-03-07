@@ -29,9 +29,20 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-optimize'],
 
   functions: {
+    webhook_stripe: {
+      handler: 'src/http/webhook/stripe.index',
+      events: [
+        {
+          http: {
+            path: '/webhook/stripe',
+            method: 'post',
+          },
+        },
+      ],
+    },
     index: {
       handler: 'src/http/handler.index',
       events: [
@@ -43,19 +54,9 @@ const serverlessConfiguration: Serverless = {
         },
       ],
     },
-    test: {
-      handler: 'src/http/handler.test',
-      events: [
-        {
-          http: {
-            path: '/test',
-            method: 'get',
-          },
-        },
-      ],
-    },
   },
 };
-
-// serverless doesnt support 'export default' syntax;
+// quick fix for type error when deploying on AWS
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 module.exports = serverlessConfiguration;

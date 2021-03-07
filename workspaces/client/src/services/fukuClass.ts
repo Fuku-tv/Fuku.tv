@@ -13,10 +13,11 @@ const FUKU_URL_CONTROLLER = env.FukuControllerServerURL();
  */
 const FUKU_URL_VIDEO = env.FukuVideoServerURL();
 
+/**
+ * Base class for all
+ */
 class Fuku {
   liveplayer: WSAvcPlayer;
-
-  waitforkeyframe: boolean;
 
   socket: WebSocket;
 
@@ -26,9 +27,7 @@ class Fuku {
 
   intervalPlay: NodeJS.Timeout;
 
-  intervalConnection: NodeJS.Timeout;
-
-  currentVideoUri: typeof constants.Video.front | typeof constants.Video.side;
+  currentVideoUri: typeof constants.Video.front | typeof constants.Video.side = constants.Video.front;
 
   queue: number;
 
@@ -39,27 +38,18 @@ class Fuku {
   // TODO remove UGLY UGLY UGLY hack
   uglyHackStore: EnhancedStore;
 
-  constructor() {
-    console.log('new fuku');
-
-    this.currentVideoUri = constants.Video.front;
-
-    /**
-     * juryrig reconnect logic in case socket disconnects
-     */
-    this.intervalConnection = setInterval(() => {
-      if (this.socket !== null && this.socket !== undefined) return;
-      this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
-    }, 250);
+  start(): void {
+    if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
+      throw new Error('Fuku store not found, did you forget to run bootstrapStore?');
+    } else if (this.uglyHackStore.getState().auth.accessToken === '') {
+      throw new Error('Cannot connect to socket with valid Login token, are you currently logged in?');
+    } else {
+      this.connect(FUKU_URL_CONTROLLER);
+    }
   }
 
-  /**
-   * connect to websocket after camera and button components are bootstraped
-   * @returns WebSocket, use this to subscribe to onMessage events
-   */
-  connectSocket(): WebSocket {
-    this.connect(FUKU_URL_CONTROLLER, FUKU_URL_VIDEO);
-    return this.socket;
+  end(): void {
+    this.disconnect();
   }
 
   /**
@@ -67,10 +57,18 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
-    console.log(canvasRef);
 
-    this.connectSocket();
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
+    this.liveplayer.connect(FUKU_URL_VIDEO);
+    this.liveplayer.initCanvas(800, 480);
+
+    console.log('starting video');
+  }
+
+  disconnectVideo(): void {
+    console.log('unmount video');
+    this.liveplayer.running = false;
+    this.liveplayer.disconnect();
   }
 
   /**
@@ -130,33 +128,27 @@ class Fuku {
   private disconnect(): void {
     if (this.socket === null || this.socket === undefined) return;
     this.socket.close();
-    delete this.socket;
+    this.socket = null;
   }
 
-  private connect(controllerUri, videoUri): void {
+  private connect(controllerUri: string): void {
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
-    this.socket = new WebSocket(controllerUri);
+    // pass opaque token to controller websocket
+    this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
     this.socket.binaryType = 'arraybuffer';
+
     this.socket.onopen = () => {
       console.log('Socket Connected');
-      this.liveplayer.connect(videoUri);
     };
     this.socket.onmessage = (e) => {
-      if (typeof e.data === 'string') {
-        this.parseCommand(JSON.parse(e.data));
-      } else {
-        if (this.waitforkeyframe && e.data[4] === 104) this.waitforkeyframe = false;
-        if (!this.waitforkeyframe) this.liveplayer.decode(e.data);
-      }
+      this.parseCommand(JSON.parse(e.data));
     };
-    this.socket.onclose = () => {
-      console.log('Socket Closed');
-      this.liveplayer.running = false;
+    this.socket.onclose = (ev) => {
+      console.log('Socket Closed:', ev);
       this.disconnect();
     };
-    this.socket.onerror = () => {
-      console.log('Socket Error');
-      this.liveplayer.running = false;
+    this.socket.onerror = (ev) => {
+      console.log('Socket Error:', ev);
       this.disconnect();
     };
   }
@@ -166,7 +158,6 @@ class Fuku {
     console.log(`Got command: ${cmd.command}`);
     switch (cmd.command) {
       case PlayerCommand.init:
-        this.liveplayer.initCanvas(cmd.width, cmd.height);
         this.resetTimers();
         this.setGameStatus(cmd.command);
         break;

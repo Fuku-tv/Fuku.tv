@@ -8,7 +8,7 @@ export const FukuControllerServerURL = (): string => {
     return 'wss://dev.fuku.tv/controller';
   }
   // Prod Environment
-  return 'wss:/prod.fuku.tv/controller';
+  return 'wss://prod.fuku.tv/controller';
 };
 
 export const FukuVideoServerURL = (): string => {
@@ -21,7 +21,7 @@ export const FukuVideoServerURL = (): string => {
     return 'wss://dev.fuku.tv/video';
   }
   // Prod Environment
-  return 'wss:/prod.fuku.tv/video';
+  return 'wss://prod.fuku.tv/video';
 };
 
 /**
