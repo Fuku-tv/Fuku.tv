@@ -182,7 +182,10 @@ export class ControllerServer {
   }
 
   checkPlayerQueue() {
-    if (this.queue === null || this.queue === undefined)
+    if (this.queue === null || this.queue === undefined) {
+      logger.log(LogLevel.error, 'queue does not exist!');
+      return;
+    }
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
     }
