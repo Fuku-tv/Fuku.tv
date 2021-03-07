@@ -81,9 +81,6 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.logout:
             break;
-          case constants.PlayerCommand.prizeget:
-            send(socket, { command: constants.PlayerCommand.prizeget, points: 10 });
-            break;
           default:
             break;
         }
@@ -121,6 +118,19 @@ export class ControllerServer {
     this.clientController = new WS(`${uriController}:${portController}`);
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
+    });
+    this.clientController.on('message', (data: any) => {
+      const msg = JSON.parse(data);
+      switch (msg.command) {
+        case constants.PlayerCommand.prizeget:
+          // player scored a prize
+          if (this.currentPlayer === null || this.currentPlayer === undefined) {
+            logger.log(LogLevel.info, 'prizeget but currentPlayer deref!');
+            return;
+          }
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          break;
+      }
     });
     this.clientController.on('error', (err: any) => {
       logger.log(LogLevel.info, `clientController error ${err}`);
