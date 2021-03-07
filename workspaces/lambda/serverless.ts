@@ -11,6 +11,11 @@ const frameworkVersion = devDependencies.serverless;
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
 
+  custom: {
+    webpack: {
+      packager: 'yarn',
+    },
+  },
   service: 'fuku-serverless',
   configValidationMode: 'error',
   provider: {
@@ -29,7 +34,7 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-optimize'],
+  plugins: ['serverless-dynamodb-local', 'serverless-offline', 'serverless-webpack'],
 
   functions: {
     webhook_stripe: {

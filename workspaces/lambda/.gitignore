@@ -1,4 +1,5 @@
 .build
 .serverless
 .dynamodb
+.webpack
 target
