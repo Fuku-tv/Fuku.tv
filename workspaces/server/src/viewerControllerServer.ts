@@ -17,9 +17,9 @@ const portController = 10777;
 const userRequestMap = new WeakMap();
 
 export class ControllerServer {
-  queue: any[];
+  queue: any[] = [];
 
-  players: Player[];
+  players: Player[] = [];
 
   currentPlayer: Player;
 
@@ -182,6 +182,7 @@ export class ControllerServer {
   }
 
   checkPlayerQueue() {
+    if (this.queue === null || this.queue === undefined)
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
     }
