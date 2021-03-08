@@ -6,7 +6,7 @@
     "start": "node dist/bundle.js",
     "clean": "rimraf dist logs",
     "build": "webpack",
-    "dev": "ts-node-dev src/index.ts"
+    "dev": "cross-env NODE_ENV=development ts-node-dev --transpile-only src/index.ts"
   },
   "dependencies": {
     "express": "^4.17.1",

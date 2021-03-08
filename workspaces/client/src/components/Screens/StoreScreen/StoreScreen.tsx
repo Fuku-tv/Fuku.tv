@@ -12,10 +12,10 @@ import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
   const [activeTab, setActiveTab] = React.useState<string>('Credits');
-  const [selectedItem, SetSelectedItem] = React.useState({ price: '', quantity: 0 });
 
   const checkoutClickEvent = (priceId) => {
     const item = state.productList.find((x) => x.priceId === priceId);
+
     const lineItems = [
       {
         price: item.priceId,
@@ -29,7 +29,8 @@ const StoreScreen: React.FC = () => {
 
   React.useEffect(() => {
     actions.getProducts();
-  }, [actions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // SCREEN TAB CONTENT
   const comingSoonContent = (
