@@ -76,7 +76,6 @@ const Main: React.FC = () => {
 
   return (
     <main>
-      {state.isAuthenticated && playerStats}
       <ContentContainer>
         <Routes />
       </ContentContainer>

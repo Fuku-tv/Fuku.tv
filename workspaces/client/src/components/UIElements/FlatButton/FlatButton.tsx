@@ -28,7 +28,7 @@ const FlatButton: React.FC<Props> = ({ disabled, isLoading, id, onClick, text, w
   return (
     <div id={id} className="flat-button-container">
       <button
-        className={ghost ? 'ghost' : 'solid'}
+        className={ghost ? 'ghost--white' : 'solid'}
         onClick={onClick || clickHandler}
         disabled={disabled}
         onKeyDown={onClick || clickHandler}
