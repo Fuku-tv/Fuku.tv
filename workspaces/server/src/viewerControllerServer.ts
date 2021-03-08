@@ -110,6 +110,9 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.logout:
             break;
+          case constants.PlayerCommand.prizeget:
+            clientPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+            break;
           default:
             break;
         }
