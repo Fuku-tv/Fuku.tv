@@ -12777,6 +12777,13 @@ react-awesome-button@^6.5.1:
   dependencies:
     web-animation-club "^0.6.0"
 
+react-countdown-circle-timer@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.5.0.tgz#a985a48e017d4ef6d4889188386b3404ecf2ac5f"
+  integrity sha512-fCKGnoaqEwEjQ6IUvDRMHY3DZ8NgxZkEViegHu4vIu77w68HlTtBFsf6KWbJj5nGrbD1413mnmErchuE4BHRxA==
+  dependencies:
+    use-elapsed-time "2.1.6"
+
 react-device-detect@^1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.15.0.tgz#5321f94ae3c4d51ef399b0502a6c739e32d0f315"
@@ -15587,6 +15594,11 @@ urlencode@^1.1.0:
   integrity sha1-HyuibwE8hfATP3o61v8nMK33y7c=
   dependencies:
     iconv-lite "~0.4.11"
+
+use-elapsed-time@2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/use-elapsed-time/-/use-elapsed-time-2.1.6.tgz#8ad0c0054a1ba7bf881540855b5eb2d60ff501be"
+  integrity sha512-6h6bY63oto1REUqcID3Goedgl5tVqWXsLzUSJ6EB9VprqZqnO5VDo1kkQqY/6V5Jc4Wu4XUgW3B8aDUHG2KRcA==
 
 use@^3.1.0:
   version "3.1.1"

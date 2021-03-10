@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { useGameState } from 'src/state/hooks';
+import ConfettiBackdrop from '../UIElements/ConfettiBackdrop/ConfettiBackdrop';
 
 interface Props {
   height: number | string;
@@ -10,6 +11,7 @@ interface Props {
 const VideoFeed: React.FC<Props> = (props) => {
   const { actions, state } = useGameState();
   const canvasRef = React.useRef(null);
+  const [confettiIsActive, setConfettiIsActive] = React.useState<boolean>(true);
   React.useEffect(() => {
     actions.startStream(canvasRef.current);
 
@@ -18,7 +20,12 @@ const VideoFeed: React.FC<Props> = (props) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <canvas ref={canvasRef} width={props.width} height={props.height} />;
+  return (
+    <>
+      {state.winnerModalActive && <ConfettiBackdrop />}
+      <canvas ref={canvasRef} width={props.width} height={props.height} />
+    </>
+  );
 };
 
 export default VideoFeed;

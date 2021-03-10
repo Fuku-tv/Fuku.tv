@@ -14,6 +14,7 @@
     top: var(--headerHeight);
     height: calc(100% - var(--headerHeight));
     .player-stats-container {
+      // position: fixed;
       position: absolute;
       background-color: var(--blackAccent);
       // top: -45px;
@@ -23,16 +24,14 @@
       padding: 0 10px;
       font-size: 13px;
       z-index: 11111;
-      height: 24px;
-      .outer-content-wrapper {
-        // display: flex;
-        // align-items: center;
-      }
+      height: 30px;
       .inner-wrapper {
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 100%;
+        max-width: 1310px;
+        margin: 0 auto;
       }
       .player-stats__item {
         position: relative;
@@ -52,7 +51,7 @@
       }
       #level {
         position: relative;
-        margin-right: 5px;
+        // margin-right: 5px;
         // font-size: 16px;
         display: flex;
         align-items: center;
@@ -112,6 +111,9 @@
     }
     .outer-content-wrapper {
       height: 100%;
+      padding-top: 30px;
+      // height: calc(100% - 30px);
+      // margin-top: 30px;
       // padding: 10px 0;
       // padding: 10px;
     }

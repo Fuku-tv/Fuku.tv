@@ -50,32 +50,31 @@ const Main: React.FC = () => {
   const gameState = useGameState();
   const playerStats = (
     <div className="player-stats-container">
-      <ContentContainer>
-        <div className="inner-wrapper">
-          <div id="points-and-credits">
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Credits:</span>
-              <span className="player-stats__value">{gameState.state.credits}</span>
-            </div>
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Points:</span>
-              <span className="player-stats__value">1540</span>
-            </div>
+      <div className="inner-wrapper">
+        <div id="points-and-credits">
+          <div className="stat-item-wrapper">
+            <span className="player-stats__item">Credits:</span>
+            <span className="player-stats__value">{gameState.state.credits}</span>
           </div>
-          <div id="level">
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Level:</span>
-              <span className="player-stats__value">6</span>
-            </div>
-            <progress min="0" max="100" value="63" />
+          <div className="stat-item-wrapper">
+            <span className="player-stats__item">Points:</span>
+            <span className="player-stats__value">{gameState.state.points}</span>
           </div>
         </div>
-      </ContentContainer>
+        <div id="level">
+          <div className="stat-item-wrapper">
+            <span className="player-stats__item">Level:</span>
+            <span className="player-stats__value">6</span>
+          </div>
+          <progress min="0" max="100" value="63" />
+        </div>
+      </div>
     </div>
   );
 
   return (
     <main>
+      {playerStats}
       <ContentContainer>
         <Routes />
       </ContentContainer>
