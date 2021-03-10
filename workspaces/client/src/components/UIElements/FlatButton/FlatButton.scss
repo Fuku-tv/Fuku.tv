@@ -13,25 +13,33 @@
     border: none;
     cursor: pointer;
     margin: 0 auto;
-    border-radius: 50px;
+    border-radius: 3px;
     transition: 110ms;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    -ms-border-radius: 50px;
-    -o-border-radius: 50px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
     &:hover {
       background-color: var(--purplePrimary) !important;
       // background-color: red;
       // border: 1px solid var(--purplePrimary) !important;
     }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+
     &:focus {
       outline: var(--purplePrimary);
     }
     &.solid {
       background-color: var(--purpleSecondary);
     }
-    &.ghost {
+    &.ghost--purple {
       border: 1px solid var(--purpleSecondary);
+    }
+    &.ghost--white {
+      border: 1px solid #ffffff;
     }
   }
 }

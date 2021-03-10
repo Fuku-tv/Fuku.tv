@@ -27,6 +27,7 @@ const ControlsSection: React.FC = () => {
         height={42}
         color="red"
       />
+
       <DepthButton
         onPointerUp={actions.buttonUpEvent}
         onPointerDown={actions.buttonDownEvent}
@@ -77,7 +78,6 @@ const ControlsSection: React.FC = () => {
   const controlsAndTimerScreen = (
     <>
       <SlideableContent direction="right" show={gameplay}>
-        <Timer />
         <Controls />
       </SlideableContent>
     </>

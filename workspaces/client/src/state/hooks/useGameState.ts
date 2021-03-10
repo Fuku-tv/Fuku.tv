@@ -38,6 +38,10 @@ const useGameState = () => {
     dispatch(actions.toggleCameraDirection());
   };
 
+  const toggleWinnerModal = () => {
+    dispatch(actions.toggleWinnerModal());
+  };
+
   const startFuku = () => {
     dispatch(gameActions.startFuku());
   };
@@ -55,6 +59,7 @@ const useGameState = () => {
       buttonDownEvent,
       buttonUpEvent,
       toggleCamera,
+      toggleWinnerModal,
       startFuku,
       endFuku,
     },

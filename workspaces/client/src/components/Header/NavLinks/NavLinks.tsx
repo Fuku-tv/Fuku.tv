@@ -85,12 +85,7 @@ const NavLinks: React.FC = () => {
               <span> Leaderboards </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="nav-link__active" to="/prizes" exact>
-              <div className="icon-wrapper">{gift}</div>
-              <span> Prizes </span>
-            </NavLink>
-          </li>
+
           <li>
             <NavLink activeClassName="nav-link__active" to="/store" exact>
               <div className="icon-wrapper">{store}</div>

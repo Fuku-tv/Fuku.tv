@@ -6,9 +6,11 @@ const initialState = {
   queue: 0,
   watch: 0,
   credits: 0,
+  points: 0,
   gameStatus: '',
   cameraIsForward: true,
   error: {},
+  winnerModalActive: false,
 };
 
 const gameSlice = createSlice({
@@ -41,26 +43,39 @@ const gameSlice = createSlice({
         cameraIsForward: !state.cameraIsForward,
       };
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(startStream.fulfilled, (state, action) => {
-      return state;
-    });
-    builder.addCase(startStream.rejected, (state, action) => {
+    setPoints(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
-        error: action.error,
+        points: action.payload.points,
       };
-    });
-    builder.addCase(endStream.fulfilled, (state) => {
-      return state;
-    });
-    builder.addCase(startFuku.rejected, (state, action) => {
+    },
+
+    toggleWinnerModal(state) {
       return {
         ...state,
-        error: action.error,
+        winnerModalActive: !state.winnerModalActive,
       };
-    });
+    },
+    extraReducers: (builder) => {
+      builder.addCase(startStream.fulfilled, (state, action) => {
+        return state;
+      });
+      builder.addCase(startStream.rejected, (state, action) => {
+        return {
+          ...state,
+          error: action.error,
+        };
+      });
+      builder.addCase(endStream.fulfilled, (state) => {
+        return state;
+      });
+      builder.addCase(startFuku.rejected, (state, action) => {
+        return {
+          ...state,
+          error: action.error,
+        };
+      });
+    },
   },
 });
 

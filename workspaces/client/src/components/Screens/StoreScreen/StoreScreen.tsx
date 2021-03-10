@@ -1,11 +1,13 @@
 import * as React from 'react';
-
 import './StoreScreen.scss';
 import Screen from 'src/components/UIElements/Screen/Screen';
 import useCommerceState from 'src/state/hooks/useCommerceState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
 import StoreItem from './StoreItem/StoreItem';
+import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
+import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
+import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
 
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
@@ -45,13 +47,37 @@ const StoreScreen: React.FC = () => {
       <article id="prize" className="store-item">
         <div className="store-item__price">1000 Points</div>
         <div className="image-wrapper">
-          <img src="https://gamecardsdirect.com/content/picture/23009/amazon-gift-card-20-dollar.jpg" alt="" />
+          <img src={GiftCard20} alt="" />
         </div>
         <div className="store-item__credits">
           <div className="credits__title">
             <h3>$20 Amazon Gift Card</h3>
           </div>
           <FlatButton width={220} text="Redeem Prize" />
+        </div>
+      </article>
+      <article id="prize" className="store-item">
+        <div className="store-item__price">2000 Points</div>
+        <div className="image-wrapper">
+          <img src={GiftCard50} alt="" />
+        </div>
+        <div className="store-item__credits">
+          <div className="credits__title">
+            <h3>$50 Amazon Gift Card</h3>
+          </div>
+          <FlatButton disabled width={220} text="460 Points Required" />
+        </div>
+      </article>
+      <article id="prize" className="store-item">
+        <div className="store-item__price">3000 Points</div>
+        <div className="image-wrapper">
+          <img src={GiftCard100} alt="" />
+        </div>
+        <div className="store-item__credits">
+          <div className="credits__title">
+            <h3>$100 Amazon Gift Card</h3>
+          </div>
+          <FlatButton width={220} disabled text="1460 Points Required" />
         </div>
       </article>
     </div>

@@ -8,6 +8,7 @@ interface Props {
   onClick?: () => void;
   text: string;
   id?: string;
+  disabled?: boolean;
   ghost?: boolean;
   width?: number;
   height?: number;
@@ -15,7 +16,7 @@ interface Props {
   isLoading?: boolean;
 }
 
-const FlatButton: React.FC<Props> = ({ isLoading, id, onClick, text, width, height, shape, ghost }) => {
+const FlatButton: React.FC<Props> = ({ disabled, isLoading, id, onClick, text, width, height, shape, ghost }) => {
   const buttonStyles = {
     width,
     height,
@@ -26,7 +27,13 @@ const FlatButton: React.FC<Props> = ({ isLoading, id, onClick, text, width, heig
   };
   return (
     <div id={id} className="flat-button-container">
-      <button className={ghost ? 'ghost' : 'solid'} onClick={onClick || clickHandler} onKeyDown={onClick || clickHandler} style={buttonStyles}>
+      <button
+        className={ghost ? 'ghost--white' : 'solid'}
+        onClick={onClick || clickHandler}
+        disabled={disabled}
+        onKeyDown={onClick || clickHandler}
+        style={buttonStyles}
+      >
         {isLoading ? <LoadingSpinner /> : text}
       </button>
     </div>

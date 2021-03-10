@@ -3,6 +3,8 @@ import { isMobile } from 'react-device-detect';
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
+import { useGameState } from 'src/state/hooks';
+
 import Header from '../Header/Header';
 import AboutScreen from '../Screens/AboutScreen/AboutScreen';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
@@ -43,18 +45,20 @@ const Routes = () => (
   </Switch>
 );
 
-const playerStats = (
-  <div className="player-stats-container">
-    <ContentContainer>
+const Main: React.FC = () => {
+  const { state, actions } = useAuthState();
+  const gameState = useGameState();
+  const playerStats = (
+    <div className="player-stats-container">
       <div className="inner-wrapper">
         <div id="points-and-credits">
           <div className="stat-item-wrapper">
             <span className="player-stats__item">Credits:</span>
-            <span className="player-stats__value">15</span>
+            <span className="player-stats__value">{gameState.state.credits}</span>
           </div>
           <div className="stat-item-wrapper">
             <span className="player-stats__item">Points:</span>
-            <span className="player-stats__value">1540</span>
+            <span className="player-stats__value">{gameState.state.points}</span>
           </div>
         </div>
         <div id="level">
@@ -65,15 +69,12 @@ const playerStats = (
           <progress min="0" max="100" value="63" />
         </div>
       </div>
-    </ContentContainer>
-  </div>
-);
+    </div>
+  );
 
-const Main: React.FC = () => {
-  const { state, actions } = useAuthState();
   return (
     <main>
-      {state.isAuthenticated && playerStats}
+      {playerStats}
       <ContentContainer>
         <Routes />
       </ContentContainer>

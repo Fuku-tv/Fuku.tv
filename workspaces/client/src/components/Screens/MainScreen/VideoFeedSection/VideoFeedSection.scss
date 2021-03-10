@@ -1,9 +1,14 @@
 #video-feed-section {
-	position: relative;
-
-	canvas {
-		width: 100%;
-		display: block;
-		max-height: 500px;
-	}
+  position: relative;
+  .timer-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -40px;
+  }
+  canvas {
+    width: 100%;
+    display: block;
+    max-height: 500px;
+  }
 }
