@@ -212,14 +212,14 @@ class Fuku {
 
       case PlayerCommand.queue:
         this.uglyHackStore.dispatch({
-          type: 'GAME/gamestats',
+          type: 'GAME/queueStatus',
           payload: true,
         });
         break;
 
       case PlayerCommand.dequeue:
         this.uglyHackStore.dispatch({
-          type: 'GAME/gamestats',
+          type: 'GAME/queueStatus',
           payload: false,
         });
         break;
