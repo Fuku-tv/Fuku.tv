@@ -4,7 +4,7 @@ import useAuthState from 'src/state/hooks/useAuthState';
 import useNavigationState from 'src/state/hooks/useNavigationState';
 import ChatWidget from 'src/components/game/ChatWidget';
 import Header from '../../../Header/Header';
-// import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
+import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
 import SidebarNavigation from '../Navigation/Navigation';
 import './Sidebar.scss';
@@ -22,6 +22,21 @@ const SideBar: React.FC = () => {
     </svg>
   );
 
+  const discordOld = (
+    <div className="discord-container">
+      <div className="discord__body">
+        <div className="discord-iframe-wrapper">
+          <iframe
+            title="Chat widget"
+            src="https://titanembeds.com/embed/785224675135455242?defaultchannel=797625753289883688&amp;scrollbartheme=minimal&amp;theme=DiscordDark"
+            width="100%"
+            frameBorder="0"
+          />
+        </div>
+      </div>
+    </div>
+  );
+
   const discordHeader = (
     <div className="discord__header">
       <p>Join the conversation on</p>
@@ -30,18 +45,7 @@ const SideBar: React.FC = () => {
   );
   return (
     <aside id="sidebar-section">
-      <div className="discord-container">
-        <div className="discord__body">
-          <div className="discord-iframe-wrapper">
-            <iframe
-              title="Chat widget"
-              src="https://titanembeds.com/embed/785224675135455242?defaultchannel=797625753289883688&amp;scrollbartheme=minimal&amp;theme=DiscordDark"
-              width="100%"
-              frameBorder="0"
-            />
-          </div>
-        </div>
-      </div>
+      <DiscordChat />
     </aside>
   );
 };

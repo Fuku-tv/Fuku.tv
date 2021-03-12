@@ -15,6 +15,7 @@ import LeaderboardsScreen from '../Screens/LeaderboardsScreen/LeaderboardsScreen
 import StoreScreen from '../Screens/StoreScreen/StoreScreen';
 import PrizesScreen from '../Screens/PrizesScreen/PrizesScreen';
 import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCustomizationScreen';
+
 // import routes from './app/routes';
 // import SideBar from './components';
 

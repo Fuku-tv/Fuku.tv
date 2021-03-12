@@ -11,7 +11,8 @@ import Timer from './Timer/Timer';
 const ControlsSection: React.FC = () => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
-  const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
+  const controlsVisible = state.gameStatus === 'gameplay';
+  // const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
   const gamestandby = state.gameStatus === 'gamestandby';
   const gameplay = state.gameStatus === 'gameplay';
 
@@ -66,6 +67,25 @@ const ControlsSection: React.FC = () => {
     </SlideableContent>
   );
 
+  // const playerInQueueScreen = (
+  //   <>
+  //     <SlideableContent direction="right" show={gamestandby && state.queue === 0}>
+  //       <TitleDescription
+  //         title="Please Wait"
+  //         descriptionStart="There are currently "
+  //         dynamicNumber={state.queue}
+  //         descriptionEnd="people in front of you."
+  //       />{' '}
+  //       {startGameStopGameBtns}
+  //     </SlideableContent>
+  //   </>
+  // );
+  const playerInQueueScreen = (
+    <>
+      <div>Player Queue</div>
+    </>
+  );
+
   const readyToGoScreen = (
     <>
       <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
@@ -85,6 +105,8 @@ const ControlsSection: React.FC = () => {
   return (
     <section id="controls-section">
       {letsPlayScreen}
+      {playerInQueueScreen && controlsVisible && !gameplay && state.queue !== 0}
+
       {readyToGoScreen}
       {controlsAndTimerScreen}
     </section>
