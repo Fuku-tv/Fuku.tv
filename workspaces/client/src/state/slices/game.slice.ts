@@ -11,12 +11,19 @@ const initialState = {
   cameraIsForward: true,
   error: {},
   winnerModalActive: false,
+  isPlayerInQueue: false,
 };
 
 const gameSlice = createSlice({
   name: 'GAME',
   initialState,
   reducers: {
+    queueStatus(state, action) {
+      return {
+        ...state,
+        isPlayerInQueue: action.payload,
+      };
+    },
     gamestats(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,

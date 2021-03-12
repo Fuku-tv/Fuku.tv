@@ -33,7 +33,7 @@ const Timer: React.FC = () => {
 
     const isTimeUp = isNewTimeFirstTick.current;
     if (remainingTime === 0) {
-      return <div className="time-up">Time's Up!</div>;
+      return <div className="time-up">Time&apos;s Up!</div>;
     }
 
     return (
