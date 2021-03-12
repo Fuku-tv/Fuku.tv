@@ -12,7 +12,7 @@ const VideoFeedSection: React.FC = () => {
   const gameplay = state.gameStatus === 'gameplay';
   return (
     <section id="video-feed-section">
-      {!gameplay && <Timer />}
+      {gameplay && <Timer />}
       <VideoFeed width="100%" height="480" />
     </section>
   );

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { isMobile } from 'react-device-detect';
 import './Timer.scss';
 
 const Timer: React.FC = () => {
@@ -53,9 +54,9 @@ const Timer: React.FC = () => {
       <CountdownCircleTimer
         isPlaying={timerIsActive}
         duration={state.timer}
-        colors={[['#5e3d91', 0.33], ['#bd9e3c', 0.33], ['#A30000']]}
-        size={80}
-        strokeWidth={5}
+        colors={[['#5e3d91', 0.66], ['#bd9e3c', 0.88], ['#A30000']]}
+        size={isMobile ? 50 : 80}
+        strokeWidth={isMobile ? 3 : 5}
         onComplete={() => setTimerIsActive(false)}
       >
         {renderTime}

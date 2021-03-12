@@ -12,7 +12,7 @@ const MainScreen: React.FC = () => {
   const { actions, state } = useGameState();
   const authState = useAuthState();
   const navState = useNavigationState();
-  const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
+  const [sidebarIsActive, setSidebarIsActive] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     actions.mountStore();
@@ -25,11 +25,6 @@ const MainScreen: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const cameraToggleHandler = () => {
-    setCameraIsFront((prev) => !prev);
-    console.log('change');
-  };
 
   // const visible =
   // 	(state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') &&
