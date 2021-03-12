@@ -210,6 +210,20 @@ class Fuku {
         this.setGameStatus(cmd.command);
         break;
 
+      case PlayerCommand.queue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/gamestats',
+          payload: true,
+        });
+        break;
+
+      case PlayerCommand.dequeue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/gamestats',
+          payload: false,
+        });
+        break;
+
       default:
         console.log('Unknown command');
         console.log(cmd);
