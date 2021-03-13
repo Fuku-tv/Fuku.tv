@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { endStream, startFuku, startStream } from '../actions/game.actions';
 
 const initialState = {
@@ -63,26 +63,18 @@ const gameSlice = createSlice({
         winnerModalActive: !state.winnerModalActive,
       };
     },
-    extraReducers: (builder) => {
-      builder.addCase(startStream.fulfilled, (state, action) => {
-        return state;
-      });
-      builder.addCase(startStream.rejected, (state, action) => {
-        return {
-          ...state,
-          error: action.error,
-        };
-      });
-      builder.addCase(endStream.fulfilled, (state) => {
-        return state;
-      });
-      builder.addCase(startFuku.rejected, (state, action) => {
-        return {
-          ...state,
-          error: action.error,
-        };
-      });
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(startStream.fulfilled, (state, action) => state);
+    builder.addCase(startStream.rejected, (state, action) => ({
+      ...state,
+      error: action.error,
+    }));
+    builder.addCase(endStream.fulfilled, (state) => state);
+    builder.addCase(startFuku.rejected, (state, action) => ({
+      ...state,
+      error: action.error,
+    }));
   },
 });
 

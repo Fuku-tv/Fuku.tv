@@ -111,7 +111,7 @@ export class ControllerServer {
           case constants.PlayerCommand.logout:
             break;
           case constants.PlayerCommand.prizeget:
-            clientPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+            clientPlayer.send({ command: constants.PlayerCommand.prizeget, points: 100 });
             break;
           default:
             break;
@@ -313,7 +313,7 @@ const authenticateConnection = async (info: { origin: string; secure: boolean; r
     });
     const data = await res.json();
 
-    logger.log(LogLevel.info, `valided user: ${data.email}`);
+    logger.log(LogLevel.info, `Validated user: ${data.email}`);
     return data.email;
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);
