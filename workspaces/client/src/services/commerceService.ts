@@ -1,11 +1,13 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { env } from 'fuku.tv-shared';
+
 import type Stripe from 'stripe';
 
 import Axios from 'axios';
 
-const STRIPE_API_KEY = 'pk_test_51HxGG6Gx8BmO5evBcDbYjClczRZa0rC96ZiA3ZFyn5ErewXeH2TgAs9cseKW6mT1mMpfRepbtbXEgrPEWovaHbn100wlrLXvff';
-const STRIPE_API_SECRET = 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9';
+const STRIPE_API_KEY = env.StripeApiKey();
+const STRIPE_API_SECRET = env.StripeApiSecret();
 
 const StripeAPI = Axios.create({
   baseURL: 'https://api.stripe.com',
@@ -26,7 +28,7 @@ const StripeAPI = Axios.create({
 
 export const getPrices = async (): Promise<Stripe.Price[]> => {
   try {
-    const test = await StripeAPI.get('/v1/prices', { params: { 'expand[]': 'data.product' } });
+    const test = await StripeAPI.get('/v1/prices', { params: { 'expand[]': 'data.product', active: true } });
     return test.data.data;
   } catch (err) {
     console.log('error: ', err);
