@@ -6,7 +6,7 @@
   "module": "index.ts",
   "scripts": {
     "clean": "rimraf .build .serverless .dynamodb .webpack",
-    "build": "sls package --stage local",
+    "build": "cross-env SLS_DEBUG=* sls package --stage local",
     "dev": "sls offline --stage local",
     "deploy": "sls deploy --stage local",
     "destroy": "sls remove --stage local"
@@ -17,14 +17,10 @@
     "@types/node-fetch": "^2.5.7",
     "@types/serverless": "^1.78.20",
     "serverless": "^2.17.0",
+    "serverless-bundle": "^4.2.2",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
-    "serverless-plugin-optimize": "^4.1.4-rc.1",
-    "serverless-plugin-typescript": "^1.1.9",
-    "serverless-webpack": "^5.3.5",
-    "ts-loader": "^8.0.15",
-    "typescript": "^4.1.3",
-    "webpack": "^5.25.0"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "aws-sdk": "^2.822.0",
