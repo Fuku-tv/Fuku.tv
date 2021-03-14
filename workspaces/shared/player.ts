@@ -123,6 +123,10 @@ export class Player {
     this.send({ command: constants.PlayerCommand.gameend });
   }
 
+  async addPoints(points: number): Promise<void> {
+    await playersTableModel.addPoints(this.email, points);
+  }
+
   /**
    * Fetch player data from Database, create new player if ID not found
    */
