@@ -1,10 +1,10 @@
 import { DynamoDB, config } from 'aws-sdk';
 import * as path from 'path';
 import { getStage } from '../env';
+import { LoggerClass, LogLevel } from '../logger';
 
 const ddb = new DynamoDB({ apiVersion: 'latest', region: 'us-east-1' });
 // get the stage option from arguments
-
 const STAGE = getStage();
 
 export const tableList = {

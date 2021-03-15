@@ -1,9 +1,26 @@
 #video-feed-section {
-	position: relative;
+  position: relative;
+  .timer-container {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // bottom: -40px;
+  }
+  canvas {
+    width: 100%;
+    display: block;
+    max-height: 500px;
+  }
+}
 
-	canvas {
-		width: 100%;
-		display: block;
-		max-height: 500px;
-	}
+@media only screen and (max-width: 600px) {
+  #video-feed-section .timer-container {
+    right: 10px;
+    bottom: 5px;
+    .time-up {
+      font-size: 14px;
+    }
+  }
 }

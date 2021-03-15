@@ -1,96 +1,48 @@
 .timer-container {
-	position: relative;
-	// width: 90%;
-	width: 90%;
-	margin: 0 auto;
-	height: 28px;
-	// margin-top: -20px;
-	border-radius: 50px;
-	.seconds-remaining {
-		position: absolute;
-		top: 0;
-		height: 100%;
-		right: 0;
-		display: block;
-		z-index: 1000;
-		background: white;
-		color: var(--blackPrimary);
-		border-radius: 50px;
-		// border-top-left-radius: 50px;
-		// border-bottom-left-radius: 50px;
-		width: 22px;
-		height: 22px;
-		display: flex;
-		font-size: 14px;
-		justify-content: center;
-		align-items: center;
+  position: relative;
+  display: block;
+  z-index: 11111111111111;
+  svg {
+    display: block;
+    path {
+      fill: rgba(255, 255, 255, 0.55);
+    }
+  }
+  .time-up {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .time-wrapper {
+    // background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 50px;
+    position: relative;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    overflow: hidden;
+    .time {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translateY(0);
+      opacity: 1;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
 
-		text-align: center;
-		span {
-			display: block;
-			margin: 0 auto;
-			width: 100%;
-			text-align: center;
-		}
-	}
-	progress#timerBar {
-		position: relative;
-		// top: 3px;
-		background: white;
-		width: 100%;
-		// border: 1px solid var(--blackSeconday);
-		// border: 1px solid #d1d1d1;
-		//border-bottom: 1px solid #db132e;
-		height: 22px;
-		border-radius: 50px;
-		// left: 50%;
-		transition: 900ms ease;
+    .time.up {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
 
-		display: block;
-		z-index: 100;
-		//box-shadow: 0 1px 2px 1px rgba(0, 0, 2, 0.09);
-		-webkit-transition: 900ms ease;
-		-moz-transition: 900ms ease;
-		-ms-transition: 900ms ease;
-		-o-transition: 900ms ease;
-	}
-
-	progress {
-		// height: 100%;
-		color: lightblue;
-		transition: 900ms linear;
-		-webkit-transition: 900ms linear;
-		-moz-transition: 900ms linear;
-		-ms-transition: 900ms linear;
-		-o-transition: 900ms linear;
-		border-radius: 50px;
-	}
-
-	progress::-webkit-progress-value {
-		background: lightblue;
-	}
-
-	progress::-moz-progress-bar {
-		background: lightcolor;
-	}
-
-	progress::-webkit-progress-value {
-		transition: 900ms ease;
-		// background: #db132e;
-		// background-color: rgba(77, 165, 72, 1);
-		background-color: #9686af;
-		border-radius: 50px;
-	}
-
-	// .warning {
-	// 	position: relative;
-	// 	progress::-webkit-progress-value {
-	// 		background-color: yellow !important;
-	// 	}
-	// }
-
-	progress::-webkit-progress-bar {
-		border-radius: 50px;
-		background: #c7c7c7;
-	}
+    .time.down {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
 }

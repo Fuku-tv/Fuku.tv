@@ -130,7 +130,6 @@ export class ControllerServer {
           }
         });
       });
-
     });
 
     setInterval(() => {
@@ -158,7 +157,10 @@ export class ControllerServer {
             return;
           }
           this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          this.currentPlayer.addPoints(10);
           logger.log(LogLevel.info, `${this.currentPlayer.ipAddr} - prizeget!`);
+          break;
+        default:
           break;
       }
     });
@@ -309,7 +311,7 @@ const authenticateConnection = async (info: { origin: string; secure: boolean; r
     });
     const data = await res.json();
 
-    logger.log(LogLevel.info, `valided user: ${data.email}`);
+    logger.log(LogLevel.info, `Validated user: ${data.email}`);
     return data.email;
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);

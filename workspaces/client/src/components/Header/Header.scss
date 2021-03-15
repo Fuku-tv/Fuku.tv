@@ -21,10 +21,6 @@ header {
     display: flex;
     justify-content: space-between;
 
-    button {
-      background-color: transparent;
-      border: none;
-    }
     #logo {
       display: flex;
       justify-content: center;
@@ -43,20 +39,45 @@ header {
       top: 50%;
       transform: translateY(-50%);
       display: flex;
-      #header-notification-button {
-        // position: absolute;
-        width: 150px;
-        display: inline-block;
-      }
-
-      .credit-wrapper {
-        position: relative;
+      button#profile-dropdown-button {
+        background-color: transparent;
+        border: none;
         display: flex;
         align-items: center;
-        justify-content: center;
-        svg {
+        width: 130px;
+        border: 1px solid #ffffff;
+        padding: 8px 16px;
+        border-radius: 2px;
+        font-size: 14px;
+        fill: #fff;
+        cursor: pointer;
+        transition: 100ms;
+        &:hover {
+          background-color: #fff;
+          color: var(--purplePrimary);
+          fill: var(--purplePrimary);
+        }
+        .sign-in-icon-wrapper svg {
+          height: 18px;
+          fill: inherit;
+          width: 34px;
           display: block;
-          height: 28px;
+        }
+        #header-notification-button {
+          // position: absolute;
+          width: 150px;
+          display: inline-block;
+        }
+
+        .credit-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          svg {
+            display: block;
+            height: 28px;
+          }
         }
       }
 

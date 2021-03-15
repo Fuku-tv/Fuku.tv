@@ -2,6 +2,9 @@ import WSAvcPlayer from 'h264-live-player';
 
 import { constants, env } from 'fuku.tv-shared';
 import { EnhancedStore } from '@reduxjs/toolkit';
+import { useGameState } from 'src/state/hooks';
+
+// const { state, actions } = useGameState();
 
 /**
  * URL for fuku.tv controller
@@ -189,6 +192,13 @@ class Fuku {
         this.setTimerBar(30);
         this.setGameStatus(cmd.command);
         break;
+      case PlayerCommand.prizeget:
+        console.log('WINNERR', cmd.points);
+        this.toggleWinnerModal();
+        this.setPoints(cmd.points);
+        // actions.toggleWinnerModal();
+        // useGameState().actions.toggleWinnerModal();
+        break;
       case PlayerCommand.gameplayend:
         this.resetTimers();
         this.timerCommand = setTimeout(() => {}, 6000);
@@ -198,6 +208,20 @@ class Fuku {
       case PlayerCommand.gameend:
         this.resetTimers();
         this.setGameStatus(cmd.command);
+        break;
+
+      case PlayerCommand.queue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/queueStatus',
+          payload: true,
+        });
+        break;
+
+      case PlayerCommand.dequeue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/queueStatus',
+          payload: false,
+        });
         break;
 
       default:
@@ -216,6 +240,21 @@ class Fuku {
     });
   }
 
+  private setPoints(p) {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/setPoints',
+      payload: {
+        points: p,
+      },
+    });
+  }
+
+  private toggleWinnerModal() {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/toggleWinnerModal',
+    });
+  }
+
   private resetTimers(): void {
     if (this.timerCommand !== null) clearTimeout(this.timerCommand);
     if (this.intervalStandby !== null) clearInterval(this.intervalStandby);
@@ -224,7 +263,6 @@ class Fuku {
 
   private setTimerBar(timeValue): void {
     let timerValue = timeValue;
-
     this.intervalStandby = setInterval(() => {
       timerValue -= 1;
       if (timerValue < 0) clearInterval(this.intervalStandby);

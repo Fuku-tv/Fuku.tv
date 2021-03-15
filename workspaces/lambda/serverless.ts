@@ -10,16 +10,22 @@ const frameworkVersion = devDependencies.serverless;
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
-
   service: 'fuku-serverless',
   configValidationMode: 'error',
+  custom: {
+    bundle: { sourcemaps: false },
+  },
   provider: {
+    lambdaHashingVersion: 20201221,
     apiGateway: {
       shouldStartNameWithService: true,
     },
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
+    environment: {
+      NODE_ENV: STAGE,
+    },
     region: 'us-east-1',
     iamRoleStatements: [
       {
@@ -29,7 +35,7 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-typescript', 'serverless-dynamodb-local', 'serverless-offline', 'serverless-plugin-optimize'],
+  plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
     webhook_stripe: {

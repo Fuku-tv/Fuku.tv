@@ -4,7 +4,7 @@ import './App.scss';
 // workaround for react-awesome-button css import bug
 import './styles.css';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import { useAuthState } from 'src/state/hooks/useAuthState';
+import { useAuthState } from 'src/state/hooks';
 import Header from './components/Header/Header';
 import AboutScreen from './components/Screens/AboutScreen/AboutScreen';
 import ProfileScreen from './components/Screens/ProfileScreen/ProfileScreen';
@@ -20,18 +20,16 @@ import Main from './components/Main/Main';
 // import routes from './app/routes';
 // import SideBar from './components';
 
-const App: React.FC = () => {
-  return (
-    <Provider>
-      <Router>
-        <Header />
-        <div className="app-body-wrapper">
-          {!isMobile && <VerticalNavigation />}
-          <Main />
-        </div>
-      </Router>
-    </Provider>
-  );
-};
+const App: React.FC = () => (
+  <Provider>
+    <Router>
+      <Header />
+      <div className="app-body-wrapper">
+        {!isMobile && <VerticalNavigation />}
+        <Main />
+      </div>
+    </Router>
+  </Provider>
+);
 
 export default App;
