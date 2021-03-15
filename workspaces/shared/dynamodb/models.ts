@@ -16,3 +16,9 @@ export interface Game extends BaseModel {
   connectionDate: number;
   queue: string[];
 }
+
+export interface Replay extends BaseModel {
+  playerid: string;
+  win: boolean;
+  amount: number;
+}

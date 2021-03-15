@@ -1,5 +1,5 @@
 import dynamo from './dynamo';
-import { Player } from './models';
+import { Player, Replay } from './models';
 import { tableList } from './index';
 
 // Create the DynamoDB service object
@@ -32,6 +32,18 @@ export const playersTableModel = {
     player.points += pointsToAdd;
     await playersTableModel.write(player);
   },
+};
+
+export const replayTableModel = {
+  async write(data: Replay): Promise<void> {
+    return dynamo.write<Replay>(data, tableList.REPLAY_TABLE);
+  },
+  async get(id: string): Promise<Replay> {
+    return dynamo.get<Replay>(id, tableList.REPLAY_TABLE);
+  },
+  async delete(id: string) {
+    return dynamo.delete(id, tableList.REPLAY_TABLE);
+  }
 };
 
 export const createTable = () => {};
