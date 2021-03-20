@@ -7,6 +7,7 @@ export interface Player extends BaseModel {
   points: number;
   xp: number;
   email: string;
+  nickname: string;
   ipAddress: string;
 }
 

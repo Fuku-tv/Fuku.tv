@@ -10,7 +10,7 @@ import type Command from './command';
 export class Player {
   socket: ws;
 
-  email: string;
+  userdata: any;
 
   credits: number;
 
@@ -44,7 +44,7 @@ export class Player {
 
   xp: number;
 
-  constructor(email: string, s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
+  constructor(userdata: any, s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
     this.timePlay = 30100;
     this.timeStandby = 60100;
@@ -58,7 +58,7 @@ export class Player {
     // this.uid = crypto.randomBytes(256).toString('hex');
     this.ipAddr = ip;
 
-    this.email = email;
+    this.userdata = userdata;
     this.level = 1;
     this.xp = 0;
 
@@ -67,8 +67,6 @@ export class Player {
         this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, queue: qc, watch: wc, test: false });
       })
       .catch((error) => {});
-
-    // this.socket.on('message', (data) => { this.parseCommand(JSON.parse(data)); });
   }
 
   send(data: Command): void {
@@ -101,11 +99,10 @@ export class Player {
   }
 
   play(callback: () => void): void {
-    console.log('called');
     this.resetTimers();
     // todo remove patch once we start removing credits.
     this.credits -= 1;
-    // playersTableModel.removeCredits(this.email, 1).then(() => {});
+    // playersTableModel.removeCredits(this.userdata.email, 1).then(() => {});
     this.gameState = constants.GameState.playing;
     this.updateGameStats(this.qc, this.wc);
     this.playTimer = setTimeout(callback, this.timePlay);
@@ -124,7 +121,7 @@ export class Player {
   }
 
   async addPoints(points: number): Promise<void> {
-    await playersTableModel.addPoints(this.email, points);
+    await playersTableModel.addPoints(this.userdata.email, points);
   }
 
   /**
@@ -133,22 +130,23 @@ export class Player {
   private async fetchInitialPlayerData() {
     // get current player
     try {
-      const player = await playersTableModel.get(this.email);
+      const player = await playersTableModel.get(this.userdata.email);
       this.credits = player.credits;
       this.uid = player.id;
     } catch {
       // no player found, creating new player
       const data: PlayerModel = {
-        id: this.email,
+        id: this.userdata.email,
         credits: 10,
         points: 0,
         xp: 0,
-        email: this.email,
+        email: this.userdata.email,
+        nickname: this.userdata.nickname,
         ipAddress: this.ipAddr,
       };
       await playersTableModel.write(data);
       // read data once written
-      const player = await playersTableModel.get(this.email);
+      const player = await playersTableModel.get(this.userdata.email);
       this.credits = player.credits;
       this.uid = player.id;
     }
