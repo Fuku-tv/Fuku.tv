@@ -39,6 +39,8 @@ export class ControllerServer {
 
   redisClient: any = redis.createClient(6379, '127.0.0.1');
 
+  progressiveJackpot: number = 1000;
+
   constructor(server: http.Server) {
     this.connectController();
 
@@ -155,10 +157,13 @@ export class ControllerServer {
   connectController() {
     // us->controller
     logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
+
     this.clientController = new WS(`${uriController}:${portController}`);
+
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
     });
+
     this.clientController.on('message', (data: any) => {
       const msg = JSON.parse(data);
       switch (msg.command) {
@@ -170,18 +175,25 @@ export class ControllerServer {
           }
           var pointsPct = Math.floor(Math.random() * Math.floor(100))
           var pointsWon = 0;
+          var jackpot = false;
           if (pointsPct === 0) pointsWon = 1; // womp womp
           else if (pointsPct > 0 && pointsPct <= 10) pointsWon = 2;
           else if (pointsPct > 10 && pointsPct <= 25) pointsWon = 3;
           else if (pointsPct > 25 && pointsPct <= 50) pointsWon = 4;
           else if (pointsPct > 50 && pointsPct <= 75) pointsWon = 5;
           else if (pointsPct > 75) {
+            if (pointsPct === 100) {
+              if (Math.floor(Math.random() * Math.floor(100)) === 100) {
+                // you just won the jackpot
+                jackpot = true;
+              }
+            }
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
             else pointsWon = 6;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: pointsWon });
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: pointsWon, jackpot: jackpot });
           this.currentPlayer.addPoints(pointsWon);
-          logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget!`);
+          logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
         default:
           break;
@@ -285,7 +297,9 @@ export class ControllerServer {
   }
 
   queuePlayer(p: any): void {
-    if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
+    if (this.currentPlayer !== null && this.currentPlayer !== undefined)
+      if (this.currentPlayer === p)
+        return; // what are you even trying to accomplish?
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
