@@ -20,6 +20,10 @@ const PlayerCommand = {
   gameplayend: 'gameplayend',
   gameend: 'gameend',
   prizeget: 'prizeget',
+  chatmsg: 'chatmsg',
+  chatuserlist: 'chatuserlist',
+  chatjoin: 'chatjoin',
+  chatpart: 'chatpart'
 };
 
 // commands sent to/from the pi
@@ -63,6 +67,11 @@ const Button = {
 const Action = {
   start: 'start',
   stop: 'stop',
+};
+
+const RedisChat = {
+  chatusers: 'chatusers',
+  chatmsgs: 'chatmsgs',
 };
 
 export default {
