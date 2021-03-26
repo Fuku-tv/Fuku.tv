@@ -1,0 +1,3 @@
+const ACCESS_KEY = 'AKIAWWFS6UKLOKZ7UTLW';
+
+const SECRET_KEY = '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';
