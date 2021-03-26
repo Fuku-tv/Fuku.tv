@@ -23,10 +23,10 @@ const config = {
 
 const client = new Client(config);
 
-export const createGiftCard = () => {
-  client.createGiftCard('NA', 123, 'USD', (error, result) => {
+export const createGiftCard = (amount: number): void => {
+  client.createGiftCard(REGION, amount, CURRENCY, (error, result) => {
     console.log('client.createGiftCard response', error, result);
   });
 };
 
-export const validateGiftCard = () => {};
+export const validateGiftCard = (): void => {};
