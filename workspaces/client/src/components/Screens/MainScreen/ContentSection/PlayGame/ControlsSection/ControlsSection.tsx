@@ -66,14 +66,29 @@ const ControlsSection: React.FC = () => {
     </SlideableContent>
   );
 
-  const readyToGoScreen = (
+  const freeplayScreen = (
     <>
-      <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
-        <TitleDescription title="Ready To Go?" descriptionStart="You currently have" dynamicNumber={state.credits} descriptionEnd="credits left." />{' '}
-        {startGameStopGameBtns}
-      </SlideableContent>
+    <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
+      <TitleDescription title="Ready to Play?" descriptionStart="You have" dynamicNumber={state.freeplay} descriptionEnd="freeplay tickets left!" />{' '}
+      {startGameStopGameBtns}
+    </SlideableContent>
     </>
   );
+
+  const creditsScreen = (
+    <>
+    <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
+      <TitleDescription title="Ready to Play?" descriptionStart="You have" dynamicNumber={state.credits} descriptionEnd="credits left!" />{' '}
+      {startGameStopGameBtns}
+    </SlideableContent>
+    </>
+  );
+
+  var readyToGoScreen;
+  if (state.freeplay > 0)
+    readyToGoScreen = freeplayScreen;
+  else
+    readyToGoScreen = creditsScreen;
 
   const controlsAndTimerScreen = (
     <>
