@@ -61,6 +61,10 @@ const Main: React.FC = () => {
             <span className="player-stats__item">Points:</span>
             <span className="player-stats__value">{gameState.state.points}</span>
           </div>
+          <div className="stat-freeplay-wrapper">
+            <span className="player-stats__item">Freeplay:</span>
+            <span className="player-stats__value">{gameState.state.creeplay}</span>
+          </div>
         </div>
         <div id="level">
           <div className="stat-item-wrapper">

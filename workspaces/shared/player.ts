@@ -12,50 +12,44 @@ export class Player {
 
   userdata: any;
 
-  credits: number;
+  credits: number = 0;
 
-  timePlay: number;
+  freeplay: number = 0;
 
-  timeStandby: number;
+  lastfreeplaydate: number = 0;
 
-  playTimer: any;
+  timePlay: number = 30100;
 
-  standbyTimer: any;
+  timeStandby: number = 60100;
 
-  isPlaying: boolean;
+  playTimer: any = null;
 
-  isLoggedIn: boolean;
+  standbyTimer: any = null;
 
-  isQueued: boolean;
+  isPlaying: boolean = false;
 
-  gameState: any;
+  isLoggedIn: boolean = false;
 
-  video: any;
+  isQueued: boolean = false;
 
-  uid: string;
+  gameState: any = constants.GameState.idle;
+
+  video: any = constants.Video.front;
+
+  uid: string = '';
 
   ipAddr: any;
 
-  qc: number;
+  qc: number = 0;
 
-  wc: number;
+  wc: number = 0;
 
-  level: number;
+  level: number = 0;
 
-  xp: number;
+  xp: number = 0;
 
   constructor(userdata: any, s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
-    this.timePlay = 30100;
-    this.timeStandby = 60100;
-    this.playTimer = null;
-    this.standbyTimer = null;
-    this.isPlaying = false;
-    this.isLoggedIn = false;
-    this.isQueued = false;
-    this.gameState = constants.GameState.idle;
-    this.video = constants.Video.front;
-    // this.uid = crypto.randomBytes(256).toString('hex');
     this.ipAddr = ip;
 
     this.userdata = userdata;
@@ -64,7 +58,7 @@ export class Player {
 
     this.fetchInitialPlayerData()
       .then(() => {
-        this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, queue: qc, watch: wc, test: false });
+        this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, freeplay: this.freeplay, queue: qc, watch: wc, test: false });
       })
       .catch((error) => {});
   }
@@ -88,6 +82,7 @@ export class Player {
       queue: qc,
       watch: wc,
       credits: this.credits,
+      freeplay: this.freeplay,
     });
   }
 
@@ -100,9 +95,21 @@ export class Player {
 
   play(callback: () => void): void {
     this.resetTimers();
-    // todo remove patch once we start removing credits.
-    this.credits -= 1;
-    // playersTableModel.removeCredits(this.userdata.email, 1).then(() => {});
+    // use freeplay first
+    if (this.freeplay > 0) {
+      this.freeplay -= 1;
+      playersTableModel.removeFreeplay(this.userdata.email, 1);
+    }
+    else if (this.credits > 0) {
+      this.credits -= 1;
+      playersTableModel.removeCredits(this.userdata.email, 1);
+      // award player 2 freeplays every 24 hr after spending at least 1 credit
+      if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
+        this.freeplay += 2;
+        this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
+        playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
+      }
+    }
     this.gameState = constants.GameState.playing;
     this.updateGameStats(this.qc, this.wc);
     this.playTimer = setTimeout(callback, this.timePlay);
@@ -132,12 +139,16 @@ export class Player {
     try {
       const player = await playersTableModel.get(this.userdata.email);
       this.credits = player.credits;
+      this.freeplay = player.freeplay;
+      this.lastfreeplaydate = player.lastfreeplaydate;
       this.uid = player.id;
     } catch {
       // no player found, creating new player
       const data: PlayerModel = {
         id: this.userdata.email,
-        credits: 10,
+        credits: 0,
+        freeplay: 10,
+        lastfreeplaydate: Math.floor(new Date().getTime() / 1000),
         points: 0,
         xp: 0,
         email: this.userdata.email,

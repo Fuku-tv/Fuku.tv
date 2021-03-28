@@ -4,6 +4,8 @@ export interface BaseModel {
 
 export interface Player extends BaseModel {
   credits: number;
+  freeplay: number;
+  lastfreeplaydate: number; // unix timestamp?
   points: number;
   xp: number;
   email: string;

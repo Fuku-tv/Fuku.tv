@@ -32,6 +32,24 @@ export const playersTableModel = {
     player.points += pointsToAdd;
     await playersTableModel.write(player);
   },
+
+  async removeFreeplay(id: string, freeplayToRemove: number) {
+    const player = await playersTableModel.get(id);
+    player.freeplay -= freeplayToRemove;
+    await playersTableModel.write(player);
+  },
+
+  async addFreeplay(id: string, freeplayToAdd: number) {
+    const player = await playersTableModel.get(id);
+    player.freeplay += freeplayToAdd;
+    await playersTableModel.write(player);
+  },
+
+  async updateLastFreeplayDate(id: string) {
+    const player = await playersTableModel.get(id);
+    player.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
+    await playersTableModel.write(player);
+  },
 };
 
 export const replayTableModel = {
