@@ -23,9 +23,9 @@ export class ControllerServer {
 
   currentPlayer: Player = null;
 
-  watchCounter: number = 0;
+  watchCounter = 0;
 
-  queueCounter: number = 0;
+  queueCounter = 0;
 
   clientController: any;
 
@@ -39,7 +39,7 @@ export class ControllerServer {
 
   redisClient: any = redis.createClient(6379, '127.0.0.1');
 
-  progressiveJackpot: number = 1000;
+  progressiveJackpot = 1000;
 
   constructor(server: http.Server) {
     this.connectController();
@@ -73,7 +73,7 @@ export class ControllerServer {
         this.queue.length,
         800,
         480,
-        req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+        req.headers['x-forwarded-for'] || req.socket.remoteAddress
       );
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
@@ -121,7 +121,11 @@ export class ControllerServer {
             if (this.redisClient.lpush('room:main', msg.chatmessage) > 10) {
               this.redisClient.rpop('room:main');
             }
-            sendall(this.players, { command: constants.PlayerCommand.chatmsg, nickname: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage });
+            sendall(this.players, {
+              command: constants.PlayerCommand.chatmsg,
+              nickname: clientPlayer.userdata.nickname,
+              chatmessage: msg.chatmessage,
+            });
             break;
           default:
             break;
@@ -158,6 +162,9 @@ export class ControllerServer {
 
     this.clientController.on('message', (data: any) => {
       const msg = JSON.parse(data);
+      const pointsPct = Math.floor(Math.random() * Math.floor(100));
+      let pointsWon = 0;
+      let jackpot = false;
       switch (msg.command) {
         case constants.PlayerCommand.prizeget:
           // player scored a prize
@@ -165,10 +172,9 @@ export class ControllerServer {
             logger.log(LogLevel.info, 'prizeget but currentPlayer deref!');
             return;
           }
-          var pointsPct = Math.floor(Math.random() * Math.floor(100))
-          var pointsWon = 0;
-          var jackpot = false;
-          if (pointsPct === 0) pointsWon = 1; // womp womp
+
+          if (pointsPct === 0) pointsWon = 1;
+          // womp womp
           else if (pointsPct > 0 && pointsPct <= 10) pointsWon = 2;
           else if (pointsPct > 10 && pointsPct <= 25) pointsWon = 3;
           else if (pointsPct > 25 && pointsPct <= 50) pointsWon = 4;
@@ -183,7 +189,7 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
             else pointsWon = 6;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: pointsWon, jackpot: jackpot });
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: pointsWon, jackpot });
           this.currentPlayer.addPoints(pointsWon);
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
@@ -251,8 +257,7 @@ export class ControllerServer {
   }
 
   gameEnd() {
-    if (this.currentPlayer !== null && this.currentPlayer !== undefined)
-      this.currentPlayer.gameEnd();
+    if (this.currentPlayer !== null && this.currentPlayer !== undefined) this.currentPlayer.gameEnd();
     this.currentPlayer = null;
     this.resetClaw();
 
@@ -289,9 +294,7 @@ export class ControllerServer {
   }
 
   queuePlayer(p: any): void {
-    if (this.currentPlayer !== null && this.currentPlayer !== undefined)
-      if (this.currentPlayer === p)
-        return; // what are you even trying to accomplish?
+    if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
@@ -331,7 +334,7 @@ const sendall = (players: Player[], data: any) => {
   players.forEach((p) => {
     if (p.socket !== null && p.socket !== undefined) p.socket.send(JSON.stringify(data));
   });
-}
+};
 
 const authenticateConnection = async (info: { origin: string; secure: boolean; req: http.IncomingMessage }): Promise<any> => {
   // parse querystring for token

@@ -10,6 +10,7 @@ interface Command {
   action?: string;
   success?: boolean;
   points?: number;
+  jackpot?: boolean;
 }
 
 export default Command;
