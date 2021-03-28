@@ -4,6 +4,7 @@ import './App.scss';
 // workaround for react-awesome-button css import bug
 import './styles.css';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import CookieConsent from 'react-cookie-consent';
 import { useAuthState } from 'src/state/hooks';
 import Header from './components/Header/Header';
 import AboutScreen from './components/Screens/AboutScreen/AboutScreen';
@@ -29,6 +30,7 @@ const App: React.FC = () => (
         <Main />
       </div>
     </Router>
+    <CookieConsent>This website uses cookies to enhance the user experience. And is only used by users 13 and older for COPPA lulz</CookieConsent>
   </Provider>
 );
 
