@@ -6,6 +6,7 @@ const initialState = {
   queue: 0,
   watch: 0,
   credits: 0,
+  freeplay: 0,
   points: 0,
   gameStatus: '',
   cameraIsForward: true,
@@ -28,6 +29,7 @@ const gameSlice = createSlice({
       return {
         ...state,
         credits: action.payload.credits,
+        freeplay: action.payload.freeplay,
         queue: action.payload.queue,
         watch: action.payload.watch,
       };
