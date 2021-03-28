@@ -144,14 +144,6 @@ export class ControllerServer {
         });
       });
     });
-/*
-    setInterval(() => {
-      this.checkPlayerQueue();
-    }, 500);
-    setInterval(() => {
-      this.updateGameStats();
-    }, 1000);
-*/
   }
 
   connectController() {

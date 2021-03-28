@@ -38,6 +38,8 @@ class Fuku {
 
   credits: number;
 
+  freeplay: number;
+
   // TODO remove UGLY UGLY UGLY hack
   uglyHackStore: EnhancedStore;
 
@@ -89,7 +91,7 @@ class Fuku {
     // switch statement for type because command objects arent consistent.
 
     switch (type) {
-      // user joins
+      // user joins queue
       case 'join':
         this.send({ command: constants.PlayerCommand.queue, action: 'join' });
         break;
@@ -168,12 +170,14 @@ class Fuku {
         this.queue = cmd.queue;
         this.watch = cmd.watch;
         this.credits = cmd.credits;
+        this.freeplay = cmd.freeplay;
         this.uglyHackStore.dispatch({
           type: 'GAME/gamestats',
           payload: {
             queue: this.queue,
             watch: this.watch,
             credits: this.credits,
+            freeplay: this.freeplay,
           },
         });
         break;
@@ -194,8 +198,13 @@ class Fuku {
         break;
       case PlayerCommand.prizeget:
         console.log('WINNERR', cmd.points);
-        this.toggleWinnerModal();
         this.setPoints(cmd.points);
+        if (cmd.jackpot === true) {
+          console.log('JACKPOT WINNER');
+          // this.toggleJackpotModal();
+        } else {
+          this.toggleWinnerModal();
+        }
         // actions.toggleWinnerModal();
         // useGameState().actions.toggleWinnerModal();
         break;
@@ -222,6 +231,10 @@ class Fuku {
           type: 'GAME/queueStatus',
           payload: false,
         });
+        break;
+
+      case PlayerCommand.chatmsg:
+        // this.updateChatModal(cmd.nickname, cmd.chatmessage);
         break;
 
       default:
