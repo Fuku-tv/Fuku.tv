@@ -274,7 +274,7 @@ class Fuku {
     if (this.intervalPlay !== null) clearInterval(this.intervalPlay);
   }
 
-  private setTimerBar(timeValue): void {
+  private setTimerBar(timeValue: number): void {
     let timerValue = timeValue;
     this.intervalStandby = setInterval(() => {
       timerValue -= 1;
@@ -289,7 +289,7 @@ class Fuku {
     }, 1000);
   }
 
-  private send(data) {
+  private send(data: any) {
     if (this.socket === null || this.socket === undefined) {
       console.log('socket null');
       return;

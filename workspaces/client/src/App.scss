@@ -102,7 +102,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        .stat-item-wrapper:first-child {
+        .stat-item-wrapper:nth-child(-n+2) {
           margin-right: 10px;
           padding-right: 10px;
           border-right: 1px solid #ffffff70;
