@@ -13,6 +13,8 @@ const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
+const REDIS_FUKU_URL = 'fuku-tv-cahce.jtlxqc.ng.0001.use1.cache.amazonaws.com';
+
 // hack to map authenticated email to current player
 const userRequestMap = new WeakMap();
 
@@ -37,7 +39,7 @@ export class ControllerServer {
 
   wss: WS.Server;
 
-  redisClient: any = redis.createClient(6379, '127.0.0.1');
+  redisClient: any = redis.createClient(6379, REDIS_FUKU_URL);
 
   progressiveJackpot = 1000;
 
