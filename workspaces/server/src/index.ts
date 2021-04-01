@@ -3,6 +3,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
+
 import { LoggerClass, LogLevel } from 'fuku.tv-shared';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';

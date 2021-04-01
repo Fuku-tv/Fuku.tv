@@ -10,12 +10,9 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   let stripeEvent: Stripe.Event;
   const signature = event.headers['Stripe-Signature'];
   const { body } = event;
-  const sessionCheck = JSON.parse(body).data.object as Stripe.Checkout.Session;
 
-  const webhookSecret = sessionCheck.livemode ? 'whsec_wEti55fBXOdPv34e9RHdzEcLDuufuBJv' : 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
-  const stripeSecret = sessionCheck.livemode
-    ? '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'
-    : 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9';
+  const webhookSecret = env.StripeWebhookSecret();
+  const stripeSecret = env.StripeApiSecret();
 
   const stripe = new Stripe(stripeSecret, {
     apiVersion: '2020-08-27',
