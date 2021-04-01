@@ -55,6 +55,20 @@ export const FukuApiServerURL = (): string => {
   return 'https://api.fuku.tv';
 };
 
+export const FukuRedisServerURL = (): string => {
+  if (process.env.NODE_ENV === 'development') {
+    // Local Development
+    return '127.0.0.1';
+  }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'fuku-cache.jtlxqc.ng.0001.use1.cache.amazonaws.com';
+  }
+  // Prod Environment
+  // TODO get production URL from elasticache
+  return 'fuku-cache.jtlxqc.ng.0001.use1.cache.amazonaws.com';
+};
+
 export const StripeApiKey = (): string => {
   let value: string;
   // check for live key in ENV
