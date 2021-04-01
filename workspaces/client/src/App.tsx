@@ -30,7 +30,9 @@ const App: React.FC = () => (
         <Main />
       </div>
     </Router>
-    <CookieConsent>This website uses cookies to enhance the user experience. And is only used by users 13 and older for COPPA lulz</CookieConsent>
+    <CookieConsent style={{ textAlign: 'center', fontSize: '14px' }}>
+      This website uses cookies to enhance the user experience. And is only used by users 13 and older for COPPA lulz
+    </CookieConsent>
   </Provider>
 );
 

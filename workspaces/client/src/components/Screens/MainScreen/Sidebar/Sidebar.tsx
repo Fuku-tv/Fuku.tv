@@ -2,9 +2,10 @@ import * as React from 'react';
 // import {Messages} from '../../Messages';
 import useAuthState from 'src/state/hooks/useAuthState';
 import useNavigationState from 'src/state/hooks/useNavigationState';
-import ChatWidget from 'src/components/game/ChatWidget';
+
+import GameChat from 'src/components/UIElements/GameChat/GameChat';
 import Header from '../../../Header/Header';
-import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
+// import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
 import SidebarNavigation from '../Navigation/Navigation';
 import './Sidebar.scss';
@@ -45,7 +46,7 @@ const SideBar: React.FC = () => {
   );
   return (
     <aside id="sidebar-section">
-      <DiscordChat />
+      <GameChat />
     </aside>
   );
 };
