@@ -4,10 +4,15 @@ import './GameChat.scss';
 // import { ReactComponent as UpArrow } from 'src/shared/icons/upArrow.svg';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import MessageItem from './MessageItem/MessageItem';
 
 const GameChat: React.FC = () => {
   const [chatIsOpen, setChatIsOpen] = React.useState(true);
   const { state, actions } = useAuthState();
+  const [messages, setMessages] = React.useState([
+    'Lorem ipsum dolor, sectetur acing elit',
+    'Ipsum dolorem ipsum dolor, sit amet cons sum dole cta dipsum dolisicing elit',
+  ]);
 
   const discordLink = (
     <div className="link-wrapper">
@@ -38,119 +43,7 @@ const GameChat: React.FC = () => {
       </div>
       <div className="game-chat__body">
         <div className="body__messages">
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ior, sit amet consectetur adipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sectetur acing elit</div>
-                </div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sit amet consectadipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum doloamet consectetur adipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper outgoing">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sit ameur adipi sicingdipisi elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sit amet consectetur adipisicelit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum doling elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum consectetur adipisicing e dolor, sit amet consectetur adipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor,adipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sit a consectetur adipisicing e consectetur adipisiciNihil, vero?</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="message-item-row">
-            <div className="message-item-wrapper">
-              <ProfileImage image={state.picture} size={24} />
-              <div className="message-item__message-container">
-                <div className="message__title">James Oliva</div>
-                <div className="message-item">
-                  <div className="message__message-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <MessageItem picture={state.picture} messages={messages} name={state.name} />
         </div>
         <div className="body__message-composer">
           <div className="message-composer__message">

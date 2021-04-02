@@ -50,59 +50,12 @@
         display: flex;
         justify-content: center;
       }
-      #level {
-        position: relative;
-        // margin-right: 5px;
-        // font-size: 16px;
-        display: flex;
-        align-items: center;
-        progress {
-          border: none;
-          // width: 100%;
-          width: 140px;
-          height: 10px;
-          // -webkit-transform: translateY(-5px);
-          // -ms-transform: translateY(-5px);
-          // transform: translateY(-5px);
-          border-radius: 2px;
-          margin-left: 5px;
-          // background: crimson;
-        }
-
-        progress {
-          // color: lightblue;
-          color: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-value {
-          // background: lightblue;
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-moz-progress-bar {
-          // background: lightcolor;
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-value {
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-bar {
-          border-radius: 2px;
-          background: #f0f0f0;
-        }
-      }
 
       #points-and-credits {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        .stat-item-wrapper:nth-child(-n+2) {
+        .stat-item-wrapper:nth-child(-n + 2) {
           margin-right: 10px;
           padding-right: 10px;
           border-right: 1px solid #ffffff70;
@@ -129,10 +82,10 @@
     width: 100% !important;
   }
 
-  .player-stats-container {
-    justify-content: space-between !important;
-    #level progress {
-      width: 80px !important;
-    }
-  }
+  // .player-stats-container {
+  //   justify-content: space-between !important;
+  //   #level progress {
+  //     width: 80px !important;
+  //   }
+  // }
 }

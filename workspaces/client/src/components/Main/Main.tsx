@@ -15,6 +15,7 @@ import LeaderboardsScreen from '../Screens/LeaderboardsScreen/LeaderboardsScreen
 import StoreScreen from '../Screens/StoreScreen/StoreScreen';
 import PrizesScreen from '../Screens/PrizesScreen/PrizesScreen';
 import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCustomizationScreen';
+import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
 
 // import routes from './app/routes';
 // import SideBar from './components';
@@ -66,13 +67,7 @@ const Main: React.FC = () => {
             <span className="player-stats__value">{gameState.state.points}</span>
           </div>
         </div>
-        <div id="level">
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Level:</span>
-            <span className="player-stats__value">6</span>
-          </div>
-          <progress min="0" max="100" value="63" />
-        </div>
+        <PlayerLevel />
       </div>
     </div>
   );
