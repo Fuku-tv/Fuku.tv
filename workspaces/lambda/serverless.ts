@@ -13,7 +13,7 @@ const serverlessConfiguration: Serverless = {
   service: 'fuku-serverless',
   configValidationMode: 'error',
   custom: {
-    bundle: { sourcemaps: false, linting: false },
+    bundle: { sourcemaps: false, linting: false, fixPackages: ['formidable@1.x'] },
   },
   provider: {
     lambdaHashingVersion: 20201221,

@@ -120,5 +120,33 @@ export const stripeWebhookSecret = (): string => {
   return 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
 };
 
+export const amazonGiftCardKey = (): string => {
+  let value: string;
+
+  // check for live key in ENV
+  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
+    getSecrets().then((data) => {
+      value = data.AMAZON_GIFTCARD_KEY;
+    });
+    return value;
+  }
+  // return test secret
+  return 'AKIAWWFS6UKLIFJK3XO4';
+};
+
+export const amazonGiftCardSecret = (): string => {
+  let value: string;
+
+  // check for live key in ENV
+  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
+    getSecrets().then((data) => {
+      value = data.AMAZON_GIFTCARD_SECRET;
+    });
+    return value;
+  }
+  // return test secret
+  return '/F4WVa8cJAmEyGedETdQiDYCclV/yULb5tlKjgmw';
+};
+
 // TODO WIP
 const getSecret = (key: keyof Secrets): string => 'test';
