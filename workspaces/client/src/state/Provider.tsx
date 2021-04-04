@@ -30,14 +30,12 @@ const ProviderChild: React.FC = (props) => {
   return <>{props.children}</>;
 };
 
-export const Provider: React.FC = (props) => {
-  return (
-    <Auth0Provider domain="fukutv-alpha.us.auth0.com" clientId="6N4jkRkDRisBK9GjkCsMjLmESvOpAZN1" redirectUri={globalThis.window.location.origin}>
-      <ReduxProvider store={store}>
-        <ProviderChild> {props.children}</ProviderChild>
-      </ReduxProvider>
-    </Auth0Provider>
-  );
-};
+export const Provider: React.FC = (props) => (
+  <Auth0Provider domain="fukutv-alpha.us.auth0.com" clientId="6N4jkRkDRisBK9GjkCsMjLmESvOpAZN1" redirectUri={globalThis.window.location.origin}>
+    <ReduxProvider store={store}>
+      <ProviderChild> {props.children}</ProviderChild>
+    </ReduxProvider>
+  </Auth0Provider>
+);
 
 export default Provider;

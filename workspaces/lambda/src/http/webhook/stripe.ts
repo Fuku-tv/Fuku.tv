@@ -11,8 +11,8 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   const signature = event.headers['Stripe-Signature'];
   const { body } = event;
 
-  const webhookSecret = env.StripeWebhookSecret();
-  const stripeSecret = env.StripeApiSecret();
+  const webhookSecret = env.stripeWebhookSecret();
+  const stripeSecret = env.stripeApiSecret();
 
   const stripe = new Stripe(stripeSecret, {
     apiVersion: '2020-08-27',

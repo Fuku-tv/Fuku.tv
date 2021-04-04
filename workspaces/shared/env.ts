@@ -1,6 +1,6 @@
-import { getSecrets } from 'fuku.tv-shared/secrets';
+import { getSecrets, Secrets } from 'fuku.tv-shared/secrets';
 
-export const FukuControllerServerURL = (): string => {
+export const fukuControllerServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     return 'ws://localhost:10888';
@@ -13,7 +13,7 @@ export const FukuControllerServerURL = (): string => {
   return 'wss://prod.fuku.tv/controller';
 };
 
-export const FukuVideoServerURL = (): string => {
+export const fukuVideoServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     return 'ws://localhost:10889';
@@ -42,7 +42,7 @@ export const getStage = (): string => {
   return 'prod';
 };
 
-export const FukuApiServerURL = (): string => {
+export const fukuApiServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     return 'http://localhost:3000';
@@ -55,7 +55,7 @@ export const FukuApiServerURL = (): string => {
   return 'https://api.fuku.tv';
 };
 
-export const FukuRedisServerURL = (): string => {
+export const fukuRedisServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     return '127.0.0.1';
@@ -69,10 +69,20 @@ export const FukuRedisServerURL = (): string => {
   return 'fuku-cache.jtlxqc.ng.0001.use1.cache.amazonaws.com';
 };
 
-export const StripeApiKey = (): string => {
+export const amazonGiftCardURL = (): string => {
+  if (process.env.EB_ENVIRONMENT !== 'production' || process.env.LAMBDA_ENV !== 'prod') {
+    // Dev Environment
+    return 'agcod-v2-gamma.amazon.com';
+  }
+  // Prod Environment
+  // TODO get production URL from elasticache
+  return 'agcod-v2.amazon.com';
+};
+
+export const stripeApiKey = (): string => {
   let value: string;
   // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production') {
+  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
     getSecrets().then((data) => {
       value = data.STRIPE_API_KEY;
     });
@@ -82,23 +92,25 @@ export const StripeApiKey = (): string => {
   return 'pk_test_51HxGG6Gx8BmO5evBcDbYjClczRZa0rC96ZiA3ZFyn5ErewXeH2TgAs9cseKW6mT1mMpfRepbtbXEgrPEWovaHbn100wlrLXvff';
 };
 
-export const StripeApiSecret = (): string => {
+export const stripeApiSecret = (): string => {
   let value: string;
   // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production') {
+  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
     getSecrets().then((data) => {
       value = data.STRIPE_API_SECRET;
     });
     return value;
   }
+
   // return test secret
   return 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9';
 };
 
-export const StripeWebhookSecret = (): string => {
+export const stripeWebhookSecret = (): string => {
   let value: string;
+
   // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production') {
+  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
     getSecrets().then((data) => {
       value = data.STRIPE_WEBHOOK_SECRET;
     });
@@ -107,3 +119,6 @@ export const StripeWebhookSecret = (): string => {
   // return test secret
   return 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
 };
+
+// TODO WIP
+const getSecret = (key: keyof Secrets): string => 'test';

@@ -6,8 +6,8 @@ import type Stripe from 'stripe';
 
 import Axios from 'axios';
 
-const STRIPE_API_KEY = env.StripeApiKey();
-const STRIPE_API_SECRET = env.StripeApiSecret();
+const STRIPE_API_KEY = env.stripeApiKey();
+const STRIPE_API_SECRET = env.stripeApiSecret();
 
 const StripeAPI = Axios.create({
   baseURL: 'https://api.stripe.com',
