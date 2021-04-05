@@ -1,12 +1,7 @@
 {
-  "preserveConstEnums": true,
-
-  "strictNullChecks": true,
-  "sourceMap": true,
-  "allowJs": true,
-  "target": "esnext",
-  "moduleResolution": "node",
-  "rootDir": "./",
+  "ts-node": {
+    "transpileOnly": true
+  },
   "compilerOptions": {
     "baseUrl": ".",
     "resolveJsonModule": true,

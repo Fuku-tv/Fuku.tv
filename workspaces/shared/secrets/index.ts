@@ -9,6 +9,8 @@ export interface Secrets {
   STRIPE_API_KEY: string;
   STRIPE_API_SECRET: string;
   STRIPE_WEBHOOK_SECRET: string;
+  AMAZON_GIFTCARD_KEY: string;
+  AMAZON_GIFTCARD_SECRET: string;
 }
 
 const region = 'us-east-1';

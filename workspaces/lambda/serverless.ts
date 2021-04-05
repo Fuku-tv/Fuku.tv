@@ -13,7 +13,7 @@ const serverlessConfiguration: Serverless = {
   service: 'fuku-serverless',
   configValidationMode: 'error',
   custom: {
-    bundle: { sourcemaps: false },
+    bundle: { sourcemaps: false, linting: false, fixPackages: ['formidable@1.x'] },
   },
   provider: {
     lambdaHashingVersion: 20201221,
@@ -24,7 +24,7 @@ const serverlessConfiguration: Serverless = {
     runtime: 'nodejs12.x',
     stage: STAGE,
     environment: {
-      NODE_ENV: STAGE,
+      LAMBDA_ENV: STAGE,
     },
     region: 'us-east-1',
     iamRoleStatements: [
@@ -44,6 +44,17 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             path: '/webhook/stripe',
+            method: 'post',
+          },
+        },
+      ],
+    },
+    giftcard: {
+      handler: 'src/http/giftCard.index',
+      events: [
+        {
+          http: {
+            path: '/giftcard',
             method: 'post',
           },
         },

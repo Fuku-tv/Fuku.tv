@@ -1,0 +1,47 @@
+{
+  "name": "agcod",
+  "version": "1.0.4",
+  "description": "Node.js api for the Amazon Gift Codes On Demand Web Services",
+  "main": "index.js",
+  "engines": {
+    "node": ">=4.4.5"
+  },
+  "scripts": {
+    "pretest:dev": "eslint --ext=.js .",
+    "test:dev": "cross-env NODE_ENV=development tape ./tests/*.js",
+    "pretest:sandbox": "eslint --ext=.js .",
+    "test:sandbox": "cross-env NODE_ENV=sandbox tape ./tests/*.js",
+    "pretest:certification": "eslint --ext=.js .",
+    "test:certification": "cross-env NODE_ENV=sandbox tape ./tests/certification.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leadstoloyals/node-agcod.git"
+  },
+  "keywords": [
+    "agcod",
+    "amazon-web-services",
+    "aws",
+    "giftcard",
+    "loyalty"
+  ],
+  "author": "Christiaan Westerbeek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leadstoloyals/node-agcod/issues"
+  },
+  "homepage": "https://github.com/leadstoloyals/node-agcod#readme",
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "eslint": "^6.5.1",
+    "nock": "^11.6.0",
+    "tape": "^4.11.0"
+  },
+  "dependencies": {
+    "aws4": "^1.8.0",
+    "axios": "^0.21.1",
+    "bignumber.js": "^9.0.0",
+    "config": "^3.2.3",
+    "request": "^2.88.0"
+  }
+}
