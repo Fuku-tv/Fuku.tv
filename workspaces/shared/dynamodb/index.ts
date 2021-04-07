@@ -10,7 +10,8 @@ const STAGE = getStage();
 export const tableList = {
   PLAYERS_TABLE: `Players-${STAGE}`,
   GAMES_TABLE: `Games-${STAGE}`,
-  REPLAY_TABLE: `Replay-${STAGE}`
+  REPLAY_TABLE: `Replay-${STAGE}`,
+  POINTS_LEDGER_TABLE: `Points-Ledger-${STAGE}`,
 };
 
 /**
