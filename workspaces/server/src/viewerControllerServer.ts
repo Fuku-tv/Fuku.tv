@@ -2,8 +2,6 @@
 import WS from 'ws';
 import http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
-import url from 'url';
-import querystring from 'querystring';
 import fetch from 'node-fetch';
 
 import * as redis from 'redis';
@@ -55,22 +53,10 @@ export class ControllerServer {
     // client->us
     this.wss = new WS.Server({
       server,
-      verifyClient: async (info: any, authenticated: any) => {
-        const userdata = await authenticateConnection(info);
-        if (userdata === null || userdata === undefined) {
-          authenticated(false);
-        } else {
-          userRequestMap.set(info.req, userdata);
-          authenticated(true);
-        }
-      },
     });
 
     this.wss.on('connection', (socket: any, req: any) => {
-      const userdata = userRequestMap.get(req);
-      logger.log(LogLevel.info, `got userdata for ${userdata.nickname}`);
       const clientPlayer = new Player(
-        userdata,
         socket,
         this.players.length + 1,
         this.queue.length,
@@ -81,7 +67,7 @@ export class ControllerServer {
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
 
-      socket.on('message', (data: any) => {
+      socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
 
         switch (msg.command) {
@@ -109,14 +95,17 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
+            clientPlayer.Login(await authenticateConnection(msg.message));
             this.queuePlayer(clientPlayer);
             break;
           case constants.PlayerCommand.dequeue:
             this.dequeuePlayer(clientPlayer);
             break;
           case constants.PlayerCommand.login:
+            clientPlayer.Login(await authenticateConnection(msg.message));
             break;
           case constants.PlayerCommand.logout:
+            clientPlayer.logout();
             break;
           case constants.PlayerCommand.chatmsg:
             // filter stupid shit
@@ -296,7 +285,7 @@ export class ControllerServer {
     }
   }
 
-  queuePlayer(p: any): void {
+  queuePlayer(p: Player): void {
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
@@ -339,15 +328,10 @@ const sendall = (players: Player[], data: any) => {
   });
 };
 
-const authenticateConnection = async (info: { origin: string; secure: boolean; req: http.IncomingMessage }): Promise<any> => {
-  // parse querystring for token
-  const parsedUrl = url.parse(info.req.url);
-  const parsedQs = querystring.parse(parsedUrl.query);
-  const { token } = parsedQs;
-
+const authenticateConnection = async (token: string): Promise<any> => {
   // check if querystring for token exists
   if (token === null || token === undefined) {
-    logger.log(LogLevel.info, `${info.req.socket.remoteAddress} - Got message but no token?`);
+    logger.log(LogLevel.info, ' - Got message but no token?');
     return null;
   }
 
