@@ -17,6 +17,9 @@ export const playersTableModel = {
 
   async removeCredits(id: string, creditsToRemove: number) {
     const player = await playersTableModel.get(id);
+    if (player.credits < creditsToRemove) {
+      throw new Error('Insufficent credits');
+    }
     player.credits -= creditsToRemove;
     await playersTableModel.write(player);
   },
@@ -30,6 +33,17 @@ export const playersTableModel = {
   async addPoints(id: string, pointsToAdd: number) {
     const player = await playersTableModel.get(id);
     player.points += pointsToAdd;
+    await playersTableModel.write(player);
+  },
+
+  async removePoints(id: string, pointsToRemove: number) {
+    const player = await playersTableModel.get(id);
+
+    // check to make sure player has enough points
+    if (player.points < pointsToRemove) {
+      throw new Error('Insufficent points');
+    }
+    player.points -= pointsToRemove;
     await playersTableModel.write(player);
   },
 
@@ -61,7 +75,7 @@ export const replayTableModel = {
   },
   async delete(id: string) {
     return dynamo.delete(id, tableList.REPLAY_TABLE);
-  }
+  },
 };
 
 export const createTable = () => {};

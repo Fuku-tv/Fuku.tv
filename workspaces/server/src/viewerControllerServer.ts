@@ -14,7 +14,7 @@ const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
-const FUKU_REDIS_URL = env.FukuRedisServerURL();
+const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
 // hack to map authenticated email to current player
 const userRequestMap = new WeakMap();

@@ -9,12 +9,12 @@ import { useGameState } from 'src/state/hooks';
 /**
  * URL for fuku.tv controller
  */
-const FUKU_URL_CONTROLLER = env.FukuControllerServerURL();
+const FUKU_URL_CONTROLLER = env.fukuControllerServerURL();
 
 /**
  * URL for fuku.tv video
  */
-const FUKU_URL_VIDEO = env.FukuVideoServerURL();
+const FUKU_URL_VIDEO = env.fukuVideoServerURL();
 
 /**
  * Base class for all

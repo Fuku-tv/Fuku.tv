@@ -11,8 +11,11 @@ const uriVideo2 = 'ws://96.61.12.109:10779';
 
 export class VideoServer {
   viewers: Viewer[] = [];
+
   keyframes: [] = [];
-  videoState: String[] = [];
+
+  videoState: string[] = [];
+
   wss: WS.Server;
 
   constructor(server: http.Server) {
@@ -76,11 +79,11 @@ export class VideoServer {
 
     socket.on('message', (data: any) => {
       if (typeof data === 'string') {
-        var msg = JSON.parse(data);
+        const msg = JSON.parse(data);
         this.videoState[position] = msg.state;
-        var newmsg = {
+        const newmsg = {
           state: msg.state,
-          position: position
+          position,
         };
         this.viewers.forEach((p: any) => {
           p.socket.send(JSON.stringify(newmsg));
