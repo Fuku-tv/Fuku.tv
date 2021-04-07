@@ -83,6 +83,7 @@ export class ControllerServer {
 
       socket.on('message', (data: any) => {
         const msg = JSON.parse(data);
+        console.log('2', msg);
 
         switch (msg.command) {
           case constants.PlayerCommand.control:
@@ -118,15 +119,22 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.logout:
             break;
+          case constants.PlayerCommand.chatjoin:
+            console.log('User joined. Getting ready to send all messages out ');
+            // this.sendAllChatMessages();
+            // get all previous stored messages
+            // use forLoop to send out each messages
+            break;
           case constants.PlayerCommand.chatmsg:
             // filter stupid shit
             // put it in redis
+
             if (this.redisClient.lpush('room:main', msg.chatmessage) > 10) {
               this.redisClient.rpop('room:main');
             }
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
-              nickname: clientPlayer.userdata.nickname,
+              user: clientPlayer.userdata.nickname,
               chatmessage: msg.chatmessage,
             });
             break;
@@ -325,6 +333,31 @@ export class ControllerServer {
   updateallstats() {
     this.players.forEach((p) => {
       p.updateGameStats(this.queue.length, this.players.length);
+    });
+  }
+
+  sendAllChatMessages() {
+    // replace messageList with last 10 saved messages from server. Not sure how.
+    const messageList = [
+      {
+        user: 'Random User 1',
+        message:
+          'Duis nec nibh ac turpis volutpat pretium. Suspendisse euismod nulla eu dapibus mattis. Orci varius natoque penatibus et magnis dis parturient monte',
+      },
+      { user: 'Random User 2', message: 'Fusce vitae tortor consectetur' },
+      { user: 'Random User 3', message: 'Duis ut congue metus.' },
+    ];
+
+    // if (this.redisClient.lpush('room:main', msg.chatmessage.message) > 10) {
+    //   this.redisClient.rpop('room:main');
+    // }
+
+    messageList.forEach((m) => {
+      sendall(this.players, {
+        command: constants.PlayerCommand.chatmessages,
+        user: m.user,
+        chatmessage: m,
+      });
     });
   }
 }

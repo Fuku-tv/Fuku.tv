@@ -26,7 +26,6 @@ const App: React.FC = () => (
     <Router>
       <Header />
       <div className="app-body-wrapper">
-        {!isMobile && <VerticalNavigation />}
         <Main />
       </div>
     </Router>

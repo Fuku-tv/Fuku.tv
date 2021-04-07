@@ -20,6 +20,10 @@ export const buttonDownEvent = (type: string): void => {
 export const buttonUpEvent = (type: string): void => {
   fuku.buttonEndEvent(type);
 };
+
+export const sendChatMessage = (message: Record<string, unknown>): void => {
+  fuku.sendChatMessage(message);
+};
 /**
  * subscribes to the fukuClass
  * @param stats

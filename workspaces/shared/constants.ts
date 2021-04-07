@@ -23,7 +23,8 @@ const PlayerCommand = {
   chatmsg: 'chatmsg',
   chatuserlist: 'chatuserlist',
   chatjoin: 'chatjoin',
-  chatpart: 'chatpart'
+  chatpart: 'chatpart',
+  chatmessages: 'chatmessages',
 };
 
 // commands sent to/from the pi
@@ -50,7 +51,7 @@ const Video = {
 
 const VideoState = {
   active: 'active',
-  inactive: 'inactive'
+  inactive: 'inactive',
 };
 
 const Button = {
@@ -82,4 +83,5 @@ export default {
   VideoState,
   Button,
   Action,
+  RedisChat,
 };

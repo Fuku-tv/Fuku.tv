@@ -6,14 +6,22 @@
   text-align: left;
   &.outgoing {
     justify-content: flex-end;
+    .message-item-wrapper {
+      // justify-content: flex-end;
+      flex-direction: row-reverse;
+    }
+    #profile-image {
+      margin-right: 0px !important;
+      margin-left: 6px;
+    }
   }
   .message-item-wrapper {
     position: relative;
     padding: 12px;
     // background: #fff;
     // border-radius: 50px;
-    display: flex;
     align-items: flex-end;
+    display: flex;
     width: 100%;
     #profile-image {
       margin-right: 6px;
@@ -47,6 +55,7 @@
           position: relative;
           font-size: 12px !important;
           line-height: 18px;
+          overflow-wrap: break-word;
         }
       }
     }

@@ -50,31 +50,30 @@ const Routes = () => (
 const Main: React.FC = () => {
   const { state, actions } = useAuthState();
   const gameState = useGameState();
-  const playerStats = (
-    <div className="player-stats-container">
-      <div className="inner-wrapper">
-        <div id="points-and-credits">
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Credits:</span>
-            <span className="player-stats__value">{gameState.state.credits}</span>
-          </div>
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Freeplay:</span>
-            <span className="player-stats__value">{gameState.state.freeplay}</span>
-          </div>
-          <div className="stat-item-wrapper">
-            <span className="player-stats__item">Points:</span>
-            <span className="player-stats__value">{gameState.state.points}</span>
-          </div>
-        </div>
-        <PlayerLevel />
-      </div>
-    </div>
-  );
+  // const playerStats = (
+  //   <div className="player-stats-container">
+  //     <div className="inner-wrapper">
+  //       <div id="points-and-credits">
+  //         <div className="stat-item-wrapper">
+  //           <span className="player-stats__item">Credits:</span>
+  //           <span className="player-stats__value">{gameState.state.credits}</span>
+  //         </div>
+  //         <div className="stat-item-wrapper">
+  //           <span className="player-stats__item">Freeplay:</span>
+  //           <span className="player-stats__value">{gameState.state.freeplay}</span>
+  //         </div>
+  //         <div className="stat-item-wrapper">
+  //           <span className="player-stats__item">Points:</span>
+  //           <span className="player-stats__value">{gameState.state.points}</span>
+  //         </div>
+  //       </div>
+  //       <PlayerLevel />
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <main>
-      {playerStats}
       <ContentContainer>
         <Routes />
       </ContentContainer>

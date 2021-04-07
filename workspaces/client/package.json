@@ -24,6 +24,7 @@
     "hamburger-react": "^2.4.0",
     "react": ">=16",
     "react-awesome-button": "^6.5.1",
+    "react-circular-progressbar": "^2.0.4",
     "react-cookie-consent": "^6.2.3",
     "react-countdown-circle-timer": "^2.5.0",
     "react-device-detect": "^1.15.0",

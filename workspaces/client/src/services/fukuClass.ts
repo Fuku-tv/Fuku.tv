@@ -68,6 +68,7 @@ class Fuku {
     this.liveplayer.initCanvas(800, 480);
 
     console.log('starting video');
+    this.getAllChatMessages();
   }
 
   disconnectVideo(): void {
@@ -94,6 +95,7 @@ class Fuku {
       // user joins queue
       case 'join':
         this.send({ command: constants.PlayerCommand.queue, action: 'join' });
+
         break;
 
       // swap video
@@ -105,6 +107,7 @@ class Fuku {
             video: this.currentVideoUri,
           })
         );
+
         break;
 
       // all other messages
@@ -130,6 +133,15 @@ class Fuku {
     });
   };
 
+  sendChatMessage = (message: Record<string, unknown>): void => {
+    console.log('mess', message);
+
+    this.send({
+      command: constants.PlayerCommand.chatmsg,
+      chatmessage: message,
+    });
+  };
+
   private disconnect(): void {
     if (this.socket === null || this.socket === undefined) return;
     this.socket.close();
@@ -144,9 +156,15 @@ class Fuku {
 
     this.socket.onopen = () => {
       console.log('Socket Connected');
+      // this.getAllChatMessages();
     };
     this.socket.onmessage = (e) => {
+      console.log('1 Message sent', e);
       this.parseCommand(JSON.parse(e.data));
+      // this.parseCommand({
+      //   command: constants.PlayerCommand.chatmsg,
+      //   chatmessage: this.chat,
+      // });
     };
     this.socket.onclose = (ev) => {
       console.log('Socket Closed:', ev);
@@ -171,6 +189,7 @@ class Fuku {
         this.watch = cmd.watch;
         this.credits = cmd.credits;
         this.freeplay = cmd.freeplay;
+
         this.uglyHackStore.dispatch({
           type: 'GAME/gamestats',
           payload: {
@@ -211,21 +230,18 @@ class Fuku {
       case PlayerCommand.gameplayend:
         this.resetTimers();
         this.timerCommand = setTimeout(() => {}, 6000);
-
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.gameend:
         this.resetTimers();
         this.setGameStatus(cmd.command);
         break;
-
       case PlayerCommand.queue:
         this.uglyHackStore.dispatch({
           type: 'GAME/queueStatus',
           payload: true,
         });
         break;
-
       case PlayerCommand.dequeue:
         this.uglyHackStore.dispatch({
           type: 'GAME/queueStatus',
@@ -234,7 +250,8 @@ class Fuku {
         break;
 
       case PlayerCommand.chatmsg:
-        // this.updateChatModal(cmd.nickname, cmd.chatmessage);
+        console.log('Receving message from socket', cmd);
+        this.updateChat(cmd.user, cmd.chatmessage);
         break;
 
       default:
@@ -250,6 +267,14 @@ class Fuku {
       payload: {
         gameStatus: status,
       },
+    });
+  }
+
+  private updateChat(user, message) {
+    const chatMessage = { user, message };
+    this.uglyHackStore.dispatch({
+      type: 'GAME/sendChatMessage',
+      payload: chatMessage,
     });
   }
 

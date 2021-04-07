@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import './PlayerLevel.scss';
 import { levels } from './playerLevels';
 
@@ -19,7 +21,7 @@ const PlayerLevel: React.FC = () => {
           setPlayerLevel(levels[i].level);
           // setPointsUntilNextLevel(levels[i].max - p)
           setMaxPoints(levels[i].max);
-          setPointPercent((p / levels[i].max) * 100);
+          setPointPercent((points / levels[i].max) * 100);
           break;
         }
         // break;
@@ -28,16 +30,28 @@ const PlayerLevel: React.FC = () => {
     getPlayerLevel(gameState.state.points);
   }, [gameState.state.points]);
 
+  // const lvlProgress = (
+  //   <div className="level__progress">
+  //     {gameState.state.points}/{maxPoints}
+  //   </div>
+  // );
   return (
-    <div id="level">
-      <div className="stat-item-wrapper">
-        <span className="player-stats__item">Level:</span>
-        <span className="player-stats__value">{playerLevel}</span>
-      </div>
-      <progress min="0" max="100" value={pointPercent} />
-      <span className="player-stats__item">
-        {gameState.state.points}/{maxPoints}
-      </span>
+    <div className="player-level-container">
+      <CircularProgressbar
+        styles={buildStyles({
+          // Rotation of path and trail, in number of turns (0-1)
+
+          strokeLinecap: 'butt',
+          textSize: '44px',
+          fontWeight: 'bold',
+          pathTransitionDuration: 0.5,
+          textColor: '#fff',
+          trailColor: '#c4b9d7',
+          pathColor: '#eac44a',
+        })}
+        value={gameState.state.points === 0 ? 2 : gameState.state.points}
+        text={playerLevel}
+      />
     </div>
   );
 };

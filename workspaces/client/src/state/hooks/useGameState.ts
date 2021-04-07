@@ -41,6 +41,10 @@ const useGameState = () => {
   const toggleWinnerModal = () => {
     dispatch(actions.toggleWinnerModal());
   };
+  const sendChatMessage = (message) => {
+    // dispatch(actions.sendChatMessage(message));
+    dispatch(gameActions.sendMessage(message));
+  };
 
   const startFuku = () => {
     dispatch(gameActions.startFuku());
@@ -60,6 +64,7 @@ const useGameState = () => {
       buttonUpEvent,
       toggleCamera,
       toggleWinnerModal,
+      sendChatMessage,
       startFuku,
       endFuku,
     },

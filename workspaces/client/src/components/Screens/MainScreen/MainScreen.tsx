@@ -54,7 +54,7 @@ const MainScreen: React.FC = () => {
 
           <ContentSection />
         </div>
-        {!isMobile && <Sidebar />}
+        {!isMobile && <Sidebar />}{' '}
       </div>
     </>
   );

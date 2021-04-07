@@ -1,63 +1,16 @@
-#level {
+.player-level-container {
   position: relative;
-  // margin-right: 5px;
-  // font-size: 16px;
-  display: flex;
-  align-items: center;
-  progress {
-    border: none;
-    // width: 100%;
-    width: 140px;
-    height: 10px;
-    // -webkit-transform: translateY(-5px);
-    // -ms-transform: translateY(-5px);
-    // transform: translateY(-5px);
-    border-radius: 2px;
-    margin: 0 6px;
-    // background: crimson;
-  }
-
-  progress {
-    // color: lightblue;
-    color: var(--gold);
-    border-radius: 2px;
-  }
-
-  progress::-webkit-progress-value {
-    // background: lightblue;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  progress::-moz-progress-bar {
-    // background: lightcolor;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  progress::-webkit-progress-value {
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  progress::-webkit-progress-bar {
-    border-radius: 2px;
-    background: #f0f0f0;
+  .level__progress {
+    position: absolute;
+    left: -100%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    opacity: 0.8;
   }
 }
-
-@media only screen and (max-width: 600px) {
-  main {
-    padding: 0px !important;
-    margin: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-  }
-
-  .player-stats-container {
-    justify-content: space-between !important;
-    #level progress {
-      width: 80px !important;
-    }
-  }
+.CircularProgressbar .CircularProgressbar-text {
+  font-size: 20px;
+  dominant-baseline: central;
+  text-anchor: middle;
 }
