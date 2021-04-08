@@ -10,57 +10,81 @@ import type Command from './command';
 export class Player {
   socket: ws;
 
-  userdata: any;
+  userdata: { email: string; nickname: string };
 
-  credits: number = 0;
+  credits = 0;
 
-  freeplay: number = 0;
+  freeplay = 0;
 
-  lastfreeplaydate: number = 0;
+  lastfreeplaydate = 0;
 
-  timePlay: number = 30100;
+  timePlay = 30100;
 
-  timeStandby: number = 60100;
+  timeStandby = 60100;
 
   playTimer: any = null;
 
   standbyTimer: any = null;
 
-  isPlaying: boolean = false;
+  isPlaying = false;
 
-  isLoggedIn: boolean = false;
+  isLoggedIn = false;
 
-  isQueued: boolean = false;
+  isQueued = false;
 
   gameState: any = constants.GameState.idle;
 
   video: any = constants.Video.front;
 
-  uid: string = '';
+  uid = '';
 
   ipAddr: any;
 
-  qc: number = 0;
+  vh = 0;
 
-  wc: number = 0;
+  vw = 0;
 
-  level: number = 0;
+  qc = 0;
 
-  xp: number = 0;
+  wc = 0;
 
-  constructor(userdata: any, s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
+  level = 0;
+
+  xp = 0;
+
+  constructor(s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
     this.socket = s;
     this.ipAddr = ip;
-
-    this.userdata = userdata;
     this.level = 1;
     this.xp = 0;
+    this.vh = vh;
+    this.vw = vw;
+    this.qc = qc;
+    this.wc = wc;
+  }
 
+  Login(userdata: { nickname: string; email: string }) {
     this.fetchInitialPlayerData()
       .then(() => {
-        this.send({ command: constants.PlayerCommand.init, width: vw, height: vh, credits: this.credits, freeplay: this.freeplay, queue: qc, watch: wc, test: false });
+        this.send({
+          command: constants.PlayerCommand.init,
+          width: this.vw,
+          height: this.vh,
+          credits: this.credits,
+          freeplay: this.freeplay,
+          queue: this.qc,
+          watch: this.wc,
+          test: false,
+        });
       })
       .catch((error) => {});
+    this.userdata = userdata;
+    this.isLoggedIn = true;
+  }
+
+  logout() {
+    this.userdata = null;
+    this.isLoggedIn = false;
   }
 
   send(data: Command): void {
@@ -99,8 +123,7 @@ export class Player {
     if (this.freeplay > 0) {
       this.freeplay -= 1;
       playersTableModel.removeFreeplay(this.userdata.email, 1);
-    }
-    else if (this.credits > 0) {
+    } else if (this.credits > 0) {
       this.credits -= 1;
       playersTableModel.removeCredits(this.userdata.email, 1);
       // award player 2 freeplays every 24 hr after spending at least 1 credit

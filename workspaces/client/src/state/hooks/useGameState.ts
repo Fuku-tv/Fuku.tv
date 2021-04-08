@@ -24,14 +24,12 @@ const useGameState = () => {
     dispatch(gameActions.endStream());
   };
 
-  const buttonDownEvent = (event: React.PointerEvent<HTMLButtonElement>) => {
-    const buttonType = event.currentTarget.getAttribute('data-type');
-    dispatch(gameActions.buttonDown(buttonType));
+  const buttonDownEvent = (type: string) => {
+    dispatch(gameActions.buttonDown(type));
   };
 
-  const buttonUpEvent = (event: React.PointerEvent<HTMLButtonElement>) => {
-    const buttonType = event.currentTarget.getAttribute('data-type');
-    dispatch(gameActions.buttonUp(buttonType));
+  const buttonUpEvent = (type: string) => {
+    dispatch(gameActions.buttonUp(type));
   };
 
   const toggleCamera = () => {

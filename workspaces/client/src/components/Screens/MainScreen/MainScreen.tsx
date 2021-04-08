@@ -17,12 +17,8 @@ const MainScreen: React.FC = () => {
   React.useEffect(() => {
     actions.mountStore();
 
-    // timeout to prevent null token on fuku connect.
-    // TODO remove juryrig timeout
-    setTimeout(actions.startFuku, 2000);
-    return () => {
-      actions.endFuku();
-    };
+    actions.startFuku();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
