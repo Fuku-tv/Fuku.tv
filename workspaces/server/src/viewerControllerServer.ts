@@ -95,7 +95,6 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
-            clientPlayer.Login(await authenticateConnection(msg.message));
             this.queuePlayer(clientPlayer);
             break;
           case constants.PlayerCommand.dequeue:

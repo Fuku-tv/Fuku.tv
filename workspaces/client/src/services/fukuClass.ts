@@ -93,15 +93,15 @@ class Fuku {
     switch (type) {
       // user joins queue
       case PlayerCommand.queue:
-        this.send({ command: PlayerCommand.queue, message: this.uglyHackStore.getState().auth.accessToken });
+        this.send({ command: PlayerCommand.queue });
         break;
-      case PlayerCommand.login:
-        this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
-        break;
+      // case PlayerCommand.login:
+      //   this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
+      //   break;
 
-      case PlayerCommand.logout:
-        this.send({ command: PlayerCommand.logout });
-        break;
+      // case PlayerCommand.logout:
+      //   this.send({ command: PlayerCommand.logout });
+      //   break;
       // swap video
       case 'swapvideo':
         this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
@@ -134,6 +134,20 @@ class Fuku {
       button: type,
       action: constants.Action.stop,
     });
+  };
+
+  /**
+   * Login to fuku websocket
+   */
+  login = (token: string): void => {
+    this.send({ command: constants.PlayerCommand.login, message: token });
+  };
+
+  /**
+   * Logout of fuku websocket
+   */
+  logout = (): void => {
+    this.send({ command: constants.PlayerCommand.logout });
   };
 
   private disconnect(): void {
