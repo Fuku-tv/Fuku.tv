@@ -30,7 +30,7 @@
     "stripe": "^8.142.0"
   },
   "peerDependencies": {
-    "fuku.tv-shared": "*",
-    "agcod": "*"
+    "agcod": "*",
+    "fuku.tv-shared": "*"
   }
 }

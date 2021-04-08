@@ -1,5 +1,5 @@
 export interface BaseModel {
-  id?: string;
+  id: string;
 }
 
 export interface Player extends BaseModel {

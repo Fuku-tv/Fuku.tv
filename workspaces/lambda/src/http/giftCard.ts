@@ -6,6 +6,11 @@ import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { sendEmail } from '../common/emailService';
 import * as Responses from '../common/ApiResponses';
 
+interface Body {
+  amount: number;
+  pointsToSpend: number;
+}
+
 const REGION = 'NA';
 
 const CURRENCY = 'USD';
@@ -35,7 +40,7 @@ const createGiftCard = async (amount: number): Promise<any> => {
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage, identity } = event.requestContext;
-  const res = JSON.parse(event.body);
+  const res: Body = JSON.parse(event.body);
 
   // validate user
   let email: string;
@@ -48,13 +53,14 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
 
   // deduct points and send customer redemption code
   try {
-    playersTableModel.removePoints(email, 2000);
+    playersTableModel.removePoints(email, res.pointsToSpend);
     // TODO get gift card amount from request body
     const claimCode = await createGiftCard(res.amount);
     await sendEmail('support@fuku.tv', email, 'Fuku Redemption', claimCode);
     return Responses.ok({ message: JSON.stringify(claimCode) });
   } catch (error) {
-    console.log('error found');
+    // add points back in case of an gift card error
+    playersTableModel.addPoints(email, res.pointsToSpend);
     return Responses.badRequest({ message: JSON.stringify(error) });
   }
 };

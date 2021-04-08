@@ -161,17 +161,15 @@ module.exports = class {
       headers: signedRequest.headers,
     });
     if (res.status !== 200) {
-      const err = Object.assign(
-        {
-          request: params,
-          statusCode: res.status,
-        },
-        JSON.parse(result)
-      );
+      const err = {
+        request: params,
+        statusCode: res.status,
+      };
 
       return err;
     }
-    return JSON.parse(res.data);
+    console.log(res.data);
+    return res.data;
   }
 
   /**
