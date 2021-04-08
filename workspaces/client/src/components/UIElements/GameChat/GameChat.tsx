@@ -35,6 +35,23 @@ const GameChat: React.FC = () => {
     }
   };
 
+  const header = (
+    <div className="game-chat__header" onClick={() => setChatIsOpen((c) => !c)} onKeyDown={() => setChatIsOpen((c) => !c)} role="button" tabIndex={0}>
+      <div className="discord__logo">{discordLogo}</div>
+      <div className="header-arrow">{chatIsOpen ? upArrow : downArrow}</div>
+    </div>
+  );
+
+  const noMessagesContent = <div className="no-messages">There are no messages</div>;
+
+  const chatMessages = (
+    <>
+      {gameState.state.chat.map((m, i) => (
+        <MessageItem key={Math.random()} index={i} allMessages={messages} message={m.message} userName={m.user} />
+      ))}
+    </>
+  );
+
   React.useEffect(() => {
     console.log('CHAT', gameState.state.chat);
     setMessages(gameState.state.chat);
@@ -42,22 +59,8 @@ const GameChat: React.FC = () => {
 
   return (
     <div className="game-chat-container open" style={{ height: !chatIsOpen ? '70px' : '100%' }}>
-      <div
-        className="game-chat__header"
-        onClick={() => setChatIsOpen((c) => !c)}
-        onKeyDown={() => setChatIsOpen((c) => !c)}
-        role="button"
-        tabIndex={0}
-      >
-        <div className="discord__logo">{discordLogo}</div>
-        <div className="header-arrow">{chatIsOpen ? upArrow : downArrow}</div>
-      </div>
       <div className="game-chat__body">
-        <div className="body__messages">
-          {gameState.state.chat.map((m, i) => (
-            <MessageItem key={Math.random()} index={i} allMessages={messages} message={m.message} userName={m.user} />
-          ))}
-        </div>
+        <div className="body__messages">{gameState.state.chat ? chatMessages : noMessagesContent}</div>
         <div className="body__message-composer">
           <div className="message-composer__message">
             <input

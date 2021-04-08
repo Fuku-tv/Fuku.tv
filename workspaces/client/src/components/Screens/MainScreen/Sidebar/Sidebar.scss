@@ -1,16 +1,25 @@
 #sidebar-section {
   position: relative;
   height: 100%;
-  background-color: #2e3136;
+  // background-color: #2e3136;
   // background-color: var(--blackAccent);
   width: 100%;
   color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  // padding: 0 20px;
-  justify-content: space-between;
-  .sidebar-wrapper {
-    position: relative;
+  .sidebar-inner-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+    .sidebar-widget-wrapper:nth-child(2) {
+      flex-grow: 1;
+      margin-top: 30px;
+    }
+
+    // justify-content: space-between;
   }
   // .discord-container {
   // 	position: relative;

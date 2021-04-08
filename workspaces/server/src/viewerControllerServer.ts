@@ -69,7 +69,7 @@ export class ControllerServer {
 
       socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
-        console.log('2', msg);
+        console.log('Socket Message Received', msg);
 
         switch (msg.command) {
           case constants.PlayerCommand.control:
@@ -96,6 +96,8 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
+            console.log('Starting Queue');
+
             clientPlayer.Login(await authenticateConnection(msg.message));
             this.queuePlayer(clientPlayer);
             break;
@@ -121,9 +123,11 @@ export class ControllerServer {
             if (this.redisClient.lpush('room:main', msg.chatmessage) > 10) {
               this.redisClient.rpop('room:main');
             }
+            console.log('about to send back', clientPlayer);
+
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
-              user: clientPlayer.userdata.nickname,
+              user: 'clientPlayer.userdata.nickname',
               chatmessage: msg.chatmessage,
             });
             break;
@@ -325,33 +329,10 @@ export class ControllerServer {
   }
 
   updateallstats() {
+    console.log('Starting updating all stats');
+
     this.players.forEach((p) => {
       p.updateGameStats(this.queue.length, this.players.length);
-    });
-  }
-
-  sendAllChatMessages() {
-    // replace messageList with last 10 saved messages from server. Not sure how.
-    const messageList = [
-      {
-        user: 'Random User 1',
-        message:
-          'Duis nec nibh ac turpis volutpat pretium. Suspendisse euismod nulla eu dapibus mattis. Orci varius natoque penatibus et magnis dis parturient monte',
-      },
-      { user: 'Random User 2', message: 'Fusce vitae tortor consectetur' },
-      { user: 'Random User 3', message: 'Duis ut congue metus.' },
-    ];
-
-    // if (this.redisClient.lpush('room:main', msg.chatmessage.message) > 10) {
-    //   this.redisClient.rpop('room:main');
-    // }
-
-    messageList.forEach((m) => {
-      sendall(this.players, {
-        command: constants.PlayerCommand.chatmessages,
-        user: m.user,
-        chatmessage: m,
-      });
     });
   }
 }

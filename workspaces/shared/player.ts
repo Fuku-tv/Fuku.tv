@@ -101,6 +101,7 @@ export class Player {
   }
 
   updateGameStats(qc: number, wc: number): void {
+    console.log('Starting updating all stats 2');
     this.send({
       command: constants.PlayerCommand.gamestats,
       queue: qc,

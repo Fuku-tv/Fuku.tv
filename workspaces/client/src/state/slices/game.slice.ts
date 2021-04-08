@@ -35,7 +35,6 @@ const gameSlice = createSlice({
         queue: action.payload.queue,
         watch: action.payload.watch,
         freeplay: action.payload.freeplay,
-        chat: action.payload.chat,
       };
     },
     setTime(state, action: PayloadAction<typeof initialState>) {
