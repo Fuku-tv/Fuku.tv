@@ -88,17 +88,19 @@ class Fuku {
   buttonStartEvent = (type: string): void => {
     // switch statement for type because command objects arent consistent.
     const { PlayerCommand, Video } = constants;
+
+    console.log('sent command: ', type);
     switch (type) {
       // user joins queue
       case PlayerCommand.queue:
-        this.send({ command: PlayerCommand.queue, action: 'queue', message: this.uglyHackStore.getState().auth.accessToken });
+        this.send({ command: PlayerCommand.queue, message: this.uglyHackStore.getState().auth.accessToken });
         break;
       case PlayerCommand.login:
-        this.send({ command: PlayerCommand.queue, action: 'login', message: this.uglyHackStore.getState().auth.accessToken });
+        this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
         break;
 
       case PlayerCommand.logout:
-        this.send({ command: PlayerCommand.logout, action: 'logout' });
+        this.send({ command: PlayerCommand.logout });
         break;
       // swap video
       case 'swapvideo':

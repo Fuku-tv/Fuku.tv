@@ -286,7 +286,12 @@ export class ControllerServer {
   }
 
   queuePlayer(p: Player): void {
+    logger.logInfo('queue started');
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
+    if (!p.isLoggedIn) {
+      logger.log(LogLevel.error, `${p.uid} - player is not signed in, please login to enter a fuku queue`);
+      return;
+    }
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
