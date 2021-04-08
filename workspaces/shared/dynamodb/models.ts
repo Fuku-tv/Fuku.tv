@@ -1,5 +1,5 @@
 export interface BaseModel {
-  id: string;
+  id?: string;
 }
 
 export interface Player extends BaseModel {
@@ -24,4 +24,11 @@ export interface Replay extends BaseModel {
   playerid: string;
   win: boolean;
   amount: number;
+}
+
+export interface PointsLedger extends BaseModel {
+  playerid: string;
+  pointsRedeemed: number;
+  date: string;
+  time: string;
 }

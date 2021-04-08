@@ -1,5 +1,5 @@
 import dynamo from './dynamo';
-import { Player, Replay } from './models';
+import { Player, PointsLedger, Replay } from './models';
 import { tableList } from './index';
 
 // Create the DynamoDB service object
@@ -43,8 +43,19 @@ export const playersTableModel = {
     if (player.points < pointsToRemove) {
       throw new Error('Insufficent points');
     }
+
     player.points -= pointsToRemove;
     await playersTableModel.write(player);
+
+    // add transaction to ledger
+    const data: PointsLedger = {
+      playerid: id,
+      pointsRedeemed: pointsToRemove,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+    };
+
+    pointsLedgerTableModel.write(data);
   },
 
   async removeFreeplay(id: string, freeplayToRemove: number) {
@@ -75,6 +86,18 @@ export const replayTableModel = {
   },
   async delete(id: string) {
     return dynamo.delete(id, tableList.REPLAY_TABLE);
+  },
+};
+
+const pointsLedgerTableModel = {
+  async write(data: PointsLedger): Promise<void> {
+    return dynamo.write<PointsLedger>(data, tableList.POINTS_LEDGER_TABLE);
+  },
+  async get(id: string): Promise<PointsLedger> {
+    return dynamo.get<PointsLedger>(id, tableList.POINTS_LEDGER_TABLE);
+  },
+  async delete(id: string) {
+    return dynamo.delete(id, tableList.POINTS_LEDGER_TABLE);
   },
 };
 

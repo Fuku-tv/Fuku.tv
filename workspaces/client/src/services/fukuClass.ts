@@ -46,8 +46,6 @@ class Fuku {
   start(): void {
     if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
       throw new Error('Fuku store not found, did you forget to run bootstrapStore?');
-    } else if (this.uglyHackStore.getState().auth.accessToken === '') {
-      throw new Error('Cannot connect to socket with valid Login token, are you currently logged in?');
     } else {
       this.connect(FUKU_URL_CONTROLLER);
     }
@@ -89,16 +87,24 @@ class Fuku {
    */
   buttonStartEvent = (type: string): void => {
     // switch statement for type because command objects arent consistent.
+    const { PlayerCommand, Video } = constants;
 
+    console.log('sent command: ', type);
     switch (type) {
       // user joins queue
-      case 'join':
-        this.send({ command: constants.PlayerCommand.queue, action: 'join' });
+      case PlayerCommand.queue:
+        this.send({ command: PlayerCommand.queue, message: this.uglyHackStore.getState().auth.accessToken });
+        break;
+      case PlayerCommand.login:
+        this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
         break;
 
+      case PlayerCommand.logout:
+        this.send({ command: PlayerCommand.logout });
+        break;
       // swap video
       case 'swapvideo':
-        this.currentVideoUri = this.currentVideoUri === constants.Video.front ? constants.Video.side : constants.Video.front;
+        this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
           JSON.stringify({
             command: constants.PlayerCommand.swapvideo,
@@ -139,7 +145,7 @@ class Fuku {
   private connect(controllerUri: string): void {
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
     // pass opaque token to controller websocket
-    this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
+    this.socket = new WebSocket(controllerUri);
     this.socket.binaryType = 'arraybuffer';
 
     this.socket.onopen = () => {
@@ -166,6 +172,7 @@ class Fuku {
         this.resetTimers();
         this.setGameStatus(cmd.command);
         break;
+
       case PlayerCommand.gamestats:
         this.queue = cmd.queue;
         this.watch = cmd.watch;

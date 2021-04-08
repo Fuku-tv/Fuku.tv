@@ -5,10 +5,9 @@ import './DepthButton.scss';
 import { useAuthState, useGameState } from 'src/state/hooks';
 
 interface Props {
-  dataType: string;
   onClick?: () => void;
-  onPointerDown?: (event: React.PointerEvent<HTMLButtonElement>) => void;
-  onPointerUp?: (event: React.PointerEvent<HTMLButtonElement>) => void;
+  onPointerDown?: (type: string) => void;
+  onPointerUp?: (type: string) => void;
   id: string;
   buttonText: string | JSX.Element;
   width?: number;
@@ -18,7 +17,7 @@ interface Props {
   borderRadius?: number;
 }
 
-const DepthButton: React.FC<Props> = ({ dataType, buttonText, id, width, height, onPointerUp, onPointerDown, center, color, borderRadius }) => {
+const DepthButton: React.FC<Props> = ({ buttonText, id, width, height, onPointerUp, onPointerDown, center, color, borderRadius }) => {
   const { actions, state } = useGameState();
   const authState = useAuthState();
   const [buttonIsDown, setButtonIsDown] = React.useState<boolean>(false);
@@ -64,13 +63,7 @@ const DepthButton: React.FC<Props> = ({ dataType, buttonText, id, width, height,
       className="depth-button2-container"
     >
       <div style={shadowStyles} className={`shadow ${color}`} />
-      <button
-        onPointerUp={onPointerUp || actions.buttonUpEvent}
-        onPointerDown={onPointerDown || actions.buttonDownEvent}
-        className={buttonIsDown && 'button--down'}
-        id={id}
-        data-type={dataType}
-      >
+      <button onPointerUp={onPointerUp} onPointerDown={onPointerDown} className={buttonIsDown && 'button--down'} id={id}>
         <div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
           {buttonText}
         </div>
