@@ -60,13 +60,10 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
-
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
     this.liveplayer.connect(FUKU_URL_VIDEO);
     this.liveplayer.initCanvas(800, 480);
-
     console.log('starting video');
-    this.getAllChatMessages();
   }
 
   disconnectVideo(): void {
@@ -94,16 +91,9 @@ class Fuku {
     switch (type) {
       // user joins queue
       case PlayerCommand.queue:
-        this.send({ command: PlayerCommand.queue, message: this.uglyHackStore.getState().auth.accessToken });
-        break;
-      case PlayerCommand.login:
-        this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
+        this.send({ command: PlayerCommand.queue });
         break;
 
-      case PlayerCommand.logout:
-        this.send({ command: PlayerCommand.logout });
-        break;
-      // swap video
       case 'swapvideo':
         this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
@@ -140,11 +130,24 @@ class Fuku {
 
   sendChatMessage = (message: Record<string, unknown>): void => {
     console.log('mess', message);
-
     this.send({
       command: constants.PlayerCommand.chatmsg,
       chatmessage: message,
     });
+  };
+  /**
+   * Login to fuku websocket
+   */
+
+  login = (token: string): void => {
+    this.send({ command: constants.PlayerCommand.login, message: token });
+  };
+
+  /**
+   * Logout of fuku websocket
+   */
+  logout = (): void => {
+    this.send({ command: constants.PlayerCommand.logout });
   };
 
   private disconnect(): void {

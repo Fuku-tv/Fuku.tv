@@ -13,6 +13,14 @@ export const endFukuClass = (): void => {
   fuku.end();
 };
 
+export const login = (token: string): void => {
+  fuku.login(token);
+};
+
+export const logout = (): void => {
+  fuku.logout();
+};
+
 export const buttonDownEvent = (type: string): void => {
   fuku.buttonStartEvent(type);
 };

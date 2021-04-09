@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import dynamo from './dynamo';
 import { Player, PointsLedger, Replay } from './models';
 import { tableList } from './index';
@@ -49,6 +50,7 @@ export const playersTableModel = {
 
     // add transaction to ledger
     const data: PointsLedger = {
+      id: uuidv4(),
       playerid: id,
       pointsRedeemed: pointsToRemove,
       date: new Date().toLocaleDateString(),
