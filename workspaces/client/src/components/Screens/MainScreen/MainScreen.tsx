@@ -14,14 +14,6 @@ const MainScreen: React.FC = () => {
   const navState = useNavigationState();
   const [sidebarIsActive, setSidebarIsActive] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    actions.mountStore();
-
-    actions.startFuku();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // const visible =
   // 	(state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') &&
   // 	authState.state.isAuthenticated;
