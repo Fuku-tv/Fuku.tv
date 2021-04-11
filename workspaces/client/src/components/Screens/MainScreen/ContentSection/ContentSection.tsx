@@ -14,13 +14,6 @@ import SwitchCameraButton from '../VideoFeedSection/SwitchCameraButton/SwitchCam
 
 const ContentSection: React.FC = () => {
   const { state, actions } = useGameState();
-  const authState = useAuthState();
-  const navState = useNavigationState();
-  const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
-  const cameraToggleHandler = () => {
-    setCameraIsFront((prev) => !prev);
-    console.log('change');
-  };
 
   const credits = (
     <div className="spectator-information-container">

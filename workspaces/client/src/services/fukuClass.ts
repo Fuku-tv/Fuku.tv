@@ -66,7 +66,7 @@ class Fuku {
     this.liveplayer.initCanvas(800, 480);
 
     console.log('starting video');
-    this.getAllChatMessages();
+    // this.getAllChatMessages();
   }
 
   disconnectVideo(): void {
@@ -104,7 +104,7 @@ class Fuku {
       //   this.send({ command: PlayerCommand.logout });
       //   break;
       // swap video
-      case 'swapvideo':
+      case PlayerCommand.swapvideo:
         this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
           JSON.stringify({
@@ -138,7 +138,6 @@ class Fuku {
     });
   };
 
-
   sendChatMessage = (message: Record<string, unknown>): void => {
     console.log('mess', message);
 
@@ -146,7 +145,8 @@ class Fuku {
       command: constants.PlayerCommand.chatmsg,
       chatmessage: message,
     });
-  }
+  };
+
   /**
    * Login to fuku websocket
    */
