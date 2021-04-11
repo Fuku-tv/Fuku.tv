@@ -130,6 +130,7 @@ class Fuku {
 
   sendChatMessage = (message: Record<string, unknown>): void => {
     console.log('mess', message);
+
     this.send({
       command: constants.PlayerCommand.chatmsg,
       chatmessage: message,
