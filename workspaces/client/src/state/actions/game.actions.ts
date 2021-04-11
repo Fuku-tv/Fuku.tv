@@ -1,5 +1,14 @@
 import { createAsyncThunk, EnhancedStore } from '@reduxjs/toolkit';
-import { mountCanvas, buttonDownEvent, buttonUpEvent, mountStore, unmountCanvas, startFukuClass, endFukuClass } from 'src/services/fukuService';
+import {
+  mountCanvas,
+  buttonDownEvent,
+  buttonUpEvent,
+  mountStore,
+  unmountCanvas,
+  startFukuClass,
+  endFukuClass,
+  sendChatMessage,
+} from 'src/services/fukuService';
 
 interface Stats {
   watch: number;
@@ -27,9 +36,9 @@ export const endStream = createAsyncThunk('END_STREAM', async () => {
   unmountCanvas();
 });
 
-export const setStats = createAsyncThunk('SET_GAME_STATS', async (stats: Stats) => {
-  return stats;
-});
+export const setStats = createAsyncThunk('SET_GAME_STATS', async (stats: Stats) => stats);
+
+// export const setChat = createAsyncThunk('SET_GAME_CHAT', async (stats: Stats) => chat);
 
 export const buttonDown = createAsyncThunk('BUTTON_DOWN', async (type: string) => {
   buttonDownEvent(type);
@@ -38,3 +47,8 @@ export const buttonDown = createAsyncThunk('BUTTON_DOWN', async (type: string) =
 export const buttonUp = createAsyncThunk('BUTTON_UP', async (type: string) => {
   buttonUpEvent(type);
 });
+export const sendMessage = createAsyncThunk('SEND_CHAT_MESSAGE', async (message: Record<string, unknown>) => {
+  sendChatMessage(message);
+});
+
+export const updateChatList = createAsyncThunk('UPDATE_CHAT_LIST', async (message: Record<string, unknown>) => {});

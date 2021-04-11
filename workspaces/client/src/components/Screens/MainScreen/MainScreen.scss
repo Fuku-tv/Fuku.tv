@@ -21,12 +21,15 @@
   height: 100%;
   // padding-top: 20px;
   color: #ffffff;
+  padding: 12px 0px;
   .content-area {
     background: var(--blackSeconday);
     // overflow: hidden;
     background: var(--blackSeconday);
     display: flex;
     flex-direction: column;
+    border-radius: 4px;
+    overflow: hidden;
   }
 }
 .video-feed-container {

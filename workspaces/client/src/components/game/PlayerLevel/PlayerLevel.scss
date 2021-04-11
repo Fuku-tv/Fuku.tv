@@ -1,0 +1,16 @@
+.player-level-container {
+  position: relative;
+  .level__progress {
+    position: absolute;
+    left: -100%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    opacity: 0.8;
+  }
+}
+.CircularProgressbar .CircularProgressbar-text {
+  font-size: 20px;
+  dominant-baseline: central;
+  text-anchor: middle;
+}

@@ -7,112 +7,68 @@
   main {
     // margin-left: var(--sideNavWidth);
     // height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: fixed;
     width: calc(100% - var(--sideNavWidth));
-    left: var(--sideNavWidth);
+    // left: var(--sideNavWidth);
+    // left: 50%;
+    // transform: translateX(-50%);
     top: var(--headerHeight);
+    width: 100%;
     height: calc(100% - var(--headerHeight));
     // background: url('https://digitalmarketing.blob.core.windows.net/10030/images/items/image718430.png');
-    .player-stats-container {
-      // position: fixed;
-      position: absolute;
-      background-color: var(--blackAccent);
-      // top: -45px;
-      // right: 0;
-      width: 100%;
-      border-radius: 2px;
-      padding: 0 10px;
-      font-size: 13px;
-      z-index: 11111;
-      height: 30px;
-      .inner-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%;
-        max-width: 1310px;
-        margin: 0 auto;
-      }
-      .player-stats__item {
-        position: relative;
-        opacity: 0.8;
-        text-align: right;
-        // width: 80px;
-      }
-      .player-stats__value {
-        font-weight: bold;
-        margin-left: 4px;
-        // width: 80px;
-        // text-align: center;
-      }
-      .stat-item-wrapper {
-        display: flex;
-        justify-content: center;
-      }
-      #level {
-        position: relative;
-        // margin-right: 5px;
-        // font-size: 16px;
-        display: flex;
-        align-items: center;
-        progress {
-          border: none;
-          // width: 100%;
-          width: 140px;
-          height: 10px;
-          // -webkit-transform: translateY(-5px);
-          // -ms-transform: translateY(-5px);
-          // transform: translateY(-5px);
-          border-radius: 2px;
-          margin-left: 5px;
-          // background: crimson;
-        }
+    // .player-stats-container {
+    //   // position: fixed;
+    //   position: absolute;
+    //   background-color: var(--blackAccent);
+    //   // top: -45px;
+    //   // right: 0;
+    //   width: 100%;
+    //   border-radius: 2px;
+    //   padding: 0 10px;
+    //   font-size: 13px;
+    //   z-index: 11111;
+    //   height: 30px;
+    //   .inner-wrapper {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     height: 100%;
+    //     max-width: 1310px;
+    //     margin: 0 auto;
+    //   }
+    //   .player-stats__item {
+    //     position: relative;
+    //     opacity: 0.8;
+    //     text-align: right;
+    //     // width: 80px;
+    //   }
+    //   .player-stats__value {
+    //     font-weight: bold;
+    //     margin-left: 4px;
+    //     // width: 80px;
+    //     // text-align: center;
+    //   }
+    //   .stat-item-wrapper {
+    //     display: flex;
+    //     justify-content: center;
+    //   }
 
-        progress {
-          // color: lightblue;
-          color: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-value {
-          // background: lightblue;
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-moz-progress-bar {
-          // background: lightcolor;
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-value {
-          background: var(--gold);
-          border-radius: 2px;
-        }
-
-        progress::-webkit-progress-bar {
-          border-radius: 2px;
-          background: #f0f0f0;
-        }
-      }
-
-      #points-and-credits {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        .stat-item-wrapper:nth-child(-n+2) {
-          margin-right: 10px;
-          padding-right: 10px;
-          border-right: 1px solid #ffffff70;
-        }
-        // font-size: 14px;
-      }
-    }
+    //   #points-and-credits {
+    //     display: flex;
+    //     justify-content: space-around;
+    //     align-items: center;
+    //     .stat-item-wrapper:nth-child(-n + 2) {
+    //       margin-right: 10px;
+    //       padding-right: 10px;
+    //       border-right: 1px solid #ffffff70;
+    //     }
+    //     // font-size: 14px;
+    //   }
+    // }
     .outer-content-wrapper {
       height: 100%;
-      padding-top: 30px;
+      // padding-top: 30px;
       // height: calc(100% - 30px);
       // margin-top: 30px;
       // padding: 10px 0;
@@ -129,10 +85,10 @@
     width: 100% !important;
   }
 
-  .player-stats-container {
-    justify-content: space-between !important;
-    #level progress {
-      width: 80px !important;
-    }
-  }
+  // .player-stats-container {
+  //   justify-content: space-between !important;
+  //   #level progress {
+  //     width: 80px !important;
+  //   }
+  // }
 }

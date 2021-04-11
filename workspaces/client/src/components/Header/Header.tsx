@@ -16,6 +16,7 @@ import './Header.scss';
 import FlatButton from '../UIElements/FlatButton/FlatButton';
 import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
 import NotificationDropdown from './NotificationsDropdown/NotificationsDropdown';
+import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
 
 const Header: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -74,22 +75,29 @@ const Header: React.FC = () => {
   return (
     <>
       <header>
-        <div className="header-inner-wrapper">
-          {isMobile && (
-            <button onClick={chatClickHandler} onKeyDown={chatClickHandler} className="icon-wrapper">
-              {chatIcon}
-            </button>
-          )}
+        <div className="header__top-row">
+          <ContentContainer>
+            {isMobile && (
+              <button onClick={chatClickHandler} onKeyDown={chatClickHandler} className="icon-wrapper">
+                {chatIcon}
+              </button>
+            )}
 
-          <NavLink id="logo" to="/" exact>
-            {fukuLogo}
-          </NavLink>
-          {!isMobile && <ContentContainer> {profileButton} </ContentContainer>}
-          {isMobile && (
-            <button onClick={navClickHandler} className="hamburger-icon-wrapper">
-              <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen || chatIsOpen} />
-            </button>
-          )}
+            <NavLink id="logo" to="/" exact>
+              {fukuLogo}
+            </NavLink>
+            {!isMobile && profileButton}
+            {isMobile && (
+              <button onClick={navClickHandler} className="hamburger-icon-wrapper">
+                <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen || chatIsOpen} />
+              </button>
+            )}
+          </ContentContainer>
+        </div>
+        <div className="header__bottom-row">
+          <ContentContainer>
+            <HeadeNavLinks />
+          </ContentContainer>
         </div>
         {sideDrawerContentLinks}
         {sideDrawerContentChat}
@@ -100,28 +108,6 @@ const Header: React.FC = () => {
 
 export default Header;
 
-const fukuCredi2 = (
-  <svg id="credit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 235.68 235.68">
-    <g id="flat-credit">
-      <path
-        id="claw"
-        d="M523.92,455.44H430.76a2.75,2.75,0,0,0-2.75,2.74v5.49a13.7,13.7,0,0,0,13.71,13.69H460.9v8.22a2.73,2.73,0,0,0,2.73,2.74h11v18.13l-24,26.62a2.73,2.73,0,0,0-.51,2.85l11,27.4a2.74,2.74,0,0,0,2.55,1.73,2.93,2.93,0,0,0,1-.19,2.76,2.76,0,0,0,1.54-3.56h0l-10.33-25.82,18.74-20.83v47.67a2.75,2.75,0,0,0,5.49,0V514.64l18.73,20.83-10.32,25.82a2.75,2.75,0,0,0,1.53,3.57h0a2.93,2.93,0,0,0,1,.19,2.72,2.72,0,0,0,2.54-1.73l11-27.4a2.77,2.77,0,0,0-.51-2.85l-23.95-26.62V488.32h11a2.74,2.74,0,0,0,2.74-2.74v-8.22H513a13.69,13.69,0,0,0,13.7-13.69v-5.49A2.74,2.74,0,0,0,523.92,455.44ZM488.3,482.85H466.38v-5.49H488.3Zm32.88-19.18a8.22,8.22,0,0,1-8.22,8.21H441.72a8.22,8.22,0,0,1-8.23-8.21v-2.75h87.69Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-      <path
-        d="M477.39,603a4,4,0,0,1,0-8A89.18,89.18,0,0,0,505,590.69a4,4,0,0,1,2.48,7.61A97.24,97.24,0,0,1,477.39,603Zm-28.83-4.52a4.09,4.09,0,0,1-1.23-.19,96.86,96.86,0,0,1-27.11-13.82,4,4,0,1,1,4.7-6.47,88.76,88.76,0,0,0,24.88,12.68,4,4,0,0,1-1.24,7.8Zm83.62-13.3a4,4,0,0,1-2.35-7.23,89.76,89.76,0,0,0,19.74-19.75,4,4,0,1,1,6.47,4.7,97.79,97.79,0,0,1-21.51,21.52A4,4,0,0,1,532.18,585.22ZM401.93,564.66a4,4,0,0,1-3.24-1.64,96.89,96.89,0,0,1-13.85-27.1,4,4,0,1,1,7.6-2.47,88.94,88.94,0,0,0,12.71,24.85,4,4,0,0,1-3.22,6.36ZM566.06,538.6a3.77,3.77,0,0,1-1.23-.2,4,4,0,0,1-2.57-5,89.17,89.17,0,0,0,4.34-27.58v-.19a4,4,0,0,1,8,0v.19a97.14,97.14,0,0,1-4.73,30.05A4,4,0,0,1,566.06,538.6Zm-182-28.77a4,4,0,0,1-4-4v-.09a97.24,97.24,0,0,1,4.71-30,4,4,0,0,1,7.61,2.46,89.29,89.29,0,0,0-4.32,27.5A4,4,0,0,1,384.07,509.83ZM566,480.78a4,4,0,0,1-3.8-2.75,88.73,88.73,0,0,0-12.73-24.85,4,4,0,1,1,6.46-4.72,96.87,96.87,0,0,1,13.88,27.08,4,4,0,0,1-2.56,5A4.12,4.12,0,0,1,566,480.78ZM401.81,455.05a4,4,0,0,1-3.23-6.35,97.53,97.53,0,0,1,21.48-21.54,4,4,0,0,1,4.72,6.46,89.64,89.64,0,0,0-19.73,19.78A4,4,0,0,1,401.81,455.05ZM532,434.23a4,4,0,0,1-2.35-.76,88.59,88.59,0,0,0-24.89-12.65,4,4,0,1,1,2.46-7.62A97,97,0,0,1,534.38,427a4,4,0,0,1-2.35,7.24ZM448.39,421.1a4,4,0,0,1-1.24-7.81,97.16,97.16,0,0,1,30-4.77h0a4,4,0,0,1,0,8,89.19,89.19,0,0,0-27.57,4.38A4.12,4.12,0,0,1,448.39,421.1Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-      <path
-        d="M477.34,623.62A117.84,117.84,0,1,1,595.18,505.78,118,118,0,0,1,477.34,623.62Zm0-229.68A111.84,111.84,0,1,0,589.18,505.78,112,112,0,0,0,477.34,393.94Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-    </g>
-  </svg>
-);
 const fukuLogo = (
   <svg id="fuku" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
     <g id="icon">

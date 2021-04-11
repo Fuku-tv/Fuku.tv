@@ -26,11 +26,12 @@ const App: React.FC = () => (
     <Router>
       <Header />
       <div className="app-body-wrapper">
-        {!isMobile && <VerticalNavigation />}
         <Main />
       </div>
     </Router>
-    <CookieConsent>This website uses cookies to enhance the user experience. And is only used by users 13 and older for COPPA lulz</CookieConsent>
+    <CookieConsent style={{ textAlign: 'center', fontSize: '14px' }}>
+      This website uses cookies to enhance the user experience. And is only used by users 13 and older for COPPA lulz
+    </CookieConsent>
   </Provider>
 );
 

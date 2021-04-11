@@ -9,6 +9,7 @@ const initialState = {
   freeplay: 0,
   points: 0,
   gameStatus: '',
+  chat: [],
   cameraIsForward: true,
   error: {},
   winnerModalActive: false,
@@ -56,6 +57,18 @@ const gameSlice = createSlice({
       return {
         ...state,
         points: action.payload.points,
+      };
+    },
+    sendChatMessage(state, action: PayloadAction<typeof initialState>) {
+      return {
+        ...state,
+        chat: [...state.chat, action.payload],
+      };
+    },
+    updateChatList(state, action: PayloadAction<typeof initialState>) {
+      return {
+        ...state,
+        chat: [...state.chat, action.payload],
       };
     },
 

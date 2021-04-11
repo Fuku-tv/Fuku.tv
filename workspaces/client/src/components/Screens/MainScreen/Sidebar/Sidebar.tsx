@@ -2,12 +2,15 @@ import * as React from 'react';
 // import {Messages} from '../../Messages';
 import useAuthState from 'src/state/hooks/useAuthState';
 import useNavigationState from 'src/state/hooks/useNavigationState';
-import ChatWidget from 'src/components/game/ChatWidget';
+
+import GameChat from 'src/components/UIElements/GameChat/GameChat';
 import Header from '../../../Header/Header';
-import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
+// import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
-import SidebarNavigation from '../Navigation/Navigation';
+import SidebarWidget from './SidebarWidget/SidebarWidget';
 import './Sidebar.scss';
+import GameQueue from './GameQueue/GameQueue';
+import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/SpectatorInformation';
 
 const SideBar: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -45,7 +48,14 @@ const SideBar: React.FC = () => {
   );
   return (
     <aside id="sidebar-section">
-      <DiscordChat />
+      <div className="sidebar-inner-wrapper">
+        <SidebarWidget title="Game Queue" header={<SpectatorInformation />}>
+          <GameQueue />
+        </SidebarWidget>
+        <SidebarWidget title="Chat">
+          <GameChat />
+        </SidebarWidget>
+      </div>
     </aside>
   );
 };

@@ -69,6 +69,7 @@ export class ControllerServer {
 
       socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
+        console.log('Socket Message Received', msg);
 
         switch (msg.command) {
           case constants.PlayerCommand.control:
@@ -95,6 +96,11 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
+
+            console.log('Starting Queue');
+
+            clientPlayer.Login(await authenticateConnection(msg.message));
+
             this.queuePlayer(clientPlayer);
             break;
           case constants.PlayerCommand.dequeue:
@@ -106,15 +112,24 @@ export class ControllerServer {
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
             break;
+          case constants.PlayerCommand.chatjoin:
+            console.log('User joined. Getting ready to send all messages out ');
+            // this.sendAllChatMessages();
+            // get all previous stored messages
+            // use forLoop to send out each messages
+            break;
           case constants.PlayerCommand.chatmsg:
             // filter stupid shit
             // put it in redis
+
             if (this.redisClient.lpush('room:main', msg.chatmessage) > 10) {
               this.redisClient.rpop('room:main');
             }
+            console.log('about to send back', clientPlayer);
+
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
-              nickname: clientPlayer.userdata.nickname,
+              user: 'clientPlayer.userdata.nickname',
               chatmessage: msg.chatmessage,
             });
             break;
@@ -316,6 +331,8 @@ export class ControllerServer {
   }
 
   updateallstats() {
+    console.log('Starting updating all stats');
+
     this.players.forEach((p) => {
       p.updateGameStats(this.queue.length, this.players.length);
     });

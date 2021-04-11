@@ -13,7 +13,7 @@ import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/Spect
 import SwitchCameraButton from '../VideoFeedSection/SwitchCameraButton/SwitchCameraButton';
 
 const ContentSection: React.FC = () => {
-  const { actions, state } = useGameState();
+  const { state, actions } = useGameState();
   const authState = useAuthState();
   const navState = useNavigationState();
   const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
@@ -22,22 +22,22 @@ const ContentSection: React.FC = () => {
     console.log('change');
   };
 
-  // const visible =
-  // 	(state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') &&
-  // 	authState.state.isAuthenticated;
-
-  // const mainContentArea = (
-  // 	<React.Fragment>
-  // 		{navState.state.tab === 'Play' && <PlayGameTab />}
-  // 		{navState.state.tab === 'Leaderboard' && <Leaderboards />}
-  // 		{navState.state.tab === 'Store' && <Store />}
-  // 		{navState.state.tab === 'Prizes' && <PrizesTab />}
-  // 	</React.Fragment>
-  // );
+  const credits = (
+    <div className="spectator-information-container">
+      <div className="credits">
+        <span className="que-icon-wrapper">Credits: </span>
+        <span>{state.credits}</span>
+      </div>
+      <div className="freeplay-credits">
+        <span className="que-icon-wrapper">Freeplay: </span>
+        <span>{state.freeplay}</span>
+      </div>
+    </div>
+  );
 
   return (
     <section id="content-section">
-      <SpectatorInformation />
+      {credits}
       <SwitchCameraButton />
       <div className="inner-wrapper">
         <PlayGameTab />

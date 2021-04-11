@@ -23,7 +23,9 @@
   --boxShadow2: 0 2px 6px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #dadce0;
   --boxShadow3: rgba(0, 0, 0, 0.1) 0px 2px 3px 0px;
   --sideNavWidth: 85px;
-  --headerHeight: 52px;
+  --topHeaderHeight: 80px;
+  --subHeaderHeight: 45px;
+  --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
   --jost: 'Jost', sans-serif;
   --rubik: 'Rubik', sans-serif;
 }

@@ -1,16 +1,22 @@
+.header-profile__level {
+  // width: 45px;
+  // width: 64px;
+  width: 54px;
+}
 .header-profile-dropdown-container {
   // position: relative;
   border-radius: 2px;
   overflow: hidden;
-
+  // min-width: 220px;
+  // width: 220px;
   .header-profile-wrapper {
     color: #ffffff;
     position: relative;
     cursor: pointer;
     padding: 4px 10px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    // justify-content: space-between;
+    // align-items: center;
     transition: 200ms ease;
     &:hover {
       background: var(--purpleSecondary);
@@ -19,31 +25,45 @@
     .header-profile__content {
       position: relative;
       display: flex;
-      align-items: center;
-      padding-right: 10px;
-      h2 {
-        font-weight: 500;
-        margin-left: 1px;
-        font-size: 14px !important;
-      }
-      .text-wrapper {
+      // align-items: center;
+      padding-right: 16px;
+      padding-left: 10px;
+      flex-direction: column;
+      // margin-left: 8px;
+      justify-content: center;
+      .profile__name {
         position: relative;
         text-align: left;
-        margin-left: 8px;
-        .description {
-          margin-top: -2px;
-          font-size: 11px;
-          opacity: 0.8;
-
-          span {
-            font-size: 11px;
-            margin-right: 4px;
-          }
+        h2 {
+          font-weight: 500;
+          // margin-left: 1px;
+          font-size: 18px !important;
         }
+      }
+
+      #points-and-credits {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 4px;
+        font-size: 11px;
+        .stat-item-wrapper:nth-child(-n + 2) {
+          margin-right: 6px;
+          padding-right: 6px;
+          border-right: 1px solid #ffffff70;
+        }
+        .player-stats__value {
+          font-weight: bold;
+          margin-left: 4px;
+          // width: 80px;
+          // text-align: center;
+        }
+        // font-size: 14px;
       }
     }
     .down-arrow-wrapper {
       position: relative;
+      margin-top: 10px;
       svg {
         color: #ffffff;
         height: 14px;
