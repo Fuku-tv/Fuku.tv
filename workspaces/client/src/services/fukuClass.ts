@@ -82,20 +82,7 @@ class Fuku {
     // switch statement for type because command objects arent consistent.
     const { PlayerCommand, Video } = constants;
 
-    console.log('sent command: ', type);
     switch (type) {
-      // user joins queue
-      case PlayerCommand.queue:
-        this.send({ command: PlayerCommand.queue });
-        break;
-      // case PlayerCommand.login:
-      //   this.send({ command: PlayerCommand.login, message: this.uglyHackStore.getState().auth.accessToken });
-      //   break;
-
-      // case PlayerCommand.logout:
-      //   this.send({ command: PlayerCommand.logout });
-      //   break;
-      // swap video
       case PlayerCommand.swapvideo:
         this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
@@ -128,6 +115,10 @@ class Fuku {
       button: type,
       action: constants.Action.stop,
     });
+  };
+
+  enterQueue = (): void => {
+    this.send({ command: constants.PlayerCommand.queue });
   };
 
   sendChatMessage = (message: Record<string, unknown>): void => {
