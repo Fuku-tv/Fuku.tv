@@ -298,7 +298,8 @@ export class ControllerServer {
 
   queuePlayer(p: Player): void {
     logger.logInfo('queue started');
-    if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
+    if (this.currentPlayer !== null && this.currentPlayer !== undefined)
+      if (this.currentPlayer === p) return; // what are you even trying to accomplish?
     if (!p.isLoggedIn) {
       logger.log(LogLevel.error, `${p.uid} - player is not signed in, please login to enter a fuku queue`);
       return;
@@ -308,6 +309,10 @@ export class ControllerServer {
       this.queue.push(p);
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
+      if (this.currentPlayer === null && this.queue.length === 1) {
+        logger.log(LogLevel.info, `${p.uid} - only player in queue, activating!`);
+        this.activatePlayer(p);
+      }
       this.updateallstats();
     } else {
       p.send({ command: constants.PlayerCommand.queue, success: false });
