@@ -8,7 +8,6 @@ const initialState = {
   credits: 0,
   freeplay: 0,
   points: 0,
-  freeplay: 0,
   gameStatus: '',
   chat: [],
   cameraIsForward: true,
@@ -34,7 +33,6 @@ const gameSlice = createSlice({
         freeplay: action.payload.freeplay,
         queue: action.payload.queue,
         watch: action.payload.watch,
-        freeplay: action.payload.freeplay,
       };
     },
     setTime(state, action: PayloadAction<typeof initialState>) {

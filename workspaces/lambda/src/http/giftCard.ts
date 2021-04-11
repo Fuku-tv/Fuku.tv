@@ -6,6 +6,34 @@ import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { sendEmail } from '../common/emailService';
 import * as Responses from '../common/ApiResponses';
 
+interface Body {
+  amount: number;
+}
+
+interface GiftCardCatalogue {
+  amount: number;
+  pointCost: number;
+}
+
+// hard-coded list of giftcards
+const giftCardList: GiftCardCatalogue[] = [
+  {
+    amount: 10,
+    pointCost: 1000,
+  },
+  {
+    amount: 25,
+    pointCost: 2500,
+  },
+  {
+    amount: 50,
+    pointCost: 5000,
+  },
+  {
+    amount: 100,
+    pointCost: 10000,
+  },
+];
 const REGION = 'NA';
 
 const CURRENCY = 'USD';
@@ -35,7 +63,7 @@ const createGiftCard = async (amount: number): Promise<any> => {
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage, identity } = event.requestContext;
-  const res = JSON.parse(event.body);
+  const res: Body = JSON.parse(event.body);
 
   // validate user
   let email: string;
@@ -46,15 +74,23 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
     return Responses.badRequest({ message: 'User could not be validated' });
   }
 
+  // validate request body to prevent gift card redemption at insufficient points
+
+  const giftCard = giftCardList.find((x) => x.amount === res.amount);
+  if (giftCard === undefined) {
+    return Responses.badRequest({ message: 'prize not found in database' });
+  }
+
   // deduct points and send customer redemption code
   try {
-    playersTableModel.removePoints(email, 2000);
+    playersTableModel.removePoints(email, giftCard.pointCost);
     // TODO get gift card amount from request body
-    const claimCode = await createGiftCard(res.amount);
+    const claimCode = await createGiftCard(giftCard.amount);
     await sendEmail('support@fuku.tv', email, 'Fuku Redemption', claimCode);
-    return Responses.ok({ message: JSON.stringify(claimCode) });
+    return Responses.ok({ message: `Prize redemption was successful, receipt email sent to ${email}` });
   } catch (error) {
-    console.log('error found');
+    // add points back in case of an gift card error
+    // playersTableModel.addPoints(email, giftCard.pointCost);
     return Responses.badRequest({ message: JSON.stringify(error) });
   }
 };
