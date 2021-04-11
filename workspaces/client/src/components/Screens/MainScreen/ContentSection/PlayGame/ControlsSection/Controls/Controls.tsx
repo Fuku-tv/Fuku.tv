@@ -12,22 +12,22 @@ const Controls: React.FC = () => {
 
   const forwardContolBtns = (
     <>
-      <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="up" direction="up" />
+      <ControlButton onButtonDown={() => actions.buttonDownEvent('up')} onButtonUp={() => actions.buttonUpEvent('up')} direction="up" />
       <div className="left-right-row">
-        <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="left" direction="left" />
-        <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="right" direction="right" />
+        <ControlButton onButtonDown={() => actions.buttonDownEvent('left')} onButtonUp={() => actions.buttonUpEvent('left')} direction="left" />
+        <ControlButton onButtonDown={() => actions.buttonDownEvent('right')} onButtonUp={() => actions.buttonUpEvent('right')} direction="right" />
       </div>
-      <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="down" direction="down" />
+      <ControlButton onButtonDown={() => actions.buttonDownEvent('down')} onButtonUp={() => actions.buttonUpEvent('down')} direction="down" />
     </>
   );
   const sideContolBtns = (
     <>
-      <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="left" direction="up" />
+      <ControlButton onButtonDown={() => actions.buttonDownEvent('left')} onButtonUp={() => actions.buttonUpEvent('left')} direction="up" />
       <div className="left-right-row">
-        <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="down" direction="left" />
-        <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="up" direction="right" />
+        <ControlButton onButtonDown={() => actions.buttonDownEvent('down')} onButtonUp={() => actions.buttonUpEvent('down')} direction="left" />
+        <ControlButton onButtonDown={() => actions.buttonDownEvent('up')} onButtonUp={() => actions.buttonUpEvent('up')} direction="right" />
       </div>
-      <ControlButton onButtonDown={actions.buttonDownEvent} onButtonUp={actions.buttonUpEvent} type="right" direction="down" />
+      <ControlButton onButtonDown={() => actions.buttonDownEvent('right')} onButtonUp={() => actions.buttonUpEvent('right')} direction="down" />
     </>
   );
 
