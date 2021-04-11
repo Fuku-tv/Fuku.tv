@@ -64,6 +64,7 @@ export class Player {
   }
 
   Login(userdata: { nickname: string; email: string }) {
+    this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {
         this.send({
@@ -78,7 +79,7 @@ export class Player {
         });
       })
       .catch((error) => {});
-    this.userdata = userdata;
+
     this.isLoggedIn = true;
   }
 
