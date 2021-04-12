@@ -8,6 +8,7 @@ const initialState = {
   credits: 0,
   freeplay: 0,
   points: 0,
+  pointsWon: 0,
   gameStatus: '',
   chat: [],
   cameraIsForward: true,
@@ -72,10 +73,11 @@ const gameSlice = createSlice({
       };
     },
 
-    toggleWinnerModal(state) {
+    toggleWinnerModal(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
         winnerModalActive: !state.winnerModalActive,
+        pointsWon: state.winnerModalActive === false ? action.payload.pointsWon : 0,
       };
     },
   },
