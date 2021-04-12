@@ -69,7 +69,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
           <div id="points-and-credits">
             <div className="stat-item-wrapper">
               <span className="player-stats__item">Credits:</span>
-              <span className="player-stats__value">{gameState.state.credits + gameState.state.freeplay}</span>
+              <span className="player-stats__value">{gameState.state.credits}</span>
             </div>
             <div className="stat-item-wrapper">
               <span className="player-stats__item">Freeplay:</span>

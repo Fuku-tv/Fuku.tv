@@ -24,6 +24,10 @@ const useGameState = () => {
     dispatch(gameActions.endStream());
   };
 
+  const enterQueue = () => {
+    dispatch(gameActions.enterQueue());
+  };
+
   const buttonDownEvent = (type: string) => {
     dispatch(gameActions.buttonDown(type));
   };
@@ -58,6 +62,7 @@ const useGameState = () => {
       startStream,
       endStream,
       mountStore,
+      enterQueue,
       buttonDownEvent,
       buttonUpEvent,
       toggleCamera,

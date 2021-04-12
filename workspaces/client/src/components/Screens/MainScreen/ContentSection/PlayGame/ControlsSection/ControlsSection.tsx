@@ -50,8 +50,7 @@ const ControlsSection: React.FC = () => {
         />
 
         <DepthButton
-          onPointerUp={() => actions.buttonUpEvent('queue')}
-          onPointerDown={() => actions.buttonDownEvent('queue')}
+          onPointerDown={() => actions.enterQueue()}
           id="btnPlay"
           buttonText="Enter Player Queue"
           width={200}

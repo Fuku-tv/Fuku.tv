@@ -83,7 +83,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
 
   // deduct points and send customer redemption code
   try {
-    playersTableModel.removePoints(email, giftCard.pointCost);
+    await playersTableModel.removePoints(email, giftCard.pointCost);
     // TODO get gift card amount from request body
     const claimCode = await createGiftCard(giftCard.amount);
     await sendEmail('support@fuku.tv', email, 'Fuku Redemption', claimCode);

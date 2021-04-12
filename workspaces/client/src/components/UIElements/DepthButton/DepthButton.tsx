@@ -6,8 +6,8 @@ import { useAuthState, useGameState } from 'src/state/hooks';
 
 interface Props {
   onClick?: () => void;
-  onPointerDown?: (type: string) => void;
-  onPointerUp?: (type: string) => void;
+  onPointerDown?: () => void;
+  onPointerUp?: () => void;
   id: string;
   buttonText: string | JSX.Element;
   width?: number;

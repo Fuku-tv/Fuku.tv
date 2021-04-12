@@ -48,8 +48,6 @@ const Routes = () => (
 );
 
 const Main: React.FC = () => {
-  const { state, actions } = useAuthState();
-  const gameState = useGameState();
   // const playerStats = (
   //   <div className="player-stats-container">
   //     <div className="inner-wrapper">
@@ -71,7 +69,14 @@ const Main: React.FC = () => {
   //     </div>
   //   </div>
   // );
+  const { actions, state } = useGameState();
+  React.useEffect(() => {
+    actions.mountStore();
 
+    actions.startFuku();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <main>
       <ContentContainer>

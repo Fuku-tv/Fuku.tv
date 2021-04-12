@@ -30,7 +30,7 @@ const serverlessConfiguration: Serverless = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['dynamodb:*'],
+        Action: ['dynamodb:*', 'ses:*'],
         Resource: '*',
       },
     ],
@@ -56,6 +56,7 @@ const serverlessConfiguration: Serverless = {
           http: {
             path: '/giftcard',
             method: 'post',
+            cors: true,
           },
         },
       ],

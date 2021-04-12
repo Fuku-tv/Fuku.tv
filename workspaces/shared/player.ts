@@ -12,11 +12,13 @@ export class Player {
 
   userdata: { email: string; nickname: string };
 
+  points = 0;
+
   credits = 0;
 
   freeplay = 0;
 
-  lastfreeplaydate = 0;
+  lastfreeplaydate: any = 0;
 
   timePlay = 30100;
 
@@ -40,45 +42,33 @@ export class Player {
 
   ipAddr: any;
 
-  vh = 0;
-
-  vw = 0;
-
-  qc = 0;
-
-  wc = 0;
-
-  level = 0;
+  level = 1;
 
   xp = 0;
 
-  constructor(s: ws, wc: number, qc: number, vw: number, vh: number, ip: any) {
-    this.socket = s;
+  constructor(socket: ws, ip: any) {
+    this.socket = socket;
     this.ipAddr = ip;
-    this.level = 1;
-    this.xp = 0;
-    this.vh = vh;
-    this.vw = vw;
-    this.qc = qc;
-    this.wc = wc;
   }
 
-  Login(userdata: { nickname: string; email: string }) {
+  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
+    this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {
         this.send({
           command: constants.PlayerCommand.init,
-          width: this.vw,
-          height: this.vh,
+          width: videoWidth,
+          height: videoHeight,
           credits: this.credits,
+          points: this.points,
           freeplay: this.freeplay,
-          queue: this.qc,
-          watch: this.wc,
+          queue: queueCount,
+          watch: watchCount,
           test: false,
         });
       })
       .catch((error) => {});
-    this.userdata = userdata;
+
     this.isLoggedIn = true;
   }
 
@@ -108,6 +98,7 @@ export class Player {
       watch: wc,
       credits: this.credits,
       freeplay: this.freeplay,
+      points: this.points,
     });
   }
 
@@ -135,7 +126,6 @@ export class Player {
       }
     }
     this.gameState = constants.GameState.playing;
-    this.updateGameStats(this.qc, this.wc);
     this.playTimer = setTimeout(callback, this.timePlay);
     this.send({ command: constants.PlayerCommand.gameplay });
   }
@@ -162,6 +152,7 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
+      this.points = player.points;
       this.credits = player.credits;
       this.freeplay = player.freeplay;
       this.lastfreeplaydate = player.lastfreeplaydate;

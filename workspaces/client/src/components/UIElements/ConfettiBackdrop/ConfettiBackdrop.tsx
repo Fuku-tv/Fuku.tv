@@ -101,7 +101,7 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
       <div className="player-congrats">
         <h2 className="player-name">Congratulations!</h2>
         <div className="value-won">
-          {state.name} won <span id="value">{gameState.state.points}</span> points!
+          {state.name} won <span id="value">{gameState.state.pointsWon}</span> points!
         </div>
       </div>
       <canvas ref={canvasRef} id="confetti" height="100%" width="100%" />

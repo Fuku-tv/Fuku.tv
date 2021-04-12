@@ -32,14 +32,6 @@ class Fuku {
 
   currentVideoUri: typeof constants.Video.front | typeof constants.Video.side = constants.Video.front;
 
-  queue: number;
-
-  watch: number;
-
-  credits: number;
-
-  freeplay: number;
-
   // TODO remove UGLY UGLY UGLY hack
   uglyHackStore: EnhancedStore;
 
@@ -64,6 +56,7 @@ class Fuku {
     this.liveplayer.connect(FUKU_URL_VIDEO);
     this.liveplayer.initCanvas(800, 480);
     console.log('starting video');
+    // this.getAllChatMessages();
   }
 
   disconnectVideo(): void {
@@ -87,14 +80,8 @@ class Fuku {
     // switch statement for type because command objects arent consistent.
     const { PlayerCommand, Video } = constants;
 
-    console.log('sent command: ', type);
     switch (type) {
-      // user joins queue
-      case PlayerCommand.queue:
-        this.send({ command: PlayerCommand.queue });
-        break;
-
-      case 'swapvideo':
+      case PlayerCommand.swapvideo:
         this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
           JSON.stringify({
@@ -126,6 +113,10 @@ class Fuku {
       button: type,
       action: constants.Action.stop,
     });
+  };
+
+  enterQueue = (): void => {
+    this.send({ command: constants.PlayerCommand.queue });
   };
 
   sendChatMessage = (message: Record<string, unknown>): void => {
@@ -168,7 +159,7 @@ class Fuku {
       // this.getAllChatMessages();
     };
     this.socket.onmessage = (e) => {
-      console.log('1 Message sent', e);
+      console.log('Message received', e.data);
       this.parseCommand(JSON.parse(e.data));
       // this.parseCommand({
       //   command: constants.PlayerCommand.chatmsg,
@@ -185,6 +176,10 @@ class Fuku {
     };
   }
 
+  /**
+   *
+   * @param cmd parse incoming websocket command
+   */
   private parseCommand(cmd) {
     const { PlayerCommand, Video } = constants;
     console.log(`Got command: ${cmd.command}`);
@@ -192,23 +187,11 @@ class Fuku {
       case PlayerCommand.init:
         this.resetTimers();
         this.setGameStatus(cmd.command);
+        this.setGameStats(cmd);
         break;
 
       case PlayerCommand.gamestats:
-        this.queue = cmd.queue;
-        this.watch = cmd.watch;
-        this.credits = cmd.credits;
-        this.freeplay = cmd.freeplay;
-
-        this.uglyHackStore.dispatch({
-          type: 'GAME/gamestats',
-          payload: {
-            queue: this.queue,
-            watch: this.watch,
-            credits: this.credits,
-            freeplay: this.freeplay,
-          },
-        });
+        this.setGameStats(cmd);
         break;
       case PlayerCommand.gamestandby:
         this.resetTimers();
@@ -226,13 +209,13 @@ class Fuku {
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.prizeget:
-        console.log('WINNERR', cmd.points);
+        console.log('WINNERR', cmd.pointswon);
         this.setPoints(cmd.points);
         if (cmd.jackpot === true) {
           console.log('JACKPOT WINNER');
           // this.toggleJackpotModal();
         } else {
-          this.toggleWinnerModal();
+          this.toggleWinnerModal(cmd.pointswon);
         }
         // actions.toggleWinnerModal();
         // useGameState().actions.toggleWinnerModal();
@@ -280,6 +263,19 @@ class Fuku {
     });
   }
 
+  private setGameStats(stats) {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/gamestats',
+      payload: {
+        queue: stats.queue,
+        watch: stats.watch,
+        credits: stats.credits,
+        points: stats.points,
+        freeplay: stats.freeplay || 0,
+      },
+    });
+  }
+
   private updateChat(user, message) {
     const chatMessage = { user, message };
     this.uglyHackStore.dispatch({
@@ -297,9 +293,12 @@ class Fuku {
     });
   }
 
-  private toggleWinnerModal() {
+  private toggleWinnerModal(points: number) {
     this.uglyHackStore.dispatch({
       type: 'GAME/toggleWinnerModal',
+      payload: {
+        pointsWon: points,
+      },
     });
   }
 
@@ -329,7 +328,7 @@ class Fuku {
       console.log('socket null');
       return;
     }
-
+    console.log(`sent command: ${JSON.stringify(data)}`);
     this.socket.send(JSON.stringify(data));
   }
 }
