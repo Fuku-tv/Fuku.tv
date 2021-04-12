@@ -12,17 +12,17 @@ export class Player {
 
   userdata: { email: string; nickname: string };
 
-  points: number = 0;
+  points = 0;
 
-  credits: number = 0;
+  credits = 0;
 
-  freeplay: number = 0;
+  freeplay = 0;
 
   lastfreeplaydate: any = 0;
 
-  timePlay: number = 30100;
+  timePlay = 30100;
 
-  timeStandby: number = 60100;
+  timeStandby = 60100;
 
   playTimer: any = null;
 
@@ -38,20 +38,20 @@ export class Player {
 
   video: any = constants.Video.front;
 
-  uid: string = '';
+  uid = '';
 
   ipAddr: any;
 
-  level: number = 1;
+  level = 1;
 
-  xp: number = 0;
+  xp = 0;
 
   constructor(socket: ws, ip: any) {
     this.socket = socket;
     this.ipAddr = ip;
   }
 
-  Login(userdata: { nickname: string; email: string }, queueCount: number = 0, watchCount: number = 0, videoWidth: number = 0, videoHeight: number = 0) {
+  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0) {
     this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {
@@ -150,7 +150,7 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
-      this.points = player.points
+      this.points = player.points;
       this.credits = player.credits;
       this.freeplay = player.freeplay;
       this.lastfreeplaydate = player.lastfreeplaydate;

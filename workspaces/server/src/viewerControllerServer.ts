@@ -56,10 +56,7 @@ export class ControllerServer {
     });
 
     this.wss.on('connection', (socket: any, req: any) => {
-      const clientPlayer = new Player(
-        socket,
-        req.headers['x-forwarded-for'] || req.socket.remoteAddress
-      );
+      const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
       this.updateGameStats();
@@ -114,8 +111,9 @@ export class ControllerServer {
             // get all previous stored messages
             // use forLoop to send out each messages
 
+            // eslint-disable-next-line no-case-declarations
             const messages = await redis.lrange('room:main', 0, -1);
-            messages.forEach(m => {
+            messages.forEach((m) => {
               // clientPlayer.send
               //
               console.log(`message: ${m}`);
@@ -198,7 +196,7 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
             else pointsWon = 6;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot: jackpot });
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot });
           this.currentPlayer.addPoints(pointsWon);
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
@@ -248,7 +246,7 @@ export class ControllerServer {
 
     // Unlock player controls
     this.currentPlayer.play(this.playEnd.bind(this));
-    this.currentPlayer.updateGameStates(this.queue.length, this.players.length);
+    this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
   }
 
   playEnd() {
@@ -305,8 +303,7 @@ export class ControllerServer {
 
   queuePlayer(p: Player): void {
     logger.logInfo('queue started');
-    if (this.currentPlayer !== null && this.currentPlayer !== undefined)
-      if (this.currentPlayer === p) return; // what are you even trying to accomplish?
+    if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
     if (!p.isLoggedIn) {
       logger.log(LogLevel.error, `${p.uid} - player is not signed in, please login to enter a fuku queue`);
       return;
@@ -336,7 +333,6 @@ export class ControllerServer {
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
   }
-
 }
 
 const send = (socket: WS, data: any) => {
