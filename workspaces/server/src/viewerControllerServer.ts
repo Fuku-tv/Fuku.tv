@@ -113,19 +113,25 @@ export class ControllerServer {
             // this.sendAllChatMessages();
             // get all previous stored messages
             // use forLoop to send out each messages
+
+            const messages = await redis.lrange('room:main', 0, -1);
+            messages.forEach(m => {
+              // clientPlayer.send
+              //
+              console.log(`message: ${m}`);
+            });
             break;
           case constants.PlayerCommand.chatmsg:
             // filter stupid shit
-            // put it in redis
 
-            if (this.redisClient.lpush('room:main', msg.chatmessage) > 10) {
+            // put it in redis
+            if (this.redisClient.lpush('room:main', msg.chatmessage, clientPlayer.userdata.nickname) > 10) {
               this.redisClient.rpop('room:main');
             }
-            console.log('about to send back', clientPlayer);
 
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
-              user: 'clientPlayer.userdata.nickname',
+              user: clientPlayer.userdata.nickname,
               chatmessage: msg.chatmessage,
             });
             break;
