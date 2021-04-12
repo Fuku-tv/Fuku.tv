@@ -98,6 +98,7 @@ export class Player {
       watch: wc,
       credits: this.credits,
       freeplay: this.freeplay,
+      points: this.points,
     });
   }
 
