@@ -3,7 +3,9 @@ import './StoreScreen.scss';
 import Screen from 'src/components/UIElements/Screen/Screen';
 import useCommerceState from 'src/state/hooks/useCommerceState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
+import { createGiftCard } from 'src/services/giftCardService';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
+import { useAuthState } from 'src/state/hooks';
 import StoreItem from './StoreItem/StoreItem';
 import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
@@ -11,6 +13,7 @@ import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
 
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
+  const authState = useAuthState();
   const [activeTab, setActiveTab] = React.useState<string>('Credits');
 
   const checkoutClickEvent = (priceId) => {
@@ -23,6 +26,10 @@ const StoreScreen: React.FC = () => {
       },
     ];
     actions.checkout(lineItems);
+  };
+
+  const giftcardRedeemEvent = async (amount: number) => {
+    await createGiftCard(amount, authState.state.accessToken);
   };
 
   const tabList = ['Daily Free', 'Credits', 'Upgrades', 'Prizes'];
@@ -45,15 +52,15 @@ const StoreScreen: React.FC = () => {
   const prizesContent = (
     <div className="store-item-container">
       <article id="prize" className="store-item">
-        <div className="store-item__price">1000 Points</div>
+        <div className="store-item__price">2500 Points</div>
         <div className="image-wrapper">
           <img src={GiftCard20} alt="" />
         </div>
         <div className="store-item__credits">
           <div className="credits__title">
-            <h3>$20 Amazon Gift Card</h3>
+            <h3>$25 Amazon Gift Card</h3>
           </div>
-          <FlatButton width={220} text="Redeem Prize" />
+          <FlatButton width={220} text="Redeem Prize" onClick={() => giftcardRedeemEvent(25)} />
         </div>
       </article>
       <article id="prize" className="store-item">

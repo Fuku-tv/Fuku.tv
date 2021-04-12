@@ -45,7 +45,7 @@ export const getStage = (): string => {
 export const fukuApiServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
-    return 'http://localhost:3000';
+    return 'http://localhost:3000/local';
   }
   if (process.env.EB_ENVIRONMENT !== 'production') {
     // Dev Environment

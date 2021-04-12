@@ -56,6 +56,7 @@ const serverlessConfiguration: Serverless = {
           http: {
             path: '/giftcard',
             method: 'post',
+            cors: true,
           },
         },
       ],
