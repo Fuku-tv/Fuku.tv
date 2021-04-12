@@ -211,13 +211,13 @@ class Fuku {
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.prizeget:
-        console.log('WINNERR', cmd.points);
+        console.log('WINNERR', cmd.pointswon);
         this.setPoints(cmd.points);
         if (cmd.jackpot === true) {
           console.log('JACKPOT WINNER');
           // this.toggleJackpotModal();
         } else {
-          this.toggleWinnerModal();
+          this.toggleWinnerModal(cmd.pointswon);
         }
         // actions.toggleWinnerModal();
         // useGameState().actions.toggleWinnerModal();
@@ -294,9 +294,12 @@ class Fuku {
     });
   }
 
-  private toggleWinnerModal() {
+  private toggleWinnerModal(points: number) {
     this.uglyHackStore.dispatch({
       type: 'GAME/toggleWinnerModal',
+      payload: {
+        pointsWon: points,
+      },
     });
   }
 
