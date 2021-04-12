@@ -248,7 +248,7 @@ export class ControllerServer {
 
     // Unlock player controls
     this.currentPlayer.play(this.playEnd.bind(this));
-    this.currentPlayer.updateGameStates(this.queue.length, this.players.length);
+    this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
   }
 
   playEnd() {
