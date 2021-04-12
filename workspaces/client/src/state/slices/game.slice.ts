@@ -31,6 +31,7 @@ const gameSlice = createSlice({
       return {
         ...state,
         credits: action.payload.credits,
+        points: action.payload.points,
         freeplay: action.payload.freeplay,
         queue: action.payload.queue,
         watch: action.payload.watch,
