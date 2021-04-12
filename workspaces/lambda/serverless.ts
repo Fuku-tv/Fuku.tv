@@ -30,12 +30,7 @@ const serverlessConfiguration: Serverless = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['dynamodb:*'],
-        Resource: '*',
-      },
-      {
-        Effect: 'Allow',
-        Action: ['ses:*'],
+        Action: ['dynamodb:*', 'ses:*'],
         Resource: '*',
       },
     ],
