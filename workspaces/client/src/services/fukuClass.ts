@@ -272,6 +272,7 @@ class Fuku {
         queue: stats.queue,
         watch: stats.watch,
         credits: stats.credits,
+        points: stats.points,
         freeplay: stats.freeplay || 0,
       },
     });
