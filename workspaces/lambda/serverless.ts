@@ -33,6 +33,11 @@ const serverlessConfiguration: Serverless = {
         Action: ['dynamodb:*'],
         Resource: '*',
       },
+      {
+        Effect: 'Allow',
+        Action: ['ses:*'],
+        Resource: '*',
+      },
     ],
   },
   plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
