@@ -30,13 +30,7 @@ export const sendEmail = async (sender: string, recipient: string, subject = 'NU
     },
   };
 
-  ses.sendEmail(params, (err, data) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      console.log('Email sent! Message ID: ', data.MessageId);
-    }
-  });
+  await ses.sendEmail(params).promise();
 };
 
 export default sendEmail;
