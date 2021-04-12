@@ -58,14 +58,11 @@ export class ControllerServer {
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(
         socket,
-        this.players.length + 1,
-        this.queue.length,
-        800,
-        480,
         req.headers['x-forwarded-for'] || req.socket.remoteAddress
       );
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
+      this.updateGameStats();
 
       socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
@@ -99,12 +96,14 @@ export class ControllerServer {
             console.log('Starting Queue');
 
             this.queuePlayer(clientPlayer);
+            this.updateGameStats();
             break;
           case constants.PlayerCommand.dequeue:
             this.dequeuePlayer(clientPlayer);
+            this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message));
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
@@ -149,6 +148,7 @@ export class ControllerServer {
             this.players.splice(i, 1);
           }
         });
+        this.updateGameStats();
       });
     });
   }
@@ -192,7 +192,7 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
             else pointsWon = 6;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: pointsWon, jackpot });
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot: jackpot });
           this.currentPlayer.addPoints(pointsWon);
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
@@ -313,7 +313,6 @@ export class ControllerServer {
         logger.log(LogLevel.info, `${p.uid} - only player in queue, activating!`);
         this.activatePlayer(p);
       }
-      this.updateallstats();
     } else {
       p.send({ command: constants.PlayerCommand.queue, success: false });
       logger.log(LogLevel.info, `${p.uid} - player already queued`);
@@ -327,18 +326,10 @@ export class ControllerServer {
         object.splice(index, 1);
         logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
       }
-      this.updateallstats();
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
   }
 
-  updateallstats() {
-    console.log('Starting updating all stats');
-
-    this.players.forEach((p) => {
-      p.updateGameStats(this.queue.length, this.players.length);
-    });
-  }
 }
 
 const send = (socket: WS, data: any) => {

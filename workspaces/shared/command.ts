@@ -10,6 +10,7 @@ interface Command {
   action?: string;
   success?: boolean;
   points?: number;
+  pointswon?: number;
   jackpot?: boolean;
 }
 
