@@ -51,7 +51,7 @@ export class Player {
     this.ipAddr = ip;
   }
 
-  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0) {
+  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
     this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {
@@ -60,6 +60,7 @@ export class Player {
           width: videoWidth,
           height: videoHeight,
           credits: this.credits,
+          points: this.points,
           freeplay: this.freeplay,
           queue: queueCount,
           watch: watchCount,
