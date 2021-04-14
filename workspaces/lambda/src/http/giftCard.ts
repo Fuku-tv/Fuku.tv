@@ -1,4 +1,5 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
+import type { GiftCardCatalogue } from 'fuku.tv-shared/giftCard';
 import Client from 'agcod';
 import { env } from 'fuku.tv-shared';
 import validateUser from 'src/common/authorizer';
@@ -8,11 +9,6 @@ import * as Responses from '../common/ApiResponses';
 
 interface Body {
   amount: number;
-}
-
-interface GiftCardCatalogue {
-  amount: number;
-  pointCost: number;
 }
 
 // hard-coded list of giftcards
