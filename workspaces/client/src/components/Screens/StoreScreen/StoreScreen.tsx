@@ -10,6 +10,7 @@ import StoreItem from './StoreItem/StoreItem';
 import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
 import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
+import StoreTabPrizes from './StoreTabPrizes/StoreTabPrizes';
 
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
@@ -63,30 +64,6 @@ const StoreScreen: React.FC = () => {
           <FlatButton width={220} text="Redeem Prize" onClick={() => giftcardRedeemEvent(25)} />
         </div>
       </article>
-      <article id="prize" className="store-item">
-        <div className="store-item__price">2000 Points</div>
-        <div className="image-wrapper">
-          <img src={GiftCard50} alt="" />
-        </div>
-        <div className="store-item__credits">
-          <div className="credits__title">
-            <h3>$50 Amazon Gift Card</h3>
-          </div>
-          <FlatButton disabled width={220} text="460 Points Required" />
-        </div>
-      </article>
-      <article id="prize" className="store-item">
-        <div className="store-item__price">3000 Points</div>
-        <div className="image-wrapper">
-          <img src={GiftCard100} alt="" />
-        </div>
-        <div className="store-item__credits">
-          <div className="credits__title">
-            <h3>$100 Amazon Gift Card</h3>
-          </div>
-          <FlatButton width={220} disabled text="1460 Points Required" />
-        </div>
-      </article>
     </div>
   );
 
@@ -100,7 +77,7 @@ const StoreScreen: React.FC = () => {
     </div>
   );
 
-  const tabs = activeTab === 'Credits' ? creditsContent : prizesContent;
+  const tabs = activeTab === 'Credits' ? creditsContent : <StoreTabPrizes />;
   return (
     <Screen id="store" title="Store">
       <div className="screen-navigation">

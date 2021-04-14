@@ -11,9 +11,11 @@ article.store-item {
   border-radius: 8px;
   justify-content: flex-end;
   .store-item__price {
-    position: absolute;
-    top: 15px;
-    left: 0;
+    // position: absolute;
+    // top: 15px;
+    // left: 0;
+    margin-left: -5px;
+    width: fit-content;
     font-weight: 700;
     color: var(--purplePrimary);
     padding: 4px 8px;
