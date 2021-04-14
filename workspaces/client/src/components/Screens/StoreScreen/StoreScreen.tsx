@@ -3,9 +3,8 @@ import './StoreScreen.scss';
 import Screen from 'src/components/UIElements/Screen/Screen';
 import useCommerceState from 'src/state/hooks/useCommerceState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
-import { createGiftCard } from 'src/services/giftCardService';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
-import { useAuthState } from 'src/state/hooks';
+import { useAuthState, usePrizeState } from 'src/state/hooks';
 import StoreItem from './StoreItem/StoreItem';
 import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
@@ -13,6 +12,7 @@ import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
 
 const StoreScreen: React.FC = () => {
   const { state, actions } = useCommerceState();
+  const prizeState = usePrizeState();
   const authState = useAuthState();
   const [activeTab, setActiveTab] = React.useState<string>('Credits');
 
@@ -29,12 +29,17 @@ const StoreScreen: React.FC = () => {
   };
 
   const giftcardRedeemEvent = async (amount: number) => {
-    await createGiftCard(amount, authState.state.accessToken);
+    prizeState.actions.redeemPoints(amount);
+  };
+
+  const getGiftCardsEvent = async () => {
+    prizeState.actions.getPrizeList();
   };
 
   const tabList = ['Daily Free', 'Credits', 'Upgrades', 'Prizes'];
 
   React.useEffect(() => {
+    prizeState.actions.getPrizeList();
     actions.getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,7 +65,7 @@ const StoreScreen: React.FC = () => {
           <div className="credits__title">
             <h3>$25 Amazon Gift Card</h3>
           </div>
-          <FlatButton width={220} text="Redeem Prize" onClick={() => giftcardRedeemEvent(25)} />
+          <FlatButton width={220} text="Redeem Prize" />
         </div>
       </article>
       <article id="prize" className="store-item">

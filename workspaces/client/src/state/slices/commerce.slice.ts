@@ -24,17 +24,13 @@ const commerceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getProductList.fulfilled, (state, action) => {
-        return {
-          ...state,
-          productList: action.payload,
-        };
-      })
-      .addCase(getProductList.rejected, (state, action) => {
-        return {
-          ...state,
-        };
-      });
+      .addCase(getProductList.fulfilled, (state, action) => ({
+        ...state,
+        productList: action.payload,
+      }))
+      .addCase(getProductList.rejected, (state, action) => ({
+        ...state,
+      }));
   },
 });
 
