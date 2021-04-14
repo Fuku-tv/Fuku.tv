@@ -10,40 +10,12 @@ import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
 import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
 import StoreTabPrizes from './StoreTabPrizes/StoreTabPrizes';
+import StoreTabCredits from './StoreTabCredits/StoreTabCredits';
 
 const StoreScreen: React.FC = () => {
-  const { state, actions } = useCommerceState();
-  const prizeState = usePrizeState();
-  const authState = useAuthState();
   const [activeTab, setActiveTab] = React.useState<string>('Credits');
 
-  const checkoutClickEvent = (priceId) => {
-    const item = state.productList.find((x) => x.priceId === priceId);
-
-    const lineItems = [
-      {
-        price: item.priceId,
-        quantity: 1,
-      },
-    ];
-    actions.checkout(lineItems);
-  };
-
-  const giftcardRedeemEvent = async (amount: number) => {
-    prizeState.actions.redeemPoints(amount);
-  };
-
-  const getGiftCardsEvent = async () => {
-    prizeState.actions.getPrizeList();
-  };
-
   const tabList = ['Daily Free', 'Credits', 'Upgrades', 'Prizes'];
-
-  React.useEffect(() => {
-    prizeState.actions.getPrizeList();
-    actions.getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // SCREEN TAB CONTENT
   const comingSoonContent = (
@@ -55,34 +27,7 @@ const StoreScreen: React.FC = () => {
     </>
   );
 
-  const prizesContent = (
-    <div className="store-item-container">
-      <article id="prize" className="store-item">
-        <div className="store-item__price">2500 Points</div>
-        <div className="image-wrapper">
-          <img src={GiftCard20} alt="" />
-        </div>
-        <div className="store-item__credits">
-          <div className="credits__title">
-            <h3>$25 Amazon Gift Card</h3>
-          </div>
-          <FlatButton width={220} text="Redeem Prize" />
-        </div>
-      </article>
-    </div>
-  );
-
-  const creditsContent = (
-    <div className="store-item-container">
-      {state.productList &&
-        state.productList
-          .slice(0)
-          .reverse()
-          .map((i) => <StoreItem key={i.name} coins={i.name} price={i.price} priceId={i.priceId} image={i.imgUrl} onClick={checkoutClickEvent} />)}
-    </div>
-  );
-
-  const tabs = activeTab === 'Credits' ? creditsContent : <StoreTabPrizes />;
+  const tabs = activeTab === 'Credits' ? <StoreTabCredits /> : <StoreTabPrizes />;
   return (
     <Screen id="store" title="Store">
       <div className="screen-navigation">

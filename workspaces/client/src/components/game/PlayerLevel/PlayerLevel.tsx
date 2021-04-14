@@ -40,16 +40,15 @@ const PlayerLevel: React.FC = () => {
       <CircularProgressbar
         styles={buildStyles({
           // Rotation of path and trail, in number of turns (0-1)
-
           strokeLinecap: 'butt',
           textSize: '44px',
           fontWeight: 'bold',
           pathTransitionDuration: 0.5,
           textColor: '#fff',
           trailColor: '#c4b9d7',
-          pathColor: '#eac44a',
+          pathColor: '#f9bf00',
         })}
-        value={gameState.state.points === 0 ? 2 : gameState.state.points}
+        value={gameState.state.points === 0 ? 1 : playerLevel}
         text={playerLevel}
       />
     </div>

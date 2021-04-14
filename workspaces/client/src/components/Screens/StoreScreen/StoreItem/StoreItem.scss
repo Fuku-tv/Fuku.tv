@@ -6,11 +6,11 @@ article.store-item {
   display: flex;
   flex-grow: 1;
   flex-basis: 240px;
-  height: 235px;
+  // height: 235px;
   flex-direction: column;
   border-radius: 8px;
   justify-content: flex-end;
-  .store-item__price {
+  .store-item__cost-value {
     // position: absolute;
     // top: 15px;
     // left: 0;
@@ -21,26 +21,36 @@ article.store-item {
     padding: 4px 8px;
     background-color: #f0eef5;
   }
-  .store-item__credits {
+  .store-item__body {
     position: relative;
     text-align: center;
-    .credits__title {
+    .item-image {
       position: relative;
+      max-height: 150px;
+      min-height: 130px;
+      width: auto;
+      height: auto;
+      margin-top: 10px;
+      img {
+        width: auto;
+        height: fit-content;
+        display: block;
+        max-height: 130px;
+        margin: 0 auto;
+      }
+    }
+    .item-title {
+      position: relative;
+      margin: 20px;
       h3 {
         font-size: 18px;
         font-weight: 600;
         margin-top: 8px;
       }
     }
-    .credits__icon {
-      position: relative;
-      img {
-        height: 64px;
-      }
-    }
   }
   .flat-button-container {
-    margin-top: 30px;
+    padding-top: 10px;
     // position: absolute;
     // bottom: -60px;
     // left: 50%;
