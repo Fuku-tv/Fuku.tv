@@ -1,8 +1,6 @@
 import * as React from 'react';
 // import './StoreTabPrizes.scss';
 
-import { createGiftCard } from 'src/services/giftCardService';
-
 import { useGameState, useAuthState, usePrizeState } from 'src/state/hooks';
 import StoreItem from '../StoreItem/StoreItem';
 import GiftCard10 from './images/amazon-10.png';
@@ -16,9 +14,8 @@ const StoreTabPrizes: React.FC = () => {
   const authState = useAuthState();
   const prizeState = usePrizeState();
   const gameState = useGameState();
-  const purchaseGiftCardHandler = async (amount: number) => {
+  const purchaseGiftCardHandler = (amount: number) => {
     try {
-      await createGiftCard(amount, authState.state.accessToken);
       prizeState.actions.redeemPoints(amount);
     } catch (error) {
       console.log('error', error);

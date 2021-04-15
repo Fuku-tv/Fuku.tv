@@ -6,9 +6,9 @@ import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import LoginModal from 'src/components/UIElements/LoginModal/LoginModal';
 
 interface Props {
-  key: string;
+  key: string | number;
   itemTitleName: string;
-  itemCostValue: number;
+  itemCostValue: string;
   itemImage: string;
   purchaseButtonText: string;
   onClick: () => void;
