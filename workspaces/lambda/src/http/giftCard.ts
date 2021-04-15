@@ -11,6 +11,15 @@ interface Body {
   amount: number;
 }
 
+const emailBody = (amount, code) =>
+  `Congratulations! You've redeemed points at Fuku.Tv <br/>
+  <br/>
+You chose an Amazon Gift Card worth $${amount}! Here is the code to redeem at Amazon.com: <br/>
+<br/>
+${code} <br/>
+<br/>
+You can Redeem your code here: https://www.amazon.com/gc/redeem`;
+
 // hard-coded list of giftcards
 const giftCardList: GiftCardCatalogue[] = [
   {
@@ -82,7 +91,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
     await playersTableModel.removePoints(email, giftCard.pointCost);
     // TODO get gift card amount from request body
     const claimCode = await createGiftCard(giftCard.amount);
-    await sendEmail('support@fuku.tv', email, 'Fuku Redemption', claimCode);
+    await sendEmail('support@fuku.tv', email, 'Fuku Prize Redemption', emailBody(giftCard.amount, claimCode));
     return Responses.ok({ message: `Prize redemption was successful, receipt email sent to ${email}` });
   } catch (error) {
     // add points back in case of an gift card error
