@@ -17,13 +17,13 @@ interface Props {
   isPoints?: boolean;
   itemIsValid?: boolean;
   checkItemValidity?: boolean;
+  externalLoader?: boolean;
 }
 
 const StoreItem: React.FC<Props> = ({
   purchaseButtonText,
-  isPoints,
   itemImage,
-  priceId,
+  externalLoader,
   itemTitleName,
   itemCostValue,
   itemIsValid,
@@ -38,8 +38,18 @@ const StoreItem: React.FC<Props> = ({
       setIsLoading(false);
       return;
     }
-    setIsLoading(true);
+
+    if (externalLoader) {
+      setIsLoading(true);
+    }
+
     onClick();
+    // try {
+
+    //   // console.log('setloading false');
+    // } catch (error) {
+    //   console.log('error', error);
+    // }
   };
 
   const openLoginModal = () => {

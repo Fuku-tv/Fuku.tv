@@ -49,10 +49,10 @@ const SideBar: React.FC = () => {
   return (
     <aside id="sidebar-section">
       <div className="sidebar-inner-wrapper">
-        <SidebarWidget title="Game Queue" header={<SpectatorInformation />}>
+        <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue />}>
           <GameQueue />
         </SidebarWidget>
-        <SidebarWidget title="Chat">
+        <SidebarWidget title="Chat" header={<SpectatorInformation showWatching />}>
           <GameChat />
         </SidebarWidget>
       </div>

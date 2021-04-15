@@ -1,0 +1,32 @@
+.social-media-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  .social-icon-link {
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    // border: 1px solid #ffffff;
+    border-radius: 50%;
+    -webkit-transition: 165ms;
+    -o-transition: 165ms;
+    transition: 165ms;
+    margin: 0 8px;
+    svg {
+      height: 17px;
+    }
+    &:hover {
+      background-color: #ffffff;
+      color: #333333;
+    }
+  }
+}

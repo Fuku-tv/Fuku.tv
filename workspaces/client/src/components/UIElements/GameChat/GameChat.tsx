@@ -4,6 +4,7 @@ import { useGameState } from 'src/state/hooks';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import MessageItem from './MessageItem/MessageItem';
+import SocialMedia from '../SocialMedia/SocialMedia';
 
 const GameChat: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -14,6 +15,7 @@ const GameChat: React.FC = () => {
   const [chatMessageContent, setChatMessageContent] = React.useState('');
 
   const [messages, setMessages] = React.useState([]);
+  const chatMessageContainerRef = React.useRef(null);
 
   const handleUpdateChatMessageContent = () => {
     setChatMessageContent(chatInputRef.current.value);
@@ -30,15 +32,16 @@ const GameChat: React.FC = () => {
   const handleSendChatMessage = () => {
     if (chatMessageContent.length > 0) {
       chatInputRef.current.value = '';
+      setChatMessageContent('');
       console.log('SEND MESSAGE', chatMessageContent);
       gameState.actions.sendChatMessage(chatMessageContent);
     }
   };
 
   const header = (
-    <div className="game-chat__header" onClick={() => setChatIsOpen((c) => !c)} onKeyDown={() => setChatIsOpen((c) => !c)} role="button" tabIndex={0}>
-      <div className="discord__logo">{discordLogo}</div>
-      <div className="header-arrow">{chatIsOpen ? upArrow : downArrow}</div>
+    <div className="game-chat__header">
+      <div className="title">Keep in touch</div>
+      <SocialMedia />
     </div>
   );
 
@@ -53,14 +56,19 @@ const GameChat: React.FC = () => {
   );
 
   React.useEffect(() => {
-    console.log('CHAT', gameState.state.chat);
+    console.log('height', chatMessageContainerRef);
+    chatMessageContainerRef.current.scrollTo(0, 10000);
     setMessages(gameState.state.chat);
   }, [gameState.state.chat]);
 
   return (
     <div className="game-chat-container open" style={{ height: !chatIsOpen ? '70px' : '100%' }}>
       <div className="game-chat__body">
-        <div className="body__messages">{gameState.state.chat ? chatMessages : noMessagesContent}</div>
+        {header}
+        <div ref={chatMessageContainerRef} className="body__messages">
+          {gameState.state.chat ? chatMessages : noMessagesContent}
+          <div className="message-anchor" />
+        </div>
         <div className="body__message-composer">
           <div className="message-composer__message">
             <input

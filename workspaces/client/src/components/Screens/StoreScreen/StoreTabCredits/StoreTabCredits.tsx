@@ -39,6 +39,7 @@ const StoreTabCredits: React.FC = () => {
               itemImage={i.imgUrl}
               onClick={() => checkoutClickEvent(i.priceId)}
               purchaseButtonText={`Purchase ${i.name}`}
+              externalLoader
             />
           ))}
     </div>
