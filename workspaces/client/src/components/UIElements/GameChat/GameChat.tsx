@@ -45,7 +45,12 @@ const GameChat: React.FC = () => {
     </div>
   );
 
-  const noMessagesContent = <div className="no-messages">There are no messages</div>;
+  const noMessagesContent = (
+    <div className="no-messages">
+      <div>There are currently no messages yet...</div>
+      <div>but you can be the first!</div>
+    </div>
+  );
 
   const chatMessages = (
     <>
@@ -66,7 +71,7 @@ const GameChat: React.FC = () => {
       <div className="game-chat__body">
         {header}
         <div ref={chatMessageContainerRef} className="body__messages">
-          {gameState.state.chat ? chatMessages : noMessagesContent}
+          {gameState.state.chat.length > 0 ? chatMessages : noMessagesContent}
           <div className="message-anchor" />
         </div>
         <div className="body__message-composer">

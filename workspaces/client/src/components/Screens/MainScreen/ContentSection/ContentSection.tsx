@@ -11,6 +11,7 @@ import PlayGameTab from './PlayGame/PlayGameTab';
 import './ContentSection.scss';
 import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/SpectatorInformation';
 import SwitchCameraButton from '../VideoFeedSection/SwitchCameraButton/SwitchCameraButton';
+import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 
 const ContentSection: React.FC = () => {
   const { state, actions } = useGameState();
@@ -30,7 +31,6 @@ const ContentSection: React.FC = () => {
 
   return (
     <section id="content-section">
-      {credits}
       <SwitchCameraButton />
       <div className="inner-wrapper">
         <PlayGameTab />

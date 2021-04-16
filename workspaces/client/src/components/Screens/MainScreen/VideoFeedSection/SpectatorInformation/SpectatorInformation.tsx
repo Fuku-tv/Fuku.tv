@@ -10,12 +10,16 @@ interface PROPS {
 const SpectatorInformation: React.FC<PROPS> = ({ showQueue, showWatching }) => {
   const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
 
-  return (
-    <div className="spectator-information-container">
-      {!showQueue && <CurrentlyWatching />}
-      {!showWatching && <CurrentlyWaiting />}
-    </div>
+  const both = (
+    <>
+      <CurrentlyWatching />
+      <CurrentlyWaiting />
+    </>
   );
+
+  const individual = showQueue ? <CurrentlyWaiting /> : <CurrentlyWatching />;
+
+  return <div className="spectator-information-container">{showQueue || showWatching ? individual : both}</div>;
 };
 
 export default SpectatorInformation;

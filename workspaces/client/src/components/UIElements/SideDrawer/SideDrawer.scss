@@ -1,9 +1,9 @@
 aside.side-drawer {
   position: fixed;
   left: 0;
-  top: 52px;
+  top: var(--topHeaderHeight);
   z-index: 100000;
-  height: 90%;
+  height: calc(100% - var(--topHeaderHeight));
   width: 100%;
   background: var(--purpleSecondary);
 
@@ -39,6 +39,11 @@ aside.side-drawer {
         position: relative;
         display: flex;
         align-items: center;
+        &#credits {
+          .text-wrapper:nth-child(2) {
+            margin-right: 20px;
+          }
+        }
         .icon svg {
           height: 24px;
           fill: #fff;
@@ -76,11 +81,15 @@ aside.side-drawer {
 
     .profile-link__profile-sub-links {
       position: relative;
-      display: grid;
+      // display: grid;
       // flex-basis: 100%;
       width: 100%;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 15px 15px 0;
+      // grid-template-columns: repeat(4, 1fr);
+      padding: 15px 0;
+      button {
+        width: 74%;
+        margin: 0 auto;
+      }
       .profile-sub-link {
         background-color: #ffffff;
         color: var(--purpleSecondary);

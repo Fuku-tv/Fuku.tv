@@ -2,10 +2,12 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  align-items: center;
+  justify-content: center;
   flex-grow: 1;
-  padding-top: 35px;
-  overflow-y: auto;
+  padding: 40px 10px;
+  // padding-top: 35px;
+  // overflow-y: auto;
   overflow-x: hidden;
   .inner-wrapper {
     width: 100%;
@@ -89,8 +91,13 @@
   }
 }
 
-// @media only screen and (max-width: 600px) {
-// 	.main-display__bottom-section {
-// 		min-height: 50vh;
-// 	}
-// }
+@media only screen and (min-width: 600px) {
+  #content-section {
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #content-section {
+    padding: 20px 0;
+  }
+}
