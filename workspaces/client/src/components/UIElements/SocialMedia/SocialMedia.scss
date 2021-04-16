@@ -4,8 +4,8 @@
   justify-content: center;
   .social-icon-link {
     color: #ffffff;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -20,13 +20,17 @@
     -webkit-transition: 165ms;
     -o-transition: 165ms;
     transition: 165ms;
-    margin: 0 8px;
+    margin: 0 12px;
     svg {
+      transition: 100ms ease;
       height: 17px;
     }
     &:hover {
-      background-color: #ffffff;
-      color: #333333;
+      // background-color: #ffffff;
+      // color: #333333;
+      svg {
+        transform: translateY(-3px);
+      }
     }
   }
 }

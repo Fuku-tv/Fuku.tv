@@ -32,7 +32,7 @@ const GameQueue: React.FC = () => {
   const comingSoon = (
     <>
       <div id="coming-soon" className="queue-item">
-        <div className="title">Feature Coming Soon!</div>
+        <div className="title">Feature coming soon!</div>
       </div>
     </>
   );

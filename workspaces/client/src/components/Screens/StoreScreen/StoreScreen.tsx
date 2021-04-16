@@ -13,9 +13,9 @@ import StoreTabPrizes from './StoreTabPrizes/StoreTabPrizes';
 import StoreTabCredits from './StoreTabCredits/StoreTabCredits';
 
 const StoreScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = React.useState<string>('Credits');
+  const [activeTab, setActiveTab] = React.useState<string>('Buy Credits');
 
-  const tabList = ['Daily Free', 'Credits', 'Upgrades', 'Prizes'];
+  const tabList = ['Buy Credits', 'Prizes'];
 
   // SCREEN TAB CONTENT
   const comingSoonContent = (
@@ -27,7 +27,7 @@ const StoreScreen: React.FC = () => {
     </>
   );
 
-  const tabs = activeTab === 'Credits' ? <StoreTabCredits /> : <StoreTabPrizes />;
+  const tabs = activeTab === 'Buy Credits' ? <StoreTabCredits /> : <StoreTabPrizes />;
   return (
     <Screen id="store" title="Store">
       <div className="screen-navigation">
@@ -42,7 +42,7 @@ const StoreScreen: React.FC = () => {
           </button>
         ))}
       </div>
-      {activeTab === 'Credits' || activeTab === 'Prizes' ? tabs : comingSoonContent}
+      {activeTab === 'Buy Credits' || activeTab === 'Prizes' ? tabs : comingSoonContent}
     </Screen>
   );
 };
