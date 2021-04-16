@@ -1,26 +1,45 @@
 import * as React from 'react';
 import './GameQueue.scss';
 
-const GameQueue: React.FC = () => (
-  <div className="game-queue-wrapper">
-    <div id="playing--curently" className="queue-item">
-      <div className="queue-item__icon">{clawIcon}</div>
-      <div className="title">Now Playing</div>
-      <div className="user">Jimmy Oliva</div>
-    </div>
-    <div className="line hortizontal" />
-    <div id="playing--currently" className="queue-item">
-      <div className="queue-item__icon">
-        <div className="vertical-line" />
+const GameQueue: React.FC = () => {
+  const twoUsers = (
+    <>
+      <div id="playing--curently" className="queue-item">
+        <div className="queue-item__icon">{clawIcon}</div>
+        <div className="title">Now Playing</div>
+        <div className="user">Jimmy Oliva</div>
       </div>
-      <div className="title">Up Next</div>
-      <div className="user">Bill Smith</div>
-    </div>
-  </div>
-);
+      <div className="line hortizontal" />
+      <div id="playing--currently" className="queue-item">
+        <div className="queue-item__icon">
+          <div className="vertical-line" />
+        </div>
+        <div className="title">Up Next</div>
+        <div className="user">Bill Smith</div>
+      </div>
+    </>
+  );
+  const oneUser = (
+    <>
+      <div id="playing--curently" className="queue-item">
+        <div className="queue-item__icon">{clawIcon}</div>
+        <div className="title">Now Playing</div>
+        <div className="user">Jimmy Oliva</div>
+      </div>
+    </>
+  );
+
+  const comingSoon = (
+    <>
+      <div id="coming-soon" className="queue-item">
+        <div className="title">Feature coming soon!</div>
+      </div>
+    </>
+  );
+  return <div className="game-queue-wrapper coming-soon">{comingSoon}</div>;
+};
 
 export default GameQueue;
-
 const clawIcon = (
   <svg id="claw" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 80">
     <path

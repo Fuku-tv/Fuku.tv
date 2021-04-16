@@ -3,13 +3,17 @@ import CurrentlyWaiting from './CurrentlyWaiting/CurrentlyWaiting';
 import CurrentlyWatching from './CurrentlyWatching/CurrentlyWatching';
 import './SpectatorInformation.scss';
 
-const SpectatorInformation: React.FC = () => {
+interface PROPS {
+  showQueue?: boolean;
+  showWatching?: boolean;
+}
+const SpectatorInformation: React.FC<PROPS> = ({ showQueue, showWatching }) => {
   const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
 
   return (
     <div className="spectator-information-container">
-      <CurrentlyWatching />
-      <CurrentlyWaiting />
+      {!showQueue && <CurrentlyWatching />}
+      {!showWatching && <CurrentlyWaiting />}
     </div>
   );
 };

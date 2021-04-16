@@ -14,7 +14,7 @@ const usePrizeState = () => {
     dispatch(prizeActions.getPrizeList(null));
   };
 
-  const redeemPoints = (amount) => {
+  const redeemPoints = (amount: number) => {
     dispatch(prizeActions.redeemGiftCard(amount));
   };
 

@@ -52,6 +52,19 @@ const DropdownButton: React.FC<PROPS> = (props) => {
     </div>
   );
 
+  const temporaryLinksDropdown = (
+    <div className="dropdown-container__links">
+      <ul>
+        <li>
+          <button className="nav-link-item" onClick={() => actions.logout()}>
+            <div className="dropdown-icon-wrapper">{logoutIcon}</div>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+
   const buttonStyles = {
     background: dropdownIsOpen ? 'var(--purpleSecondary)' : 'inherit',
   };
@@ -84,7 +97,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
 
         <div className="down-arrow-wrapper">{downArrow}</div>
       </div>
-      {dropdownIsOpen && linksDropdown}
+      {dropdownIsOpen && temporaryLinksDropdown}
     </button>
   );
 };

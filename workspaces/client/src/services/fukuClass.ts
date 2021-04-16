@@ -52,11 +52,9 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
-
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
     this.liveplayer.connect(FUKU_URL_VIDEO);
     this.liveplayer.initCanvas(800, 480);
-
     console.log('starting video');
     // this.getAllChatMessages();
   }
@@ -129,10 +127,10 @@ class Fuku {
       chatmessage: message,
     });
   };
-
   /**
    * Login to fuku websocket
    */
+
   login = (token: string): void => {
     this.send({ command: constants.PlayerCommand.login, message: token });
   };

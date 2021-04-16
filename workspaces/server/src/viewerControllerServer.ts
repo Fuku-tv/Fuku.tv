@@ -91,7 +91,6 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.queue:
             console.log('Starting Queue');
-
             this.queuePlayer(clientPlayer);
             this.updateGameStats();
             break;

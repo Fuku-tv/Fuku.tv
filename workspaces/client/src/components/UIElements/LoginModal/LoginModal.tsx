@@ -27,7 +27,7 @@ const LoginModal: React.FC<Props> = ({ closeDrawer, show, children }) => {
           <div className="modal__body">
             <h2>Welcome Player</h2>
             <p>
-              To play, please sign in first using your <span>{google} </span> or <span> {discordLogo} </span>account.
+              Please sign in first using your <span>{google} </span> or <span> {discordLogo} </span>account.
             </p>
 
             <FlatButton id="modal-login-button" width={140} text="SIGN IN" onClick={actions.loginWithRedirect} />
