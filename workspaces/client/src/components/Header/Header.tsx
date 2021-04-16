@@ -17,6 +17,7 @@ import FlatButton from '../UIElements/FlatButton/FlatButton';
 import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
 import NotificationDropdown from './NotificationsDropdown/NotificationsDropdown';
 import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
+import GameChat from '../UIElements/GameChat/GameChat';
 
 const Header: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -24,35 +25,39 @@ const Header: React.FC = () => {
   // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
   // > (false);
 
-  const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
   const [chatIsOpen, setChatIsOpen] = React.useState<boolean>(false);
-
-  const closeDrawer = () => {
-    setNavIsOpen(false);
-  };
+  const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
 
   // const modalTestHandler = () => { 		setModalIsActive((prev) => !prev); };
 
+  const chatClickHandler = () => {
+    setNavIsOpen(false);
+    if (chatIsOpen) {
+      setChatIsOpen(false);
+    } else {
+      setChatIsOpen(true);
+    }
+  };
+
+  const navClickHandler = () => {
+    setChatIsOpen(false);
+    if (navIsOpen) {
+      setNavIsOpen(false);
+    } else {
+      setNavIsOpen(true);
+    }
+  };
+
   const sideDrawerContentChat = (
-    <SideDrawer closeDrawer={closeDrawer} show={chatIsOpen}>
-      <SideBar />
+    <SideDrawer closeDrawer={chatClickHandler} show={chatIsOpen}>
+      <GameChat />
     </SideDrawer>
   );
   const sideDrawerContentLinks = (
-    <SideDrawer closeDrawer={closeDrawer} show={navIsOpen}>
+    <SideDrawer closeDrawer={navClickHandler} show={navIsOpen}>
       <NavLinks />
     </SideDrawer>
   );
-
-  const chatClickHandler = () => {
-    setChatIsOpen((d) => !d);
-    setNavIsOpen(false);
-  };
-  const navClickHandler = () => {
-    setNavIsOpen((d) => !d);
-    setChatIsOpen(false);
-  };
-
   const profileButtonAuthContent = (
     <>
       <HeaderProfileDropdown id="header-profile-button" />
@@ -72,33 +77,41 @@ const Header: React.FC = () => {
     </div>
   );
 
+  const mobileButtons = (
+    <div className="mobile-button-wrapper">
+      <button
+        id="chat-button"
+        onClick={chatClickHandler}
+        onKeyDown={chatClickHandler}
+        className={`icon-wrapper mobile-button ${chatIsOpen && 'active'}`}
+      >
+        {!chatIsOpen ? chatIcon : close}
+      </button>
+      <button onClick={navClickHandler} onKeyDown={navClickHandler} className={`hamburger-icon-wrapper mobile-button ${navIsOpen && 'active'}`}>
+        <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
+      </button>
+    </div>
+  );
+
   return (
     <>
       <header>
         <div className="header__top-row">
           <ContentContainer>
-            {isMobile && (
-              <button onClick={chatClickHandler} onKeyDown={chatClickHandler} className="icon-wrapper">
-                {chatIcon}
-              </button>
-            )}
-
             <NavLink id="logo" to="/" exact>
               {fukuLogo}
             </NavLink>
             {!isMobile && profileButton}
-            {isMobile && (
-              <button onClick={navClickHandler} className="hamburger-icon-wrapper">
-                <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen || chatIsOpen} />
-              </button>
-            )}
+            {isMobile && mobileButtons}
           </ContentContainer>
         </div>
-        <div className="header__bottom-row">
-          <ContentContainer>
-            <HeadeNavLinks />
-          </ContentContainer>
-        </div>
+        {!isMobile && (
+          <div className="header__bottom-row">
+            <ContentContainer>
+              <HeadeNavLinks />
+            </ContentContainer>
+          </div>
+        )}
         {sideDrawerContentLinks}
         {sideDrawerContentChat}
       </header>
@@ -144,36 +157,13 @@ const fukuLogo = (
   </svg>
 );
 
-const downArrow = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="caret-down"
-    className="svg-inline--fa fa-caret-down fa-w-10"
-    role="img"
-    viewBox="0 0 320 512"
-  >
-    <path
-      fill="currentColor"
-      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-    />
-  </svg>
-);
-
-const credit = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="coins"
-    className="svg-inline--fa fa-coins fa-w-16"
-    role="img"
-    viewBox="0 0 512 512"
-  >
-    <path d="M0 405.3V448c0 35.3 86 64 192 64s192-28.7 192-64v-42.7C342.7 434.4 267.2 448 192 448S41.3 434.4 0 405.3zM320 128c106 0 192-28.7 192-64S426 0 320 0 128 28.7 128 64s86 64 192 64zM0 300.4V352c0 35.3 86 64 192 64s192-28.7 192-64v-51.6c-41.3 34-116.9 51.6-192 51.6S41.3 334.4 0 300.4zm416 11c57.3-11.1 96-31.7 96-55.4v-42.7c-23.2 16.4-57.3 27.6-96 34.5v63.6zM192 160C86 160 0 195.8 0 240s86 80 192 80 192-35.8 192-80-86-80-192-80zm219.3 56.3c60-10.8 100.7-32 100.7-56.3v-42.7c-35.5 25.1-96.5 38.6-160.7 41.8 29.5 14.3 51.2 33.5 60 57.2z" />{' '}
+const close = (
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001">
+    <g>
+      <g>
+        <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z" />
+      </g>
+    </g>
   </svg>
 );
 

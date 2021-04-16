@@ -30,6 +30,13 @@
   --rubik: 'Rubik', sans-serif;
 }
 
+@media only screen and (max-width: 600px) {
+  :root {
+    --topHeaderHeight: 60px;
+    --subHeaderHeight: 0px;
+  }
+}
+
 html {
   height: 100%;
 }

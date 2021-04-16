@@ -1,4 +1,5 @@
 import * as React from 'react';
+import GameChat from 'src/components/UIElements/GameChat/GameChat';
 import './DiscordChat.scss';
 // import {ReactComponent as DownArrow} from 'src/shared/icons/downArrow.svg';
 // import { ReactComponent as UpArrow } from 'src/shared/icons/upArrow.svg';
@@ -30,20 +31,7 @@ const DiscordChat: React.FC = () => {
       className="discord-container open"
       style={{ height: !chatIsOpen ? '70px' : '100%' }}
     >
-      <div className="discord__header">
-        <div className="discord__logo">{discordLogo}</div>
-        <div className="discord__arrow">{chatIsOpen ? upArrow : downArrow}</div>
-      </div>
-
-      <div className="iframe-wrapper">
-        <iframe
-          title="Chat widget"
-          src="https://titanembeds.com/embed/785224675135455242?defaultchannel=797625753289883688&amp;scrollbartheme=minimal&amp;theme=DiscordDark"
-          // height={!chatIsOpen ? '0' : '100%'}
-          width="100%"
-          frameBorder="0"
-        />
-      </div>
+      <GameChat />
     </div>
   );
 };

@@ -10,10 +10,23 @@ import Timer from '../ContentSection/PlayGame/ControlsSection/Timer/Timer';
 const VideoFeedSection: React.FC = () => {
   const { state, actions } = useGameState();
   const gameplay = state.gameStatus === 'gameplay';
+  const feedInformationBar = (
+    <div className="video-feed__information-container">
+      <div className="credits">
+        <span className="que-icon-wrapper">Credits: </span>
+        <span className="value">{state.credits}</span>
+      </div>
+      <div className="freeplay-credits">
+        <span className="que-icon-wrapper">Freeplay: </span>
+        <span className="value">{state.freeplay}</span>
+      </div>
+    </div>
+  );
   return (
     <section id="video-feed-section">
       {gameplay && <Timer />}
       <VideoFeed width="100%" height="480" />
+      {feedInformationBar}
     </section>
   );
 };

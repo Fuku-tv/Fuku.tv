@@ -2,8 +2,9 @@ import * as React from 'react';
 // import {Messages} from '../../Messages';
 import useAuthState from 'src/state/hooks/useAuthState';
 import useNavigationState from 'src/state/hooks/useNavigationState';
-
+import { isMobile } from 'react-device-detect';
 import GameChat from 'src/components/UIElements/GameChat/GameChat';
+
 import Header from '../../../Header/Header';
 // import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
@@ -11,6 +12,7 @@ import SidebarWidget from './SidebarWidget/SidebarWidget';
 import './Sidebar.scss';
 import GameQueue from './GameQueue/GameQueue';
 import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/SpectatorInformation';
+import DiscordChat from './DiscordChat/DiscordChat';
 
 const SideBar: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -49,12 +51,14 @@ const SideBar: React.FC = () => {
   return (
     <aside id="sidebar-section">
       <div className="sidebar-inner-wrapper">
-        <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue />}>
+        <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue={!isMobile} />}>
           <GameQueue />
         </SidebarWidget>
-        <SidebarWidget title="Chat" header={<SpectatorInformation showWatching />}>
-          <GameChat />
-        </SidebarWidget>
+        {!isMobile && (
+          <SidebarWidget title="Chat" header={<SpectatorInformation showWatching />}>
+            <GameChat />
+          </SidebarWidget>
+        )}
       </div>
     </aside>
   );
