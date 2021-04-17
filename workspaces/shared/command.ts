@@ -12,6 +12,7 @@ interface Command {
   points?: number;
   pointswon?: number;
   jackpot?: boolean;
+  keepalive?: number;
 }
 
 export default Command;
