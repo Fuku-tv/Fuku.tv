@@ -1,5 +1,6 @@
 interface Command {
   command?: string;
+  user?: any;
   width?: number;
   height?: number;
   credits?: number;
