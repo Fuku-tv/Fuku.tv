@@ -29,7 +29,7 @@ const StoreTabCredits: React.FC = () => {
       {state.productList &&
         state.productList
           .slice(0)
-          .reverse()
+          .sort((high, low) => high.price - low.price)
           .map((i) => (
             <StoreItem
               key={i.name}
