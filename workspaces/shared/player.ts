@@ -54,6 +54,7 @@ export class Player {
 
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
+      if (this.isLoggedIn === false) return;
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
         this.freeplay += 2;
         this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
