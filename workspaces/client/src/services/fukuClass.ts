@@ -145,6 +145,7 @@ class Fuku {
   private disconnect(): void {
     console.log('invoked disconnect command from client');
     if (this.socket === null || this.socket === undefined) return;
+    console.log('disconnect()');
     this.socket.close();
     this.socket = null;
   }

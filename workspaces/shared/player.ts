@@ -78,6 +78,7 @@ export class Player {
   }
 
   send(data: Command): void {
+    console.log(`player send ${this.userdata.nickname} : ${data}`);
     if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify(data));
   }
 
