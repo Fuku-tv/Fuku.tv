@@ -183,7 +183,7 @@ class Fuku {
    *
    * @param cmd parse incoming websocket command
    */
-  private parseCommand(cmd) {
+  private parseCommand(cmd: any) {
     const { PlayerCommand, Video } = constants;
     console.log(`Got command: ${cmd.command}`);
     switch (cmd.command) {

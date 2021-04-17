@@ -28,6 +28,8 @@ export class Player {
 
   standbyTimer: any = null;
 
+  keepaliveTimer: any = null;
+
   isPlaying = false;
 
   isLoggedIn = false;
@@ -49,6 +51,10 @@ export class Player {
   constructor(socket: ws, ip: any) {
     this.socket = socket;
     this.ipAddr = ip;
+
+    this.keepaliveTimer = setInterval(() => {
+      this.send({keepalive: Date.now() });
+    }, 10000);
   }
 
   Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
