@@ -2,16 +2,19 @@ import WSAvcPlayer from 'h264-live-player';
 
 import { constants, env } from 'fuku.tv-shared';
 import { EnhancedStore } from '@reduxjs/toolkit';
+import { useGameState } from 'src/state/hooks';
+
+// const { state, actions } = useGameState();
 
 /**
  * URL for fuku.tv controller
  */
-const FUKU_URL_CONTROLLER = env.FukuControllerServerURL();
+const FUKU_URL_CONTROLLER = env.fukuControllerServerURL();
 
 /**
  * URL for fuku.tv video
  */
-const FUKU_URL_VIDEO = env.FukuVideoServerURL();
+const FUKU_URL_VIDEO = env.fukuVideoServerURL();
 
 /**
  * Base class for all
@@ -29,20 +32,12 @@ class Fuku {
 
   currentVideoUri: typeof constants.Video.front | typeof constants.Video.side = constants.Video.front;
 
-  queue: number;
-
-  watch: number;
-
-  credits: number;
-
   // TODO remove UGLY UGLY UGLY hack
   uglyHackStore: EnhancedStore;
 
   start(): void {
     if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
       throw new Error('Fuku store not found, did you forget to run bootstrapStore?');
-    } else if (this.uglyHackStore.getState().auth.accessToken === '') {
-      throw new Error('Cannot connect to socket with valid Login token, are you currently logged in?');
     } else {
       this.connect(FUKU_URL_CONTROLLER);
     }
@@ -57,12 +52,11 @@ class Fuku {
    */
   bootstrapVideo(canvasRef: HTMLElement): void {
     const canvas = canvasRef;
-
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
     this.liveplayer.connect(FUKU_URL_VIDEO);
     this.liveplayer.initCanvas(800, 480);
-
     console.log('starting video');
+    // this.getAllChatMessages();
   }
 
   disconnectVideo(): void {
@@ -84,22 +78,18 @@ class Fuku {
    */
   buttonStartEvent = (type: string): void => {
     // switch statement for type because command objects arent consistent.
+    const { PlayerCommand, Video } = constants;
 
     switch (type) {
-      // user joins
-      case 'join':
-        this.send({ command: constants.PlayerCommand.queue, action: 'join' });
-        break;
-
-      // swap video
-      case 'swapvideo':
-        this.currentVideoUri = this.currentVideoUri === constants.Video.front ? constants.Video.side : constants.Video.front;
+      case PlayerCommand.swapvideo:
+        this.currentVideoUri = this.currentVideoUri === Video.front ? Video.side : Video.front;
         this.liveplayer.sendMessage(
           JSON.stringify({
             command: constants.PlayerCommand.swapvideo,
             video: this.currentVideoUri,
           })
         );
+
         break;
 
       // all other messages
@@ -125,6 +115,33 @@ class Fuku {
     });
   };
 
+  enterQueue = (): void => {
+    this.send({ command: constants.PlayerCommand.queue });
+  };
+
+  sendChatMessage = (message: Record<string, unknown>): void => {
+    console.log('mess', message);
+
+    this.send({
+      command: constants.PlayerCommand.chatmsg,
+      chatmessage: message,
+    });
+  };
+  /**
+   * Login to fuku websocket
+   */
+
+  login = (token: string): void => {
+    this.send({ command: constants.PlayerCommand.login, message: token });
+  };
+
+  /**
+   * Logout of fuku websocket
+   */
+  logout = (): void => {
+    this.send({ command: constants.PlayerCommand.logout });
+  };
+
   private disconnect(): void {
     if (this.socket === null || this.socket === undefined) return;
     this.socket.close();
@@ -134,14 +151,20 @@ class Fuku {
   private connect(controllerUri: string): void {
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
     // pass opaque token to controller websocket
-    this.socket = new WebSocket(`${controllerUri}?token=${this.uglyHackStore.getState().auth.accessToken}`);
+    this.socket = new WebSocket(controllerUri);
     this.socket.binaryType = 'arraybuffer';
 
     this.socket.onopen = () => {
       console.log('Socket Connected');
+      // this.getAllChatMessages();
     };
     this.socket.onmessage = (e) => {
+      console.log('Message received', e.data);
       this.parseCommand(JSON.parse(e.data));
+      // this.parseCommand({
+      //   command: constants.PlayerCommand.chatmsg,
+      //   chatmessage: this.chat,
+      // });
     };
     this.socket.onclose = (ev) => {
       console.log('Socket Closed:', ev);
@@ -153,6 +176,10 @@ class Fuku {
     };
   }
 
+  /**
+   *
+   * @param cmd parse incoming websocket command
+   */
   private parseCommand(cmd) {
     const { PlayerCommand, Video } = constants;
     console.log(`Got command: ${cmd.command}`);
@@ -160,19 +187,11 @@ class Fuku {
       case PlayerCommand.init:
         this.resetTimers();
         this.setGameStatus(cmd.command);
+        this.setGameStats(cmd);
         break;
+
       case PlayerCommand.gamestats:
-        this.queue = cmd.queue;
-        this.watch = cmd.watch;
-        this.credits = cmd.credits;
-        this.uglyHackStore.dispatch({
-          type: 'GAME/gamestats',
-          payload: {
-            queue: this.queue,
-            watch: this.watch,
-            credits: this.credits,
-          },
-        });
+        this.setGameStats(cmd);
         break;
       case PlayerCommand.gamestandby:
         this.resetTimers();
@@ -189,15 +208,43 @@ class Fuku {
         this.setTimerBar(30);
         this.setGameStatus(cmd.command);
         break;
+      case PlayerCommand.prizeget:
+        console.log('WINNERR', cmd.pointswon);
+        this.setPoints(cmd.points);
+        if (cmd.jackpot === true) {
+          console.log('JACKPOT WINNER');
+          // this.toggleJackpotModal();
+        } else {
+          this.toggleWinnerModal(cmd.pointswon);
+        }
+        // actions.toggleWinnerModal();
+        // useGameState().actions.toggleWinnerModal();
+        break;
       case PlayerCommand.gameplayend:
         this.resetTimers();
         this.timerCommand = setTimeout(() => {}, 6000);
-
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.gameend:
         this.resetTimers();
         this.setGameStatus(cmd.command);
+        break;
+      case PlayerCommand.queue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/queueStatus',
+          payload: true,
+        });
+        break;
+      case PlayerCommand.dequeue:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/queueStatus',
+          payload: false,
+        });
+        break;
+
+      case PlayerCommand.chatmsg:
+        console.log('Receving message from socket', cmd);
+        this.updateChat(cmd.user, cmd.chatmessage);
         break;
 
       default:
@@ -216,15 +263,53 @@ class Fuku {
     });
   }
 
+  private setGameStats(stats) {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/gamestats',
+      payload: {
+        queue: stats.queue,
+        watch: stats.watch,
+        credits: stats.credits,
+        points: stats.points,
+        freeplay: stats.freeplay || 0,
+      },
+    });
+  }
+
+  private updateChat(user, message) {
+    const chatMessage = { user, message };
+    this.uglyHackStore.dispatch({
+      type: 'GAME/sendChatMessage',
+      payload: chatMessage,
+    });
+  }
+
+  private setPoints(p) {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/setPoints',
+      payload: {
+        points: p,
+      },
+    });
+  }
+
+  private toggleWinnerModal(points: number) {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/toggleWinnerModal',
+      payload: {
+        pointsWon: points,
+      },
+    });
+  }
+
   private resetTimers(): void {
     if (this.timerCommand !== null) clearTimeout(this.timerCommand);
     if (this.intervalStandby !== null) clearInterval(this.intervalStandby);
     if (this.intervalPlay !== null) clearInterval(this.intervalPlay);
   }
 
-  private setTimerBar(timeValue): void {
+  private setTimerBar(timeValue: number): void {
     let timerValue = timeValue;
-
     this.intervalStandby = setInterval(() => {
       timerValue -= 1;
       if (timerValue < 0) clearInterval(this.intervalStandby);
@@ -238,12 +323,12 @@ class Fuku {
     }, 1000);
   }
 
-  private send(data) {
+  private send(data: any) {
     if (this.socket === null || this.socket === undefined) {
       console.log('socket null');
       return;
     }
-
+    console.log(`sent command: ${JSON.stringify(data)}`);
     this.socket.send(JSON.stringify(data));
   }
 }

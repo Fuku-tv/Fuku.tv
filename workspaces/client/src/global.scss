@@ -23,9 +23,18 @@
   --boxShadow2: 0 2px 6px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #dadce0;
   --boxShadow3: rgba(0, 0, 0, 0.1) 0px 2px 3px 0px;
   --sideNavWidth: 85px;
-  --headerHeight: 52px;
+  --topHeaderHeight: 80px;
+  --subHeaderHeight: 45px;
+  --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
   --jost: 'Jost', sans-serif;
   --rubik: 'Rubik', sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    --topHeaderHeight: 60px;
+    --subHeaderHeight: 0px;
+  }
 }
 
 html {
@@ -37,7 +46,7 @@ body {
   // background-color: #bdbdbd;
   color: #ffffff;
   background-color: var(--blackPrimary);
-  overflow-y: scroll;
+  // overflow-y: scroll;
 
   font-weight: 400;
 }
@@ -74,4 +83,10 @@ h2 {
 
 h3 {
   font-weight: 800;
+}
+
+@media only screen and (min-width: 1400px) {
+  :root {
+    // --sideNavWidth: 256px;
+  }
 }

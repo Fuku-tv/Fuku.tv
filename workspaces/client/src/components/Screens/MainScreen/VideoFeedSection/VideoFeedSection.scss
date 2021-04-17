@@ -1,9 +1,54 @@
 #video-feed-section {
-	position: relative;
+  position: relative;
+  .timer-container {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // bottom: -40px;
+  }
+  canvas {
+    width: 100%;
+    display: block;
+    max-height: 500px;
+  }
+  .video-feed__information-container {
+    position: absolute;
+    bottom: -14px;
+    background: var(--gold);
+    color: #191919;
+    left: 50%;
+    padding: 3px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 185px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 4px 0px #191919ad;
+    border-radius: 4px;
+    .freeplay-credits {
+      // margin-left: 8px;
+      // padding-left: 8px;
+      // border-left: 1px solid rgba(255, 255, 255, 0.461);
+    }
+    .que-icon-wrapper,
+    span {
+      font-size: 13px !important;
+    }
+    .value {
+      font-weight: 500;
+    }
+  }
+}
 
-	canvas {
-		width: 100%;
-		display: block;
-		max-height: 500px;
-	}
+@media only screen and (max-width: 600px) {
+  #video-feed-section .timer-container {
+    right: 10px;
+    bottom: 5px;
+    .time-up {
+      font-size: 14px;
+    }
+  }
 }

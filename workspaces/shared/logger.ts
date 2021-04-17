@@ -21,10 +21,18 @@ export class LoggerClass {
     });
   }
 
-  log(level: string, message: string) {
+  log(level: string, message: string): void {
     if (level === LogLevel.info) this.logger.info(message);
     else if (level === LogLevel.error) this.logger.error(message);
     else this.logger.info(message);
+  }
+
+  logInfo(message: string): void {
+    this.logger.info(message);
+  }
+
+  logError(message: string): void {
+    this.logger.error(message);
   }
 }
 

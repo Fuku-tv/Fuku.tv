@@ -8,8 +8,10 @@ import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import { useGameState } from 'src/state/hooks';
 
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
-
+// import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+// import 'react-circular-progressbar/dist/styles.css';
 import './HeaderProfileDropdown.scss';
+import PlayerLevel from 'src/components/game/PlayerLevel/PlayerLevel';
 
 interface PROPS {
   id: string;
@@ -50,6 +52,19 @@ const DropdownButton: React.FC<PROPS> = (props) => {
     </div>
   );
 
+  const temporaryLinksDropdown = (
+    <div className="dropdown-container__links">
+      <ul>
+        <li>
+          <button className="nav-link-item" onClick={() => actions.logout()}>
+            <div className="dropdown-icon-wrapper">{logoutIcon}</div>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+
   const buttonStyles = {
     background: dropdownIsOpen ? 'var(--purpleSecondary)' : 'inherit',
   };
@@ -57,17 +72,32 @@ const DropdownButton: React.FC<PROPS> = (props) => {
   return (
     <button onClick={() => setDropdownIsOpen((s) => !s)} style={buttonStyles} id={props.id} className="header-profile-dropdown-container">
       <div className="header-profile-wrapper ">
+        <div className="header-profile__level">
+          <PlayerLevel />
+        </div>
         <div className="header-profile__content">
-          <ProfileImage image={state.picture} size={28} />
-
-          <div className="text-wrapper">
+          <div className="profile__name">
             <h2>{state.username || state.nickname || state.name}</h2>
+          </div>
+          <div id="points-and-credits">
+            <div className="stat-item-wrapper">
+              <span className="player-stats__item">Credits:</span>
+              <span className="player-stats__value">{gameState.state.credits}</span>
+            </div>
+            <div className="stat-item-wrapper">
+              <span className="player-stats__item">Freeplay:</span>
+              <span className="player-stats__value">{gameState.state.freeplay}</span>
+            </div>
+            <div className="stat-item-wrapper">
+              <span className="player-stats__item">Points:</span>
+              <span className="player-stats__value">{gameState.state.points}</span>
+            </div>
           </div>
         </div>
 
         <div className="down-arrow-wrapper">{downArrow}</div>
       </div>
-      {dropdownIsOpen && linksDropdown}
+      {dropdownIsOpen && temporaryLinksDropdown}
     </button>
   );
 };

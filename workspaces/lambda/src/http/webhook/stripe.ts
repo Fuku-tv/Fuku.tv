@@ -1,13 +1,8 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
 import { Stripe } from 'stripe';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
+import { env } from 'fuku.tv-shared';
 import * as Responses from '../../common/ApiResponses';
-
-const stripe = new Stripe('sk_test_51HxGG6Gx8BmO5evBad03IoM4XKEbncHHhA61RCm6pryKvtjbrUoQbk7a2sHViOv5s9LnpZbmIjEoRzfVvCsVnSiL00DVxIyf22', {
-  apiVersion: '2020-08-27',
-});
-
-const webhookSecret = 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage } = event.requestContext;
@@ -15,6 +10,13 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   let stripeEvent: Stripe.Event;
   const signature = event.headers['Stripe-Signature'];
   const { body } = event;
+
+  const webhookSecret = env.stripeWebhookSecret();
+  const stripeSecret = env.stripeApiSecret();
+
+  const stripe = new Stripe(stripeSecret, {
+    apiVersion: '2020-08-27',
+  });
   // try/catch block to verify and parse the webhook request
   try {
     // parse request body, add stripe signature and webhook secret.
@@ -41,6 +43,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
       // const credits = getCreditsFromWebhookMetadata()
       await playersTableModel.addCredits(session.customer_email, parseFloat(credits));
 
+      // logger.log(LogLevel.info, `Webhook successful, granted ${session.customer_email} ${credits} Credits using ${playersTableModel}`);
       return Responses.ok(JSON.stringify(items.data));
     }
     return Responses.badRequest(`Unknown webhook event: ${stripeEvent.type} `);

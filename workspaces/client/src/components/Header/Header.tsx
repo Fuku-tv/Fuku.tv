@@ -16,6 +16,8 @@ import './Header.scss';
 import FlatButton from '../UIElements/FlatButton/FlatButton';
 import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
 import NotificationDropdown from './NotificationsDropdown/NotificationsDropdown';
+import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
+import GameChat from '../UIElements/GameChat/GameChat';
 
 const Header: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -23,35 +25,39 @@ const Header: React.FC = () => {
   // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
   // > (false);
 
-  const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
   const [chatIsOpen, setChatIsOpen] = React.useState<boolean>(false);
-
-  const closeDrawer = () => {
-    setNavIsOpen(false);
-  };
+  const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
 
   // const modalTestHandler = () => { 		setModalIsActive((prev) => !prev); };
 
+  const chatClickHandler = () => {
+    setNavIsOpen(false);
+    if (chatIsOpen) {
+      setChatIsOpen(false);
+    } else {
+      setChatIsOpen(true);
+    }
+  };
+
+  const navClickHandler = () => {
+    setChatIsOpen(false);
+    if (navIsOpen) {
+      setNavIsOpen(false);
+    } else {
+      setNavIsOpen(true);
+    }
+  };
+
   const sideDrawerContentChat = (
-    <SideDrawer closeDrawer={closeDrawer} show={chatIsOpen}>
-      <SideBar />
+    <SideDrawer closeDrawer={chatClickHandler} show={chatIsOpen}>
+      <GameChat />
     </SideDrawer>
   );
   const sideDrawerContentLinks = (
-    <SideDrawer closeDrawer={closeDrawer} show={navIsOpen}>
+    <SideDrawer closeDrawer={navClickHandler} show={navIsOpen}>
       <NavLinks />
     </SideDrawer>
   );
-
-  const chatClickHandler = () => {
-    setChatIsOpen((d) => !d);
-    setNavIsOpen(false);
-  };
-  const navClickHandler = () => {
-    setNavIsOpen((d) => !d);
-    setChatIsOpen(false);
-  };
-
   const profileButtonAuthContent = (
     <>
       <HeaderProfileDropdown id="header-profile-button" />
@@ -63,31 +69,49 @@ const Header: React.FC = () => {
       {state.isAuthenticated ? (
         profileButtonAuthContent
       ) : (
-        <FlatButton id="profile-dropdown-button" width={180} text="Sign In" onClick={actions.loginWithRedirect} ghost />
+        <button id="profile-dropdown-button" onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
+          {signInIcon}
+          <span>SIGN IN</span>
+        </button>
       )}
+    </div>
+  );
+
+  const mobileButtons = (
+    <div className="mobile-button-wrapper">
+      <button
+        id="chat-button"
+        onClick={chatClickHandler}
+        onKeyDown={chatClickHandler}
+        className={`icon-wrapper mobile-button ${chatIsOpen && 'active'}`}
+      >
+        {!chatIsOpen ? chatIcon : close}
+      </button>
+      <button onClick={navClickHandler} onKeyDown={navClickHandler} className={`hamburger-icon-wrapper mobile-button ${navIsOpen && 'active'}`}>
+        <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
+      </button>
     </div>
   );
 
   return (
     <>
       <header>
-        <div className="header-inner-wrapper">
-          {isMobile && (
-            <button onClick={chatClickHandler} onKeyDown={chatClickHandler} className="icon-wrapper">
-              {chatIcon}
-            </button>
-          )}
-
-          <NavLink id="logo" to="/" exact>
-            {fukuLogo}
-          </NavLink>
-          {!isMobile && <ContentContainer> {profileButton} </ContentContainer>}
-          {isMobile && (
-            <button onClick={navClickHandler} className="hamburger-icon-wrapper">
-              <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen || chatIsOpen} />
-            </button>
-          )}
+        <div className="header__top-row">
+          <ContentContainer>
+            <NavLink id="logo" to="/" exact>
+              {fukuLogo}
+            </NavLink>
+            {!isMobile && profileButton}
+            {isMobile && mobileButtons}
+          </ContentContainer>
         </div>
+        {!isMobile && (
+          <div className="header__bottom-row">
+            <ContentContainer>
+              <HeadeNavLinks />
+            </ContentContainer>
+          </div>
+        )}
         {sideDrawerContentLinks}
         {sideDrawerContentChat}
       </header>
@@ -96,47 +120,7 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-const fukuCredit = (
-  <svg id="credit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.95 249.95">
-    <g id="flat-credit">
-      <path d="M481.19,393.94V394c-1.28-.06-2.56-.08-3.85-.08Z" transform="translate(-352.36 -380.8)" style={{ fill: '#fff' }} />
-      <path
-        d="M546.15,574.52a4,4,0,0,1-5.66-5.65,89.47,89.47,0,0,0,16.42-22.58,4,4,0,1,1,7.13,3.63,97.41,97.41,0,0,1-17.89,24.6ZM522.57,591.7a4.18,4.18,0,0,1-1,.74,96.85,96.85,0,0,1-28.94,9.4,4,4,0,1,1-1.25-7.9,88.71,88.71,0,0,0,26.55-8.63,4,4,0,0,1,4.65,6.39Zm49.72-68.53a4,4,0,0,1-3.45,1.13,4,4,0,0,1-3.33-4.57,89.6,89.6,0,0,0,0-27.93,4,4,0,1,1,7.9-1.25,97.6,97.6,0,0,1,0,30.42A3.88,3.88,0,0,1,572.29,523.17ZM465.65,600.74a4,4,0,0,1-3.45,1.13,96.92,96.92,0,0,1-29-9.37,4,4,0,0,1,3.63-7.13A88.47,88.47,0,0,0,463.44,594a4,4,0,0,1,2.21,6.78Zm97.63-134.49a3.73,3.73,0,0,1-1,.73,4,4,0,0,1-5.38-1.74,89.34,89.34,0,0,0-16.43-22.58l-.14-.13a4,4,0,0,1,5.66-5.66l.13.13A97.24,97.24,0,0,1,564,461.6,4,4,0,0,1,563.28,466.25Zm-149,108.34a4,4,0,0,1-5.62,0l-.07-.06a97.68,97.68,0,0,1-17.86-24.51,4,4,0,1,1,7.12-3.65,89.06,89.06,0,0,0,16.4,22.5A4,4,0,0,1,414.25,574.59ZM522.36,425.41a4,4,0,0,1-4.64.74,88.8,88.8,0,0,0-26.57-8.57,4,4,0,1,1,1.23-7.9,97.13,97.13,0,0,1,29,9.33,4,4,0,0,1,1.76,5.38A4,4,0,0,1,522.36,425.41Zm-134.3,97.9a4,4,0,0,1-6.78-2.2,97.9,97.9,0,0,1,0-30.42,4,4,0,1,1,7.91,1.23,89.6,89.6,0,0,0,0,27.93A4,4,0,0,1,388.06,523.31Zm77.35-106.8a3.89,3.89,0,0,1-2.19,1.12,88.67,88.67,0,0,0-26.55,8.66,4,4,0,0,1-3.64-7.12A96.69,96.69,0,0,1,462,409.73a4,4,0,0,1,3.45,6.78ZM397,466.37a4,4,0,0,1-6.4-4.64,97.19,97.19,0,0,1,17.87-24.62h0a4,4,0,1,1,5.66,5.65,89.15,89.15,0,0,0-16.4,22.6A3.89,3.89,0,0,1,397,466.37Z"
-        transform="translate(-352.36 -380.8)"
-        style={{ fill: '#fff' }}
-      />
-      <path d="M477.34,393.94c1.29,0,2.57,0,3.85.08v-.08Z" transform="translate(-352.36 -380.8)" style={{ fill: '#fff' }} />
-      <path
-        d="M477.34,380.8a125,125,0,1,0,125,125A125.11,125.11,0,0,0,477.34,380.8Zm0,243.59a118.61,118.61,0,0,1-4.7-237.12l.12,80-40.19,38.21a3.47,3.47,0,0,0-.84,4.08l18.36,39.34a4.63,4.63,0,0,0,4.29,2.47,5.2,5.2,0,0,0,1.7-.26c2.35-.81,3.5-3.09,2.57-5.1,0,0,0,0,0,0l-17.31-37.07L472.75,479v68.42c0,2.17,2.06,3.93,4.59,3.93s4.6-1.76,4.6-3.93V479l31.42,29.89L496,546c-.94,2,.21,4.31,2.56,5.13h0a5.16,5.16,0,0,0,1.7.26,4.61,4.61,0,0,0,4.27-2.47L523,509.54a3.55,3.55,0,0,0-.85-4.08L482,467.25l-.53-80c-1.35-.06-2.71-.08-4.08-.08h4.08v.08a118.61,118.61,0,0,1-4.08,237.14Z"
-        transform="translate(-352.36 -380.8)"
-        style={{ fill: '#fff' }}
-      />
-    </g>
-  </svg>
-);
 
-const fukuCredi2 = (
-  <svg id="credit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 235.68 235.68">
-    <g id="flat-credit">
-      <path
-        id="claw"
-        d="M523.92,455.44H430.76a2.75,2.75,0,0,0-2.75,2.74v5.49a13.7,13.7,0,0,0,13.71,13.69H460.9v8.22a2.73,2.73,0,0,0,2.73,2.74h11v18.13l-24,26.62a2.73,2.73,0,0,0-.51,2.85l11,27.4a2.74,2.74,0,0,0,2.55,1.73,2.93,2.93,0,0,0,1-.19,2.76,2.76,0,0,0,1.54-3.56h0l-10.33-25.82,18.74-20.83v47.67a2.75,2.75,0,0,0,5.49,0V514.64l18.73,20.83-10.32,25.82a2.75,2.75,0,0,0,1.53,3.57h0a2.93,2.93,0,0,0,1,.19,2.72,2.72,0,0,0,2.54-1.73l11-27.4a2.77,2.77,0,0,0-.51-2.85l-23.95-26.62V488.32h11a2.74,2.74,0,0,0,2.74-2.74v-8.22H513a13.69,13.69,0,0,0,13.7-13.69v-5.49A2.74,2.74,0,0,0,523.92,455.44ZM488.3,482.85H466.38v-5.49H488.3Zm32.88-19.18a8.22,8.22,0,0,1-8.22,8.21H441.72a8.22,8.22,0,0,1-8.23-8.21v-2.75h87.69Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-      <path
-        d="M477.39,603a4,4,0,0,1,0-8A89.18,89.18,0,0,0,505,590.69a4,4,0,0,1,2.48,7.61A97.24,97.24,0,0,1,477.39,603Zm-28.83-4.52a4.09,4.09,0,0,1-1.23-.19,96.86,96.86,0,0,1-27.11-13.82,4,4,0,1,1,4.7-6.47,88.76,88.76,0,0,0,24.88,12.68,4,4,0,0,1-1.24,7.8Zm83.62-13.3a4,4,0,0,1-2.35-7.23,89.76,89.76,0,0,0,19.74-19.75,4,4,0,1,1,6.47,4.7,97.79,97.79,0,0,1-21.51,21.52A4,4,0,0,1,532.18,585.22ZM401.93,564.66a4,4,0,0,1-3.24-1.64,96.89,96.89,0,0,1-13.85-27.1,4,4,0,1,1,7.6-2.47,88.94,88.94,0,0,0,12.71,24.85,4,4,0,0,1-3.22,6.36ZM566.06,538.6a3.77,3.77,0,0,1-1.23-.2,4,4,0,0,1-2.57-5,89.17,89.17,0,0,0,4.34-27.58v-.19a4,4,0,0,1,8,0v.19a97.14,97.14,0,0,1-4.73,30.05A4,4,0,0,1,566.06,538.6Zm-182-28.77a4,4,0,0,1-4-4v-.09a97.24,97.24,0,0,1,4.71-30,4,4,0,0,1,7.61,2.46,89.29,89.29,0,0,0-4.32,27.5A4,4,0,0,1,384.07,509.83ZM566,480.78a4,4,0,0,1-3.8-2.75,88.73,88.73,0,0,0-12.73-24.85,4,4,0,1,1,6.46-4.72,96.87,96.87,0,0,1,13.88,27.08,4,4,0,0,1-2.56,5A4.12,4.12,0,0,1,566,480.78ZM401.81,455.05a4,4,0,0,1-3.23-6.35,97.53,97.53,0,0,1,21.48-21.54,4,4,0,0,1,4.72,6.46,89.64,89.64,0,0,0-19.73,19.78A4,4,0,0,1,401.81,455.05ZM532,434.23a4,4,0,0,1-2.35-.76,88.59,88.59,0,0,0-24.89-12.65,4,4,0,1,1,2.46-7.62A97,97,0,0,1,534.38,427a4,4,0,0,1-2.35,7.24ZM448.39,421.1a4,4,0,0,1-1.24-7.81,97.16,97.16,0,0,1,30-4.77h0a4,4,0,0,1,0,8,89.19,89.19,0,0,0-27.57,4.38A4.12,4.12,0,0,1,448.39,421.1Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-      <path
-        d="M477.34,623.62A117.84,117.84,0,1,1,595.18,505.78,118,118,0,0,1,477.34,623.62Zm0-229.68A111.84,111.84,0,1,0,589.18,505.78,112,112,0,0,0,477.34,393.94Z"
-        transform="translate(-359.5 -387.94)"
-        style={{ fill: '#fff' }}
-      />
-    </g>
-  </svg>
-);
 const fukuLogo = (
   <svg id="fuku" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
     <g id="icon">
@@ -173,36 +157,13 @@ const fukuLogo = (
   </svg>
 );
 
-const downArrow = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="caret-down"
-    className="svg-inline--fa fa-caret-down fa-w-10"
-    role="img"
-    viewBox="0 0 320 512"
-  >
-    <path
-      fill="currentColor"
-      d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-    />
-  </svg>
-);
-
-const credit = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="coins"
-    className="svg-inline--fa fa-coins fa-w-16"
-    role="img"
-    viewBox="0 0 512 512"
-  >
-    <path d="M0 405.3V448c0 35.3 86 64 192 64s192-28.7 192-64v-42.7C342.7 434.4 267.2 448 192 448S41.3 434.4 0 405.3zM320 128c106 0 192-28.7 192-64S426 0 320 0 128 28.7 128 64s86 64 192 64zM0 300.4V352c0 35.3 86 64 192 64s192-28.7 192-64v-51.6c-41.3 34-116.9 51.6-192 51.6S41.3 334.4 0 300.4zm416 11c57.3-11.1 96-31.7 96-55.4v-42.7c-23.2 16.4-57.3 27.6-96 34.5v63.6zM192 160C86 160 0 195.8 0 240s86 80 192 80 192-35.8 192-80-86-80-192-80zm219.3 56.3c60-10.8 100.7-32 100.7-56.3v-42.7c-35.5 25.1-96.5 38.6-160.7 41.8 29.5 14.3 51.2 33.5 60 57.2z" />{' '}
+const close = (
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001">
+    <g>
+      <g>
+        <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z" />
+      </g>
+    </g>
   </svg>
 );
 
@@ -226,20 +187,11 @@ const chatIcon = (
 
 const signInIcon = (
   <div className="sign-in-icon-wrapper">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      data-prefix="fas"
-      data-icon="sign-in-alt"
-      className="svg-inline--fa fa-sign-in-alt fa-w-16"
-      role="img"
-      viewBox="0 0 512 512"
-    >
-      <path
-        fill="currentColor"
-        d="M416 448h-84c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h84c17.7 0 32-14.3 32-32V160c0-17.7-14.3-32-32-32h-84c-6.6 0-12-5.4-12-12V76c0-6.6 5.4-12 12-12h84c53 0 96 43 96 96v192c0 53-43 96-96 96zm-47-201L201 79c-15-15-41-4.5-41 17v96H24c-13.3 0-24 10.7-24 24v96c0 13.3 10.7 24 24 24h136v96c0 21.5 26 32 41 17l168-168c9.3-9.4 9.3-24.6 0-34z"
-      />
+    <svg xmlns="http://www.w3.org/2000/svg" height="512pt" viewBox="0 -32 512.016 512" width="512pt">
+      <path d="m192 213.339844c-58.816406 0-106.667969-47.847656-106.667969-106.664063 0-58.816406 47.851563-106.6679685 106.667969-106.6679685s106.667969 47.8515625 106.667969 106.6679685c0 58.816407-47.851563 106.664063-106.667969 106.664063zm0-181.332032c-41.171875 0-74.667969 33.492188-74.667969 74.667969 0 41.171875 33.496094 74.664063 74.667969 74.664063s74.667969-33.492188 74.667969-74.664063c0-41.175781-33.496094-74.667969-74.667969-74.667969zm0 0" />
+      <path d="m368 448.007812h-352c-8.832031 0-16-7.167968-16-16v-74.667968c0-55.871094 45.460938-101.332032 101.332031-101.332032h181.335938c55.871093 0 101.332031 45.460938 101.332031 101.332032v74.667968c0 8.832032-7.167969 16-16 16zm-336-32h320v-58.667968c0-38.226563-31.105469-69.332032-69.332031-69.332032h-181.335938c-38.226562 0-69.332031 31.105469-69.332031 69.332032zm0 0" />
+      <path d="m496 218.675781h-181.332031c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h181.332031c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0" />
+      <path d="m410.667969 304.007812c-4.097657 0-8.191407-1.558593-11.308594-4.691406-6.25-6.253906-6.25-16.386718 0-22.636718l74.027344-74.027344-74.027344-74.027344c-6.25-6.25-6.25-16.382812 0-22.632812s16.382813-6.25 22.636719 0l85.332031 85.332031c6.25 6.25 6.25 16.386719 0 22.636719l-85.332031 85.332031c-3.136719 3.15625-7.234375 4.714843-11.328125 4.714843zm0 0" />
     </svg>
   </div>
 );

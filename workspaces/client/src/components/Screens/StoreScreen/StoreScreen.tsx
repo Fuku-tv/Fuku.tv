@@ -1,34 +1,21 @@
 import * as React from 'react';
-
 import './StoreScreen.scss';
 import Screen from 'src/components/UIElements/Screen/Screen';
 import useCommerceState from 'src/state/hooks/useCommerceState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
+import { useAuthState, usePrizeState } from 'src/state/hooks';
 import StoreItem from './StoreItem/StoreItem';
+import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
+import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
+import GiftCard100 from './images/amazon-gift-card-100-dollar.png';
+import StoreTabPrizes from './StoreTabPrizes/StoreTabPrizes';
+import StoreTabCredits from './StoreTabCredits/StoreTabCredits';
 
 const StoreScreen: React.FC = () => {
-  const { state, actions } = useCommerceState();
-  const [activeTab, setActiveTab] = React.useState<string>('Credits');
+  const [activeTab, setActiveTab] = React.useState<string>('Buy Credits');
 
-  const checkoutClickEvent = (priceId) => {
-    const item = state.productList.find((x) => x.priceId === priceId);
-
-    const lineItems = [
-      {
-        price: item.priceId,
-        quantity: 1,
-      },
-    ];
-    actions.checkout(lineItems);
-  };
-
-  const tabList = ['Daily Free', 'Credits', 'Upgrades', 'Prizes'];
-
-  React.useEffect(() => {
-    actions.getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const tabList = ['Buy Credits', 'Prizes'];
 
   // SCREEN TAB CONTENT
   const comingSoonContent = (
@@ -40,34 +27,7 @@ const StoreScreen: React.FC = () => {
     </>
   );
 
-  const prizesContent = (
-    <div className="store-item-container">
-      <article id="prize" className="store-item">
-        <div className="store-item__price">1000 Points</div>
-        <div className="image-wrapper">
-          <img src="https://gamecardsdirect.com/content/picture/23009/amazon-gift-card-20-dollar.jpg" alt="" />
-        </div>
-        <div className="store-item__credits">
-          <div className="credits__title">
-            <h3>$20 Amazon Gift Card</h3>
-          </div>
-          <FlatButton width={220} text="Redeem Prize" />
-        </div>
-      </article>
-    </div>
-  );
-
-  const creditsContent = (
-    <div className="store-item-container">
-      {state.productList &&
-        state.productList
-          .slice(0)
-          .reverse()
-          .map((i) => <StoreItem key={i.name} coins={i.name} price={i.price} priceId={i.priceId} image={i.imgUrl} onClick={checkoutClickEvent} />)}
-    </div>
-  );
-
-  const tabs = activeTab === 'Credits' ? creditsContent : prizesContent;
+  const tabs = activeTab === 'Buy Credits' ? <StoreTabCredits /> : <StoreTabPrizes />;
   return (
     <Screen id="store" title="Store">
       <div className="screen-navigation">
@@ -82,7 +42,7 @@ const StoreScreen: React.FC = () => {
           </button>
         ))}
       </div>
-      {activeTab === 'Credits' || activeTab === 'Prizes' ? tabs : comingSoonContent}
+      {activeTab === 'Buy Credits' || activeTab === 'Prizes' ? tabs : comingSoonContent}
     </Screen>
   );
 };

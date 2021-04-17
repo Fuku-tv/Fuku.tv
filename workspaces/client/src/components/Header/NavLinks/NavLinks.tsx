@@ -21,11 +21,15 @@ const NavLinks: React.FC = () => {
           <div className="description">Total Points</div>
         </div>
       </div>
-      <div className="stat-wrapper">
+      <div id="credits" className="stat-wrapper">
         <div className="icon">{credit}</div>
         <div className="text-wrapper">
           <div className="value">{gameState.state.credits}</div>
           <div className="description">Credits</div>
+        </div>
+        <div className="text-wrapper">
+          <div className="value">{gameState.state.freeplay}</div>
+          <div className="description">Freeplay</div>
         </div>
       </div>
     </div>
@@ -39,24 +43,6 @@ const NavLinks: React.FC = () => {
       </div>
       {isMobile && stats}
       <div className="profile-link__profile-sub-links">
-        <NavLink activeClassName="nav-link__active--mobile" to="/profile" exact>
-          <div className="profile-sub-link">
-            <span>{profile}</span>
-            <span>Profile</span>
-          </div>
-        </NavLink>
-        <NavLink activeClassName="nav-link__active--mobile" to="/claw-customization" exact>
-          <div className="profile-sub-link">
-            <span>{clawIcon}</span>
-            <span>Claw</span>
-          </div>
-        </NavLink>
-        <NavLink to="/" exact>
-          <div className="profile-sub-link">
-            <span>{bellIcon}</span>
-            <span>Notifications</span>
-          </div>
-        </NavLink>
         <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
           <div className="profile-sub-link">
             <span>{logoutIcon}</span>
@@ -85,12 +71,7 @@ const NavLinks: React.FC = () => {
               <span> Leaderboards </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="nav-link__active" to="/prizes" exact>
-              <div className="icon-wrapper">{gift}</div>
-              <span> Prizes </span>
-            </NavLink>
-          </li>
+
           <li>
             <NavLink activeClassName="nav-link__active" to="/store" exact>
               <div className="icon-wrapper">{store}</div>

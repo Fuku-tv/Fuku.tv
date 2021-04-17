@@ -18,20 +18,19 @@ const ControlsSection: React.FC = () => {
   const startGameStopGameBtns = (
     <div id="start" className="start-stop-buttons-container">
       <DepthButton
-        onPointerUp={actions.buttonUpEvent}
-        onPointerDown={actions.buttonDownEvent}
+        onPointerUp={() => actions.buttonUpEvent('stop')}
+        onPointerDown={() => actions.buttonDownEvent('stop')}
         id="btnStop"
-        dataType="stop"
         buttonText="End Game"
         width={110}
         height={42}
         color="red"
       />
+
       <DepthButton
-        onPointerUp={actions.buttonUpEvent}
-        onPointerDown={actions.buttonDownEvent}
+        onPointerUp={() => actions.buttonUpEvent('start')}
+        onPointerDown={() => actions.buttonDownEvent('start')}
         id="btnStart"
-        dataType="start"
         buttonText="Start Round"
         width={160}
         height={42}
@@ -51,10 +50,8 @@ const ControlsSection: React.FC = () => {
         />
 
         <DepthButton
-          onPointerDown={actions.buttonDownEvent}
-          onPointerUp={actions.buttonUpEvent}
+          onPointerDown={() => actions.enterQueue()}
           id="btnPlay"
-          dataType="join"
           buttonText="Enter Player Queue"
           width={200}
           height={42}
@@ -65,19 +62,31 @@ const ControlsSection: React.FC = () => {
     </SlideableContent>
   );
 
-  const readyToGoScreen = (
+  const freeplayScreen = (
     <>
       <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
-        <TitleDescription title="Ready To Go?" descriptionStart="You currently have" dynamicNumber={state.credits} descriptionEnd="credits left." />{' '}
+        <TitleDescription title="Ready to Play?" descriptionStart="You have" dynamicNumber={state.freeplay} descriptionEnd="freeplay tickets left!" />{' '}
         {startGameStopGameBtns}
       </SlideableContent>
     </>
   );
 
+  const creditsScreen = (
+    <>
+      <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
+        <TitleDescription title="Ready to Play?" descriptionStart="You have" dynamicNumber={state.credits} descriptionEnd="credits left!" />{' '}
+        {startGameStopGameBtns}
+      </SlideableContent>
+    </>
+  );
+
+  let readyToGoScreen;
+  if (state.freeplay > 0) readyToGoScreen = freeplayScreen;
+  else readyToGoScreen = creditsScreen;
+
   const controlsAndTimerScreen = (
     <>
       <SlideableContent direction="right" show={gameplay}>
-        <Timer />
         <Controls />
       </SlideableContent>
     </>

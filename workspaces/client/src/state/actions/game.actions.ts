@@ -1,5 +1,5 @@
 import { createAsyncThunk, EnhancedStore } from '@reduxjs/toolkit';
-import { mountCanvas, buttonDownEvent, buttonUpEvent, mountStore, unmountCanvas, startFukuClass, endFukuClass } from 'src/services/fukuService';
+import * as fukuService from 'src/services/fukuService';
 
 interface Stats {
   watch: number;
@@ -8,33 +8,42 @@ interface Stats {
 }
 
 export const startFuku = createAsyncThunk('START_FUKU', async () => {
-  startFukuClass();
+  fukuService.startFukuClass();
 });
 
 export const endFuku = createAsyncThunk('END_FUKU', async () => {
-  endFukuClass();
+  fukuService.endFukuClass();
 });
 
 export const startStream = createAsyncThunk('START_STREAM', async (canvasRef: HTMLElement) => {
-  mountCanvas(canvasRef);
+  fukuService.mountCanvas(canvasRef);
 });
 
 export const startStore = createAsyncThunk('MOUNT_STORE', async (store: EnhancedStore) => {
-  mountStore(store);
+  fukuService.mountStore(store);
 });
 
 export const endStream = createAsyncThunk('END_STREAM', async () => {
-  unmountCanvas();
+  fukuService.unmountCanvas();
 });
 
-export const setStats = createAsyncThunk('SET_GAME_STATS', async (stats: Stats) => {
-  return stats;
+export const setStats = createAsyncThunk('SET_GAME_STATS', async (stats: Stats) => stats);
+
+// export const setChat = createAsyncThunk('SET_GAME_CHAT', async (stats: Stats) => chat);
+
+export const enterQueue = createAsyncThunk('ENTER_QUEUE', async () => {
+  fukuService.enterQueue();
 });
 
 export const buttonDown = createAsyncThunk('BUTTON_DOWN', async (type: string) => {
-  buttonDownEvent(type);
+  fukuService.buttonDownEvent(type);
 });
 
 export const buttonUp = createAsyncThunk('BUTTON_UP', async (type: string) => {
-  buttonUpEvent(type);
+  fukuService.buttonUpEvent(type);
 });
+export const sendMessage = createAsyncThunk('SEND_CHAT_MESSAGE', async (message: Record<string, unknown>) => {
+  fukuService.sendChatMessage(message);
+});
+
+export const updateChatList = createAsyncThunk('UPDATE_CHAT_LIST', async (message: Record<string, unknown>) => {});

@@ -12,24 +12,7 @@ const MainScreen: React.FC = () => {
   const { actions, state } = useGameState();
   const authState = useAuthState();
   const navState = useNavigationState();
-  const [cameraIsFront, setCameraIsFront] = React.useState<boolean>(true);
-
-  React.useEffect(() => {
-    actions.mountStore();
-
-    // timeout to prevent null token on fuku connect.
-    // TODO remove juryrig timeout
-    setTimeout(actions.startFuku, 2000);
-    return () => {
-      actions.endFuku();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const cameraToggleHandler = () => {
-    setCameraIsFront((prev) => !prev);
-    console.log('change');
-  };
+  const [sidebarIsActive, setSidebarIsActive] = React.useState<boolean>(true);
 
   // const visible =
   // 	(state.gameStatus === 'init' || state.gameStatus === 'gameplayend' || state.gameStatus === 'gameend') &&
@@ -59,7 +42,7 @@ const MainScreen: React.FC = () => {
 
           <ContentSection />
         </div>
-        {!isMobile && <Sidebar />}
+        <Sidebar />
       </div>
     </>
   );

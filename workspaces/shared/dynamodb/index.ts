@@ -1,13 +1,19 @@
 import { DynamoDB, config } from 'aws-sdk';
 import * as path from 'path';
 import { getStage } from '../env';
+import { LoggerClass, LogLevel } from '../logger';
 
 const ddb = new DynamoDB({ apiVersion: 'latest', region: 'us-east-1' });
 // get the stage option from arguments
-
 const STAGE = getStage();
 
-export const tableList = { PLAYERS_TABLE: `Players-${STAGE}`, GAMES_TABLE: `Games-${STAGE}` };
+export const tableList = {
+  PLAYERS_TABLE: `Players-${STAGE}`,
+  GAMES_TABLE: `Games-${STAGE}`,
+  REPLAY_TABLE: `Replay-${STAGE}`,
+  POINTS_LEDGER_TABLE: `Points-Ledger-${STAGE}`,
+};
+
 /**
  * Initialize DynamoDB tables
  */

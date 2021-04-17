@@ -10,31 +10,32 @@ const frameworkVersion = devDependencies.serverless;
 
 const serverlessConfiguration: Serverless = {
   frameworkVersion,
-
-  custom: {
-    webpack: {
-      packager: 'yarn',
-    },
-  },
   service: 'fuku-serverless',
   configValidationMode: 'error',
+  custom: {
+    bundle: { sourcemaps: false, linting: false, fixPackages: ['formidable@1.x'] },
+  },
   provider: {
+    lambdaHashingVersion: 20201221,
     apiGateway: {
       shouldStartNameWithService: true,
     },
     name: 'aws',
     runtime: 'nodejs12.x',
     stage: STAGE,
+    environment: {
+      LAMBDA_ENV: STAGE,
+    },
     region: 'us-east-1',
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['dynamodb:*'],
+        Action: ['dynamodb:*', 'ses:*'],
         Resource: '*',
       },
     ],
   },
-  plugins: ['serverless-dynamodb-local', 'serverless-offline', 'serverless-webpack'],
+  plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
     webhook_stripe: {
@@ -44,6 +45,18 @@ const serverlessConfiguration: Serverless = {
           http: {
             path: '/webhook/stripe',
             method: 'post',
+          },
+        },
+      ],
+    },
+    giftcard: {
+      handler: 'src/http/giftCard.index',
+      events: [
+        {
+          http: {
+            path: '/giftcard',
+            method: 'post',
+            cors: true,
           },
         },
       ],

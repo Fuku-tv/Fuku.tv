@@ -20,6 +20,11 @@ const PlayerCommand = {
   gameplayend: 'gameplayend',
   gameend: 'gameend',
   prizeget: 'prizeget',
+  chatmsg: 'chatmsg',
+  chatuserlist: 'chatuserlist',
+  chatjoin: 'chatjoin',
+  chatpart: 'chatpart',
+  chatmessages: 'chatmessages',
 };
 
 // commands sent to/from the pi
@@ -46,7 +51,7 @@ const Video = {
 
 const VideoState = {
   active: 'active',
-  inactive: 'inactive'
+  inactive: 'inactive',
 };
 
 const Button = {
@@ -65,6 +70,11 @@ const Action = {
   stop: 'stop',
 };
 
+const RedisChat = {
+  chatusers: 'chatusers',
+  chatmsgs: 'chatmsgs',
+};
+
 export default {
   PlayerCommand,
   ControllerCommand,
@@ -73,4 +83,5 @@ export default {
   VideoState,
   Button,
   Action,
+  RedisChat,
 };

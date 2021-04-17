@@ -1,17 +1,18 @@
 /* eslint-disable no-param-reassign */
 import WS from 'ws';
 import http from 'http';
-import { Player, LogLevel, LoggerClass, constants } from 'fuku.tv-shared';
-import url from 'url';
-import querystring from 'querystring';
-
+import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
+
+import * as redis from 'redis';
 
 const logger = new LoggerClass('viewerServer');
 
 const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
+
+const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
 // hack to map authenticated email to current player
 const userRequestMap = new WeakMap();
@@ -21,11 +22,11 @@ export class ControllerServer {
 
   players: Player[] = [];
 
-  currentPlayer: Player;
+  currentPlayer: Player = null;
 
-  watchCounter: number;
+  watchCounter = 0;
 
-  queueCounter: number;
+  queueCounter = 0;
 
   clientController: any;
 
@@ -37,44 +38,32 @@ export class ControllerServer {
 
   wss: WS.Server;
 
+  redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
+
+  progressiveJackpot = 1000;
+
   constructor(server: http.Server) {
-    this.currentPlayer = null;
-    this.watchCounter = 0;
-    this.queueCounter = 0;
     this.connectController();
+
+    this.redisClient.on('connect', () => {
+      logger.log(LogLevel.info, 'Redis connected');
+      this.redisClient.flushdb();
+    });
 
     // client->us
     this.wss = new WS.Server({
       server,
-      verifyClient: async (info, authenticated) => {
-        const email = await authenticateConnection(info);
-        if (email === null || email === undefined) {
-          authenticated(false);
-        } else {
-          userRequestMap.set(info.req, email);
-          authenticated(true);
-        }
-      },
     });
 
-    this.wss.on('connection', (socket: any, req) => {
-      const email = userRequestMap.get(req);
-      logger.log(LogLevel.info, `got email ${email}`);
-      const clientPlayer = new Player(
-        email,
-        socket,
-        this.players.length + 1,
-        this.queue.length,
-        800,
-        480,
-        req.headers['x-forwarded-for'] || req.socket.remoteAddress
-      );
+    this.wss.on('connection', (socket: any, req: any) => {
+      const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       this.players.push(clientPlayer);
-      socket.player = clientPlayer;
+      this.updateGameStats();
 
-      socket.on('message', (data: any) => {
+      socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
+        console.log('Socket Message Received', msg);
 
         switch (msg.command) {
           case constants.PlayerCommand.control:
@@ -101,17 +90,47 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
-            this.queuePlayer(socket.player);
+            console.log('Starting Queue');
+            this.queuePlayer(clientPlayer);
+            this.updateGameStats();
             break;
           case constants.PlayerCommand.dequeue:
-            this.dequeuePlayer(socket.player);
+            this.dequeuePlayer(clientPlayer);
+            this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
             break;
           case constants.PlayerCommand.logout:
+            clientPlayer.logout();
             break;
-          case constants.PlayerCommand.prizeget:
-            clientPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
+          case constants.PlayerCommand.chatjoin:
+            console.log('User joined. Getting ready to send all messages out ');
+            // this.sendAllChatMessages();
+            // get all previous stored messages
+            // use forLoop to send out each messages
+
+            // eslint-disable-next-line no-case-declarations
+            const messages = await redis.lrange('room:main', 0, -1);
+            messages.forEach((m) => {
+              // clientPlayer.send
+              //
+              console.log(`message: ${m}`);
+            });
+            break;
+          case constants.PlayerCommand.chatmsg:
+            // filter stupid shit
+
+            // put it in redis
+            if (this.redisClient.lpush('room:main', msg.chatmessage, clientPlayer.userdata.nickname) > 10) {
+              this.redisClient.rpop('room:main');
+            }
+
+            sendall(this.players, {
+              command: constants.PlayerCommand.chatmsg,
+              user: clientPlayer.userdata.nickname,
+              chatmessage: msg.chatmessage,
+            });
             break;
           default:
             break;
@@ -132,26 +151,26 @@ export class ControllerServer {
             this.players.splice(i, 1);
           }
         });
+        this.updateGameStats();
       });
     });
-
-    setInterval(() => {
-      this.checkPlayerQueue();
-    }, 500);
-    setInterval(() => {
-      this.updateGameStats();
-    }, 1000);
   }
 
   connectController() {
     // us->controller
     logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
+
     this.clientController = new WS(`${uriController}:${portController}`);
+
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
     });
+
     this.clientController.on('message', (data: any) => {
       const msg = JSON.parse(data);
+      const pointsPct = Math.floor(Math.random() * Math.floor(100));
+      let pointsWon = 0;
+      let jackpot = false;
       switch (msg.command) {
         case constants.PlayerCommand.prizeget:
           // player scored a prize
@@ -159,8 +178,26 @@ export class ControllerServer {
             logger.log(LogLevel.info, 'prizeget but currentPlayer deref!');
             return;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: 10 });
-          logger.log(LogLevel.info, `${this.currentPlayer.ipAddr} - prizeget!`);
+
+          if (pointsPct === 0) pointsWon = 1;
+          // womp womp
+          else if (pointsPct > 0 && pointsPct <= 10) pointsWon = 2;
+          else if (pointsPct > 10 && pointsPct <= 25) pointsWon = 3;
+          else if (pointsPct > 25 && pointsPct <= 50) pointsWon = 4;
+          else if (pointsPct > 50 && pointsPct <= 75) pointsWon = 5;
+          else if (pointsPct > 75) {
+            if (pointsPct === 100) {
+              if (Math.floor(Math.random() * Math.floor(100)) === 100) {
+                // you just won the jackpot
+                jackpot = true;
+              }
+            }
+            if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
+            else pointsWon = 6;
+          }
+          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot });
+          this.currentPlayer.addPoints(pointsWon);
+          logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
         default:
           break;
@@ -183,16 +220,6 @@ export class ControllerServer {
     this.players.forEach((p) => {
       p.updateGameStats(this.queue.length, this.players.length);
     });
-  }
-
-  checkPlayerQueue() {
-    if (this.queue === null || this.queue === undefined) {
-      logger.log(LogLevel.error, 'queue does not exist!');
-      return;
-    }
-    if (this.currentPlayer === null && this.queue.length > 0) {
-      this.activatePlayer(this.queue.shift());
-    }
   }
 
   standby() {
@@ -218,6 +245,7 @@ export class ControllerServer {
 
     // Unlock player controls
     this.currentPlayer.play(this.playEnd.bind(this));
+    this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
   }
 
   playEnd() {
@@ -239,6 +267,15 @@ export class ControllerServer {
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) this.currentPlayer.gameEnd();
     this.currentPlayer = null;
     this.resetClaw();
+
+    if (this.queue === null || this.queue === undefined) {
+      logger.log(LogLevel.error, 'queue does not exist!');
+      return;
+    }
+
+    if (this.currentPlayer === null && this.queue.length > 0) {
+      this.activatePlayer(this.queue.shift());
+    }
   }
 
   activatePlayer(p: any) {
@@ -263,13 +300,22 @@ export class ControllerServer {
     }
   }
 
-  queuePlayer(p: any): void {
+  queuePlayer(p: Player): void {
+    logger.logInfo('queue started');
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) if (this.currentPlayer === p) return; // what are you even trying to accomplish?
+    if (!p.isLoggedIn) {
+      logger.log(LogLevel.error, `${p.uid} - player is not signed in, please login to enter a fuku queue`);
+      return;
+    }
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
+      if (this.currentPlayer === null && this.queue.length === 1) {
+        logger.log(LogLevel.info, `${p.uid} - only player in queue, activating!`);
+        this.activatePlayer(p);
+      }
     } else {
       p.send({ command: constants.PlayerCommand.queue, success: false });
       logger.log(LogLevel.info, `${p.uid} - player already queued`);
@@ -281,6 +327,7 @@ export class ControllerServer {
     this.queue.forEach((item, index, object) => {
       if (item === p) {
         object.splice(index, 1);
+        logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
       }
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
@@ -291,15 +338,16 @@ const send = (socket: WS, data: any) => {
   if (socket !== null && socket !== undefined) socket.send(JSON.stringify(data));
 };
 
-const authenticateConnection = async (info: { origin: string; secure: boolean; req: http.IncomingMessage }): Promise<string> => {
-  // parse querystring for token
-  const parsedUrl = url.parse(info.req.url);
-  const parsedQs = querystring.parse(parsedUrl.query);
-  const { token } = parsedQs;
+const sendall = (players: Player[], data: any) => {
+  players.forEach((p) => {
+    if (p.socket !== null && p.socket !== undefined) p.socket.send(JSON.stringify(data));
+  });
+};
 
+const authenticateConnection = async (token: string): Promise<any> => {
   // check if querystring for token exists
   if (token === null || token === undefined) {
-    logger.log(LogLevel.info, `${info.req.socket.remoteAddress} - Got message but no token?`);
+    logger.log(LogLevel.info, ' - Got message but no token?');
     return null;
   }
 
@@ -313,8 +361,8 @@ const authenticateConnection = async (info: { origin: string; secure: boolean; r
     });
     const data = await res.json();
 
-    logger.log(LogLevel.info, `valided user: ${data.email}`);
-    return data.email;
+    logger.log(LogLevel.info, `Validated user: ${data.email} ${data.nickname}`);
+    return { email: data.email, nickname: data.nickname };
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);
     return null;

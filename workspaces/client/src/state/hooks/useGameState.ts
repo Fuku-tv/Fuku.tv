@@ -24,18 +24,28 @@ const useGameState = () => {
     dispatch(gameActions.endStream());
   };
 
-  const buttonDownEvent = (event: React.PointerEvent<HTMLButtonElement>) => {
-    const buttonType = event.currentTarget.getAttribute('data-type');
-    dispatch(gameActions.buttonDown(buttonType));
+  const enterQueue = () => {
+    dispatch(gameActions.enterQueue());
   };
 
-  const buttonUpEvent = (event: React.PointerEvent<HTMLButtonElement>) => {
-    const buttonType = event.currentTarget.getAttribute('data-type');
-    dispatch(gameActions.buttonUp(buttonType));
+  const buttonDownEvent = (type: string) => {
+    dispatch(gameActions.buttonDown(type));
+  };
+
+  const buttonUpEvent = (type: string) => {
+    dispatch(gameActions.buttonUp(type));
   };
 
   const toggleCamera = () => {
     dispatch(actions.toggleCameraDirection());
+  };
+
+  const toggleWinnerModal = () => {
+    dispatch(actions.toggleWinnerModal());
+  };
+  const sendChatMessage = (message) => {
+    // dispatch(actions.sendChatMessage(message));
+    dispatch(gameActions.sendMessage(message));
   };
 
   const startFuku = () => {
@@ -52,9 +62,12 @@ const useGameState = () => {
       startStream,
       endStream,
       mountStore,
+      enterQueue,
       buttonDownEvent,
       buttonUpEvent,
       toggleCamera,
+      toggleWinnerModal,
+      sendChatMessage,
       startFuku,
       endFuku,
     },

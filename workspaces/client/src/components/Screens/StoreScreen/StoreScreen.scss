@@ -1,94 +1,16 @@
 #store-screen {
   position: relative;
-  // .player-stats-container {
-  //   position: absolute;
-  //   background-color: var(--blackAccent);
-  //   top: -45px;
-  //   right: 0;
-  //   width: 200px;
-  //   border-radius: 2px;
-  //   padding: 10px;
-  //   font-size: 13px;
-  //   .player-stats__item {
-  //     position: relative;
-  //     opacity: 0.8;
-  //     text-align: right;
-  //     // width: 80px;
-  //   }
-  //   .player-stats__value {
-  //     font-weight: bold;
-  //     margin-left: 4px;
-  //     // width: 80px;
-  //     // text-align: center;
-  //   }
-  //   .stat-item-wrapper {
-  //     display: flex;
-  //     justify-content: center;
-  //   }
-  //   #level {
-  //     position: relative;
-  //     margin-bottom: 5px;
-  //     font-size: 16px;
-  //     progress {
-  //       border: none;
-  //       width: 100%;
-  //       height: 10px;
-  //       -webkit-transform: translateY(-5px);
-  //       -ms-transform: translateY(-5px);
-  //       transform: translateY(-5px);
-  //       border-radius: 2px;
-  //       // background: crimson;
-  //     }
-
-  //     progress {
-  //       // color: lightblue;
-  //       color: var(--gold);
-  //       border-radius: 2px;
-  //     }
-
-  //     progress::-webkit-progress-value {
-  //       // background: lightblue;
-  //       background: var(--gold);
-  //       border-radius: 2px;
-  //     }
-
-  //     progress::-moz-progress-bar {
-  //       // background: lightcolor;
-  //       background: var(--gold);
-  //       border-radius: 2px;
-  //     }
-
-  //     progress::-webkit-progress-value {
-  //       background: var(--gold);
-  //       border-radius: 2px;
-  //     }
-
-  //     progress::-webkit-progress-bar {
-  //       border-radius: 2px;
-  //       background: #f0f0f0;
-  //     }
-  //   }
-
-  //   #points-and-credits {
-  //     display: flex;
-  //     justify-content: space-around;
-  //     // font-size: 14px;
-  //   }
-  // }
   .screen-navigation {
-    // border-bottom: 1px solid var(--blackBorder);
     border-bottom: 1px solid #484848;
-    // padding-bottom: 5px;
     display: flex;
     flex-wrap: nowrap;
-    margin: 25px 0;
+    margin-bottom: 25px;
     .applied-item__title {
       position: relative;
       cursor: pointer;
-      padding: 3px 5px;
-      margin-right: 15px;
+      padding: 3px 15px;
+      margin-right: 5px;
       h2 {
-        // margin-top: 15px;
         margin-bottom: 5px;
         font-size: 14px;
         font-weight: 500;
@@ -112,20 +34,17 @@
   .coming-soon-content {
     padding: 20px;
     .title {
-      font-weight: bold;
-      font-size: 26px;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 42px;
     }
   }
 
   .store-item-container {
-    // display: flex;
-    // flex-wrap: wrap;
     margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
-    // padding: 20px;
-    // background-color: var(--blackAccent);
   }
 
   article#prize {
@@ -143,36 +62,45 @@
       }
     }
   }
+}
 
-  // #store-item-row {
-  // 	display: flex;
-  // 	border-bottom: 1px solid var(--blackAccentSecondary);
-  // 	align-items: center;
-  // 	justify-content: space-between;
-  // 	padding: 12px 0;
-  // 	display: grid;
-  // 	grid-template-columns: 3fr 3fr 1fr;
-  // 	button {
-  // 		padding: 4px 20px;
-  // 	}
-  // 	.store-details {
-  // 		width: 100%;
-  // 		margin-left: 15px;
+//modal for items
+.modal.store-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 500px;
+  text-align: center;
 
-  // 		div {
-  // 			display: flex;
-  // 			align-items: center;
-  // 		}
-  // 		.user__score {
-  // 			text-align: left;
-  // 		}
-  // 	}
-  // }
+  .modal__body {
+    position: relative;
+
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+//CSS ANIMATIONS
+.fade-in-enter {
+  opacity: 0;
+}
+.fade-in-enter-active {
+  opacity: 1;
+}
+.fade-in-exit {
+  opacity: 1;
+}
+.fade-in-exit-active {
+  opacity: 0;
 }
 
 @media only screen and (max-width: 600px) {
   #store-screen {
-    padding: 15px;
+    // padding: 15px;
     .player-stats-container {
       top: -70px;
     }

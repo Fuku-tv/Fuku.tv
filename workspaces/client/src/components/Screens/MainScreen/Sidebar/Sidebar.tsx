@@ -2,12 +2,17 @@ import * as React from 'react';
 // import {Messages} from '../../Messages';
 import useAuthState from 'src/state/hooks/useAuthState';
 import useNavigationState from 'src/state/hooks/useNavigationState';
-import ChatWidget from 'src/components/game/ChatWidget';
+import { isMobile } from 'react-device-detect';
+import GameChat from 'src/components/UIElements/GameChat/GameChat';
+
 import Header from '../../../Header/Header';
 // import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
-import SidebarNavigation from '../Navigation/Navigation';
+import SidebarWidget from './SidebarWidget/SidebarWidget';
 import './Sidebar.scss';
+import GameQueue from './GameQueue/GameQueue';
+import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/SpectatorInformation';
+import DiscordChat from './DiscordChat/DiscordChat';
 
 const SideBar: React.FC = () => {
   const { state, actions } = useAuthState();
@@ -22,6 +27,21 @@ const SideBar: React.FC = () => {
     </svg>
   );
 
+  const discordOld = (
+    <div className="discord-container">
+      <div className="discord__body">
+        <div className="discord-iframe-wrapper">
+          <iframe
+            title="Chat widget"
+            src="https://titanembeds.com/embed/785224675135455242?defaultchannel=797625753289883688&amp;scrollbartheme=minimal&amp;theme=DiscordDark"
+            width="100%"
+            frameBorder="0"
+          />
+        </div>
+      </div>
+    </div>
+  );
+
   const discordHeader = (
     <div className="discord__header">
       <p>Join the conversation on</p>
@@ -30,17 +50,15 @@ const SideBar: React.FC = () => {
   );
   return (
     <aside id="sidebar-section">
-      <div className="discord-container">
-        <div className="discord__body">
-          <div className="discord-iframe-wrapper">
-            <iframe
-              title="Chat widget"
-              src="https://titanembeds.com/embed/785224675135455242?defaultchannel=797625753289883688&amp;scrollbartheme=minimal&amp;theme=DiscordDark"
-              width="100%"
-              frameBorder="0"
-            />
-          </div>
-        </div>
+      <div className="sidebar-inner-wrapper">
+        <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue={!isMobile} />}>
+          <GameQueue />
+        </SidebarWidget>
+        {!isMobile && (
+          <SidebarWidget title="Chat" header={<SpectatorInformation showWatching />}>
+            <GameChat />
+          </SidebarWidget>
+        )}
       </div>
     </aside>
   );

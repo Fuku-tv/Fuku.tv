@@ -3,14 +3,24 @@ import Fuku from './fukuClass';
 
 const fuku = new Fuku();
 
-// TODO add event listeners here
 export const startFukuClass = (): void => {
   fuku.start();
 };
 
-// TODO end current game
 export const endFukuClass = (): void => {
   fuku.end();
+};
+
+export const login = (token: string): void => {
+  fuku.login(token);
+};
+
+export const logout = (): void => {
+  fuku.logout();
+};
+
+export const enterQueue = (): void => {
+  fuku.enterQueue();
 };
 
 export const buttonDownEvent = (type: string): void => {
@@ -20,6 +30,11 @@ export const buttonDownEvent = (type: string): void => {
 export const buttonUpEvent = (type: string): void => {
   fuku.buttonEndEvent(type);
 };
+
+export const sendChatMessage = (message: Record<string, unknown>): void => {
+  fuku.sendChatMessage(message);
+};
+
 /**
  * subscribes to the fukuClass
  * @param stats
