@@ -108,13 +108,14 @@ export class ControllerServer {
 
             const messages = await redis.lrange('room:main', 0, -1);
             messages.forEach((m: any) => {
-              // clientPlayer.send
-              //
+              console.log(`Chat message: ${m}`)
+              /*
               clientPlayer.send({
                 command: constants.PlayerCommand.chatmsg,
                 user: 'System Debug',
                 chatmessage: `${m}`
               });
+              */
             });
             break;
           case constants.PlayerCommand.logout:
