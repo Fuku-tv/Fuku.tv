@@ -59,8 +59,9 @@ export class Player {
         this.freeplay += 2;
         this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
         playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
+        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
       }
-    }, 5000);
+    }, 10000);
   }
 
   Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
@@ -82,6 +83,10 @@ export class Player {
       .catch((error) => {});
 
     this.isLoggedIn = true;
+    this.send({
+      command: 'debug',
+      debug: this.lastfreeplaydate
+    });
   }
 
   logout() {
