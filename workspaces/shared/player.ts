@@ -54,14 +54,9 @@ export class Player {
 
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
-      this.sendDebug(this.isLoggedIn);
-      this.sendDebug(typeof this.lastfreeplaydate);
-      this.sendDebug(this.lastfreeplaydate);
-      this.sendDebug(Math.floor(new Date().getTime() / 1000));
-      this.sendDebug(86400000);
       if (this.isLoggedIn === false) return;
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
-        this.freeplay += 2;
+        this.freeplay += 5;
         this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
         playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
         playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
