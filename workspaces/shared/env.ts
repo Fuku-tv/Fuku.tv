@@ -97,11 +97,12 @@ export const stripeApiSecret = (): string => {
   let value: string;
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    return process.env.STRIPE_API_SECRET;
+    // return process.env.STRIPE_API_SECRET;
     // getSecrets().then((data) => {
     //   value = data.STRIPE_API_SECRET;
     // });
     // return value;
+    return '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';
   }
 
   // return test secret
