@@ -106,16 +106,17 @@ export class ControllerServer {
               chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
             });
 
-            const messages = await redis.lrange('room:main', 0, -1);
-            messages.forEach((m: any) => {
-              console.log(`Chat message: ${m}`)
-              /*
-              clientPlayer.send({
-                command: constants.PlayerCommand.chatmsg,
-                user: 'System Debug',
-                chatmessage: `${m}`
+            await redis.lrange('room:main', 0, -1, (err: any, res: any) => {
+              res.forEach((m: any) => {
+                console.log(`Chat message: ${m}`)
+                /*
+                clientPlayer.send({
+                  command: constants.PlayerCommand.chatmsg,
+                  user: 'System Debug',
+                  chatmessage: `${m}`
+                });
+                */
               });
-              */
             });
             break;
           case constants.PlayerCommand.logout:
