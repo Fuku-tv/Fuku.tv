@@ -105,19 +105,6 @@ export class ControllerServer {
               user: 'System Message',
               chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
             });
-
-            this.redisClient.lrange('room:main', 0, -1, (err: any, res: any) => {
-              res.forEach((m: any) => {
-                console.log(`Chat message: ${m}`)
-                /*
-                clientPlayer.send({
-                  command: constants.PlayerCommand.chatmsg,
-                  user: 'System Debug',
-                  chatmessage: `${m}`
-                });
-                */
-              });
-            });
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
