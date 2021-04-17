@@ -40,7 +40,7 @@ export class Player {
 
   video: any = constants.Video.front;
 
-  uid = '';
+  uid: string = '';
 
   ipAddr: any;
 
@@ -54,7 +54,13 @@ export class Player {
 
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
-    }, 2000);
+      if (this.isLoggedIn === false) return;
+      if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
+        this.freeplay += 2;
+        this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
+        playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
+      }
+    }, 5000);
   }
 
   Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
@@ -84,7 +90,6 @@ export class Player {
   }
 
   send(data: Command): void {
-    console.log(`player send ${this.userdata?.nickname && 'undefined'} : ${JSON.stringify(data)}`);
     if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify(data));
   }
 
@@ -98,7 +103,6 @@ export class Player {
   }
 
   updateGameStats(qc: number, wc: number): void {
-    console.log('Starting updating all stats 2');
     this.send({
       command: constants.PlayerCommand.gamestats,
       queue: qc,
@@ -125,12 +129,6 @@ export class Player {
     } else if (this.credits > 0) {
       this.credits -= 1;
       playersTableModel.removeCredits(this.userdata.email, 1);
-      // award player 2 freeplays every 24 hr after spending at least 1 credit
-      if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
-        this.freeplay += 2;
-        this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
-        playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
-      }
     }
     this.gameState = constants.GameState.playing;
     this.playTimer = setTimeout(callback, this.timePlay);
