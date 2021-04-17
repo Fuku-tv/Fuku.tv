@@ -143,12 +143,14 @@ class Fuku {
   };
 
   private disconnect(): void {
+    console.log('invoked disconnect command from client');
     if (this.socket === null || this.socket === undefined) return;
     this.socket.close();
     this.socket = null;
   }
 
   private connect(controllerUri: string): void {
+    console.log('trying to connect to socket.');
     if (this.socket !== null || this.socket !== undefined) this.disconnect();
     // pass opaque token to controller websocket
     this.socket = new WebSocket(controllerUri);
