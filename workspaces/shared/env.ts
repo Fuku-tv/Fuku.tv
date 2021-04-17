@@ -83,10 +83,11 @@ export const stripeApiKey = (): string => {
   let value: string;
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    getSecrets().then((data) => {
-      value = data.STRIPE_API_KEY;
-    });
-    return value;
+    return process.env.STRIPE_API_KEY;
+    // getSecrets().then((data) => {
+    //   value = data.STRIPE_API_KEY;
+    // });
+    // return value;
   }
   // return default test key
   return 'pk_test_51HxGG6Gx8BmO5evBcDbYjClczRZa0rC96ZiA3ZFyn5ErewXeH2TgAs9cseKW6mT1mMpfRepbtbXEgrPEWovaHbn100wlrLXvff';
@@ -96,10 +97,11 @@ export const stripeApiSecret = (): string => {
   let value: string;
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    getSecrets().then((data) => {
-      value = data.STRIPE_API_SECRET;
-    });
-    return value;
+    return process.env.STRIPE_API_SECRET;
+    // getSecrets().then((data) => {
+    //   value = data.STRIPE_API_SECRET;
+    // });
+    // return value;
   }
 
   // return test secret
