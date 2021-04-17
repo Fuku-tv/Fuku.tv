@@ -55,7 +55,7 @@ export class Player {
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
       this.sendDebug(this.isLoggedIn);
-      this.sendDebug(this.lastfreeplaydate);
+      this.sendDebug(typeof this.lastfreeplaydate);
       this.sendDebug(Math.floor(new Date().getTime() / 1000));
       this.sendDebug(86400000);
       if (this.isLoggedIn === false) return;
