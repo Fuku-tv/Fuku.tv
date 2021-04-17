@@ -185,8 +185,8 @@ export class ControllerServer {
                 jackpot = true;
               }
             }
-            if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 10;
-            else pointsWon = 6;
+            if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 100;
+            else pointsWon = 50;
           }
           this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot });
           this.currentPlayer.addPoints(pointsWon);
