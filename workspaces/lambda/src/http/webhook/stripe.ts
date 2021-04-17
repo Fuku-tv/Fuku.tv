@@ -12,7 +12,10 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   const { body } = event;
 
   const webhookSecret = env.stripeWebhookSecret();
-  const stripeSecret = env.stripeApiSecret();
+  // const stripeSecret = env.stripeApiSecret();
+  const stripeSecret = stripeEvent.livemode
+    ? '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'
+    : 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9';
 
   const stripe = new Stripe(stripeSecret, {
     apiVersion: '2020-08-27',
