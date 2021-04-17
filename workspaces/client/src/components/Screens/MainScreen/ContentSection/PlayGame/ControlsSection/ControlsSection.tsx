@@ -40,7 +40,7 @@ const ControlsSection: React.FC = () => {
   );
 
   const letsPlayScreen = (
-    <SlideableContent direction="left" show={!controlsVisible && state.queue === 0}>
+    <SlideableContent direction="left" show={!controlsVisible}>
       <div className="play-game-button-container">
         <TitleDescription
           title="Let's Play Fuku"
