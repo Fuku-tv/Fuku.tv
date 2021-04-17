@@ -30,11 +30,11 @@ export const fukuVideoServerURL = (): string => {
  * Gets the current stage of the application
  */
 export const getStage = (): string => {
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'local') {
+  if (process.env.NODE_ENV === 'development' || process.env.LAMBDA_ENV === 'local') {
     // Local Development
     return 'local';
   }
-  if (process.env.EB_ENVIRONMENT !== 'production') {
+  if (process.env.EB_ENVIRONMENT !== 'production' && process.env.LAMBDA_ENV !== 'prod') {
     // Dev Environment
     return 'dev';
   }
