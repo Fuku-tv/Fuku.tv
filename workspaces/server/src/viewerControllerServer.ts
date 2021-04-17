@@ -40,7 +40,7 @@ export class ControllerServer {
 
   redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
 
-  progressiveJackpot = 1000;
+  progressiveJackpot = 10000;
 
   constructor(server: http.Server) {
     this.connectController();
@@ -103,25 +103,24 @@ export class ControllerServer {
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
+              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
+            });
+
+            const messages = await redis.lrange('room:main', 0, -1);
+            messages.forEach((m: any) => {
+              // clientPlayer.send
+              //
+              clientPlayer.send({
+                command: constants.PlayerCommand.chatmsg,
+                user: 'System Debug',
+                chatmessage: `${m}`
+              });
             });
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
             break;
           case constants.PlayerCommand.chatjoin:
-            console.log('User joined. Getting ready to send all messages out ');
-            // this.sendAllChatMessages();
-            // get all previous stored messages
-            // use forLoop to send out each messages
-
-            // eslint-disable-next-line no-case-declarations
-            const messages = await redis.lrange('room:main', 0, -1);
-            messages.forEach((m) => {
-              // clientPlayer.send
-              //
-              console.log(`message: ${m}`);
-            });
             break;
           case constants.PlayerCommand.chatmsg:
             // filter stupid shit
@@ -184,12 +183,11 @@ export class ControllerServer {
             return;
           }
 
-          if (pointsPct === 0) pointsWon = 1;
-          // womp womp
-          else if (pointsPct > 0 && pointsPct <= 10) pointsWon = 2;
-          else if (pointsPct > 10 && pointsPct <= 25) pointsWon = 3;
-          else if (pointsPct > 25 && pointsPct <= 50) pointsWon = 4;
-          else if (pointsPct > 50 && pointsPct <= 75) pointsWon = 5;
+          if (pointsPct === 0) pointsWon = 10;
+          else if (pointsPct > 0 && pointsPct <= 10) pointsWon = 20;
+          else if (pointsPct > 10 && pointsPct <= 25) pointsWon = 30;
+          else if (pointsPct > 25 && pointsPct <= 50) pointsWon = 40;
+          else if (pointsPct > 50 && pointsPct <= 75) pointsWon = 50;
           else if (pointsPct > 75) {
             if (pointsPct === 100) {
               if (Math.floor(Math.random() * Math.floor(100)) === 100) {
@@ -243,7 +241,7 @@ export class ControllerServer {
   }
 
   playStart() {
-    if (this.currentPlayer.credits === 0) return;
+    if (this.currentPlayer.credits === 0 && this.currentPlayer.freeplay === 0) return;
 
     // set the claw to a default position so timeouts, etc work
     this.resetClaw();
