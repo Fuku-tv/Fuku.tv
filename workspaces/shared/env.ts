@@ -113,10 +113,12 @@ export const stripeWebhookSecret = (): string => {
 
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    getSecrets().then((data) => {
-      value = data.STRIPE_WEBHOOK_SECRET;
-    });
-    return value;
+    // getSecrets().then((data) => {
+    //   value = data.STRIPE_WEBHOOK_SECRET;
+    // });
+    // return value;
+
+    return 'whsec_wEti55fBXOdPv34e9RHdzEcLDuufuBJv';
   }
   // return test secret
   return 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
@@ -127,10 +129,11 @@ export const amazonGiftCardKey = (): string => {
 
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    getSecrets().then((data) => {
-      value = data.AMAZON_GIFTCARD_KEY;
-    });
-    return value;
+    // getSecrets().then((data) => {
+    //   value = data.AMAZON_GIFTCARD_KEY;
+    // });
+    // return value;
+    return 'AKIAZUTR4R2X6527A5VZ';
   }
   // return test secret
   return 'AKIAWWFS6UKLIFJK3XO4';
@@ -141,10 +144,11 @@ export const amazonGiftCardSecret = (): string => {
 
   // check for live key in ENV
   if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    getSecrets().then((data) => {
-      value = data.AMAZON_GIFTCARD_SECRET;
-    });
-    return value;
+    // getSecrets().then((data) => {
+    //   value = data.AMAZON_GIFTCARD_SECRET;
+    // });
+    // return value;
+    return 'UeBUTm+WhYBubN8aweZwm+PTLR4SZhCxUjWRjZYu';
   }
   // return test secret
   return '/F4WVa8cJAmEyGedETdQiDYCclV/yULb5tlKjgmw';
