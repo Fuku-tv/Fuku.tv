@@ -100,6 +100,11 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.login:
             clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
+            clientPlayer.send({
+              command: constants.PlayerCommand.chatmsg,
+              user: 'System Message',
+              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
+            });
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
@@ -142,8 +147,8 @@ export class ControllerServer {
         logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket error ${err}`);
       });
 
-      socket.on('close', () => {
-        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed`);
+      socket.on('close', (msg: any) => {
+        logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket closed ${msg}`);
         this.players.forEach((p, i) => {
           if (p === clientPlayer) {
             this.dequeuePlayer(p);
