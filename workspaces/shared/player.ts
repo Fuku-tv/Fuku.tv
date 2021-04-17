@@ -40,7 +40,7 @@ export class Player {
 
   video: any = constants.Video.front;
 
-  uid = '';
+  uid: string = '';
 
   ipAddr: any;
 

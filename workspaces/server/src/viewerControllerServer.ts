@@ -57,7 +57,8 @@ export class ControllerServer {
 
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
-      logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
+      //logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
+      logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open.`);
       this.players.push(clientPlayer);
       this.updateGameStats();
 
