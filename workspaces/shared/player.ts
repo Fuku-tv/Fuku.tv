@@ -53,8 +53,8 @@ export class Player {
     this.ipAddr = ip;
 
     this.keepaliveTimer = setInterval(() => {
-      this.send({keepalive: Date.now() });
-    }, 10000);
+      this.send({ keepalive: Date.now() });
+    }, 2000);
   }
 
   Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
