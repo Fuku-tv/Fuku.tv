@@ -54,6 +54,10 @@ export class Player {
 
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
+      this.sendDebug(this.isLoggedIn);
+      this.sendDebug(this.lastfreeplaydate);
+      this.sendDebug(Math.floor(new Date().getTime() / 1000));
+      this.sendDebug(86400000);
       if (this.isLoggedIn === false) return;
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
         this.freeplay += 2;
@@ -100,6 +104,10 @@ export class Player {
 
   sendVideo(data: Command): void {
     if (this.socket !== null && this.socket !== undefined) this.socket.send(data, { binary: true });
+  }
+
+  sendDebug(data: any): void {
+    if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify({command: 'debug', debug: data}));
   }
 
   resetTimers(): void {
