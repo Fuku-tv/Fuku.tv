@@ -103,7 +103,7 @@ export class ControllerServer {
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
+              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
             });
             break;
           case constants.PlayerCommand.logout:

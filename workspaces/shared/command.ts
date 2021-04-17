@@ -1,6 +1,7 @@
 interface Command {
   command?: string;
   user?: any;
+  chatmessage?: any;
   width?: number;
   height?: number;
   credits?: number;
