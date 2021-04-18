@@ -1,7 +1,7 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
 import { Stripe } from 'stripe';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
-import { env } from 'fuku.tv-shared';
+import { stripeWebhookSecret, stripeApiSecret } from 'fuku.tv-shared/secrets/getSecret';
 import * as Responses from '../../common/ApiResponses';
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
@@ -11,8 +11,8 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   const signature = event.headers['Stripe-Signature'];
   const { body } = event;
 
-  const webhookSecret = env.stripeWebhookSecret();
-  const stripeSecret = env.stripeApiSecret();
+  const webhookSecret = await stripeWebhookSecret();
+  const stripeSecret = await stripeApiSecret();
 
   const stripe = new Stripe(stripeSecret, {
     apiVersion: '2020-08-27',

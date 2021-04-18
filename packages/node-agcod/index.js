@@ -168,7 +168,6 @@ module.exports = class {
 
       return err;
     }
-    console.log(res.data);
     return res.data;
   }
 

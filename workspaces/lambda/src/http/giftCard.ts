@@ -2,6 +2,7 @@ import type { APIGatewayProxyHandler } from 'aws-lambda';
 import type { GiftCardCatalogue } from 'fuku.tv-shared/giftCard';
 import Client from 'agcod';
 import { env } from 'fuku.tv-shared';
+import { amazonGiftCardSecret, amazonGiftCardKey } from 'fuku.tv-shared/secrets/getSecret';
 import validateUser from 'src/common/authorizer';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { sendEmail } from '../common/emailService';
@@ -43,26 +44,23 @@ const REGION = 'NA';
 
 const CURRENCY = 'USD';
 
-const config = {
-  endpoint: {
-    NA: {
-      host: env.amazonGiftCardURL(),
-      region: 'us-east-1',
-      countries: ['US', 'CA'],
+const createGiftCard = async (amount: number): Promise<string> => {
+  const client = new Client({
+    endpoint: {
+      NA: {
+        host: env.amazonGiftCardURL(),
+        region: 'us-east-1',
+        countries: ['US', 'CA'],
+      },
     },
-  },
-  partnerId: 'Fu863',
-  credentials: {
-    accessKeyId: env.amazonGiftCardKey(),
-    secretAccessKey: env.amazonGiftCardSecret(),
-  },
-};
-
-const client = new Client(config);
-
-const createGiftCard = async (amount: number): Promise<any> => {
+    partnerId: 'Fu863',
+    credentials: {
+      accessKeyId: await amazonGiftCardKey(),
+      secretAccessKey: await amazonGiftCardSecret(),
+    },
+  });
   const data = await client.createGiftCardAsync(REGION, amount, CURRENCY);
-
+  console.log(data);
   return data.gcClaimCode;
 };
 

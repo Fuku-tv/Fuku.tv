@@ -30,7 +30,11 @@ export const sendEmail = async (sender: string, recipient: string, subject = 'NU
     },
   };
 
-  await ses.sendEmail(params).promise();
+  try {
+    await ses.sendEmail(params).promise();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default sendEmail;

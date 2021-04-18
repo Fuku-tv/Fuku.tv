@@ -11,8 +11,6 @@ export const createGiftCard = async (amount: number, token: string): Promise<voi
   });
 
   const response = await FukuAPI.post('/giftcard', { amount });
-
-  console.log(JSON.stringify(response));
 };
 
 export const getGiftCards = async (token: string): Promise<GiftCardCatalogue[]> => [
