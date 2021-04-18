@@ -17,7 +17,7 @@ import StoreTabCredits from './StoreTabCredits/StoreTabCredits';
 const StoreScreen: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<string>('Buy Credits');
 
-  const [paymentSuccess, setPaymentSuccess] = React.useState<boolean>(window.location.href.includes('store/success'));
+  const [paymentSuccess, setPaymentSuccess] = React.useState<boolean>(window.location.href.includes('?success'));
 
   const tabList = ['Buy Credits', 'Prizes'];
 

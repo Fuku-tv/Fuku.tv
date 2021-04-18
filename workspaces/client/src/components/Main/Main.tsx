@@ -72,9 +72,7 @@ const Main: React.FC = () => {
           <Route path="/store" exact>
             <StoreScreen />
           </Route>
-          <Route path="/store/success" exact>
-            <StoreScreen />
-          </Route>
+
           <Route path="/claw-customization" exact>
             <ClawCustomizationScreen />
           </Route>
