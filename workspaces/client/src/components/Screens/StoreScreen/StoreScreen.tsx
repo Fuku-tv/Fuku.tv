@@ -5,6 +5,8 @@ import useCommerceState from 'src/state/hooks/useCommerceState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
 import { useAuthState, usePrizeState } from 'src/state/hooks';
+import Modal from 'src/components/UIElements/Modal/Modal';
+import { Link } from 'react-router-dom';
 import StoreItem from './StoreItem/StoreItem';
 import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';
@@ -15,7 +17,13 @@ import StoreTabCredits from './StoreTabCredits/StoreTabCredits';
 const StoreScreen: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<string>('Buy Credits');
 
+  const [paymentSuccess, setPaymentSuccess] = React.useState<boolean>(window.location.href.includes('store/success'));
+
   const tabList = ['Buy Credits', 'Prizes'];
+
+  const dismissEvent = () => {
+    setPaymentSuccess(false);
+  };
 
   // SCREEN TAB CONTENT
   const comingSoonContent = (
@@ -30,6 +38,11 @@ const StoreScreen: React.FC = () => {
   const tabs = activeTab === 'Buy Credits' ? <StoreTabCredits /> : <StoreTabPrizes />;
   return (
     <Screen id="store" title="Store">
+      <Modal show={paymentSuccess} onCancel={dismissEvent}>
+        <p>
+          Payment Successful! come play with us <a href="/">here</a>
+        </p>
+      </Modal>
       <div className="screen-navigation">
         {tabList.map((tab) => (
           <button

@@ -40,7 +40,7 @@ export const redirectToCheckout = async (items: [{ price: string; quantity: numb
   try {
     const stripeClient = await loadStripe(STRIPE_API_KEY);
     await stripeClient.redirectToCheckout({
-      successUrl: window.location.href,
+      successUrl: `${window.location.href}/success`,
       cancelUrl: window.location.href,
       lineItems: items,
       mode: 'payment',

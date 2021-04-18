@@ -20,33 +20,6 @@ import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
 // import routes from './app/routes';
 // import SideBar from './components';
 
-const Routes = () => (
-  <Switch>
-    <Route path="/" exact>
-      <MainScreen />
-    </Route>
-    <Route path="/about" exact>
-      <AboutScreen />
-    </Route>
-    <Route path="/profile" exact>
-      <ProfileScreen />
-    </Route>
-    <Route path="/leaderboards" exact>
-      <LeaderboardsScreen />
-    </Route>
-    <Route path="/prizes" exact>
-      <PrizesScreen />
-    </Route>
-    <Route path="/store" exact>
-      <StoreScreen />
-    </Route>
-    <Route path="/claw-customization" exact>
-      <ClawCustomizationScreen />
-    </Route>
-    <Redirect to="/" />
-  </Switch>
-);
-
 const Main: React.FC = () => {
   // const playerStats = (
   //   <div className="player-stats-container">
@@ -80,7 +53,33 @@ const Main: React.FC = () => {
   return (
     <main>
       <ContentContainer>
-        <Routes />
+        <Switch>
+          <Route path="/" exact>
+            <MainScreen />
+          </Route>
+          <Route path="/about" exact>
+            <AboutScreen />
+          </Route>
+          <Route path="/profile" exact>
+            <ProfileScreen />
+          </Route>
+          <Route path="/leaderboards" exact>
+            <LeaderboardsScreen />
+          </Route>
+          <Route path="/prizes" exact>
+            <PrizesScreen />
+          </Route>
+          <Route path="/store" exact>
+            <StoreScreen />
+          </Route>
+          <Route path="/store/success" exact>
+            <StoreScreen />
+          </Route>
+          <Route path="/claw-customization" exact>
+            <ClawCustomizationScreen />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
       </ContentContainer>
     </main>
   );

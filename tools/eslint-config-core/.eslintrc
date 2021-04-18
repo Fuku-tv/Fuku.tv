@@ -50,6 +50,8 @@
     // redundant with Typescript
     "react/jsx-no-undef": "off",
 
+    "react/no-multi-comp": "error",
+
     // not using defaultProps with typescript/function components
     "react/require-default-props": [0],
 
