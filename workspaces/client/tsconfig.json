@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "preserve",
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
@@ -9,6 +9,16 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["src/*"]
-    }
-  }
+    },
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": false,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
