@@ -56,7 +56,7 @@ export class Player {
       this.send({ keepalive: Date.now() });
       if (this.isLoggedIn === false) return;
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
-        this.freeplay += 5;
+        this.freeplay += 10;
         this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
         playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
         playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
