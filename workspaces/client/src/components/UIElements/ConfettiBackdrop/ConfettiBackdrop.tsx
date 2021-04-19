@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import confetti from 'canvas-confetti';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
-import './ConfettiBackdrop.scss';
+import styles from './ConfettiBackdrop.module.scss';
 
 interface Props {
   onClick?: () => void;
@@ -97,7 +97,7 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
   }, []);
 
   const content = (
-    <div className="confetti-backdrop" role="button" tabIndex={0}>
+    <div className={styles.confettiBackdrop} role="button" tabIndex={0}>
       <div className="player-congrats">
         <h2 className="player-name">Congratulations!</h2>
         <div className="value-won">
