@@ -171,6 +171,7 @@ export class Player {
         this.sendDebug('UNDEFINED UNDEFINED');
       if (player.freeplay === null)
         this.sendDebug('NULL NULL NULL NULL');
+      this.sendDebug('PLAYER.FREEPLAY: ' + player.freeplay + ' | ' + typeof player.freeplay);
       if (player.points === undefined)
         this.points = 0;
       else
