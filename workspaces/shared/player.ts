@@ -166,6 +166,7 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
+      this.sendDebug(player);
       if (player.points === undefined)
         this.points = 0;
       else
