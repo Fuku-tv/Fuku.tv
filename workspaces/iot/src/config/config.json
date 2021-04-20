@@ -3,9 +3,10 @@
     "loglevel": "quiet",
     "input_format": "video4linux2",
     "input_dimensions": "800x480",
-    "input_framerate": "15",
-    "input_device": "/dev/video0",
-    "seek": "00:00:01",
+    "input_framerate": "30",
+    "input_device0": "/dev/video0",
+    "input_device1": "/dev/video2",
+    "seek": "00:00:05",
     "pix_fmt": "yuv420p",
     "video_codec": "libx264",
     "video_bitrate": "800k",
@@ -16,6 +17,7 @@
     "gop": "30",
     "output_format": "rawvideo"
   },
-  "videoPort": 10779,
-  "controllerPort": 10777
+  "ffmpegInstances": 2,
+  "controllerPort": 10780,
+  "videoPortStart": 10781
 }

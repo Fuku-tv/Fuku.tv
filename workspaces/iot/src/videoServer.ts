@@ -1,6 +1,4 @@
 /*
-** STOP AND READ THIS FIRST
-**
 ** We have ffmpeg use video4linux2 and open each usb webcam
 ** this encoded content is pumped out via stdout. This is captured via the ffmpegReaerArray
 ** using ffmpegServerArray[id].stdout.pipe(new splitter(NAL))
@@ -11,7 +9,6 @@
 ** SETTING LOGLEVEL TO SILENT **********DOES NOT********** QUIET ALL OUTPUT TO STDERR
 ** If you do not dump the stderr buffer, ffmpeg will freeze because it cannot output anything to the stderr buffer!
 **
-** I PUT THIS HERE BECAUSE IT TOOK ME ONE SOLID WEEK TO FIGURE THIS OUT
 */
 
 declare const Buffer;
@@ -24,8 +21,8 @@ import express from 'express';
 var app = express();
 const logger = new LoggerClass('videoServer');
 const NAL = new Buffer.from([0, 0, 0, 1]);
-
 const config = new ConfigManager('/etc/fuku/config.json', configUpdate);
+
 var ffmpegArgs = config.get('ffmpegArgs');
 var ffmpegInstances = config.get('ffmpegInstances');
 var videoPortStart = config.get('videoPortStart');
@@ -43,18 +40,21 @@ function configUpdate() {
   initalizeFfmpegArray();
   logger.log(LogLevel.info, 'Config changed, respawning ffmpeg.');
   for (var i = 0; i < ffmpegInstances; i++)
-    if (ffmpegServerArray[i] !== null && ffmpegServerArray[i] != undefined)
+    if (ffmpegServerArray[i] !== null && ffmpegServerArray[i] !== undefined)
       ffmpegServerArray[i].kill();
 }
 
 function initalizeFfmpegArray(id: number = -1) {
-  if (id > -1) { // initalize a specific ffmpeg instance
-    ffmpegConfigArray[id] = [
+  // repeat code sucks
+  var istart = (id === -1) ? 0 : id;
+  var iend = (id === -1) ? ffmpegInstances : id + 1;
+  for (var i = istart; i < iend; i++) {
+    ffmpegConfigArray[i] = [
       '-loglevel', ffmpegArgs.loglevel,
       '-f', ffmpegArgs.input_format,
       '-video_size', ffmpegArgs.input_dimensions,
       '-r', ffmpegArgs.input_framerate,
-      '-i', ffmpegArgs['input_device' + id],
+      '-i', ffmpegArgs['input_device' + i],
       '-ss', ffmpegArgs.seek, // delays encoding while webcam wakes
       '-pix_fmt', ffmpegArgs.pix_fmt,
       '-c:v', ffmpegArgs.video_codec,
@@ -68,28 +68,6 @@ function initalizeFfmpegArray(id: number = -1) {
       '-f', ffmpegArgs.output_format,
       '-' // pipes to stdout
     ];
-  } else {
-    for (var i = 0; i < ffmpegInstances; i++) {
-      ffmpegConfigArray[i] = [
-        '-loglevel', ffmpegArgs.loglevel,
-        '-f', ffmpegArgs.input_format,
-        '-video_size', ffmpegArgs.input_dimensions,
-        '-r', ffmpegArgs.input_framerate,
-        '-i', ffmpegArgs['input_device' + i],
-        '-ss', ffmpegArgs.seek, // delays encoding while webcam wakes
-        '-pix_fmt', ffmpegArgs.pix_fmt,
-        '-c:v', ffmpegArgs.video_codec,
-        '-b:v', ffmpegArgs.video_bitrate,
-        '-bufsize', ffmpegArgs.buffersize,
-        '-vprofile', ffmpegArgs.video_profile,
-        '-preset', ffmpegArgs.video_preset,
-        '-tune', ffmpegArgs.video_tune,
-        '-g', ffmpegArgs.gop,
-        '-an', // no audio
-        '-f', ffmpegArgs.output_format,
-        '-' // pipes to stdout
-      ];
-    }
   }
 }
 
