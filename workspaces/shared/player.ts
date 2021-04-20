@@ -58,7 +58,7 @@ export class Player {
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
         this.freeplay += 5;
         this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
-        playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
+        playersTableModel.addFreeplay(this.userdata.email, 5).then(() => {});
         playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
       }
     }, 10000);
@@ -166,12 +166,6 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
-      this.sendDebug(player);
-      if (player.freeplay === undefined)
-        this.sendDebug('UNDEFINED UNDEFINED');
-      if (player.freeplay === null)
-        this.sendDebug('NULL NULL NULL NULL');
-      this.sendDebug('PLAYER.FREEPLAY: ' + player.freeplay + ' | ' + typeof player.freeplay);
       if (player.points === undefined)
         this.points = 0;
       else
@@ -180,8 +174,11 @@ export class Player {
         this.credits = 0;
       else
         this.credits = player.credits;
-      if (player.freeplay === undefined)
-        this.freeplay = 0;
+      if (player.freeplay === undefined) {
+        playersTableModel.addFreeplay(this.userdata.email, 10).then(() => {});
+        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
+        this.freeplay = 10;
+      }
       else
         this.freeplay = player.freeplay;
       if (player.lastfreeplaydate === undefined)
