@@ -27,24 +27,29 @@ export const playersTableModel = {
 
   async addCredits(id: string, creditsToAdd: number) {
     const player = await playersTableModel.get(id);
-    player.credits += creditsToAdd;
+    if (player.credits === undefined)
+      player.credits = creditsToAdd;
+    else
+      player.credits += creditsToAdd;
     await playersTableModel.write(player);
   },
 
   async addPoints(id: string, pointsToAdd: number) {
     const player = await playersTableModel.get(id);
-    player.points += pointsToAdd;
+    if (player.points === undefined)
+      player.points = pointsToAdd;
+    else
+      player.points += pointsToAdd;
     await playersTableModel.write(player);
   },
 
   async removePoints(id: string, pointsToRemove: number) {
     const player = await playersTableModel.get(id);
-
-    // check to make sure player has enough points
+    if (player.points === undefined)
+      player.points = 0;
     if (player.points < pointsToRemove) {
       throw new Error('Insufficent points');
     }
-
     player.points -= pointsToRemove;
     await playersTableModel.write(player);
 
@@ -62,13 +67,21 @@ export const playersTableModel = {
 
   async removeFreeplay(id: string, freeplayToRemove: number) {
     const player = await playersTableModel.get(id);
+    if (player.freeplay === undefined)
+      player.freeplay = 0;
+    if (player.freeplay < freeplayToRemove) {
+      throw new Error('Insufficient freeplay');
+    }
     player.freeplay -= freeplayToRemove;
     await playersTableModel.write(player);
   },
 
   async addFreeplay(id: string, freeplayToAdd: number) {
     const player = await playersTableModel.get(id);
-    player.freeplay += freeplayToAdd;
+    if (player.freeplay === undefined)
+      player.freeplay = freeplayToAdd;
+    else
+      player.freeplay += freeplayToAdd;
     await playersTableModel.write(player);
   },
 
