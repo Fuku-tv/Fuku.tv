@@ -177,8 +177,8 @@ export class Player {
       else
         this.credits = player.credits;
       if (player.freeplay === undefined) {
-        playersTableModel.addFreeplay(this.userdata.email, 10).then(() => {});
-        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
+        await playersTableModel.addFreeplay(this.userdata.email, 10);
+        await playersTableModel.updateLastFreeplayDate(this.userdata.email);
         this.freeplay = 10;
       }
       else
