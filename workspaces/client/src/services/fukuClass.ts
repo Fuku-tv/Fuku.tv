@@ -212,7 +212,7 @@ class Fuku {
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.prizeget:
-        console.log('WINNERR', cmd.pointswon);
+        console.log('WINNER', cmd.pointswon);
         this.setPoints(cmd.points);
         if (cmd.jackpot === true) {
           console.log('JACKPOT WINNER');

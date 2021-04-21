@@ -24,6 +24,7 @@
     "build": "lerna run build",
     "build:client": "yarn workspace fuku.tv-client build",
     "build:server": "yarn workspace fuku.tv-server build",
+    "build:iot": "yarn workspace fuku.tv-iot build",
     "update": "yarn upgrade-interactive --latest",
     "assemble": "lerna run assemble",
     "prepare": "husky install"

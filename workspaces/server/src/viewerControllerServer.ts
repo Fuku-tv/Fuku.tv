@@ -57,7 +57,7 @@ export class ControllerServer {
 
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
-      //logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
+      // logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open.`);
       this.players.push(clientPlayer);
       this.updateGameStats();
@@ -104,7 +104,7 @@ export class ControllerServer {
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
+              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
             });
             break;
           case constants.PlayerCommand.logout:
@@ -188,7 +188,12 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 100;
             else pointsWon = 50;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot });
+          this.currentPlayer.send({
+            command: constants.PlayerCommand.prizeget,
+            points: this.currentPlayer.points + pointsWon,
+            pointswon: pointsWon,
+            jackpot,
+          });
           this.currentPlayer.addPoints(pointsWon);
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;
