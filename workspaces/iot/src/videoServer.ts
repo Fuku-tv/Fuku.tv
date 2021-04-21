@@ -120,7 +120,6 @@ function setupVideoServer(id: number) {
   logger.log(LogLevel.info, `setupVideoServer id: ${id}`);
   ffmpegServerArray[id] = spawn('ffmpeg', ffmpegConfigArray[id], {detached: true, shell: true});
   ffmpegServerArray[id].stderr.on('data', () => { }); // ffmpeg outputs to stderr, get it out of the buffer or ffmpeg pauses b/c full stderr buffer
-  ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegServerArray[id].on('error', (code: any) => {
     console.log(`ffmpeg error: ${code}`);
     swapVideoState(id, constants.VideoState.inactive); });
