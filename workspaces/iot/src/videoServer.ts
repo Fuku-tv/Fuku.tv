@@ -59,6 +59,7 @@ function initalizeFfmpegArray(id: number = -1) {
   for (var i = istart; i < iend; i++) {
     logger.log(LogLevel.info, `initalizeFfmpegArray i: ${i}`);
     logger.log(LogLevel.info, `initalizeFfmpegArray input_device: ${ffmpegArgs['input_device' + i]}`);
+    /*
     ffmpegConfigArray[i] = [
       '-loglevel', ffmpegArgs.loglevel,
       '-f', ffmpegArgs.input_format,
@@ -79,6 +80,21 @@ function initalizeFfmpegArray(id: number = -1) {
       '/home/pi/out'+i+'.mp4'
       //'-' // pipes to stdout
     ];
+    */
+    ffmpegConfigArray[i] = [
+     '-loglevel', ffmpegArgs.loglevel,
+     '-video_size', ffmpegArgs.input_dimensions,
+     '-i', ffmpegArgs['input_device'+i],
+     '-c:v', ffmpegArgs.video_codec,
+     '-b:v', ffmpegArgs.video_bitrate,
+     '-bufsize', ffmpegArgs.buffersize,
+     '-vprofile', ffmpegArgs.video_profile,
+     '-preset', ffmpegArgs.video_preset,
+     '-tune', ffmpegArgs.video_tune,
+     '-an',
+     '-f', ffmpegArgs.output_format,
+     '-'
+   ];
   }
 }
 
