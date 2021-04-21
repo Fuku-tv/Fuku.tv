@@ -98,7 +98,7 @@ export class ControllerServer {
             this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 1280, 720);
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
