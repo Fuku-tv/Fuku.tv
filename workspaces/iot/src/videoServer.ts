@@ -120,7 +120,7 @@ function setupVideoReader(id: number) {
   });
 }
 
-function swapVideoState(id: number, state: constants.VideoState) {
+function swapVideoState(id: number, state: any) {
   ffmpegStateArray[id] = state;
 }
 
