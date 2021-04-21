@@ -7,7 +7,7 @@
     "input_device0": "/dev/video0",
     "input_device1": "/dev/video2",
     "seek": "00:00:05",
-    "pix_fmt": "yuv420p",
+    "pix_fmt": "mjpg",
     "video_codec": "libx264",
     "video_bitrate": "1200k",
     "buffersize": "2400k",

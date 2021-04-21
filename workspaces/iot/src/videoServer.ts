@@ -83,6 +83,7 @@ function initalizeFfmpegArray(id: number = -1) {
     */
     ffmpegConfigArray[i] = [
      '-loglevel', ffmpegArgs.loglevel,
+     '-f', ffmpegArgs.input_format,
      '-video_size', ffmpegArgs.input_dimensions,
      '-i', ffmpegArgs['input_device'+i],
      '-c:v', ffmpegArgs.video_codec,
