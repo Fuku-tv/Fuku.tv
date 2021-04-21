@@ -30,11 +30,11 @@ const gameSlice = createSlice({
     gamestats(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
-        credits: action.payload.credits,
-        points: action.payload.points,
-        freeplay: action.payload.freeplay,
-        queue: action.payload.queue,
-        watch: action.payload.watch,
+        credits: action.payload.credits || state.credits,
+        points: action.payload.points || state.points,
+        freeplay: action.payload.freeplay || state.freeplay,
+        queue: action.payload.queue || state.queue,
+        watch: action.payload.watch || state.queue,
       };
     },
     setTime(state, action: PayloadAction<typeof initialState>) {
