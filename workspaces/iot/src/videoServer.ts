@@ -25,7 +25,7 @@ const config = new ConfigManager('/etc/fuku/config.json', configUpdate);
 
 var ffmpegArgs = config.get('ffmpegArgs');
 var ffmpegInstances = config.get('ffmpegInstances');
-var videoPortStart = config.get('videoPortStart');
+var videoPortArray = [];
 var ffmpegServerArray = [];
 var ffmpegReaderArray = [];
 var ffmpegConfigArray = [];
@@ -33,11 +33,16 @@ var ffmpegStateArray = [];
 var wssArray = [];
 var serverArray = [];
 
-function configUpdate() {
-  ffmpegArgs = config.get('ffmpegArgs');
+function initalizeConfig() {
   ffmpegInstances = config.get('ffmpegInstances');
-  videoPortStart = config.get('videoPortStart');
+  ffmpegArgs = config.get('ffmpegArgs');
+  for (var i = 0; i < ffmpegInstances; i++)
+    videoPortArray[i] = config.get('videoPort' + i);
   initalizeFfmpegArray();
+}
+
+function configUpdate() {
+  initalizeConfig();
   logger.log(LogLevel.info, 'Config changed, respawning ffmpeg.');
   for (var i = 0; i < ffmpegInstances; i++)
     if (ffmpegServerArray[i] !== null && ffmpegServerArray[i] !== undefined)
@@ -78,9 +83,9 @@ function initalizeFfmpegArray(id: number = -1) {
 function initalizeWSSArray() {
   logger.log(LogLevel.info, `initalizeWSSArray instances: ${ffmpegInstances}`);
   for (var i = 0; i < ffmpegInstances; i++) {
-    logger.log(LogLevel.info, `initalizeWSSArray videoPort: ${videoPortStart + i}`);
+    logger.log(LogLevel.info, `initalizeWSSArray videoPort: ${videoPortArray[i]}`);
     wssArray[i] = new ws.Server({noServer: true });
-    serverArray[i] = app.listen(videoPortStart + i);
+    serverArray[i] = app.listen(videoPortArray[i]);
     serverArray[i].on('upgrade', (request: any, socket: any, header: any) => {
       wssArray[i].handleUpgrade(request, socket, header, (socket: any) => {
         wssArray[i].emit('connection', socket, request);
@@ -134,6 +139,7 @@ function swapVideoState(id: number, state: any) {
   ffmpegStateArray[id] = state;
 }
 
+initalizeConfig();
 initalizeFfmpegArray();
 initalizeWSSArray();
 initalizeVideoServer();
