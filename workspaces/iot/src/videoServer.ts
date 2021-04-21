@@ -45,10 +45,14 @@ function configUpdate() {
 }
 
 function initalizeFfmpegArray(id: number = -1) {
-  // repeat code sucks
   var istart = (id === -1) ? 0 : id;
   var iend = (id === -1) ? ffmpegInstances : id + 1;
+
+  logger.log(LogLevel.info, `initalizeFfmpegArray id: ${id}`);
+
   for (var i = istart; i < iend; i++) {
+    logger.log(LogLevel.info, `initalizeFfmpegArray i: ${i}`);
+    logger.log(LogLevel.info, `initalizeFfmpegArray input_device: ${ffmpegArgs['input_device' + i]}`);
     ffmpegConfigArray[i] = [
       '-loglevel', ffmpegArgs.loglevel,
       '-f', ffmpegArgs.input_format,
@@ -72,7 +76,9 @@ function initalizeFfmpegArray(id: number = -1) {
 }
 
 function initalizeWSSArray() {
+  logger.log(LogLevel.info, `initalizeWSSArray instances: ${ffmpegInstances}`);
   for (var i = 0; i < ffmpegInstances; i++) {
+    logger.log(LogLevel.info, `initalizeWSSArray videoPort: ${videoPortStart + i}`);
     wssArray[i] = new ws.Server({noServer: true });
     serverArray[i] = app.listen(videoPortStart + i);
     serverArray[i].on('upgrade', (request: any, socket: any, header: any) => {
@@ -84,6 +90,7 @@ function initalizeWSSArray() {
 }
 
 function initalizeVideoServer(id: any = -1) {
+  logger.log(LogLevel.info, `initalizeVideoServer id: ${id}`);
   if (id > -1) {
     setupVideoServer(id);
     setupVideoReader(id);
@@ -98,6 +105,7 @@ function initalizeVideoServer(id: any = -1) {
 }
 
 function setupVideoServer(id: number) {
+  logger.log(LogLevel.info, `setupVideoServer id: ${id}`);
   ffmpegServerArray[id] = spawn('ffmpeg', ffmpegConfigArray[id]);
   ffmpegServerArray[id].stderr.on('data', () => { }); // ffmpeg outputs to stderr, get it out of the buffer or ffmpeg pauses b/c full stderr buffer
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
@@ -112,6 +120,7 @@ function setupVideoServer(id: number) {
 }
 
 function setupVideoReader(id: number) {
+  logger.log(LogLevel.info, `setupVideoReader id: ${id}`);
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegReaderArray[id].on('data', (data: any) => {
     wssArray[id].clients.forEach((socket: any) => {
@@ -124,10 +133,6 @@ function swapVideoState(id: number, state: any) {
   ffmpegStateArray[id] = state;
 }
 
-function main() {
-  initalizeFfmpegArray();
-  initalizeWSSArray();
-  initalizeVideoServer();
-}
-
-main();
+initalizeFfmpegArray();
+initalizeWSSArray();
+initalizeVideoServer();
