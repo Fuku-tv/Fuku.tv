@@ -76,7 +76,8 @@ function initalizeFfmpegArray(id: number = -1) {
       '-g', ffmpegArgs.gop,
       '-an', // no audio
       '-f', ffmpegArgs.output_format,
-      '-' // pipes to stdout
+      'out'+i+'.mp4'
+      //'-' // pipes to stdout
     ];
   }
 }
