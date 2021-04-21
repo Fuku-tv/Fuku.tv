@@ -30,7 +30,8 @@ var ffmpegServerArray = [];
 var ffmpegReaderArray = [];
 var ffmpegConfigArray = [];
 var ffmpegStateArray = [];
-var wss = null;
+//var wss = null;
+var wssArray = [];
 var serverArray = [];
 
 function initalizeConfig() {
@@ -81,11 +82,15 @@ function initalizeFfmpegArray(id: number = -1) {
 }
 
 function initalizeServerArray() {
-  logger.log(LogLevel.info, `initalizeWSSArray instances: ${ffmpegInstances}`);
-  wss = new ws.Server({noServer: true });
+  logger.log(LogLevel.info, `initalizeServerArray instances: ${ffmpegInstances}`);
+  //wss = new ws.Server({noServer: true });
   for (var i = 0; i < ffmpegInstances; i++) {
-    logger.log(LogLevel.info, `initalizeWSSArray videoPort: ${videoPortArray[i]}`);
+    logger.log(LogLevel.info, `initalizeServerArray videoPort: ${videoPortArray[i]}`);
+    wssArray[i] = new ws.Server({noServer: true });
+    logger.log(LogLevel.info, `new ws.Server`);
+    logger.log(LogLevel.info, `${wssArray[i]}`);
     serverArray[i] = app.listen(videoPortArray[i]);
+    let wss = wssArray[i];
     serverArray[i].on('upgrade', (request: any, socket: any, header: any) => {
       wss.handleUpgrade(request, socket, header, (socket: any) => {
         wss.emit('connection', socket, request);
@@ -129,7 +134,7 @@ function setupVideoReader(id: number) {
   logger.log(LogLevel.info, `setupVideoReader id: ${id}`);
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegReaderArray[id].on('data', (data: any) => {
-    wss.clients.forEach((socket: any) => {
+    wssArray[id].clients.forEach((socket: any) => {
       socket.send(Buffer.concat([NAL, data]), {binary: true});
     });
   });
