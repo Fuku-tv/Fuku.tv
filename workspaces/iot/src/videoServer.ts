@@ -121,10 +121,10 @@ function setupVideoServer(id: number) {
   ffmpegServerArray[id] = spawn('ffmpeg', ffmpegConfigArray[id], {detached: true, shell: true});
   ffmpegServerArray[id].stderr.on('data', () => { }); // ffmpeg outputs to stderr, get it out of the buffer or ffmpeg pauses b/c full stderr buffer
   ffmpegServerArray[id].on('error', (code: any) => {
-    console.log(`ffmpeg error: ${code}`);
+    logger.log(LogLevel.error, `ffmpeg error: ${code}`);
     swapVideoState(id, constants.VideoState.inactive); });
   ffmpegServerArray[id].on('exit', (code: any) => {
-    console.log(`ffmpeg exit: ${code}`);
+    logger.log(LogLevel.error, `ffmpeg exit: ${code}`);
     swapVideoState(id, constants.VideoState.inactive); });
   ffmpegServerArray[id].on('close', (code: any) => {
     logger.log(LogLevel.info, `ffmpeg closed: ${code}`);
@@ -139,7 +139,6 @@ function setupVideoReader(id: number) {
   logger.log(LogLevel.info, `setupVideoReader id: ${id}`);
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegReaderArray[id].on('data', (data: any) => {
-    console.log(data);
     wssArray[id].clients.forEach((socket: any) => {
       socket.send(Buffer.concat([NAL, data]), {binary: true});
     });
