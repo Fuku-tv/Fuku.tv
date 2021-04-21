@@ -1,13 +1,12 @@
 import WS from 'ws';
 import http from 'http';
 import crypto from 'crypto';
-import { LogLevel, LoggerClass, constants, Command } from 'fuku.tv-shared';
+import { LogLevel, LoggerClass, constants, Command, env } from 'fuku.tv-shared';
 import Viewer from './viewer';
 
 const logger = new LoggerClass('viewerVideoServer');
 
-const uriVideo1 = 'ws://96.61.12.109:10778';
-const uriVideo2 = 'ws://96.61.12.109:10779';
+const [uriVideo1, uriVideo2] = env.piVideoURL();
 
 export class VideoServer {
   viewers: Viewer[] = [];
