@@ -2,6 +2,7 @@
   "extends": ["@parcel/config-default","parcel-config-pwa-manifest"],
   "reporters":  ["...","parcel-reporter-static-files-copy"],
   "transformers": {
-    "*.{jpg,png,svg}": ["@parcel/transformer-raw"]
+    "*.{jpg,png,svg}": ["@parcel/transformer-raw"],
+    "*.{ts,tsx}": ["@parcel/transformer-typescript-tsc"]
   }
 }
