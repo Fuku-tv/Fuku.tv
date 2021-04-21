@@ -92,7 +92,9 @@ function initalizeServerArray() {
     serverArray[i] = app.listen(videoPortArray[i]);
     let wss = wssArray[i];
     serverArray[i].on('upgrade', (request: any, socket: any, header: any) => {
+      logger.log(LogLevel.info, `upgrade1`);
       wss.handleUpgrade(request, socket, header, (socket: any) => {
+        logger.log(LogLevel.info, `upgrade2`);
         wss.emit('connection', socket, request);
       });
     });
@@ -116,7 +118,7 @@ function initalizeVideoServer(id: any = -1) {
 
 function setupVideoServer(id: number) {
   logger.log(LogLevel.info, `setupVideoServer id: ${id}`);
-  ffmpegServerArray[id] = spawn('ffmpeg', ffmpegConfigArray[id]);
+  ffmpegServerArray[id] = spawn('ffmpeg', ffmpegConfigArray[id], {detached: true, shell: true});
   ffmpegServerArray[id].stderr.on('data', () => { }); // ffmpeg outputs to stderr, get it out of the buffer or ffmpeg pauses b/c full stderr buffer
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegServerArray[id].on('error', (code: any) => { swapVideoState(id, constants.VideoState.inactive); });
