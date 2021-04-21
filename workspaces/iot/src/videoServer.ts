@@ -136,6 +136,7 @@ function setupVideoReader(id: number) {
   logger.log(LogLevel.info, `setupVideoReader id: ${id}`);
   ffmpegReaderArray[id] = ffmpegServerArray[id].stdout.pipe(new splitter(NAL));
   ffmpegReaderArray[id].on('data', (data: any) => {
+    console.log(data);
     wssArray[id].clients.forEach((socket: any) => {
       socket.send(Buffer.concat([NAL, data]), {binary: true});
     });
