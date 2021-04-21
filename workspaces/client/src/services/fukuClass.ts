@@ -54,7 +54,7 @@ class Fuku {
     const canvas = canvasRef;
     this.liveplayer = new WSAvcPlayer(canvas, 'webgl');
     this.liveplayer.connect(FUKU_URL_VIDEO);
-    this.liveplayer.initCanvas(1280, 720);
+    this.liveplayer.initCanvas(800, 480);
     console.log('starting video');
     // this.getAllChatMessages();
   }

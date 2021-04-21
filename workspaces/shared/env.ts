@@ -90,7 +90,8 @@ export const piControllerURL = (): string => {
 export const piVideoURL = (): [string, string] => {
   if (process.env.EB_ENVIRONMENT !== 'production' || process.env.LAMBDA_ENV !== 'prod') {
     // Dev Environment
-    return ['ws://96.61.12.109:10781', 'ws://96.61.12.109:10782'];
+    // return ['ws://96.61.12.109:10781', 'ws://96.61.12.109:10782'];
+    return ['ws://96.61.12.109:10778', 'ws://96.61.12.109:10779'];
   }
   // Prod Environment
   // TODO get production URL from elasticache
