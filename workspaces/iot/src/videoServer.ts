@@ -112,6 +112,7 @@ function setupVideoServer(id: number) {
   ffmpegServerArray[id].on('error', (code: any) => { swapVideoState(id, constants.VideoState.inactive); });
   ffmpegServerArray[id].on('exit', (code: any) => { swapVideoState(id, constants.VideoState.inactive); });
   ffmpegServerArray[id].on('close', (code: any) => {
+    logger.log(LogLevel.info, `ffmpeg closed: ${code}`);
     swapVideoState(id, constants.VideoState.inactive);
     setTimeout(() => {
       initalizeVideoServer(id);
