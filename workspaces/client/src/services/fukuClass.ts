@@ -90,6 +90,8 @@ class Fuku {
           })
         );
 
+        this.toggleCameraDirection();
+
         break;
 
       // all other messages
@@ -302,6 +304,12 @@ class Fuku {
       payload: {
         pointsWon: points,
       },
+    });
+  }
+
+  private toggleCameraDirection() {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/toggleCameraDirection',
     });
   }
 
