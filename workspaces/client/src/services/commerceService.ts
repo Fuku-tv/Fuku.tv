@@ -21,7 +21,6 @@ import Axios from 'axios';
 
 export const getPrices = async (): Promise<Stripe.Price[]> => {
   const STRIPE_API_SECRET = await secrets.stripeApiSecret();
-  console.log(STRIPE_API_SECRET);
   const StripeAPI = Axios.create({
     baseURL: 'https://api.stripe.com',
     headers: {

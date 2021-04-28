@@ -94,7 +94,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   } catch (error) {
     // add points back in case of an gift card error
     // playersTableModel.addPoints(email, giftCard.pointCost);
-    return Responses.badRequest({ message: JSON.stringify(error) });
+    return Responses.badRequest(JSON.stringify(error));
   }
 };
 
