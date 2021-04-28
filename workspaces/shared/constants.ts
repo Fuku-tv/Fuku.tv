@@ -13,7 +13,7 @@ const PlayerCommand = {
   logout: 'logout',
   register: 'register',
   swapvideo: 'swapvideo',
-  gamestats: 'gamestats', // viewers, queue count, credits
+  gamestats: 'gamestats', // viewers, queue count, freeplay  credits
   gamestandby: 'gamestandby',
   gamestart: 'gamestart',
   gameplay: 'gameplay',

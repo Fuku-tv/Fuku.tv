@@ -90,6 +90,8 @@ class Fuku {
           })
         );
 
+        this.toggleCameraDirection();
+
         break;
 
       // all other messages
@@ -212,7 +214,7 @@ class Fuku {
         this.setGameStatus(cmd.command);
         break;
       case PlayerCommand.prizeget:
-        console.log('WINNERR', cmd.pointswon);
+        console.log('WINNER', cmd.pointswon);
         this.setPoints(cmd.points);
         if (cmd.jackpot === true) {
           console.log('JACKPOT WINNER');
@@ -302,6 +304,12 @@ class Fuku {
       payload: {
         pointsWon: points,
       },
+    });
+  }
+
+  private toggleCameraDirection() {
+    this.uglyHackStore.dispatch({
+      type: 'GAME/toggleCameraDirection',
     });
   }
 

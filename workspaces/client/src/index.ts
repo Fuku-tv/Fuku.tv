@@ -10,16 +10,6 @@ interface HotModule {
   };
 }
 
-// force uninstall obsolete service worker
-window.addEventListener(`load`, () => {
-  // unregister all service workers
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    for (const registration of registrations) {
-      registration.unregister();
-    }
-  });
-});
-
 if ((module as HotModule).hot) {
   (module as HotModule).hot.accept();
 }

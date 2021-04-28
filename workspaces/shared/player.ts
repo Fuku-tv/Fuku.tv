@@ -40,7 +40,7 @@ export class Player {
 
   video: any = constants.Video.front;
 
-  uid: string = '';
+  uid = '';
 
   ipAddr: any;
 
@@ -56,10 +56,16 @@ export class Player {
       this.send({ keepalive: Date.now() });
       if (this.isLoggedIn === false) return;
       if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
-        this.freeplay += 5;
-        this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
-        playersTableModel.addFreeplay(this.userdata.email, 2).then(() => {});
-        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {});
+        playersTableModel.addFreeplay(this.userdata.email, 5).then(() => {
+          this.freeplay += 5;
+          this.send({
+            command: constants.PlayerCommand.gamestats,
+            freeplay: this.freeplay,
+          });
+        });
+        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {
+          this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
+        });
       }
     }, 10000);
   }
@@ -85,7 +91,7 @@ export class Player {
     this.isLoggedIn = true;
     this.send({
       command: 'debug',
-      debug: this.lastfreeplaydate
+      debug: this.lastfreeplaydate,
     });
   }
 
@@ -103,7 +109,7 @@ export class Player {
   }
 
   sendDebug(data: any): void {
-    if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify({command: 'debug', debug: data}));
+    if (this.socket !== null && this.socket !== undefined) this.socket.send(JSON.stringify({ command: 'debug', debug: data }));
   }
 
   resetTimers(): void {
@@ -166,22 +172,17 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
-      if (player.points === undefined)
-        this.points = 0;
-      else
-        this.points = player.points;
-      if (player.credits === undefined)
-        this.credits = 0;
-      else
-        this.credits = player.credits;
-      if (player.freeplay === undefined)
-        this.freeplay = 0;
-      else
-        this.freeplay = player.freeplay;
-      if (player.lastfreeplaydate === undefined)
-        this.lastfreeplaydate = 0;
-      else
-        this.lastfreeplaydate = player.lastfreeplaydate;
+      if (player.points === undefined) this.points = 0;
+      else this.points = player.points;
+      if (player.credits === undefined) this.credits = 0;
+      else this.credits = player.credits;
+      if (player.freeplay === undefined) {
+        await playersTableModel.addFreeplay(this.userdata.email, 10);
+        await playersTableModel.updateLastFreeplayDate(this.userdata.email);
+        this.freeplay = 10;
+      } else this.freeplay = player.freeplay;
+      if (player.lastfreeplaydate === undefined) this.lastfreeplaydate = 0;
+      else this.lastfreeplaydate = player.lastfreeplaydate;
       this.uid = player.id;
     } catch {
       // no player found, creating new player

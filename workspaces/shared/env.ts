@@ -1,5 +1,3 @@
-import { getSecrets, Secrets } from 'fuku.tv-shared/secrets';
-
 export const fukuControllerServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
@@ -79,81 +77,23 @@ export const amazonGiftCardURL = (): string => {
   return 'agcod-v2.amazon.com';
 };
 
-export const stripeApiKey = (): string => {
-  let value: string;
-  // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    return process.env.STRIPE_API_KEY;
-    // getSecrets().then((data) => {
-    //   value = data.STRIPE_API_KEY;
-    // });
-    // return value;
+export const piControllerURL = (): string => {
+  if (process.env.EB_ENVIRONMENT !== 'production' || process.env.LAMBDA_ENV !== 'prod') {
+    // Dev Environment
+    return 'ws://96.61.12.109:10777';
   }
-  // return default test key
-  return 'pk_test_51HxGG6Gx8BmO5evBcDbYjClczRZa0rC96ZiA3ZFyn5ErewXeH2TgAs9cseKW6mT1mMpfRepbtbXEgrPEWovaHbn100wlrLXvff';
+  // Prod Environment
+  // TODO get production URL from elasticache
+  return 'ws://96.61.12.109:10777';
 };
 
-export const stripeApiSecret = (): string => {
-  let value: string;
-  // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    // return process.env.STRIPE_API_SECRET;
-    // getSecrets().then((data) => {
-    //   value = data.STRIPE_API_SECRET;
-    // });
-    // return value;
-    return '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';
+export const piVideoURL = (): [string, string] => {
+  if (process.env.EB_ENVIRONMENT !== 'production' || process.env.LAMBDA_ENV !== 'prod') {
+    // Dev Environment
+    // return ['ws://96.61.12.109:10781', 'ws://96.61.12.109:10782'];
+    return ['ws://96.61.12.109:10778', 'ws://96.61.12.109:10779'];
   }
-
-  // return test secret
-  return 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9';
+  // Prod Environment
+  // TODO get production URL from elasticache
+  return ['ws://96.61.12.109:10778', 'ws://96.61.12.109:10779'];
 };
-
-export const stripeWebhookSecret = (): string => {
-  let value: string;
-
-  // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    // getSecrets().then((data) => {
-    //   value = data.STRIPE_WEBHOOK_SECRET;
-    // });
-    // return value;
-
-    return 'whsec_wEti55fBXOdPv34e9RHdzEcLDuufuBJv';
-  }
-  // return test secret
-  return 'whsec_HBf2DDCg0jGYhdrJ4smIGkDUuFAZ8Wd8';
-};
-
-export const amazonGiftCardKey = (): string => {
-  let value: string;
-
-  // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    // getSecrets().then((data) => {
-    //   value = data.AMAZON_GIFTCARD_KEY;
-    // });
-    // return value;
-    return 'AKIAZUTR4R2X6527A5VZ';
-  }
-  // return test secret
-  return 'AKIAWWFS6UKLIFJK3XO4';
-};
-
-export const amazonGiftCardSecret = (): string => {
-  let value: string;
-
-  // check for live key in ENV
-  if (process.env.EB_ENVIRONMENT === 'production' || process.env.LAMBDA_ENV === 'prod') {
-    // getSecrets().then((data) => {
-    //   value = data.AMAZON_GIFTCARD_SECRET;
-    // });
-    // return value;
-    return 'UeBUTm+WhYBubN8aweZwm+PTLR4SZhCxUjWRjZYu';
-  }
-  // return test secret
-  return '/F4WVa8cJAmEyGedETdQiDYCclV/yULb5tlKjgmw';
-};
-
-// TODO WIP
-const getSecret = (key: keyof Secrets): string => 'test';

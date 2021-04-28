@@ -18,7 +18,7 @@ const SwitchCameraButton: React.FC = () => {
   );
   return (
     <div className="switch-camera-button-container">
-      <button onClick={actions.toggleCamera} id="btnCamera" onPointerDown={() => actions.buttonDownEvent('swapvideo')} data-type="swapvideo">
+      <button id="btnCamera" onPointerDown={() => actions.buttonDownEvent('swapvideo')} data-type="swapvideo">
         {cameraSwapIcon}
       </button>
     </div>

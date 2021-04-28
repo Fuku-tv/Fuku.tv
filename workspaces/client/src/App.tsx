@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { isMobile } from 'react-device-detect';
 import './App.scss';
-// workaround for react-awesome-button css import bug
-import './styles.css';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import CookieConsent from 'react-cookie-consent';
 import { useAuthState } from 'src/state/hooks';

@@ -109,11 +109,6 @@ const StoreTabPrizes: React.FC = () => {
     </div>
   );
 
-  React.useEffect(() => {
-    console.log('prize', prizeState.state.giftCardList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <>
       <Modal className="store-modal" onCancel={closeErrorModalHandler} show={errorModalActive}>

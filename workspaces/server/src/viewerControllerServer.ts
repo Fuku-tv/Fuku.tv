@@ -8,9 +8,7 @@ import * as redis from 'redis';
 
 const logger = new LoggerClass('viewerServer');
 
-const uriController = 'ws://96.61.12.109';
-
-const portController = 10777;
+const URI_CONTROLLER = env.piControllerURL();
 
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -57,7 +55,7 @@ export class ControllerServer {
 
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
-      //logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
+      // logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open.`);
       this.players.push(clientPlayer);
       this.updateGameStats();
@@ -100,11 +98,11 @@ export class ControllerServer {
             this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 1280, 720);
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa'
+              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
             });
             break;
           case constants.PlayerCommand.logout:
@@ -152,9 +150,9 @@ export class ControllerServer {
 
   connectController() {
     // us->controller
-    logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
+    logger.log(LogLevel.info, `Connecting controller ${URI_CONTROLLER}`);
 
-    this.clientController = new WS(`${uriController}:${portController}`);
+    this.clientController = new WS(URI_CONTROLLER);
 
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
@@ -188,7 +186,12 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 100;
             else pointsWon = 50;
           }
-          this.currentPlayer.send({ command: constants.PlayerCommand.prizeget, points: this.currentPlayer.points, pointswon: pointsWon, jackpot });
+          this.currentPlayer.send({
+            command: constants.PlayerCommand.prizeget,
+            points: this.currentPlayer.points + pointsWon,
+            pointswon: pointsWon,
+            jackpot,
+          });
           this.currentPlayer.addPoints(pointsWon);
           logger.log(LogLevel.info, `${this.currentPlayer.uid} - prizeget, ${pointsWon} points`);
           break;

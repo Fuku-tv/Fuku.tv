@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import './PlayerLevel.scss';
+import * as styles from './PlayerLevel.module.scss';
 import { levels } from './playerLevels';
 
 const PlayerLevel: React.FC = () => {
@@ -36,7 +36,7 @@ const PlayerLevel: React.FC = () => {
   //   </div>
   // );
   return (
-    <div className="player-level-container">
+    <div className={styles.CircularProgressbar}>
       <CircularProgressbar
         styles={buildStyles({
           // Rotation of path and trail, in number of turns (0-1)

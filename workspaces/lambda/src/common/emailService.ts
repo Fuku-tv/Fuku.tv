@@ -1,6 +1,8 @@
 import * as AWS from 'aws-sdk';
 
-const ses = new AWS.SESV2();
+const ses = new AWS.SESV2({
+  region: 'us-east-1',
+});
 const charset = 'UTF-8';
 
 export const sendEmail = async (sender: string, recipient: string, subject = 'NULL SUBJECT', body = 'NULL_BODY'): Promise<void> => {
@@ -30,7 +32,12 @@ export const sendEmail = async (sender: string, recipient: string, subject = 'NU
     },
   };
 
-  await ses.sendEmail(params).promise();
+  try {
+    const test = await ses.sendEmail(params).promise();
+    console.log('Email Response: ', test);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default sendEmail;
