@@ -15,21 +15,22 @@ const NavLinks: React.FC = () => {
   const stats = (
     <div className="profile-link__stats-container">
       <div className="stat-wrapper">
-        <div className="icon">{credit}</div>
         <div className="text-wrapper">
-          <div className="value">16</div>
+          <div className="value">{gameState.state.points}</div>
           <div className="description">Total Points</div>
         </div>
       </div>
       <div id="credits" className="stat-wrapper">
         <div className="icon">{credit}</div>
-        <div className="text-wrapper">
-          <div className="value">{gameState.state.credits}</div>
-          <div className="description">Credits</div>
-        </div>
-        <div className="text-wrapper">
-          <div className="value">{gameState.state.freeplay}</div>
-          <div className="description">Freeplay</div>
+        <div className="game-plays-container">
+          <div className="text-wrapper">
+            <div className="value">{gameState.state.credits}</div>
+            <div className="description">Credits</div>
+          </div>
+          <div className="text-wrapper">
+            <div className="value">{gameState.state.freeplay}</div>
+            <div className="description">Freeplay</div>
+          </div>
         </div>
       </div>
     </div>
