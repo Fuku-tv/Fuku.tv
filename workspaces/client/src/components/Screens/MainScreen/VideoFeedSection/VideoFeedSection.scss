@@ -15,23 +15,31 @@
   }
   .video-feed__information-container {
     position: absolute;
-    bottom: -14px;
+    bottom: 0px;
     background: var(--gold);
     color: #191919;
     left: 50%;
     padding: 3px;
-    width: 100%;
+    width: 92%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    max-width: 185px;
+    justify-content: space-between;
+    max-width: 315px;
     transform: translateX(-50%);
     box-shadow: 0 0 4px 0px #191919ad;
-    border-radius: 4px;
-    .freeplay-credits {
-      // margin-left: 8px;
-      // padding-left: 8px;
-      // border-left: 1px solid rgba(255, 255, 255, 0.461);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    line-height: 12px;
+    z-index: 1111111111111111200;
+    padding: 8px 14px;
+    .game-plays-container {
+      display: flex;
+
+      .freeplay-credits {
+        margin-left: 10px;
+        padding-left: 10px;
+        border-left: 1px solid rgb(158 130 39);
+      }
     }
     .que-icon-wrapper,
     span {

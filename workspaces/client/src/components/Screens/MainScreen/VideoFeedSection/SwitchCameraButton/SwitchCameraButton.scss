@@ -24,3 +24,13 @@
     }
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .switch-camera-button-container button {
+    width: 36px !important;
+    height: 36px !important;
+    svg {
+      width: 14px !important;
+    }
+  }
+}
