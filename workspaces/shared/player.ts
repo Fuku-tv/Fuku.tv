@@ -12,17 +12,9 @@ export class Player {
 
   userdata: { email: string; nickname: string };
 
-  points = 0;
+  timePlay: number = 30100;
 
-  credits = 0;
-
-  freeplay = 0;
-
-  lastfreeplaydate: any = 0;
-
-  timePlay = 30100;
-
-  timeStandby = 60100;
+  timeStandby: number = 60100;
 
   playTimer: any = null;
 
@@ -30,23 +22,19 @@ export class Player {
 
   keepaliveTimer: any = null;
 
-  isPlaying = false;
+  isPlaying: boolean = false;
 
-  isLoggedIn = false;
+  isLoggedIn: boolean = false;
 
-  isQueued = false;
+  isQueued: boolean = false;
 
   gameState: any = constants.GameState.idle;
 
   video: any = constants.Video.front;
 
-  uid = '';
+  uid: string = '';
 
   ipAddr: any;
-
-  level = 1;
-
-  xp = 0;
 
   constructor(socket: ws, ip: any) {
     this.socket = socket;
@@ -144,6 +132,9 @@ export class Player {
     } else if (this.credits > 0) {
       this.credits -= 1;
       playersTableModel.removeCredits(this.userdata.email, 1);
+    } else {
+      // you don't have the freeplay or credits!
+      // need UI for this
     }
     this.gameState = constants.GameState.playing;
     this.playTimer = setTimeout(callback, this.timePlay);
