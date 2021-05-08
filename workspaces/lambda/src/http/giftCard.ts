@@ -44,11 +44,11 @@ const REGION = 'NA';
 
 const CURRENCY = 'USD';
 
-const createGiftCard = async (amount: number): Promise<string> => {
+const createGiftCard = async (amount: number, URL: string): Promise<string> => {
   const client = new Client({
     endpoint: {
       NA: {
-        host: env.amazonGiftCardURL(),
+        host: URL,
         region: 'us-east-1',
         countries: ['US', 'CA'],
       },
@@ -66,6 +66,7 @@ const createGiftCard = async (amount: number): Promise<string> => {
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage, identity } = event.requestContext;
+
   const res: Body = JSON.parse(event.body);
 
   // validate user
@@ -84,11 +85,19 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
     return Responses.badRequest({ message: 'prize not found in database' });
   }
 
+  // get dev or prod host endpoint depending on lambda stage
+  const URL =
+    stage === 'prod'
+      ? // production endpoint
+        'agcod-v2.amazon.com'
+      : // development endpoint
+        'agcod-v2-gamma.amazon.com';
+
   // deduct points and send customer redemption code
   try {
     await playersTableModel.removePoints(email, giftCard.pointCost);
     // TODO get gift card amount from request body
-    const claimCode = await createGiftCard(giftCard.amount);
+    const claimCode = await createGiftCard(giftCard.amount, URL);
     await sendEmail('support@fuku.tv', email, 'Fuku Prize Redemption', emailBody(giftCard.amount, claimCode));
     return Responses.ok({ message: `Prize redemption was successful, receipt email sent to ${email}` });
   } catch (error) {
