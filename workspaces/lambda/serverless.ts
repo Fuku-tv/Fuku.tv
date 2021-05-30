@@ -43,8 +43,6 @@ const serverlessConfiguration: Serverless = {
       events: [
         {
           schedule: {
-            name: 'update-freeplays',
-            description: 'Adds freeplays for all players on a fixed interval',
             rate: 'rate(4 hours)',
           },
         },
