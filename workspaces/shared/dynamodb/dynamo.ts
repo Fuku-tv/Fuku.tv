@@ -11,12 +11,12 @@ const Dynamo = {
    * @returns
    */
   async getList(tableName: string): Promise<string[]> {
-    const params: DocumentClient.QueryInput = {
+    const params: DocumentClient.ScanInput = {
       TableName: tableName,
       ProjectionExpression: 'id',
     };
 
-    const data = await documentClient.query(params).promise();
+    const data = await documentClient.scan(params).promise();
 
     if (!data || data.Count <= 0) {
       throw Error(`There was an error fetching the data list for ${tableName}`);
