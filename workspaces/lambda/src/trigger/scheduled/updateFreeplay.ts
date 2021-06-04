@@ -12,7 +12,7 @@ export const index: ScheduledHandler = async () => {
       console.log(`added ${FREEPLAY_COUNT} freeplay points to user ${id}`);
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
