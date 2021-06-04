@@ -10,10 +10,10 @@ const Dynamo = {
    * @param tableName
    * @returns
    */
-  async getList(tableName: string): Promise<string[]> {
+  async getList<T>(tableName: string, attributes: string[]): Promise<T[]> {
     const params: DocumentClient.ScanInput = {
       TableName: tableName,
-      ProjectionExpression: 'id',
+      ProjectionExpression: attributes.join(),
     };
 
     const data = await documentClient.scan(params).promise();
@@ -22,7 +22,7 @@ const Dynamo = {
       throw Error(`There was an error fetching the data list for ${tableName}`);
     }
 
-    return data.Items.map((x) => x.id);
+    return data.Items as T[];
   },
   async get<T>(id: string, tableName: string): Promise<T> {
     const params = {
