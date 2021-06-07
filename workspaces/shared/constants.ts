@@ -25,6 +25,7 @@ const PlayerCommand = {
   chatjoin: 'chatjoin',
   chatpart: 'chatpart',
   chatmessages: 'chatmessages',
+  freeplay: 'freeplay',
 };
 
 // commands sent to/from the pi
