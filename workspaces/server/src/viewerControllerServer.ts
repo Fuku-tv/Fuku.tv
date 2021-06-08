@@ -5,6 +5,9 @@ import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
 import * as redis from 'redis';
+import * as Discord from 'discord';
+
+const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -40,12 +43,22 @@ export class ControllerServer {
 
   progressiveJackpot = 10000;
 
+  discordClient: any = new Discord.Client();
+
   constructor(server: http.Server) {
     this.connectController();
 
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected');
       this.redisClient.flushdb();
+
+      this.discordClient.login(discord_token);
+      this.discordClient.on('message', (msg: any) => {
+        if (msg.content === 'ping') {
+          msg.channel.send('pong');
+          msg.channel.send('channel: ' + msg.channel);
+        }
+      });
     });
 
     // client->us
@@ -57,6 +70,11 @@ export class ControllerServer {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
       // logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open. id: ${clientPlayer.uid}`);
       logger.log(LogLevel.info, `${clientPlayer.ipAddr} - socket open.`);
+      clientPlayer.send({
+        command: constants.PlayerCommand.chatmsg,
+        user: 'System Message',
+        chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
+      });
       this.players.push(clientPlayer);
       this.updateGameStats();
 
