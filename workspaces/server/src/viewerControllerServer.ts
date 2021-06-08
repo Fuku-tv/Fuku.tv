@@ -55,9 +55,10 @@ export class ControllerServer {
       this.redisClient.flushdb();
 
       this.discordClient.login(discord_token);
-      this.discordClient.on('message', (msg) => {
+      this.discordClient.on('message', (msg: any) => {
         if (msg.content === 'ping') {
-          msg.reply('pong');
+          msg.channel.send('pong');
+          msg.channel.send('channel: ' + msg.channel);
         }
       });
     });
