@@ -10,6 +10,7 @@ import { getClient } from 'fuku.tv-shared/secrets';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';
+import { DiscordBot } from './discordBot';
 
 const STAGE = getStage();
 
@@ -75,3 +76,4 @@ videoHttpsServer.listen(10889);
 
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
+const discord = new DiscordBot();

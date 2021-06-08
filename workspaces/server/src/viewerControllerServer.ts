@@ -5,13 +5,12 @@ import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
 import * as redis from 'redis';
-import * as Discord from 'discord';
-
-const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 
 const logger = new LoggerClass('viewerServer');
 
-const URI_CONTROLLER = env.piControllerURL();
+const uriController = 'ws://96.61.12.109';
+
+const portController = 10777;
 
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -43,23 +42,22 @@ export class ControllerServer {
 
   progressiveJackpot = 10000;
 
-  discordClient: any = new Discord.Client();
-
   constructor(server: http.Server) {
     this.connectController();
 
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected');
       this.redisClient.flushdb();
+    });
 
-      this.discordClient.login(discord_token);
-      this.discordClient.on('message', (msg: any) => {
-        if (msg.content === 'ping') {
-          msg.channel.send('pong');
-          msg.channel.send('channel: ' + msg.channel);
-        }
+    this.redisClient.on('message', (channel: any, message: any) => {
+      sendall(this.players, {
+        command: constants.PlayerCommand.chatmsg,
+        user: message.username,
+        chatmessage: message.chatmessage,
       });
     });
+    this.redisClient.subscribe('chatmessage');
 
     // client->us
     this.wss = new WS.Server({
@@ -116,7 +114,7 @@ export class ControllerServer {
             this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 1280, 720);
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
@@ -168,9 +166,9 @@ export class ControllerServer {
 
   connectController() {
     // us->controller
-    logger.log(LogLevel.info, `Connecting controller ${URI_CONTROLLER}`);
+    logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
 
-    this.clientController = new WS(URI_CONTROLLER);
+    this.clientController = new WS(`${uriController}:${portController}`);
 
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
