@@ -5,7 +5,7 @@ import * as Discord from 'discord.js';
 const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 
 const logger = new LoggerClass('discordBot');
-const FUKU_REDIS_URL = env.fukuRediaServerURL();
+const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
 export class DiscordBot {
   discordClient: any = new Discord.Client();
