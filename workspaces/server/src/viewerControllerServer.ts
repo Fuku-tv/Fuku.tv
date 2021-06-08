@@ -5,9 +5,6 @@ import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
 import * as redis from 'redis';
-import * as Discord from 'discord';
-
-const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -45,8 +42,6 @@ export class ControllerServer {
 
   progressiveJackpot = 10000;
 
-  discordClient: any = new Discord.Client();
-
   constructor(server: http.Server) {
     this.connectController();
 
@@ -55,16 +50,14 @@ export class ControllerServer {
       this.redisClient.flushdb();
     });
 
-    this.discordClient.login('ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU');
-      this.discordClient.on('ready', () => {
-        logger.log(LogLevel.info, 'Discord ready');
+    this.redisClient.on('message', (channel: any, message: any) => {
+      sendall(this.players, {
+        command: constants.PlayerCommand.chatmsg,
+        user: message.username,
+        chatmessage: message.chatmessage,
       });
-      this.discordClient.on('message', (msg: any) => {
-        if (msg.content === 'ping') {
-          msg.channel.send('pong');
-          msg.channel.send('channel: ' + msg.channel);
-        }
-      });
+    });
+    this.redisClient.subscribe('chatmessage');
 
     // client->us
     this.wss = new WS.Server({
