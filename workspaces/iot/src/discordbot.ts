@@ -7,6 +7,7 @@ discordClient.on('ready', () => {
   console.log('Discord ready');
 });
 discordClient.on('message', (msg: Discord.Message) => {
+  console.log(msg);
   if (msg.content === 'ping') {
     msg.channel.send('pong');
     msg.channel.send('channel: ' + msg.channel);
