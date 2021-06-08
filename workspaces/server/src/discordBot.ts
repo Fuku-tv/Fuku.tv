@@ -1,4 +1,4 @@
-import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
+import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
 import * as redis from 'redis';
 import * as Discord from 'discord.js';
 
@@ -21,6 +21,10 @@ export class DiscordBot {
       logger.log(LogLevel.info, 'Discord ready.');
     });
     this.discordClient.on('message', (msg: Discord.Message) => {
+      if (msg.content === 'ping') {
+        msg.channel.send('pong');
+        return;
+      }
       this.redisClient.publish('chatmessage', '{\'message\':{\'username\':\'' + msg.author.username + '\',\'chatmessage\':\'' + msg.content + '\'}', () => {});
     });
 
