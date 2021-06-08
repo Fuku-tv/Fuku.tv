@@ -57,7 +57,7 @@ export class ControllerServer {
 
     this.discordClient.login('ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU');
       this.discordClient.on('ready', () => {
-        logger.log('Discord ready');
+        logger.log(LogLevel.info, 'Discord ready');
       });
       this.discordClient.on('message', (msg: any) => {
         if (msg.content === 'ping') {
