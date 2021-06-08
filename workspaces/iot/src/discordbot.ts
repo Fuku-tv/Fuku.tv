@@ -1,4 +1,4 @@
-import * as Discord from 'discord';
+import * as Discord from 'discord-js';
 
 let discordClient = new Discord.Client();
 
