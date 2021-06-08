@@ -20,14 +20,7 @@ import Axios from 'axios';
 // };
 
 export const getPrices = async (): Promise<Stripe.Price[]> => {
-  const STRIPE_API_SECRET = await secrets.stripeApiSecret();
-  console.log(STRIPE_API_SECRET);
-  const StripeAPI = Axios.create({
-    baseURL: 'https://api.stripe.com',
-    headers: {
-      Authorization: `Bearer ${STRIPE_API_SECRET}`,
-    },
-  });
+  const StripeAPI = await getAPI();
 
   try {
     const test = await StripeAPI.get('/v1/prices', { params: { 'expand[]': 'data.product', active: true } });
@@ -39,6 +32,19 @@ export const getPrices = async (): Promise<Stripe.Price[]> => {
 };
 
 export const redirectToCheckout = async (items: [{ price: string; quantity: number }], customerEmail: string): Promise<void> => {
+  const StripeAPI = await getAPI();
+  let customerId: string;
+  // check if email address already exists
+  try {
+    const response = StripeAPI.get(`/v1/customers?email=${customerEmail}`);
+    customerId = (await response).data.data[0].id;
+    console.log('ID: ', customerId);
+  } catch (error) {
+    console.log('error: ', error);
+    throw error;
+  }
+
+  // redirect to checkout page
   try {
     const STRIPE_API_KEY = await secrets.stripeApiKey();
     const stripeClient = await loadStripe(STRIPE_API_KEY);
@@ -48,11 +54,26 @@ export const redirectToCheckout = async (items: [{ price: string; quantity: numb
       lineItems: items,
       mode: 'payment',
       customerEmail,
+      clientReferenceId: customerId,
     });
   } catch (err) {
     console.log('error: ', err);
     throw err;
   }
+};
+
+/**
+ * Async API client creator for stripe
+ * @returns StripeAPI
+ */
+const getAPI = async () => {
+  const STRIPE_API_SECRET = await secrets.stripeApiSecret();
+  return Axios.create({
+    baseURL: 'https://api.stripe.com',
+    headers: {
+      Authorization: `Bearer ${STRIPE_API_SECRET}`,
+    },
+  });
 };
 
 export default {};

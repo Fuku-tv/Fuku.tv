@@ -38,6 +38,16 @@ const serverlessConfiguration: Serverless = {
   plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
+    update_freeplay: {
+      handler: 'src/trigger/scheduled/updateFreeplay.index',
+      events: [
+        {
+          schedule: {
+            rate: 'rate(4 hours)',
+          },
+        },
+      ],
+    },
     webhook_stripe: {
       handler: 'src/http/webhook/stripe.index',
       events: [

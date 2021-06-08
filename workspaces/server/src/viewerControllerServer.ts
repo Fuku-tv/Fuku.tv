@@ -11,9 +11,7 @@ const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQ
 
 const logger = new LoggerClass('viewerServer');
 
-const uriController = 'ws://96.61.12.109';
-
-const portController = 10777;
+const URI_CONTROLLER = env.piControllerURL();
 
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -118,7 +116,7 @@ export class ControllerServer {
             this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 1280, 720);
             clientPlayer.send({
               command: constants.PlayerCommand.chatmsg,
               user: 'System Message',
@@ -170,9 +168,9 @@ export class ControllerServer {
 
   connectController() {
     // us->controller
-    logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
+    logger.log(LogLevel.info, `Connecting controller ${URI_CONTROLLER}`);
 
-    this.clientController = new WS(`${uriController}:${portController}`);
+    this.clientController = new WS(URI_CONTROLLER);
 
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
