@@ -36,6 +36,14 @@ export class Player {
 
   ipAddr: any;
 
+  freeplay: any;
+
+  lastfreeplaydate: any;
+
+  credits: any;
+  points: any;
+
+
   constructor(socket: ws, ip: any) {
     this.socket = socket;
     this.ipAddr = ip;
