@@ -130,9 +130,11 @@ export class ControllerServer {
             // filter stupid shit
 
             // put it in redis
+            /*
             if (this.redisClient.lpush('room:main', msg.chatmessage, clientPlayer.userdata.nickname) > 10) {
               this.redisClient.rpop('room:main');
             }
+            */
 
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,

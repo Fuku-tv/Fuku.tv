@@ -27,8 +27,6 @@ export class DiscordBot {
       }
       this.redisClient.publish('chatmessage', '{\'message\':{\'username\':\'' + msg.author.username + '\',\'chatmessage\':\'' + msg.content + '\'}', () => {});
     });
-
-
   }
 }
 
