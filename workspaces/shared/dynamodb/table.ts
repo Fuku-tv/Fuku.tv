@@ -10,6 +10,9 @@ export const genericTableMethods = <T extends BaseModel>(tableName: string) => (
   async get(id: string): Promise<T> {
     return dynamo.get<T>(id, tableName);
   },
+  async getList(attributes = ['']): Promise<T[]> {
+    return dynamo.getList<T>(tableName, attributes);
+  },
   async delete(id: string) {
     return dynamo.delete(id, tableName);
   },

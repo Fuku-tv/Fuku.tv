@@ -1,9 +1,29 @@
 import * as AWS from 'aws-sdk';
+import type { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { BaseModel } from './models';
 
 const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: 'latest', region: 'us-east-1' });
 
 const Dynamo = {
+  /**
+   * Gets list of table item ids
+   * @param tableName
+   * @returns
+   */
+  async getList<T>(tableName: string, attributes: string[]): Promise<T[]> {
+    const params: DocumentClient.ScanInput = {
+      TableName: tableName,
+      ProjectionExpression: attributes.join(),
+    };
+
+    const data = await documentClient.scan(params).promise();
+
+    if (!data || data.Count <= 0) {
+      throw Error(`There was an error fetching the data list for ${tableName}`);
+    }
+
+    return data.Items as T[];
+  },
   async get<T>(id: string, tableName: string): Promise<T> {
     const params = {
       TableName: tableName,
