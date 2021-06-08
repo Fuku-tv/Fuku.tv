@@ -47,7 +47,7 @@ export class ControllerServer {
 
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected');
-      this.redisClient.flushdb();
+      //this.redisClient.flushdb();
     });
 
     this.redisClient.on('message', (channel: any, message: any) => {
