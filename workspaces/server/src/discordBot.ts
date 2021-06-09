@@ -1,5 +1,6 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
 import * as redis from 'redis';
+import * as redisPub from 'redis';
 
 import * as Discord from 'discord.js';
 
@@ -13,7 +14,7 @@ export class DiscordBot {
 
   redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
 
-  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisPublisher: any = redisPub.createClient(6379, FUKU_REDIS_URL);
 
   isonline: boolean = false;
 
