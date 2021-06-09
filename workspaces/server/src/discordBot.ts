@@ -11,23 +11,29 @@ const FUKU_REDIS_URL = env.fukuRedisServerURL();
 export class DiscordBot {
   discordClient = new Discord.Client();
 
-  redisClient = redis.createClient(6379, FUKU_REDIS_URL);
+  redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
+
+  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
 
   isonline: boolean = false;
 
   constructor() {
-    this.redisClient.on('connect', () => {
-      logger.log(LogLevel.info, 'Discord bot connected to Redis.');
+    this.redisSubscriber.on('connect', () => {
+      logger.log(LogLevel.info, 'Redis connected.');
     });
 
-    this.redisClient.on('message', (channel: any, message: any) => {
+    this.redisPublisher.on('connect', () => {
+      logger.log(LogLevel.info, 'redisPublisher connected.');
+    });
+
+    this.redisSubscriber.on('message', (channel: any, message: any) => {
       console.log('discordbot got message: ' + message);
       console.log('this.isonline: ' + this.isonline);
       if (this.isonline === true) {
         this.discordClient.cache.get(DISCORD_CHANNEL_ID_DEBUG).send(message.username + ': ' + message.chatmessage);
       }
     });
-    this.redisClient.subscribe('discordmessage');
+    this.redisSubscriber.subscribe('discordmessage');
 
     this.discordClient
       .login(DISCORD_TOKEN)
@@ -47,7 +53,8 @@ export class DiscordBot {
         return;
       }
 
-      this.redisClient.publish('chatmessage', JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }));
+      this.redisPublisher.publish('chatmessage', `{'message':{'username':'${msg.author.username}','chatmessage':'${msg.content}'}`, () => {});
+
     });
   }
 }
