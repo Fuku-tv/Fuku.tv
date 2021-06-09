@@ -116,11 +116,6 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.login:
             clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
-            clientPlayer.send({
-              command: constants.PlayerCommand.chatmsg,
-              user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
-            });
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
