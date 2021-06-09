@@ -21,6 +21,8 @@ export class DiscordBot {
     });
 
     this.redisClient.on('message', (channel: any, message: any) => {
+      console.log('discordbot got message: ' + message);
+      console.log('this.isonline: ' + this.isonline);
       if (this.isonline === true) {
         this.discordClient.cache.get(DISCORD_CHANNEL_ID_DEBUG).send(message.username + ': ' + message.chatmessage);
       }
@@ -33,7 +35,7 @@ export class DiscordBot {
         logger.logInfo('Discord bot logged in');
         this.isonline = true
       })
-      .catch((error) => {
+      .catch((error: any) => {
         logger.logError(`Error logging into discord with bot: ${error}`);
       });
     this.discordClient.on('ready', () => {
