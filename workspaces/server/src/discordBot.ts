@@ -34,7 +34,8 @@ export class DiscordBot {
         msg.channel.send('pong');
         return;
       }
-      this.redisClient.publish('chatmessage', `{"message":{"username":"${msg.author.username}","chatmessage":"${msg.content}"}}`);
+
+      this.redisClient.publish('chatmessage', JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }));
     });
   }
 }
