@@ -51,6 +51,7 @@ export class ControllerServer {
     });
 
     this.redisClient.on('message', (channel: any, message: any) => {
+      logger.log(LogLevel.info, 'Redis message: ' + message);
       sendall(this.players, {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,
