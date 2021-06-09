@@ -52,6 +52,7 @@ export class ControllerServer {
 
     this.redisClient.on('message', (channel: any, data: any) => {
       const { message } = JSON.parse(data);
+
       sendall(this.players, {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,
