@@ -47,11 +47,12 @@ export class ControllerServer {
 
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected');
-      //this.redisClient.flushdb();
+      // this.redisClient.flushdb();
     });
 
-    this.redisClient.on('message', (channel: any, message: any) => {
-      logger.log(LogLevel.info, 'Redis message: ' + message);
+    this.redisClient.on('message', (channel: any, data: any) => {
+      const { message } = JSON.parse(data);
+
       sendall(this.players, {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,
@@ -116,11 +117,6 @@ export class ControllerServer {
             break;
           case constants.PlayerCommand.login:
             clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
-            clientPlayer.send({
-              command: constants.PlayerCommand.chatmsg,
-              user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
-            });
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
