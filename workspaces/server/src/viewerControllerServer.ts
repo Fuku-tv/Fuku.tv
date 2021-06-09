@@ -47,10 +47,11 @@ export class ControllerServer {
 
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected');
-      //this.redisClient.flushdb();
+      // this.redisClient.flushdb();
     });
 
-    this.redisClient.on('message', (channel: any, message: any) => {
+    this.redisClient.on('message', (channel: any, data: any) => {
+      const { message } = JSON.parse(data);
       sendall(this.players, {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,

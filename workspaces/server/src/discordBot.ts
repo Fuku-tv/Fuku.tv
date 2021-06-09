@@ -11,11 +11,11 @@ const FUKU_REDIS_URL = env.fukuRedisServerURL();
 export class DiscordBot {
   discordClient = new Discord.Client();
 
-  redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisClient = redis.createClient(6379, FUKU_REDIS_URL);
 
   constructor() {
     this.redisClient.on('connect', () => {
-      logger.log(LogLevel.info, 'Redis connected.');
+      logger.log(LogLevel.info, 'Discord bot connected to Redis.');
     });
 
     this.discordClient
@@ -34,7 +34,7 @@ export class DiscordBot {
         msg.channel.send('pong');
         return;
       }
-      this.redisClient.publish('chatmessage', `{'message':{'username':'${msg.author.username}','chatmessage':'${msg.content}'}`, () => {});
+      this.redisClient.publish('chatmessage', `{"message":{"username":"${msg.author.username}","chatmessage":"${msg.content}"}}`);
     });
   }
 }

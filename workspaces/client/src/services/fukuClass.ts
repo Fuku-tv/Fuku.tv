@@ -1,7 +1,7 @@
 import WSAvcPlayer from 'h264-live-player';
 
 import { constants, env } from 'fuku.tv-shared';
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import { useGameState } from 'src/state/hooks';
 
 // const { state, actions } = useGameState();
