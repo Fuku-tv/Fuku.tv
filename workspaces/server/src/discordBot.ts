@@ -4,7 +4,7 @@ import * as redis from 'redis';
 import * as Discord from 'discord.js';
 
 const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
-
+const DISCORD_CHANNEL_ID_DEBUG = '850164433111089152';
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -13,15 +13,25 @@ export class DiscordBot {
 
   redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
 
+  isonline: boolean = false;
+
   constructor() {
     this.redisClient.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected.');
     });
 
+    this.redisClient.on('message', (channel: any, message: any) => {
+      if (this.isonline === true) {
+        this.discordClient.cache.get(DISCORD_CHANNEL_ID_DEBUG).send(message.username + ': ' + message.chatmessage);
+      }
+    });
+    this.redisClient.subscribe('discordmessage');
+
     this.discordClient
       .login(DISCORD_TOKEN)
       .then(() => {
         logger.logInfo('Discord bot logged in');
+        this.isonline = true
       })
       .catch((error) => {
         logger.logError(`Error logging into discord with bot: ${error}`);
