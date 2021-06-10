@@ -32,8 +32,6 @@ initializeDatabase()
   });
 
 // scaffold local redis server if not in a production environment
-console.log('items', process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true');
-
 if (process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true') {
   // Simply pass the port that you want a Redis server to listen on.
   const server = new RedisServer({

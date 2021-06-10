@@ -14,7 +14,7 @@ const WEBHOOK_TOKEN =
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
-env.getStage();
+logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
 export class DiscordBot {
   discordClient = new Discord.Client();
@@ -47,12 +47,15 @@ export class DiscordBot {
         this.webhookClient.send(message.chatmessage, {
           username: message.username,
         });
-      }
-      else if (channel === 'prizemessage') {
+      } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username} just scored ${message.points}!`);
+          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(
+            `${message.username} just scored ${message.points}!`
+          );
         } else {
-          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username} WON THE ${message.points} POINT JACKPOT!`);
+          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(
+            `${message.username} WON THE ${message.points} POINT JACKPOT!`
+          );
         }
       }
     });
@@ -96,7 +99,7 @@ export class DiscordBot {
 
   chat(channel: any, username: any, message: any) {
     channel.send(message);
-    this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: username, chatmessage: message}}));
+    this.redisPublisher.publish('chatmessage', JSON.stringify({ message: { username, chatmessage: message } }));
   }
 }
 
