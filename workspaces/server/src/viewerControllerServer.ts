@@ -38,19 +38,25 @@ export class ControllerServer {
 
   wss: WS.Server;
 
-  redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
+
+  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
 
   progressiveJackpot = 10000;
 
   constructor(server: http.Server) {
     this.connectController();
 
-    this.redisClient.on('connect', () => {
-      logger.log(LogLevel.info, 'Redis connected');
-      // this.redisClient.flushdb();
+    this.redisSubscriber.on('connect', () => {
+      logger.log(LogLevel.info, 'redisSubscriber connected');
     });
 
-    this.redisClient.on('message', (channel: any, data: any) => {
+    this.redisPublisher.on('connect', () => {
+      logger.log(LogLevel.info, 'redisPublisher connected');
+    });
+
+
+    this.redisSubscriber.on('message', (channel: any, data: any) => {
       const { message } = JSON.parse(data);
 
       sendall(this.players, {
@@ -59,7 +65,7 @@ export class ControllerServer {
         chatmessage: message.chatmessage,
       });
     });
-    this.redisClient.subscribe('chatmessage');
+    this.redisSubscriber.subscribe('chatmessage');
 
     // client->us
     this.wss = new WS.Server({
@@ -133,10 +139,7 @@ export class ControllerServer {
             }
             */
 
-            this.redisClient.publish('discordmessage', JSON.stringify({message:{username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage}}), (err: any) => {
-              console.log('controllerServer: redisClient.publish')
-              console.log(err);
-            });
+            this.redisPublisher.publish('discordmessage', JSON.stringify({message:{username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage}}), () => { });
 
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,

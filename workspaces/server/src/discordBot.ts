@@ -54,7 +54,8 @@ export class DiscordBot {
         return;
       }
 
-      this.redisPublisher.publish('chatmessage', JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }), () => {});
+      this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: msg.author.username, chatmessage: msg.content}}), () => {});
+
     });
   }
 }
