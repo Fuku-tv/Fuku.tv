@@ -5,10 +5,15 @@ import * as Discord from 'discord.js';
 
 const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 const DISCORD_CHANNEL_ID_DEBUG = '850164433111089152';
-const WEBHOOK_ID = '850164581191909388';
-const WEBHOOK_TOKEN = 'WUNxSKL9alhcWf4pOmaXInvRgl5XsH4fZjYMftzWPzrfXDk8sxTS9g9OhM-5jESh6nGJ';
+const WEBHOOK_ID = env.getStage() === 'prod' ? '852536906100637757' : '850164581191909388';
+const WEBHOOK_TOKEN =
+  env.getStage() === 'prod'
+    ? 'ztlF46Nj-1GOZiiGIgj2DZdYiiUBU8bmEHG1m_wjB1PHn_jtyuV4PQDkonvb7jwHLokD'
+    : 'WUNxSKL9alhcWf4pOmaXInvRgl5XsH4fZjYMftzWPzrfXDk8sxTS9g9OhM-5jESh6nGJ';
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
+
+env.getStage();
 
 export class DiscordBot {
   discordClient = new Discord.Client();
