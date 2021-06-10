@@ -5,6 +5,8 @@ import * as Discord from 'discord.js';
 
 const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 const DISCORD_CHANNEL_ID_DEBUG = '850164433111089152';
+const WEBHOOK_ID = '850164581191909388';
+const WEBHOOK_TOKEN = 'WUNxSKL9alhcWf4pOmaXInvRgl5XsH4fZjYMftzWPzrfXDk8sxTS9g9OhM-5jESh6nGJ';
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -14,6 +16,8 @@ export class DiscordBot {
   redisSubscriber = redis.createClient(6379, FUKU_REDIS_URL);
 
   redisPublisher = redis.createClient(6379, FUKU_REDIS_URL);
+
+  webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
 
   isOnline = false;
 
@@ -31,7 +35,9 @@ export class DiscordBot {
       console.log(`discordbot got message: ${message}`);
       console.log(`this.isonline: ${this.isOnline}`);
       if (this.isOnline === true) {
-        (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username}: ${message.chatmessage}`);
+        this.webhookClient.send(message.chatmessage, {
+          username: message.username,
+        });
       }
     });
     this.redisSubscriber.subscribe('discordmessage');
