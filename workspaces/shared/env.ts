@@ -54,7 +54,7 @@ export const fukuApiServerURL = (): string => {
 };
 
 export const fukuRedisServerURL = (): string => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true') {
     // Local Development
     return '127.0.0.1';
   }

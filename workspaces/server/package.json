@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node --enable-source-maps --trace-warnings dist/bundle.js ",
+    "start:dev": "cross-env REDIS_LOCAL=true node --enable-source-maps --trace-warnings dist/bundle.js ",
     "clean": "rimraf dist logs",
     "build": "webpack",
     "dev": "cross-env NODE_ENV=development ts-node-dev --transpile-only src/index.ts"
