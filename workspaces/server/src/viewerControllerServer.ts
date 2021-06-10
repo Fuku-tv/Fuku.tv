@@ -38,9 +38,9 @@ export class ControllerServer {
 
   wss: WS.Server;
 
-  redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisSubscriber = redis.createClient(6379, FUKU_REDIS_URL);
 
-  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisPublisher = redis.createClient(6379, FUKU_REDIS_URL);
 
   progressiveJackpot = 10000;
 

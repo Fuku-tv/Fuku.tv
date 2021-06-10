@@ -1,8 +1,6 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
 import * as redis from 'redis';
 import * as Discord from 'discord.js';
-import { playersTableModel } from '../shared/dynamodb/table';
-import { Player as PlayerModel } from '../shared/dynamodb/models';
 
 const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 const DISCORD_CHANNEL_ID_DEBUG = '850164433111089152';
@@ -49,11 +47,17 @@ export class DiscordBot {
         });
       } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          this.webhookClient.send(`${message.username} just scored ${message.points}!`, {username: 'Points! Oh Yeah!'});
-          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!`}}));
+          this.webhookClient.send(`${message.username} just scored ${message.points}!`, { username: 'Points! Oh Yeah!' });
+          this.redisPublisher.publish(
+            'chatmessage',
+            JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!` } })
+          );
         } else {
-          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, {username: 'JACKPOT WINNER!'});
-          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!`}}));
+          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, { username: 'JACKPOT WINNER!' });
+          this.redisPublisher.publish(
+            'chatmessage',
+            JSON.stringify({ message: { username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!` } })
+          );
         }
       }
     });
@@ -96,8 +100,8 @@ export class DiscordBot {
   }
 
   chat(username: any, message: any) {
-    this.webhookClient.send(message, {username: username});
-    this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: username, chatmessage: message}}));
+    this.webhookClient.send(message, { username });
+    this.redisPublisher.publish('chatmessage', JSON.stringify({ message: { username, chatmessage: message } }));
   }
 }
 
