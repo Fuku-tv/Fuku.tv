@@ -50,9 +50,11 @@ export class DiscordBot {
       }
       else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username} just scored ${message.points}!`);
+          this.webhookClient.send(`${message.username} just scored ${message.points}!`, {username: 'Points! Oh Yeah!'});
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!`}}));
         } else {
-          (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username} WON THE ${message.points} POINT JACKPOT!`);
+          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, {username: 'JACKPOT WINNER!'});
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!`}}));
         }
       }
     });
@@ -77,9 +79,9 @@ export class DiscordBot {
         const args = commandBody.split(' ');
         const command = args.shift().toLowerCase();
         if (command === 'dance') {
-          this.chat(msg.channel, 'Fukutv Bot', ':D\\\\-<');
-          this.chat(msg.channel, 'Fukutv Bot', ':D|-<');
-          this.chat(msg.channel, 'Fukutv Bot', ':D/-<');
+          this.chat('Fukutv Bot', ':D\\\\-<');
+          this.chat('Fukutv Bot', ':D|-<');
+          this.chat('Fukutv Bot', ':D/-<');
         }
       } else {
         this.redisPublisher.publish(
@@ -91,8 +93,8 @@ export class DiscordBot {
     });
   }
 
-  chat(channel: any, username: any, message: any) {
-    channel.send(message);
+  chat(username: any, message: any) {
+    this.webhookClient.send(message, {username: username});
     this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: username, chatmessage: message}}));
   }
 }
