@@ -59,6 +59,10 @@ export class ControllerServer {
     this.redisSubscriber.on('message', (channel: any, data: any) => {
       const { message } = JSON.parse(data);
 
+      if (message.username === 'Fukutv Bot') {
+        return;
+      }
+
       sendall(this.players, {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,
