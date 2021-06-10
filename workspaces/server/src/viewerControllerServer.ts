@@ -208,6 +208,9 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 100;
             else pointsWon = 50;
           }
+          if (this.currentPlayer.userdata.nickname === undefined) {
+            this.currentPlayer.userdata.nickname = this.currentPlayer.userdata.email.split('@')[0];
+          }
           this.redisPublisher.publish(
             'prizemessage',
             JSON.stringify({ message: { username: this.currentPlayer.nickname, points: pointsWon, jackpot } }),
