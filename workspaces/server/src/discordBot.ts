@@ -6,8 +6,15 @@ import { Player as PlayerModel } from '../shared/dynamodb/models';
 
 const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 const DISCORD_CHANNEL_ID_DEBUG = '850164433111089152';
+const WEBHOOK_ID = env.getStage() === 'prod' ? '852536906100637757' : '850164581191909388';
+const WEBHOOK_TOKEN =
+  env.getStage() === 'prod'
+    ? 'ztlF46Nj-1GOZiiGIgj2DZdYiiUBU8bmEHG1m_wjB1PHn_jtyuV4PQDkonvb7jwHLokD'
+    : 'WUNxSKL9alhcWf4pOmaXInvRgl5XsH4fZjYMftzWPzrfXDk8sxTS9g9OhM-5jESh6nGJ';
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
+
+env.getStage();
 
 export class DiscordBot {
   discordClient = new Discord.Client();
@@ -15,6 +22,8 @@ export class DiscordBot {
   redisSubscriber = redis.createClient(6379, FUKU_REDIS_URL);
 
   redisPublisher = redis.createClient(6379, FUKU_REDIS_URL);
+
+  webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
 
   isOnline = false;
 
@@ -35,7 +44,9 @@ export class DiscordBot {
       const { message } = JSON.parse(data);
       console.log(`discordbot got message: ${message}`);
       if (channel === 'discordmessage') {
-        (this.discordClient.channels.cache.get(DISCORD_CHANNEL_ID_DEBUG) as Discord.TextChannel).send(`${message.username}: ${message.chatmessage}`);
+        this.webhookClient.send(message.chatmessage, {
+          username: message.username,
+        });
       }
       else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
@@ -61,20 +72,22 @@ export class DiscordBot {
       logger.log(LogLevel.info, 'Discord ready.');
     });
     this.discordClient.on('message', (msg: Discord.Message) => {
-
       if (msg.content.startsWith('!')) {
-        var commandBody = msg.content.slide(1);
-        var args = commandBody.split(' ');
-        var command = args.shift().toLowerCase();
+        const commandBody = msg.content.slice(1);
+        const args = commandBody.split(' ');
+        const command = args.shift().toLowerCase();
         if (command === 'dance') {
           this.chat(msg.channel, 'Fukutv Bot', ':D\\\\-<');
           this.chat(msg.channel, 'Fukutv Bot', ':D|-<');
           this.chat(msg.channel, 'Fukutv Bot', ':D/-<');
         }
       } else {
-        this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: msg.author.username, chatmessage: msg.content}}), () => {});
+        this.redisPublisher.publish(
+          'chatmessage',
+          JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }),
+          () => {}
+        );
       }
-
     });
   }
 
