@@ -14,7 +14,7 @@ const WEBHOOK_TOKEN =
 const logger = new LoggerClass('discordBot');
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
-env.getStage();
+logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
 export class DiscordBot {
   discordClient = new Discord.Client();
@@ -47,8 +47,7 @@ export class DiscordBot {
         this.webhookClient.send(message.chatmessage, {
           username: message.username,
         });
-      }
-      else if (channel === 'prizemessage') {
+      } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
           this.webhookClient.send(`${message.username} just scored ${message.points}!`, {username: 'Points! Oh Yeah!'});
           this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!`}}));
