@@ -16,7 +16,7 @@
     "dev": "lerna run dev",
     "bump": "yarn upgrade --latest",
     "start:client": "yarn workspace fuku.tv-client start",
-    "start:server": "yarn workspace fuku.tv-server start",
+    "start:server": "yarn workspace fuku.tv-server start:dev",
     "lint": "lerna run lint",
     "lint:client": "yarn workspace fuku.tv-client lint",
     "lint:server": "yarn workspace fuku.tv-server lint",

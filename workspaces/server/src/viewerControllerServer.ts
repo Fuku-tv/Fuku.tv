@@ -133,7 +133,7 @@ export class ControllerServer {
             }
             */
 
-            this.redisClient.publish('discordmessage', `{'message':{'username':'${clientPlayer.userdata.nickname}','chatmessage':'${msg.chatmessage}'}`, (err: any) => {
+            this.redisClient.publish('discordmessage', JSON.stringify({message:{username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage}}), (err: any) => {
               console.log('controllerServer: redisClient.publish')
               console.log(err);
             });
