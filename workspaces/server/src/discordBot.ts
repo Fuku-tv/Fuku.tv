@@ -26,7 +26,8 @@ export class DiscordBot {
       logger.log(LogLevel.info, 'redisPublisher connected.');
     });
 
-    this.redisSubscriber.on('message', (channel: any, message: any) => {
+    this.redisSubscriber.on('message', (channel: any, data: any) => {
+      const { message } = JSON.parse(data);
       console.log(`discordbot got message: ${message}`);
       console.log(`this.isonline: ${this.isOnline}`);
       if (this.isOnline === true) {
@@ -53,7 +54,7 @@ export class DiscordBot {
         return;
       }
 
-      this.redisPublisher.publish('chatmessage', `{'message':{'username':'${msg.author.username}','chatmessage':'${msg.content}'}`, () => {});
+      this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: msg.author.username, chatmessage: msg.content}), () => {});
     });
   }
 }
