@@ -49,12 +49,22 @@ export class DiscordBot {
       logger.log(LogLevel.info, 'Discord ready.');
     });
     this.discordClient.on('message', (msg: Discord.Message) => {
-      if (msg.content === 'ping') {
-        msg.channel.send('pong');
-        return;
-      }
 
-      this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: msg.author.username, chatmessage: msg.content}}), () => {});
+      if (msg.content.startsWith('!')) {
+        var commandBody = msg.content.slide(1);
+        var args = commandBody.split(' ');
+        var command = args.shift().toLowerCase();
+        if (command === 'dance') {
+          msg.channel.send(':D\\-<');
+          msg.channel.send(':D|-<');
+          msg.channel.send(':D/-<');
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Fukutv Bot', chatmessage: ':D\\-<'}}), () => {});
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Fukutv Bot', chatmessage: ':D|-<'}}), () => {});
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Fukutv Bot', chatmessage: ':D/-<'}}), () => {});
+        }
+      } else {
+        this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: msg.author.username, chatmessage: msg.content}}), () => {});
+      }
 
     });
   }
