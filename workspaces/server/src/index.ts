@@ -10,6 +10,7 @@ import { getClient } from 'fuku.tv-shared/secrets';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';
+import { DiscordBot } from './discordBot';
 
 const STAGE = getStage();
 
@@ -31,7 +32,9 @@ initializeDatabase()
   });
 
 // scaffold local redis server if not in a production environment
-if (process.env.NODE_ENV === 'development') {
+console.log('items', process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true');
+
+if (process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true') {
   // Simply pass the port that you want a Redis server to listen on.
   const server = new RedisServer({
     port: 6379,
@@ -75,3 +78,4 @@ videoHttpsServer.listen(10889);
 
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
+const discord = new DiscordBot();

@@ -5,13 +5,12 @@ import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
 import * as redis from 'redis';
-import * as Discord from 'discord';
-
-const discord_token = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
 
 const logger = new LoggerClass('viewerServer');
 
-const URI_CONTROLLER = env.piControllerURL();
+const uriController = 'ws://96.61.12.109';
+
+const portController = 10777;
 
 const FUKU_REDIS_URL = env.fukuRedisServerURL();
 
@@ -39,27 +38,38 @@ export class ControllerServer {
 
   wss: WS.Server;
 
-  redisClient: any = redis.createClient(6379, FUKU_REDIS_URL);
+  redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
+
+  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
 
   progressiveJackpot = 10000;
-
-  discordClient: any = new Discord.Client();
 
   constructor(server: http.Server) {
     this.connectController();
 
-    this.redisClient.on('connect', () => {
-      logger.log(LogLevel.info, 'Redis connected');
-      this.redisClient.flushdb();
+    this.redisSubscriber.on('connect', () => {
+      logger.log(LogLevel.info, 'redisSubscriber connected');
+    });
 
-      this.discordClient.login(discord_token);
-      this.discordClient.on('message', (msg: any) => {
-        if (msg.content === 'ping') {
-          msg.channel.send('pong');
-          msg.channel.send('channel: ' + msg.channel);
-        }
+    this.redisPublisher.on('connect', () => {
+      logger.log(LogLevel.info, 'redisPublisher connected');
+    });
+
+
+    this.redisSubscriber.on('message', (channel: any, data: any) => {
+      const { message } = JSON.parse(data);
+
+      if (message.username === 'Fukutv Bot') {
+        return;
+      }
+
+      sendall(this.players, {
+        command: constants.PlayerCommand.chatmsg,
+        user: message.username,
+        chatmessage: message.chatmessage,
       });
     });
+    this.redisSubscriber.subscribe('chatmessage');
 
     // client->us
     this.wss = new WS.Server({
@@ -116,12 +126,7 @@ export class ControllerServer {
             this.updateGameStats();
             break;
           case constants.PlayerCommand.login:
-            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 1280, 720);
-            clientPlayer.send({
-              command: constants.PlayerCommand.chatmsg,
-              user: 'System Message',
-              chatmessage: 'Welcome to Fuku! You can join us on Discord @ https://discord.gg/sPDYSPFDYa',
-            });
+            clientPlayer.Login(await authenticateConnection(msg.message), this.queue.length, this.players.length, 800, 480);
             break;
           case constants.PlayerCommand.logout:
             clientPlayer.logout();
@@ -132,9 +137,13 @@ export class ControllerServer {
             // filter stupid shit
 
             // put it in redis
+            /*
             if (this.redisClient.lpush('room:main', msg.chatmessage, clientPlayer.userdata.nickname) > 10) {
               this.redisClient.rpop('room:main');
             }
+            */
+
+            this.redisPublisher.publish('discordmessage', JSON.stringify({message:{username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage}}), () => { });
 
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
@@ -168,9 +177,9 @@ export class ControllerServer {
 
   connectController() {
     // us->controller
-    logger.log(LogLevel.info, `Connecting controller ${URI_CONTROLLER}`);
+    logger.log(LogLevel.info, `Connecting controller ${uriController}:${portController}`);
 
-    this.clientController = new WS(URI_CONTROLLER);
+    this.clientController = new WS(`${uriController}:${portController}`);
 
     this.clientController.on('open', () => {
       logger.log(LogLevel.info, 'clientController open');
