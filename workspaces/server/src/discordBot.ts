@@ -55,9 +55,6 @@ export class DiscordBot {
       logger.log(LogLevel.info, 'Discord ready.');
     });
     this.discordClient.on('message', (msg: Discord.Message) => {
-      if (msg.author.bot) {
-        return;
-      }
       if (msg.content.startsWith('!')) {
         const commandBody = msg.content.slice(1);
         const args = commandBody.split(' ');
