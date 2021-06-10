@@ -55,11 +55,11 @@ export class ControllerServer {
       logger.log(LogLevel.info, 'redisPublisher connected');
     });
 
-
     this.redisSubscriber.on('message', (channel: any, data: any) => {
       const { message } = JSON.parse(data);
 
-      if (message.username === 'Fukutv Bot') {
+      console.log(message.username);
+      if (message.username === 'Fuku-tv Bot') {
         return;
       }
 
@@ -134,16 +134,11 @@ export class ControllerServer {
           case constants.PlayerCommand.chatjoin:
             break;
           case constants.PlayerCommand.chatmsg:
-            // filter stupid shit
-
-            // put it in redis
-            /*
-            if (this.redisClient.lpush('room:main', msg.chatmessage, clientPlayer.userdata.nickname) > 10) {
-              this.redisClient.rpop('room:main');
-            }
-            */
-
-            this.redisPublisher.publish('discordmessage', JSON.stringify({message:{username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage}}), () => { });
+            this.redisPublisher.publish(
+              'discordmessage',
+              JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
+              () => {}
+            );
 
             sendall(this.players, {
               command: constants.PlayerCommand.chatmsg,
@@ -213,6 +208,11 @@ export class ControllerServer {
             if (Math.floor(Math.random() * Math.floor(100)) > 75) pointsWon = 100;
             else pointsWon = 50;
           }
+          this.redisPublisher.publish(
+            'prizemessage',
+            JSON.stringify({ message: { username: this.currentPlayer.nickname, points: pointsWon, jackpot } }),
+            () => {}
+          );
           this.currentPlayer.send({
             command: constants.PlayerCommand.prizeget,
             points: this.currentPlayer.points + pointsWon,
