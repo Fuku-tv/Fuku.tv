@@ -213,7 +213,7 @@ export class ControllerServer {
           }
           this.redisPublisher.publish(
             'prizemessage',
-            JSON.stringify({ message: { username: this.currentPlayer.nickname, points: pointsWon, jackpot } }),
+            JSON.stringify({ message: { username: this.currentPlayer.userdata.nickname, points: pointsWon, jackpot } }),
             () => {}
           );
           this.currentPlayer.send({
