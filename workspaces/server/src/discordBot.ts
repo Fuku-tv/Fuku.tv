@@ -49,8 +49,8 @@ export class DiscordBot {
         });
       } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          this.webhookClient.send(`${message.username} just scored ${message.points}!`, {username: 'Points! Oh Yeah!'});
-          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!`}}));
+          this.webhookClient.send(`${message.username} just scored ${message.points} points!`, {username: 'Points! Oh Yeah!'});
+          this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points} points!`}}));
         } else {
           this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, {username: 'JACKPOT WINNER!'});
           this.redisPublisher.publish('chatmessage', JSON.stringify({message: {username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!`}}));
