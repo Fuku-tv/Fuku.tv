@@ -28,9 +28,9 @@ export class Player {
 
   isQueued = false;
 
-  gameState: any = constants.GameState.idle;
+  gameState: string = constants.GameState.idle;
 
-  video: any = constants.Video.front;
+  video: string = constants.Video.front;
 
   uid = '';
 
