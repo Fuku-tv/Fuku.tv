@@ -4,7 +4,7 @@ import http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
-import * as redis from 'redis';
+import { redisPublisher, redisSubscriber } from './common/redis';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -28,37 +28,26 @@ export class ControllerServer {
 
   queueCounter = 0;
 
-  clientController: any;
-
-  clientVideo1: any;
-
-  clientVideo2: any;
-
-  serial: any;
+  clientController: WS;
 
   wss: WS.Server;
-
-  redisSubscriber: any = redis.createClient(6379, FUKU_REDIS_URL);
-
-  redisPublisher: any = redis.createClient(6379, FUKU_REDIS_URL);
 
   progressiveJackpot = 10000;
 
   constructor(server: http.Server) {
     this.connectController();
 
-    this.redisSubscriber.on('connect', () => {
+    redisSubscriber.on('connect', () => {
       logger.log(LogLevel.info, 'redisSubscriber connected');
     });
 
-    this.redisPublisher.on('connect', () => {
+    redisPublisher.on('connect', () => {
       logger.log(LogLevel.info, 'redisPublisher connected');
     });
 
-    this.redisSubscriber.on('message', (channel: any, data: any) => {
+    redisSubscriber.on('message', (channel: any, data: any) => {
       const { message } = JSON.parse(data);
 
-      console.log(message.username);
       if (message.username === 'Fuku-tv Bot') {
         return;
       }
@@ -69,7 +58,7 @@ export class ControllerServer {
         chatmessage: message.chatmessage,
       });
     });
-    this.redisSubscriber.subscribe('chatmessage');
+    redisSubscriber.subscribe('chatmessage');
 
     // client->us
     this.wss = new WS.Server({
@@ -134,17 +123,11 @@ export class ControllerServer {
           case constants.PlayerCommand.chatjoin:
             break;
           case constants.PlayerCommand.chatmsg:
-            this.redisPublisher.publish(
+            redisPublisher.publish(
               'discordmessage',
               JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
               () => {}
             );
-
-            sendall(this.players, {
-              command: constants.PlayerCommand.chatmsg,
-              user: clientPlayer.userdata.nickname,
-              chatmessage: msg.chatmessage,
-            });
             break;
           default:
             break;
@@ -209,9 +192,10 @@ export class ControllerServer {
             else pointsWon = 50;
           }
           if (this.currentPlayer.userdata.nickname === undefined) {
-            this.currentPlayer.userdata.nickname = this.currentPlayer.userdata.email.split('@')[0];
+            const email = this.currentPlayer.userdata.email.split('@')[0];
+            this.currentPlayer.userdata.nickname = email;
           }
-          this.redisPublisher.publish(
+          redisPublisher.publish(
             'prizemessage',
             JSON.stringify({ message: { username: this.currentPlayer.userdata.nickname, points: pointsWon, jackpot } }),
             () => {}
