@@ -6,7 +6,6 @@ import RedisServer from 'redis-server';
 import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
 
 import { env, LoggerClass, LogLevel } from 'fuku.tv-shared';
-import { getClient } from 'fuku.tv-shared/secrets';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';

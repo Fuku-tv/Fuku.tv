@@ -12,9 +12,9 @@ export class Player {
 
   userdata: { email: string; nickname: string };
 
-  timePlay: number = 30100;
+  timePlay = 30100;
 
-  timeStandby: number = 60100;
+  timeStandby = 60100;
 
   playTimer: any = null;
 
@@ -22,17 +22,17 @@ export class Player {
 
   keepaliveTimer: any = null;
 
-  isPlaying: boolean = false;
+  isPlaying = false;
 
-  isLoggedIn: boolean = false;
+  isLoggedIn = false;
 
-  isQueued: boolean = false;
+  isQueued = false;
 
-  gameState: any = constants.GameState.idle;
+  gameState: string = constants.GameState.idle;
 
-  video: any = constants.Video.front;
+  video: string = constants.Video.front;
 
-  uid: string = '';
+  uid = '';
 
   ipAddr: any;
 
@@ -41,8 +41,8 @@ export class Player {
   lastfreeplaydate: any;
 
   credits: any;
-  points: any;
 
+  points: any;
 
   constructor(socket: ws, ip: any) {
     this.socket = socket;
