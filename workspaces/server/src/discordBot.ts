@@ -2,7 +2,10 @@ import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
 import * as Discord from 'discord.js';
 import { redisSubscriber, redisPublisher } from './common/redis';
 
-const DISCORD_TOKEN = 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU';
+const DISCORD_TOKEN =
+  env.getStage() === 'prod'
+    ? 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU'
+    : 'ODUyNzExODQ3OTI4OTIyMTcz.YMKzyw.m4rXro0RbyiR2BuZdn3z5xLsTT8';
 const WEBHOOK_ID = env.getStage() === 'prod' ? '852536906100637757' : '850164581191909388';
 const WEBHOOK_TOKEN =
   env.getStage() === 'prod'
