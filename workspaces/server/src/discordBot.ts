@@ -15,65 +15,64 @@ export class DiscordBot {
   isOnline = false;
 
   constructor() {
-    this.loadSecrets().then(() => {
-      redisSubscriber.on('connect', () => {
-        logger.log(LogLevel.info, 'Redis connected.');
-      });
+    this.loadSecrets().then().catch();
+    redisSubscriber.on('connect', () => {
+      logger.log(LogLevel.info, 'Redis connected.');
+    });
 
-      redisPublisher.on('connect', () => {
-        logger.log(LogLevel.info, 'redisPublisher connected.');
-      });
+    redisPublisher.on('connect', () => {
+      logger.log(LogLevel.info, 'redisPublisher connected.');
+    });
 
-      redisSubscriber.on('message', (channel: any, data: any) => {
-        if (this.isOnline === false) {
-          return;
-        }
-        const { message } = JSON.parse(data);
-        if (channel === 'discordmessage') {
-          this.webhookClient.send(message.chatmessage, {
-            username: message.username,
-          });
-        } else if (channel === 'prizemessage') {
-          if (message.jackpot === false) {
-            this.webhookClient.send(`${message.username} just scored ${message.points} points!`, { username: 'Points! Oh Yeah!' });
-            redisPublisher.publish(
-              'chatmessage',
-              JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points} points!` } })
-            );
-          } else {
-            this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, { username: 'JACKPOT WINNER!' });
-            redisPublisher.publish(
-              'chatmessage',
-              JSON.stringify({
-                message: { username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!` },
-              })
-            );
-          }
-        }
-      });
-      redisSubscriber.subscribe('discordmessage');
-      redisSubscriber.subscribe('prizemessage');
-
-      this.discordClient.on('ready', () => {
-        logger.log(LogLevel.info, 'Discord ready.');
-      });
-      this.discordClient.on('message', (msg: Discord.Message) => {
-        if (msg.author.bot) {
-          return;
-        }
-        if (msg.content.startsWith('!')) {
-          const commandBody = msg.content.slice(1);
-          const args = commandBody.split(' ');
-          const command = args.shift().toLowerCase();
-          if (command === 'dance') {
-            this.chat('Fukutv Bot', ':D\\\\-<');
-            this.chat('Fukutv Bot', ':D|-<');
-            this.chat('Fukutv Bot', ':D/-<');
-          }
+    redisSubscriber.on('message', (channel: any, data: any) => {
+      if (this.isOnline === false) {
+        return;
+      }
+      const { message } = JSON.parse(data);
+      if (channel === 'discordmessage') {
+        this.webhookClient.send(message.chatmessage, {
+          username: message.username,
+        });
+      } else if (channel === 'prizemessage') {
+        if (message.jackpot === false) {
+          this.webhookClient.send(`${message.username} just scored ${message.points} points!`, { username: 'Points! Oh Yeah!' });
+          redisPublisher.publish(
+            'chatmessage',
+            JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points} points!` } })
+          );
         } else {
-          redisPublisher.publish('chatmessage', JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }), () => {});
+          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, { username: 'JACKPOT WINNER!' });
+          redisPublisher.publish(
+            'chatmessage',
+            JSON.stringify({
+              message: { username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!` },
+            })
+          );
         }
-      });
+      }
+    });
+    redisSubscriber.subscribe('discordmessage');
+    redisSubscriber.subscribe('prizemessage');
+
+    this.discordClient.on('ready', () => {
+      logger.log(LogLevel.info, 'Discord ready.');
+    });
+    this.discordClient.on('message', (msg: Discord.Message) => {
+      if (msg.author.bot) {
+        return;
+      }
+      if (msg.content.startsWith('!')) {
+        const commandBody = msg.content.slice(1);
+        const args = commandBody.split(' ');
+        const command = args.shift().toLowerCase();
+        if (command === 'dance') {
+          this.chat('Fukutv Bot', ':D\\\\-<');
+          this.chat('Fukutv Bot', ':D|-<');
+          this.chat('Fukutv Bot', ':D/-<');
+        }
+      } else {
+        redisPublisher.publish('chatmessage', JSON.stringify({ message: { username: msg.author.username, chatmessage: msg.content } }), () => {});
+      }
     });
   }
 
