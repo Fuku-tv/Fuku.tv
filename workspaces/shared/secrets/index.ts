@@ -7,6 +7,9 @@ export interface Secrets {
   STRIPE_WEBHOOK_SECRET: string;
   AMAZON_GIFTCARD_KEY: string;
   AMAZON_GIFTCARD_SECRET: string;
+  DISCORD_BOT_TOKEN: string;
+  DISCORD_WEBHOOK_ID: string;
+  DISCORD_WEBHOOK_TOKEN: string;
 }
 
 const region = 'us-east-1';
@@ -34,5 +37,3 @@ export const getSecrets = async (): Promise<Secrets> => {
 };
 
 export const getSecret = (key: keyof Secrets): string => 'test';
-
-export const getClient = () => client;

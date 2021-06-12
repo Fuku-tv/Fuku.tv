@@ -1,10 +1,12 @@
 import type { ScheduledHandler } from 'aws-lambda';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
+import { getWebhookClient } from 'fuku.tv-shared/discord';
 
 const FREEPLAY_COUNT = 2;
 
 export const index: ScheduledHandler = async () => {
   try {
+    const discordWebhook = await getWebhookClient();
     const playerIdList = await playersTableModel.getList(['id', 'freeplay']);
     console.log(`Found ${playerIdList.length} players to update`);
     playerIdList.forEach(async (player) => {
@@ -15,6 +17,15 @@ export const index: ScheduledHandler = async () => {
         console.log(`Player ${player.id} already has ${player.freeplay} points in their account, skipping`);
       }
     });
+
+    await discordWebhook.send(
+      `The pepe fairy has granted everyone ${FREEPLAY_COUNT} freeplay tickets to play [Fuku.tv](https://fuku.tv)! Feels good man`,
+      {
+        username: 'Fuku Fairy',
+        avatarURL: 'https://pbs.twimg.com/profile_images/1285384386771394560/1kSxAdMB_400x400.jpg',
+      }
+    );
+    console.log(`Sent notification to discord server`);
   } catch (error) {
     console.log(error);
   }

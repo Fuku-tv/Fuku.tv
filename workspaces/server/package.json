@@ -10,7 +10,6 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev --transpile-only src/index.ts"
   },
   "dependencies": {
-    "discord.js": "^12.5.3",
     "express": "^4.17.1",
     "fuku.tv-shared": "*",
     "node-fetch": "^2.6.1",

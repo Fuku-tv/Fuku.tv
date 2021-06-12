@@ -1,28 +1,21 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
-import * as Discord from 'discord.js';
+import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
+import { discordBotToken } from 'fuku.tv-shared/secrets/getSecret';
 import { redisSubscriber, redisPublisher } from './common/redis';
 
-const DISCORD_TOKEN =
-  env.getStage() === 'prod'
-    ? 'ODQ5Njk4ODc2OTEwMjA2OTk3.YLe9vg.Yuwf32Ge2dFxw1ev92BZ6WygQqU'
-    : 'ODUyNzExODQ3OTI4OTIyMTcz.YMKzyw.m4rXro0RbyiR2BuZdn3z5xLsTT8';
-const WEBHOOK_ID = env.getStage() === 'prod' ? '852536906100637757' : '850164581191909388';
-const WEBHOOK_TOKEN =
-  env.getStage() === 'prod'
-    ? 'ztlF46Nj-1GOZiiGIgj2DZdYiiUBU8bmEHG1m_wjB1PHn_jtyuV4PQDkonvb7jwHLokD'
-    : 'WUNxSKL9alhcWf4pOmaXInvRgl5XsH4fZjYMftzWPzrfXDk8sxTS9g9OhM-5jESh6nGJ';
 const logger = new LoggerClass('discordBot');
 
 logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
-export class DiscordBot {
-  discordClient = new Discord.Client();
+export class DiscordBotServer {
+  discordClient = getDiscordClient();
 
-  webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
+  webhookClient: WebhookClient;
 
   isOnline = false;
 
   constructor() {
+    this.loadSecrets().then().catch();
     redisSubscriber.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected.');
     });
@@ -35,7 +28,6 @@ export class DiscordBot {
       if (this.isOnline === false) {
         return;
       }
-
       const { message } = JSON.parse(data);
       if (channel === 'discordmessage') {
         this.webhookClient.send(message.chatmessage, {
@@ -43,16 +35,18 @@ export class DiscordBot {
         });
       } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          this.webhookClient.send(`${message.username} just scored ${message.points}!`, { username: 'Points! Oh Yeah!' });
+          this.webhookClient.send(`${message.username} just scored ${message.points} points!`, { username: 'Points! Oh Yeah!' });
           redisPublisher.publish(
             'chatmessage',
-            JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points}!` } })
+            JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points} points!` } })
           );
         } else {
           this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, { username: 'JACKPOT WINNER!' });
           redisPublisher.publish(
             'chatmessage',
-            JSON.stringify({ message: { username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!` } })
+            JSON.stringify({
+              message: { username: 'JACKPOT WINNER!', chatmessage: `${message.username} WON THE ${message.points} POINT JACKPOT!` },
+            })
           );
         }
       }
@@ -60,19 +54,10 @@ export class DiscordBot {
     redisSubscriber.subscribe('discordmessage');
     redisSubscriber.subscribe('prizemessage');
 
-    this.discordClient
-      .login(DISCORD_TOKEN)
-      .then(() => {
-        logger.logInfo('Discord bot logged in');
-        this.isOnline = true;
-      })
-      .catch((error: any) => {
-        logger.logError(`Error logging into discord with bot: ${error}`);
-      });
     this.discordClient.on('ready', () => {
       logger.log(LogLevel.info, 'Discord ready.');
     });
-    this.discordClient.on('message', (msg: Discord.Message) => {
+    this.discordClient.on('message', (msg) => {
       if (msg.author.bot) {
         return;
       }
@@ -95,6 +80,23 @@ export class DiscordBot {
     this.webhookClient.send(message, { username });
     redisPublisher.publish('chatmessage', JSON.stringify({ message: { username, chatmessage: message } }));
   }
+
+  /**
+   * juryrig because parcel 2 doesnt support top level await
+   */
+  async loadSecrets(): Promise<void> {
+    const DISCORD_TOKEN = await discordBotToken();
+    this.webhookClient = await getWebhookClient();
+    this.discordClient
+      .login(DISCORD_TOKEN)
+      .then(() => {
+        logger.logInfo('Discord bot logged in');
+        this.isOnline = true;
+      })
+      .catch((error: any) => {
+        logger.logError(`Error logging into discord with bot: ${error}`);
+      });
+  }
 }
 
-export default DiscordBot;
+export default DiscordBotServer;
