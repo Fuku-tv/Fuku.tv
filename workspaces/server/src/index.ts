@@ -9,7 +9,7 @@ import { env, LoggerClass, LogLevel } from 'fuku.tv-shared';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';
-import { DiscordBot } from './discordBot';
+import { DiscordBotServer } from './discordBotServer';
 
 const STAGE = getStage();
 
@@ -75,4 +75,4 @@ videoHttpsServer.listen(10889);
 
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
-const discord = new DiscordBot();
+const discord = new DiscordBotServer();

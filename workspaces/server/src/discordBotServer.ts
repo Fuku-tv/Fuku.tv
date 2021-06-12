@@ -1,16 +1,16 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
-import * as Discord from 'discord.js';
-import { discordBotToken, discordWebhookId, discordWebhookToken } from 'fuku.tv-shared/secrets/getSecret';
+import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
+import { discordBotToken } from 'fuku.tv-shared/secrets/getSecret';
 import { redisSubscriber, redisPublisher } from './common/redis';
 
 const logger = new LoggerClass('discordBot');
 
 logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
-export class DiscordBot {
-  discordClient = new Discord.Client();
+export class DiscordBotServer {
+  discordClient = getDiscordClient();
 
-  webhookClient: Discord.WebhookClient;
+  webhookClient: WebhookClient;
 
   isOnline = false;
 
@@ -57,7 +57,7 @@ export class DiscordBot {
     this.discordClient.on('ready', () => {
       logger.log(LogLevel.info, 'Discord ready.');
     });
-    this.discordClient.on('message', (msg: Discord.Message) => {
+    this.discordClient.on('message', (msg) => {
       if (msg.author.bot) {
         return;
       }
@@ -86,10 +86,7 @@ export class DiscordBot {
    */
   async loadSecrets(): Promise<void> {
     const DISCORD_TOKEN = await discordBotToken();
-    const WEBHOOK_ID = await discordWebhookId();
-    const WEBHOOK_TOKEN = await discordWebhookToken();
-
-    this.webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
+    this.webhookClient = await getWebhookClient();
     this.discordClient
       .login(DISCORD_TOKEN)
       .then(() => {
@@ -102,4 +99,4 @@ export class DiscordBot {
   }
 }
 
-export default DiscordBot;
+export default DiscordBotServer;

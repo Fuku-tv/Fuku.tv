@@ -1,5 +1,7 @@
 import type { Serverless } from 'serverless/aws';
 
+import type {} from 'serverless-bundle';
+
 import { devDependencies } from './package.json';
 
 // get the stage option from arguments
@@ -13,7 +15,13 @@ const serverlessConfiguration: Serverless = {
   service: 'fuku-serverless',
   configValidationMode: 'error',
   custom: {
-    bundle: { sourcemaps: false, linting: false, fixPackages: ['formidable@1.x'] },
+    bundle: {
+      // exclude discord.js due to lack of webpack support.
+      externals: ['discord.js'],
+      sourcemaps: false,
+      linting: false,
+      fixPackages: ['formidable@1.x'],
+    },
   },
   provider: {
     lambdaHashingVersion: 20201221,
