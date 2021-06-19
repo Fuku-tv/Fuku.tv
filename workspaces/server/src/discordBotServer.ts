@@ -35,13 +35,19 @@ export class DiscordBotServer {
         });
       } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {
-          this.webhookClient.send(`${message.username} just scored ${message.points} points!`, { username: 'Points! Oh Yeah!' });
+          this.webhookClient.send(`${message.username} just scored ${message.points} points!`, {
+            username: 'Points! Oh Yeah!',
+            avatarURL: 'https://lh5.googleusercontent.com/QI2D-IJj-OfRpGJp_0eWNS4Mk_2BFfmdhv_D9yzYgEwZ0GLLjR-r6Ee-PIGvfVo6hw-8yjJShGCnf5UR6-tG',
+          });
           redisPublisher.publish(
             'chatmessage',
             JSON.stringify({ message: { username: 'Points! Oh Yeah!', chatmessage: `${message.username} just scored ${message.points} points!` } })
           );
         } else {
-          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, { username: 'JACKPOT WINNER!' });
+          this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, {
+            username: 'JACKPOT WINNER!',
+            avatarURL: 'https://lh5.googleusercontent.com/QI2D-IJj-OfRpGJp_0eWNS4Mk_2BFfmdhv_D9yzYgEwZ0GLLjR-r6Ee-PIGvfVo6hw-8yjJShGCnf5UR6-tG',
+          });
           redisPublisher.publish(
             'chatmessage',
             JSON.stringify({

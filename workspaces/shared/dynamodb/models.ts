@@ -8,8 +8,6 @@ export class Player extends BaseModel {
 
   freeplay = 0;
 
-  lastfreeplaydate = 0; // unix timestamp?
-
   points = 0;
 
   xp = 0;

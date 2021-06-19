@@ -38,8 +38,6 @@ export class Player {
 
   freeplay: any;
 
-  lastfreeplaydate: any;
-
   credits: any;
 
   points: any;
@@ -50,19 +48,6 @@ export class Player {
 
     this.keepaliveTimer = setInterval(() => {
       this.send({ keepalive: Date.now() });
-      if (this.isLoggedIn === false) return;
-      if (Math.floor(new Date().getTime() / 1000) >= this.lastfreeplaydate + 86400000) {
-        playersTableModel.addFreeplay(this.userdata.email, 5).then(() => {
-          this.freeplay += 5;
-          this.send({
-            command: constants.PlayerCommand.gamestats,
-            freeplay: this.freeplay,
-          });
-        });
-        playersTableModel.updateLastFreeplayDate(this.userdata.email).then(() => {
-          this.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
-        });
-      }
     }, 10000);
   }
 
@@ -85,10 +70,6 @@ export class Player {
       .catch((error) => {});
 
     this.isLoggedIn = true;
-    this.send({
-      command: 'debug',
-      debug: this.lastfreeplaydate,
-    });
   }
 
   logout() {
@@ -177,11 +158,9 @@ export class Player {
       else this.credits = player.credits;
       if (player.freeplay === undefined) {
         await playersTableModel.addFreeplay(this.userdata.email, 10);
-        await playersTableModel.updateLastFreeplayDate(this.userdata.email);
         this.freeplay = 10;
       } else this.freeplay = player.freeplay;
-      if (player.lastfreeplaydate === undefined) this.lastfreeplaydate = 0;
-      else this.lastfreeplaydate = player.lastfreeplaydate;
+
       this.uid = player.id;
     } catch {
       // no player found, creating new player
@@ -189,7 +168,6 @@ export class Player {
         id: this.userdata.email,
         credits: 0,
         freeplay: 10,
-        lastfreeplaydate: Math.floor(new Date().getTime() / 1000),
         points: 0,
         xp: 0,
         email: this.userdata.email,
