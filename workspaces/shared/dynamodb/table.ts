@@ -82,12 +82,6 @@ export const playersTableModel = {
     else player.freeplay += freeplayToAdd;
     await playersTableModel.write(player);
   },
-
-  async updateLastFreeplayDate(id: string) {
-    const player = await playersTableModel.get(id);
-    player.lastfreeplaydate = Math.floor(new Date().getTime() / 1000);
-    await playersTableModel.write(player);
-  },
 };
 
 export const replayTableModel = {
