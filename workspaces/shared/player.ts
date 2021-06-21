@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import type ws from 'ws';
 import constants from './constants';
 import { playersTableModel } from './dynamodb/table';
-import { Player as PlayerModel } from './dynamodb/models';
+import type { Player as PlayerModel } from './dynamodb/models';
 import type Command from './command';
 
 // IDLE -> QUEUE -> STANDBY -> PLAYING -> END
@@ -22,11 +22,7 @@ export class Player {
 
   keepaliveTimer: any = null;
 
-  isPlaying = false;
-
   isLoggedIn = false;
-
-  isQueued = false;
 
   gameState: string = constants.GameState.idle;
 
