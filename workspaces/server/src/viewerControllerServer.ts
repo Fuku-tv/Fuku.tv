@@ -286,6 +286,7 @@ export class ControllerServer {
 
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
+      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
     }
   }
 
@@ -321,6 +322,7 @@ export class ControllerServer {
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
+      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
       if (this.currentPlayer === null && this.queue.length === 1) {
