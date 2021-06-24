@@ -6,9 +6,9 @@ import fetch from 'node-fetch';
 
 import { redisPublisher, redisSubscriber } from './common/redis';
 
-import queuePublisher from './common/redis/queue/queuePublisher';
+// import queuePublisher from './common/redis/queue/queuePublisher';
 
-import queueSubscriber from './common/redis/queue/queueSubscriber';
+// import queueSubscriber from './common/redis/queue/queueSubscriber';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -53,12 +53,12 @@ export class ControllerServer {
         chatmessage: message.chatmessage,
       });
     });
-    queueSubscriber.onMessage((data) => {
-      console.log('queue message: ', { data });
-      // const { message } = JSON.parse(data);
-      // queuePublisher.publish(message.queue);
-    });
-    queueSubscriber.subscribe();
+    // queueSubscriber.onMessage((data) => {
+    //   console.log('queue message: ', { data });
+    //   // const { message } = JSON.parse(data);
+    //   // queuePublisher.publish(message.queue);
+    // });
+    // queueSubscriber.subscribe();
     redisSubscriber.subscribe('chatmessage');
 
     // client->us
@@ -286,7 +286,7 @@ export class ControllerServer {
 
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
-      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
     }
   }
 
@@ -322,7 +322,7 @@ export class ControllerServer {
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
-      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
       if (this.currentPlayer === null && this.queue.length === 1) {
