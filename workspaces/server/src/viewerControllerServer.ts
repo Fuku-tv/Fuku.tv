@@ -1,10 +1,14 @@
 /* eslint-disable no-param-reassign */
 import WS from 'ws';
-import http from 'http';
+import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
 import { redisPublisher, redisSubscriber } from './common/redis';
+
+import queuePublisher from './common/redis/queue/queuePublisher';
+
+import queueSubscriber from './common/redis/queue/queueSubscriber';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -12,21 +16,12 @@ const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
-const FUKU_REDIS_URL = env.fukuRedisServerURL();
-
-// hack to map authenticated email to current player
-const userRequestMap = new WeakMap();
-
 export class ControllerServer {
-  queue: any[] = [];
+  queue: Player[] = [];
 
   players: Player[] = [];
 
   currentPlayer: Player = null;
-
-  watchCounter = 0;
-
-  queueCounter = 0;
 
   clientController: WS;
 
@@ -45,7 +40,7 @@ export class ControllerServer {
       logger.log(LogLevel.info, 'redisPublisher connected');
     });
 
-    redisSubscriber.on('message', (channel: any, data: any) => {
+    redisSubscriber.on('message', (channel, data: any) => {
       const { message } = JSON.parse(data);
 
       if (message.username === 'Fuku-tv Bot') {
@@ -58,6 +53,12 @@ export class ControllerServer {
         chatmessage: message.chatmessage,
       });
     });
+    queueSubscriber.onMessage((data) => {
+      console.log('queue message: ', { data });
+      // const { message } = JSON.parse(data);
+      // queuePublisher.publish(message.queue);
+    });
+    queueSubscriber.subscribe();
     redisSubscriber.subscribe('chatmessage');
 
     // client->us
@@ -285,6 +286,7 @@ export class ControllerServer {
 
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());
+      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
     }
   }
 
@@ -320,6 +322,7 @@ export class ControllerServer {
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
+      queuePublisher.setQueue(JSON.stringify(this.queue)).then();
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
       if (this.currentPlayer === null && this.queue.length === 1) {
