@@ -4,7 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import RedisServer from 'redis-server';
 import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
-
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 import { env, LoggerClass, LogLevel } from 'fuku.tv-shared';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
@@ -12,6 +13,15 @@ import { VideoServer } from './viewerVideoServer';
 import { DiscordBotServer } from './discordBotServer';
 
 const STAGE = getStage();
+
+Sentry.init({
+  dsn: 'https://8f21c8e02cd3459a9065aa5311bde86f@o879857.ingest.sentry.io/5832909',
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 // const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
 // const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
