@@ -249,7 +249,9 @@ export class ControllerServer {
   }
 
   playStart() {
-    if (this.currentPlayer.credits === 0 && this.currentPlayer.freeplay === 0) return;
+    if (this.currentPlayer.credits === 0 && this.currentPlayer.freeplay === 0 && this.currentPlayer.points < 200) {
+      return;
+    }
 
     // set the claw to a default position so timeouts, etc work
     this.resetClaw();
