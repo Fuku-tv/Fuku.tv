@@ -71,6 +71,15 @@ const ControlsSection: React.FC = () => {
     </>
   );
 
+  const pointsScreen = (
+    <>
+      <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
+        <TitleDescription title="Spend points for more chances?" descriptionStart="You have" dynamicNumber={state.points} descriptionEnd="points!" />{' '}
+        {startGameStopGameBtns}
+      </SlideableContent>
+    </>
+  );
+
   const creditsScreen = (
     <>
       <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
@@ -81,7 +90,8 @@ const ControlsSection: React.FC = () => {
   );
 
   let readyToGoScreen;
-  if (state.freeplay > 0) readyToGoScreen = freeplayScreen;
+  if (state.credits <= 0 && state.freeplay <= 0) readyToGoScreen = pointsScreen;
+  else if (state.freeplay > 0) readyToGoScreen = freeplayScreen;
   else readyToGoScreen = creditsScreen;
 
   const controlsAndTimerScreen = (
