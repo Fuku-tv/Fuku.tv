@@ -39,7 +39,6 @@ const MainScreen: React.FC = () => {
       <div className="main-inner-wrapper">
         <div className="content-area">
           <VideoFeedSection />
-
           <ContentSection />
         </div>
         <Sidebar />

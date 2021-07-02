@@ -3,14 +3,17 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
+import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import Controls from './Controls/Controls';
 import TitleDescription from '../../../../../UIElements/TitleDescription/TitleDescription';
+
 import './ControlsSection.scss';
 import Timer from './Timer/Timer';
 
 const ControlsSection: React.FC = () => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
+  const [modalIsActive, setModalIsActive] = React.useState<boolean>(false);
   const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
   const gamestandby = state.gameStatus === 'gamestandby';
   const gameplay = state.gameStatus === 'gameplay';
@@ -74,8 +77,34 @@ const ControlsSection: React.FC = () => {
   const pointsScreen = (
     <>
       <SlideableContent direction={gameplay ? 'left' : 'right'} show={controlsVisible && !gameplay}>
-        <TitleDescription title="Spend points for more chances?" descriptionStart="You have" dynamicNumber={state.points} descriptionEnd="points!" />{' '}
-        {startGameStopGameBtns}
+        <TitleDescription
+          title="Out of Credits"
+          descriptionStart="You have"
+          dynamicNumber={state.points}
+          descriptionEnd="points, trade them in for more credits?"
+        />{' '}
+        <DepthButton id="spend-points-button" buttonText="" />
+        <div id="start" className="start-stop-buttons-container">
+          <DepthButton
+            onPointerUp={() => actions.buttonUpEvent('stop')}
+            onPointerDown={() => actions.buttonDownEvent('stop')}
+            id="btnStop"
+            buttonText="End Game"
+            width={110}
+            height={42}
+            color="red"
+          />
+
+          <DepthButton
+            onPointerUp={() => setModalIsActive(true)}
+            onPointerDown={() => setModalIsActive(true)}
+            id="spend-points-button"
+            buttonText="Yes, Let's Trade"
+            width={160}
+            height={42}
+            color="purple"
+          />
+        </div>
       </SlideableContent>
     </>
   );
@@ -103,6 +132,7 @@ const ControlsSection: React.FC = () => {
   );
   return (
     <section id="controls-section">
+      <PointsForCreditsModal closeDrawer={() => setModalIsActive(false)} show={modalIsActive} />
       {letsPlayScreen}
       {readyToGoScreen}
       {controlsAndTimerScreen}

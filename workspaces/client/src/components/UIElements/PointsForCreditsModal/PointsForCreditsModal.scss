@@ -1,0 +1,192 @@
+#points-for-credits.login-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 100000;
+  height: 70%;
+  max-height: 420px;
+  max-width: 520px;
+  width: 88%;
+  background: #ffffff;
+  color: #333;
+  transform: translate(-50%, -50%);
+  padding: 30px 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 30px;
+
+  .robot-image {
+    position: absolute;
+    background-image: url('./fuku-robot-bg-black.png');
+    background-position: right;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    &::after {
+      content: '';
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: rgb(255, 255, 255);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+  }
+
+  .modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    z-index: 1111;
+    svg {
+      height: 22px;
+      display: block;
+    }
+  }
+
+  .modal__logo {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1111;
+    svg {
+      height: 28px;
+      display: block;
+    }
+  }
+
+  .modal__body {
+    position: relative;
+    z-index: 111;
+    h2 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: var(--purplePrimary);
+    }
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      svg {
+        height: 18px;
+        width: 18px;
+        display: block;
+        margin: 0 5px;
+      }
+    }
+
+    .point-calculator {
+      margin: 30px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span,
+      div,
+      select {
+        margin: 0 3px;
+      }
+      select {
+        font-size: 15px;
+        border: none;
+        border-bottom: 2px solid #717171;
+        padding: 2px;
+      }
+
+      div,
+      select {
+        font-weight: bold;
+        height: 24px;
+      }
+      .point-value {
+        font-weight: bold;
+        position: relative;
+        padding: 0 2px;
+        display: flex;
+        align-items: center;
+        // &::after {
+        //   content: '';
+        //   width: 100%;
+        //   height: 2px;
+        //   background-color: #717171;
+        //   position: absolute;
+        //   bottom: 0;
+        //   left: 0;
+        // }
+      }
+    }
+
+    .current-points {
+      margin-top: 10px;
+      .text {
+        font-weight: 600;
+      }
+      .value {
+        margin-left: 5px;
+      }
+    }
+    #modal-login-button {
+      margin-top: 10px;
+    }
+  }
+  .modal__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    svg {
+      width: 100%;
+      display: block;
+      path {
+        fill: #d2d2d2;
+      }
+    }
+  }
+}
+
+//CSS ANIMATIONS
+
+.fade-in-enter {
+  opacity: 0;
+}
+.fade-in-enter-active {
+  opacity: 1;
+}
+.fade-in-exit {
+  opacity: 1;
+}
+.fade-in-exit-active {
+  opacity: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  aside.side-drawer {
+    // position: relative;
+    .nav-links {
+      display: flex !important;
+      flex-direction: column;
+      li {
+        margin: 30px 0 20px;
+        a {
+          font-size: 25px;
+        }
+        &#profile-link {
+          margin-left: 0;
+          padding: 0 30px;
+          padding-top: 40px;
+          border-top: 1px solid var(--purpleSecondary);
+          border-left: none;
+        }
+      }
+    }
+  }
+}
