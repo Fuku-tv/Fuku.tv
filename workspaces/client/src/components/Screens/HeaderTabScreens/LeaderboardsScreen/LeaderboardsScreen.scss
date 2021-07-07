@@ -1,0 +1,22 @@
+#leaderboards-screen {
+  position: relative;
+  #leaderboard-user {
+    display: flex;
+    border-bottom: 1px solid var(--blackAccentSecondary);
+    align-items: center;
+    padding: 12px 0;
+    .leaderboard__user-details {
+      display: grid;
+      grid-template-columns: 47px 1fr 60px;
+      width: 100%;
+      margin-left: 15px;
+      div {
+        display: flex;
+        align-items: center;
+      }
+      .user__score {
+        text-align: left;
+      }
+    }
+  }
+}

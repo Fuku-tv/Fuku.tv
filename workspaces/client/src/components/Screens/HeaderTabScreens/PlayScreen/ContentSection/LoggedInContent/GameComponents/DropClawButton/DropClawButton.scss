@@ -1,0 +1,36 @@
+#btnDrop {
+  position: relative;
+  background: transparent;
+  .button__content-wrapper {
+    display: flex;
+    flex-direction: column;
+    span {
+      margin-top: 10px;
+    }
+    svg {
+      height: 48px;
+      margin: 0;
+      fill: #ffffff;
+    }
+  }
+  .aws-btn {
+    --button-default-height: 125px;
+    --button-default-font-size: 16px;
+    --button-default-border-radius: 10px;
+    --button-horizontal-padding: 35px;
+    --button-raise-level: 5px;
+    --button-hover-pressure: 1;
+    --transform-speed: 0.175s;
+    --button-primary-color: var(--gold);
+    --button-primary-color-dark: #816715;
+    --button-primary-color-light: #ffffff;
+    --button-primary-color-hover: var(--goldAccent);
+    --button-primary-border: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #btnDrop .aws-btn {
+    --button-horizontal-padding: 15px !important;
+  }
+}

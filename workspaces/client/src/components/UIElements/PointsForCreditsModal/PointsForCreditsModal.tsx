@@ -28,6 +28,12 @@ const PointsForCreditsModal: React.FC<Props> = ({ closeDrawer, show, children })
     setModalIsSuccess(true);
   };
 
+  const modalExitHandler = () => {
+    setCreditValue(1);
+    setModalIsSuccess(false);
+    closeDrawer();
+  };
+
   const creditSelectContent = (
     <>
       <div className="point-calculator">
@@ -54,22 +60,18 @@ const PointsForCreditsModal: React.FC<Props> = ({ closeDrawer, show, children })
   const content = (
     <CSSTransition in={show} classNames="fade-in" mountOEnter unmountOnExit>
       <>
-        <Backdrop onClick={closeDrawer} />
+        <Backdrop onClick={modalExitHandler} />
         <aside id="points-for-credits" className="login-modal">
           <div className="robot-image" />
           <div className="modal__logo">{fukuLogo}</div>
 
-          <button onClick={closeDrawer} onKeyDown={closeDrawer} className="modal__close">
+          <button onClick={modalExitHandler} onKeyDown={modalExitHandler} className="modal__close">
             {close}
           </button>
 
           <div className="modal__body">
-            <h2>Get More Credits</h2>
-            <p>
-              {modalIsSuccess
-                ? `Trade successful! ${creditValue} has been added to your account.`
-                : 'How many credits would you like to trade points for?'}
-            </p>
+            <h2>{modalIsSuccess ? 'Trade Successfull!' : 'Get More Credits'}</h2>
+            <p>{modalIsSuccess ? `${creditValue} has been added to your account.` : 'How many credits would you like to trade points for?'}</p>
             {!modalIsSuccess && creditSelectContent}
 
             <div className="current-points">
