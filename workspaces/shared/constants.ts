@@ -27,6 +27,7 @@ const PlayerCommand = {
   chatmessages: 'chatmessages',
   freeplayavailable: 'freeplay-available',
   freeplayredeem: 'freeplay-redeem',
+  pointsredeem: 'points-redeem',
 };
 
 // commands sent to/from the pi
