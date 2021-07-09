@@ -29,6 +29,8 @@ export class ControllerServer {
 
   progressiveJackpot = 10000;
 
+  creditsMultiplier = 100;
+
   constructor(server: http.Server) {
     this.connectController();
 
@@ -129,6 +131,16 @@ export class ControllerServer {
               JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
               () => {}
             );
+            break;
+          case constants.PlayerCommand.pointsredeem:
+            var credits = msg.credits;
+            var points = credits * this.creditsMultiplier;
+            if (points <= 0) {
+              logger.log(LogLevel.info, `${clientPlayer.uid} - sent points redeem but didn't redeem enough for credits!`);
+              break;
+            }
+            clientPlayer.redeemPoints(points, credits);
+            this.updateGameStats();
             break;
           default:
             break;

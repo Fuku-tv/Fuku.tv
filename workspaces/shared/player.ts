@@ -146,6 +146,11 @@ export class Player {
     await playersTableModel.addPoints(this.userdata.email, points);
   }
 
+  async redeemPoints(points: number, credits: number): Promise<void> {
+    await playersTableModel.addPoints(this.userdata.email, -1 * points);
+    await playersTableModel.addCredits(this.userdata.email, credits);
+  }
+
   /**
    * Fetch player data from Database, create new player if ID not found
    */
