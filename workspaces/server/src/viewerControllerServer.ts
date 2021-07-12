@@ -263,7 +263,9 @@ export class ControllerServer {
 
   playStart() {
     playersTableModel.get(this.currentPlayer.userdata.email).then((player) => {
-      this.currentPlayer = player as any;
+      this.currentPlayer.credits = player.credits;
+      this.currentPlayer.freeplay = player.freeplay;
+      this.currentPlayer.points = player.points;
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
         return;
       }
