@@ -117,6 +117,11 @@ export class Player {
     } else if (this.credits > 0) {
       this.credits -= 1;
       playersTableModel.removeCredits(this.userdata.email, 1);
+    } else if (this.points >= 200) {
+      this.points -= 200;
+      playersTableModel.removePoints(this.userdata.email, 200);
+      // you don't have the freeplay or credits!
+      // need UI for this
     } else {
       // you don't have the freeplay or credits!
       // need UI for this
@@ -139,6 +144,11 @@ export class Player {
 
   async addPoints(points: number): Promise<void> {
     await playersTableModel.addPoints(this.userdata.email, points);
+  }
+
+  async redeemPoints(points: number, credits: number): Promise<void> {
+    await playersTableModel.addPoints(this.userdata.email, -1 * points);
+    await playersTableModel.addCredits(this.userdata.email, credits);
   }
 
   /**
