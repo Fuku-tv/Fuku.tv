@@ -1,12 +1,13 @@
 .game-queue-wrapper {
   position: relative;
   text-align: center;
+  padding: 6px;
   .queue-item__icon {
     position: relative;
     height: 32px;
     display: flex;
     justify-content: center;
-    margin: 0 auto 10px;
+    // margin: 0 auto 10px;
 
     svg {
       height: 100%;
@@ -23,12 +24,30 @@
     }
   }
 
+  button.enter-queue-btn {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    cursor: pointer;
+    margin-top: 20px;
+    span svg {
+      fill: #fff;
+      height: 22px;
+      margin-left: 6px;
+      display: block;
+    }
+  }
+
   .title {
     font-size: 12px;
     opacity: 0.8;
   }
-  .user {
-    font-size: 14px;
+  .sub-title {
+    // font-size: 14px;
+    // margin: 8px 0;
+    margin-top: 10px;
   }
   //
 

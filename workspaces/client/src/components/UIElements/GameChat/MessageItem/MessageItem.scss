@@ -17,7 +17,7 @@
   }
   .message-item-wrapper {
     position: relative;
-    padding: 12px;
+    padding: 8px;
     // background: #fff;
     // border-radius: 50px;
     align-items: flex-end;
@@ -40,22 +40,23 @@
       display: flex;
       flex-direction: column;
       .message__title {
-        font-size: 12px;
+        font-size: 11px;
         color: #fff;
         font-weight: 500;
       }
       .message-item {
         background-color: #fafafa;
-        border-radius: 6px;
-        padding: 6px 10px;
+        border-radius: 2px;
+        padding: 3px;
         &:not(:first-child) {
           margin-top: 5px;
         }
         .message__message-content {
           position: relative;
-          font-size: 12px !important;
-          line-height: 18px;
+          font-size: 11px !important;
+          line-height: 16px;
           overflow-wrap: break-word;
+          font-weight: 500;
         }
       }
     }

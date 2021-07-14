@@ -15,6 +15,12 @@
     display: block;
     margin: 0 auto;
   }
+  .start-stop-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .table {
     font-size: 14px;
   }
