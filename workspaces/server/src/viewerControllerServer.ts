@@ -262,22 +262,21 @@ export class ControllerServer {
 
   playStart() {
     playersTableModel.get(this.currentPlayer.userdata.email).then((player) => {
-      this.currentPlayer = player as any;
+      this.currentPlayer.credits = player.credits;
+      this.currentPlayer.freeplay = player.freeplay;
+      this.currentPlayer.points = player.points;
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
         return;
       }
-
       // set the claw to a default position so timeouts, etc work
       this.resetClaw();
-
-
-    // Unlock player controls
-    this.currentPlayer.play(this.playEnd.bind(this));
-    this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
-    sendall(this.players, {
-      command: constants.GameState.playing,
-      player: this.currentPlayer.userdata.email.split('@')[0],
-
+      // Unlock player controls
+      this.currentPlayer.play(this.playEnd.bind(this));
+      this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
+      sendall(this.players, {
+        command: constants.GameState.playing,
+        player: this.currentPlayer.userdata.email.split('@')[0],
+      });
     });
   }
 
