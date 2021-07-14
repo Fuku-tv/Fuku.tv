@@ -4,6 +4,7 @@ import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 
+import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
 
 // import queuePublisher from './common/redis/queue/queuePublisher';
@@ -28,6 +29,8 @@ export class ControllerServer {
   wss: WS.Server;
 
   progressiveJackpot = 10000;
+
+  creditsMultiplier = 100;
 
   constructor(server: http.Server) {
     this.connectController();
@@ -81,6 +84,8 @@ export class ControllerServer {
       socket.on('message', async (data: any) => {
         const msg = JSON.parse(data);
         console.log('Socket Message Received', msg);
+        const { credits } = msg;
+        const points = credits * this.creditsMultiplier;
 
         switch (msg.command) {
           case constants.PlayerCommand.control:
@@ -128,6 +133,14 @@ export class ControllerServer {
               JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
               () => {}
             );
+            break;
+          case constants.PlayerCommand.pointsredeem:
+            if (points <= 0) {
+              logger.log(LogLevel.info, `${clientPlayer.uid} - sent points redeem but didn't redeem enough for credits!`);
+              break;
+            }
+            clientPlayer.redeemPoints(points, credits);
+            this.updateGameStats();
             break;
           default:
             break;
@@ -248,12 +261,15 @@ export class ControllerServer {
   }
 
   playStart() {
-    if (this.currentPlayer.credits === 0 && this.currentPlayer.freeplay === 0 && this.currentPlayer.points < 200) {
-      return;
-    }
+    playersTableModel.get(this.currentPlayer.userdata.email).then((player) => {
+      this.currentPlayer = player as any;
+      if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
+        return;
+      }
 
-    // set the claw to a default position so timeouts, etc work
-    this.resetClaw();
+      // set the claw to a default position so timeouts, etc work
+      this.resetClaw();
+
 
     // Unlock player controls
     this.currentPlayer.play(this.playEnd.bind(this));
@@ -261,6 +277,7 @@ export class ControllerServer {
     sendall(this.players, {
       command: constants.GameState.playing,
       player: this.currentPlayer.userdata.email.split('@')[0],
+
     });
   }
 
