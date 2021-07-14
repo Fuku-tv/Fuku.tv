@@ -1,0 +1,79 @@
+#leaderboards-podium {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  max-width: 400px;
+  max-height: 320px;
+  justify-content: center;
+  margin: 0 auto;
+  padding-top: 50px;
+  align-items: flex-end;
+  .podium-column {
+    position: relative;
+    display: flex;
+    // justify-content: center;
+    padding-top: 40px;
+    align-items: center;
+    flex-basis: 100%;
+    border: 2px solid white;
+    flex-direction: column;
+    .podium-name {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 100%;
+    }
+    &.first {
+      height: 100%;
+      &::after {
+        width: calc(100% + 20px);
+        top: -2px;
+        left: -10px;
+        border-radius: 8px;
+      }
+    }
+    &.second {
+      height: 80%;
+      &::after {
+        width: calc(100% + 8px);
+        right: -1px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+    }
+    &.third {
+      height: 65%;
+      &::after {
+        width: calc(100% + 8px);
+        left: -1px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
+
+    &::after {
+      content: '';
+      height: 8px;
+      top: -2px;
+      background-color: #fff;
+      position: absolute;
+    }
+
+    .place-number {
+      font-size: 24px;
+      font-weight: bold;
+      border: 1px solid white;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .wins-number {
+      margin-top: 20px;
+    }
+  }
+}

@@ -10,6 +10,7 @@
     // transform: rotateY(-20deg) rotateX(40deg) rotateZ(0deg);
     h2 {
       // padding: 0 10px;
+      font-weight: 600;
       font-size: 22px;
     }
     p {
@@ -24,6 +25,17 @@
       border-radius: 2px;
       color: var(--purpleSecondary);
       border: 1px solid var(--purpleSecondary);
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .title-description-container {
+    h2 {
+      font-size: 18px !important;
+    }
+    p {
+      font-size: 13px !important;
     }
   }
 }

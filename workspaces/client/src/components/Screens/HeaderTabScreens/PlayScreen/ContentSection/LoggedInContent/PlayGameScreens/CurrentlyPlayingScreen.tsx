@@ -12,7 +12,7 @@ const CurrentlyPlayingScreen: React.FC<PROPS> = ({ gameStatus }) => {
   const { state, actions } = useGameState();
 
   return (
-    <SlideableContent direction="right" show={gameStatus === 'gameplay'}>
+    <SlideableContent direction="right" show={state.gameStatus === 'gameplay'}>
       <Controls />
     </SlideableContent>
   );

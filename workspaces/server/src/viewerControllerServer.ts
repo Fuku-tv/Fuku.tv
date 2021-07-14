@@ -112,7 +112,6 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
-            console.log('Starting Queue');
             this.queuePlayer(clientPlayer);
             this.updateGameStats();
             break;
@@ -263,17 +262,21 @@ export class ControllerServer {
 
   playStart() {
     playersTableModel.get(this.currentPlayer.userdata.email).then((player) => {
-      this.currentPlayer = player as any;
+      this.currentPlayer.credits = player.credits;
+      this.currentPlayer.freeplay = player.freeplay;
+      this.currentPlayer.points = player.points;
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
         return;
       }
-
       // set the claw to a default position so timeouts, etc work
       this.resetClaw();
-
       // Unlock player controls
       this.currentPlayer.play(this.playEnd.bind(this));
       this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
+      sendall(this.players, {
+        command: constants.GameState.playing,
+        player: this.currentPlayer.userdata.email.split('@')[0],
+      });
     });
   }
 
@@ -283,6 +286,7 @@ export class ControllerServer {
       return;
     }
     this.currentPlayer.playEnd();
+
     // Waiting long enough for the claw to pick up the prize, return to home,
     // drop the prize, and reset for next play
     setTimeout(() => {
@@ -301,6 +305,11 @@ export class ControllerServer {
       logger.log(LogLevel.error, 'queue does not exist!');
       return;
     }
+
+    sendall(this.players, {
+      command: constants.GameState.playing,
+      player: '',
+    });
 
     if (this.currentPlayer === null && this.queue.length > 0) {
       this.activatePlayer(this.queue.shift());

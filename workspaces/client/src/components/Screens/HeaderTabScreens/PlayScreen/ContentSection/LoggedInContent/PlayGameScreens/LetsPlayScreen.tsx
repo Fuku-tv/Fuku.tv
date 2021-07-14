@@ -3,12 +3,9 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
-import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
-import Controls from './Controls/Controls';
 
 // import './ControlsSection.scss';
-import Timer from './Timer/Timer';
 
 interface PROPS {
   gameStatus: string;

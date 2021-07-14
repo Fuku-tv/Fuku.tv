@@ -15,6 +15,7 @@ const initialState = {
   error: {},
   winnerModalActive: false,
   isPlayerInQueue: false,
+  currentlyPlaying: '',
 };
 
 const gameSlice = createSlice({
@@ -67,10 +68,11 @@ const gameSlice = createSlice({
         chat: [...state.chat, action.payload],
       };
     },
-    updateChatList(state, action: PayloadAction<typeof initialState>) {
+
+    setCurrentlyPlaying(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
-        chat: [...state.chat, action.payload],
+        currentlyPlaying: action.payload,
       };
     },
 

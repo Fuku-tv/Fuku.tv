@@ -72,19 +72,20 @@
         flex-grow: 1;
         input {
           border: none;
-          background-color: #a5a5a5;
+          background-color: #2d2e31;
           border-radius: 50px;
           padding: 0 10px;
           height: 32px;
           color: #fff;
           width: 100%;
-          color: black;
+          color: rgb(255, 255, 255);
           font-size: 13px;
           // cursor: pointer;
           font-family: var(--jost);
           font-weight: 500;
           &::placeholder {
-            color: rgba(28, 28, 28, 0.688);
+            // color: rgba(28, 28, 28, 0.688);
+            color: #ffffffb4;
             font-size: 13px;
             font-family: var(--jost);
           }
@@ -123,7 +124,7 @@
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
   cursor: pointer;
   // background-color: rgb(193, 193, 193);
 }
@@ -138,8 +139,8 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #686868;
-  width: 14px;
-  border-radius: 10px;
+  width: 8px;
+  border-radius: 8px;
 }
 
 /* Handle on hover */
