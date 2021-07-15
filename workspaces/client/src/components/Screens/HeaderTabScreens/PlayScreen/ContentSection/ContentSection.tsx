@@ -20,7 +20,6 @@ const ContentSection: React.FC = () => {
 
   return (
     <section id="content-section">
-      <SwitchCameraButton />
       <div className="inner-wrapper">
         <section id="play-game-tab">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>
       </div>

@@ -34,7 +34,7 @@ const LoggedInContent: React.FC = () => {
 
   return (
     <section id="controls-section">
-      <LetsPlayScreen gameStatus={gameStatus} />
+      <LetsPlayScreen gameStatus="controlsVisible" />
       <ReadyToGoScreen gameStatus={gameStatus} />
       <CurrentlyPlayingScreen gameStatus={gameStatus} />
     </section>

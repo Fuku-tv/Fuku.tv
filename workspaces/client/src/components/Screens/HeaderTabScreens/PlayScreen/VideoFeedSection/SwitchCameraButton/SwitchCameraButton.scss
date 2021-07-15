@@ -6,21 +6,21 @@
     cursor: pointer;
     // background-color: rgba(255, 255, 255, 0.8);
     // background-color: hsla(263, 25%, 51%, 0.8);
-    background-color: var(--purpleSecondary);
+    // background-color: var(--purpleSecondary);
     width: 50px;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    border: none;
+    // border: none;
     transition: 180ms ease;
     svg {
       fill: #ffffff;
       width: 20px;
     }
     &:hover {
-      background-color: var(--purplePrimary);
+      // background-color: var(--purplePrimary);
     }
   }
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 // import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
+import Timer from 'src/components/game/Timer/Timer';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import Controls from '../GameComponents/Controls/Controls';
 
@@ -12,8 +13,8 @@ const CurrentlyPlayingScreen: React.FC<PROPS> = ({ gameStatus }) => {
   const { state, actions } = useGameState();
 
   return (
-    <SlideableContent direction="right" show={state.gameStatus === 'gameplay'}>
-      <Controls />
+    <SlideableContent direction="right" show={gameStatus !== 'gameplay'}>
+      <Timer />
     </SlideableContent>
   );
 };

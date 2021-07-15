@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
-
+import { isMobile } from 'react-device-detect';
 import './DropClawButton.scss';
 
 const DropClawButton: React.FC = () => {
@@ -18,7 +18,7 @@ const DropClawButton: React.FC = () => {
   const text = (
     <>
       {clawIcon}
-      <span>Drop The Claw</span>
+      <span>Drop Claw</span>
     </>
   );
   return (
@@ -27,8 +27,8 @@ const DropClawButton: React.FC = () => {
         id="btnDrop"
         onPointerDown={() => actions.buttonDownEvent('drop')}
         buttonText={text}
-        width={140}
-        height={110}
+        width={isMobile ? 90 : 150}
+        height={isMobile ? 70 : 110}
         borderRadius={3}
         color="yellow"
       />

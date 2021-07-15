@@ -3,8 +3,10 @@ import VideoFeed from 'src/components/game/VideoFeed';
 import { useGameState } from 'src/state/hooks';
 import Timer from '../../../../game/Timer/Timer';
 import './VideoFeedSection.scss';
+import CurrentlyPlayingScreen from '../ContentSection/LoggedInContent/PlayGameScreens/CurrentlyPlayingScreen';
+import TransparentGameControls from './TransparentGameControls/TransparentGameControls';
 // import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-// import SwitchCameraButton from './SwitchCameraButton/SwitchCameraButton';
+import SwitchCameraButton from './SwitchCameraButton/SwitchCameraButton';
 // import SpectatorInformation from './SpectatorInformation/SpectatorInformation';
 
 const VideoFeedSection: React.FC = () => {
@@ -31,8 +33,9 @@ const VideoFeedSection: React.FC = () => {
   return (
     <section id="video-feed-section">
       {gameplay && <Timer />}
+      <SwitchCameraButton />
       <VideoFeed width="100%" height="480" />
-      {feedInformationBar}
+      {state.gameStatus !== 'gameplay' && <TransparentGameControls />}
     </section>
   );
 };
