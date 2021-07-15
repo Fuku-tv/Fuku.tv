@@ -12,7 +12,7 @@ import SideDrawer from '../UIElements/SideDrawer/SideDrawer';
 import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
 import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
 import GameChat from '../UIElements/GameChat/GameChat';
-import * as styles from './Header.module.scss';
+import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   const { state, actions } = useAuthState();

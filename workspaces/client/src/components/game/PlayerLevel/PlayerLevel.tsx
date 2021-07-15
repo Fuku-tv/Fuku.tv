@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import * as styles from './PlayerLevel.module.scss';
+import styles from './PlayerLevel.module.scss';
 import { levels } from './playerLevels';
 
 const PlayerLevel: React.FC = () => {
