@@ -3,7 +3,7 @@ import WS from 'ws';
 import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
-
+import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
 
@@ -16,6 +16,13 @@ const logger = new LoggerClass('viewerServer');
 const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
+
+let webhookClient: WebhookClient;
+getWebhookClient()
+  .then((client) => {
+    webhookClient = client;
+  })
+  .catch();
 
 export class ControllerServer {
   queue: Player[] = [];
@@ -58,8 +65,8 @@ export class ControllerServer {
     });
     // queueSubscriber.onMessage((data) => {
     //   console.log('queue message: ', { data });
-    //   // const { message } = JSON.parse(data);
-    //   // queuePublisher.publish(message.queue);
+    // const { message } = JSON.parse(data);
+    // queuePublisher.publish(message.queue);
     // });
     // queueSubscriber.subscribe();
     redisSubscriber.subscribe('chatmessage');
@@ -349,6 +356,7 @@ export class ControllerServer {
     logger.log(LogLevel.info, `${p.uid} - Queue`);
     if (!this.queue.includes(p)) {
       this.queue.push(p);
+      webhookClient.send(`Player ${p.userdata.nickname} has entered the queue`, { username: 'Fuku.tv Bot' });
       // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
@@ -364,10 +372,12 @@ export class ControllerServer {
 
   dequeuePlayer(p: Player): void {
     logger.log(LogLevel.info, `${p.uid} - dequeue`);
+    webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
     this.queue.forEach((item, index, object) => {
       if (item === p) {
         object.splice(index, 1);
         logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
+        webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
       }
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
