@@ -1,27 +1,24 @@
 import WS from 'ws';
-import http from 'http';
-import crypto from 'crypto';
+
 import { LogLevel, LoggerClass, constants, Command, env } from 'fuku.tv-shared';
 import Viewer from './viewer';
+import WebsocketServerBase from './websocketServerBase';
 
 const logger = new LoggerClass('viewerVideoServer');
 
 const [uriVideo1, uriVideo2] = env.piVideoURL();
 
-export class VideoServer {
+export class VideoServer extends WebsocketServerBase {
   viewers: Viewer[] = [];
 
   keyframes: [] = [];
 
   videoState: string[] = [];
 
-  wss: WS.Server;
-
-  constructor(server: http.Server) {
+  async run(port: number): Promise<void> {
+    super.run(port);
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
-
-    this.wss = new WS.Server({ server });
 
     this.wss.on('connection', (socket: any, req: any) => {
       const viewer = new Viewer(socket, req.connection.remoteAddress);
