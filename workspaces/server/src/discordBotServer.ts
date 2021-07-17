@@ -39,6 +39,7 @@ export class DiscordBotServer {
       if (channel === 'discordmessage') {
         this.webhookClient.send(message.chatmessage, {
           username: message.username,
+          avatarURL: message?.pictureUrl,
         });
       } else if (channel === 'prizemessage') {
         if (message.jackpot === false) {

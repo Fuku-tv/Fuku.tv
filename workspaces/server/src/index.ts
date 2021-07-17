@@ -87,3 +87,4 @@ const discord = new DiscordBotServer();
 
 controller.run(10888);
 video.run(10889);
+discord.run();

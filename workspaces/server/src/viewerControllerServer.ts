@@ -132,7 +132,9 @@ export class ControllerServer extends WebsocketServerBase {
           case constants.PlayerCommand.chatmsg:
             redisPublisher.publish(
               'discordmessage',
-              JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
+              JSON.stringify({
+                message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage, pictureUrl: clientPlayer.userdata.pictureUrl },
+              }),
               () => {}
             );
             break;
@@ -407,7 +409,7 @@ const authenticateConnection = async (token: string): Promise<any> => {
     const data = await res.json();
 
     logger.log(LogLevel.info, `Validated user: ${data.email} ${data.nickname}`);
-    return { email: data.email, nickname: data.nickname };
+    return { email: data.email, nickname: data.nickname, pictureUrl: data.picture };
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);
     return null;
