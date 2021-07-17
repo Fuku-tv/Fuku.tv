@@ -6,6 +6,7 @@ import fetch from 'node-fetch';
 import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
+import WebsocketServerBase from './websocketServerBase';
 
 // import queuePublisher from './common/redis/queue/queuePublisher';
 
@@ -24,7 +25,7 @@ getWebhookClient()
   })
   .catch();
 
-export class ControllerServer {
+export class ControllerServer extends WebsocketServerBase {
   queue: Player[] = [];
 
   players: Player[] = [];
@@ -33,13 +34,12 @@ export class ControllerServer {
 
   clientController: WS;
 
-  wss: WS.Server;
-
   progressiveJackpot = 10000;
 
   creditsMultiplier = 100;
 
-  constructor(server: http.Server) {
+  async run(port: number): Promise<void> {
+    super.run(port);
     this.connectController();
 
     redisSubscriber.on('connect', () => {
@@ -70,11 +70,6 @@ export class ControllerServer {
     // });
     // queueSubscriber.subscribe();
     redisSubscriber.subscribe('chatmessage');
-
-    // client->us
-    this.wss = new WS.Server({
-      server,
-    });
 
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
@@ -137,7 +132,9 @@ export class ControllerServer {
           case constants.PlayerCommand.chatmsg:
             redisPublisher.publish(
               'discordmessage',
-              JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
+              JSON.stringify({
+                message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage, pictureUrl: clientPlayer.userdata.pictureUrl },
+              }),
               () => {}
             );
             break;
@@ -412,7 +409,7 @@ const authenticateConnection = async (token: string): Promise<any> => {
     const data = await res.json();
 
     logger.log(LogLevel.info, `Validated user: ${data.email} ${data.nickname}`);
-    return { email: data.email, nickname: data.nickname };
+    return { email: data.email, nickname: data.nickname, pictureUrl: data.picture };
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);
     return null;
