@@ -1,6 +1,5 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
-import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
-import { discordBotToken } from 'fuku.tv-shared/secrets/getSecret';
+import { getDiscordClient, getWebhookClient, WebhookClient, DiscordClient } from 'fuku.tv-shared/discord';
 import { redisSubscriber, redisPublisher } from './common/redis';
 
 const logger = new LoggerClass('discordBot');
@@ -8,14 +7,22 @@ const logger = new LoggerClass('discordBot');
 logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
 export class DiscordBotServer {
-  discordClient = getDiscordClient();
+  discordClient: DiscordClient;
 
   webhookClient: WebhookClient;
 
   isOnline = false;
 
-  constructor() {
-    this.loadSecrets().then().catch();
+  async run(): Promise<void> {
+    try {
+      this.webhookClient = await getWebhookClient();
+      this.discordClient = await getDiscordClient();
+      this.isOnline = true;
+      logger.logInfo('Discord bot logged in');
+    } catch (error) {
+      logger.logError(`Error logging into discord with bot: ${error}`);
+    }
+
     redisSubscriber.on('connect', () => {
       logger.log(LogLevel.info, 'Redis connected.');
     });
@@ -82,26 +89,9 @@ export class DiscordBotServer {
     });
   }
 
-  chat(username: any, message: any) {
+  chat(username: any, message: any): void {
     this.webhookClient.send(message, { username });
     redisPublisher.publish('chatmessage', JSON.stringify({ message: { username, chatmessage: message } }));
-  }
-
-  /**
-   * juryrig because parcel 2 doesnt support top level await
-   */
-  async loadSecrets(): Promise<void> {
-    const DISCORD_TOKEN = await discordBotToken();
-    this.webhookClient = await getWebhookClient();
-    this.discordClient
-      .login(DISCORD_TOKEN)
-      .then(() => {
-        logger.logInfo('Discord bot logged in');
-        this.isOnline = true;
-      })
-      .catch((error: any) => {
-        logger.logError(`Error logging into discord with bot: ${error}`);
-      });
   }
 }
 
