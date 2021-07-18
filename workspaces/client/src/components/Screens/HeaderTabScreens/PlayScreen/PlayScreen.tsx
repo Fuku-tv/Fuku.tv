@@ -31,13 +31,28 @@ const MainScreen: React.FC = () => {
     { tab: 'Prizes', icon: gift },
     // { tab: 'Profile', icon: profile, subTabs: [ 'Profile', 'My Prizes' ] }
   ];
-
+  const feedInformationBar = (
+    <div className={`video-feed__information-container ${state.gameStatus === 'gameplay' && 'playing'}`}>
+      <div className="points">{state.points} Points</div>
+      <div className="game-plays-container">
+        <div className="credits">
+          <span className="que-icon-wrapper">Credits: </span>
+          <span className="value">{state.credits}</span>
+        </div>
+        <div className="freeplay-credits">
+          <span className="que-icon-wrapper">Freeplay: </span>
+          <span className="value">{state.freeplay}</span>
+        </div>
+      </div>
+    </div>
+  );
   const tabs = authState.state.isAuthenticated ? LOGGED_IN_TABS : LOGGED_OUT_TABS;
 
   return (
     <>
       <div className="main-inner-wrapper">
         <div className="content-area">
+          {feedInformationBar}
           <VideoFeedSection />
           <ContentSection />
         </div>

@@ -6,13 +6,16 @@
   justify-content: center;
   svg {
     display: block;
+    overflow: hidden;
     path {
       // fill: rgba(255, 255, 255, 0.55);
     }
   }
   .time-up {
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 16px;
+    // font-size: 22px;
+    // font-weight: bold;
+    color: #ffffff;
     text-align: center;
   }
   .time-wrapper {
@@ -46,6 +49,17 @@
     .time.down {
       opacity: 0;
       transform: translateY(100%);
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .timer-container {
+    .time {
+      font-size: 18px !important;
+    }
+    .time-up {
+      font-size: 12px !important;
     }
   }
 }

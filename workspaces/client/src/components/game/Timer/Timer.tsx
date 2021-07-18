@@ -54,8 +54,9 @@ const Timer: React.FC = () => {
       <CountdownCircleTimer
         isPlaying={timerIsActive}
         duration={state.timer}
-        colors={[['#9553ff', 0.66], ['#bd9e3c', 0.88], ['#ff3c3c']]}
-        size={isMobile ? 150 : 180}
+        colors={[['#a07bd9', 0.66], ['#ffd651', 0.88], ['#ff3c3c']]}
+        size={isMobile ? 80 : 110}
+        // size={isMobile ? 150 : 180}
         strokeWidth={isMobile ? 3 : 5}
         onComplete={() => setTimerIsActive(false)}
       >

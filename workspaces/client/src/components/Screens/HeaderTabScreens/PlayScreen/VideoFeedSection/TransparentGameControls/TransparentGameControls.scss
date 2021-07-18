@@ -1,12 +1,18 @@
 #transparent-game-controls {
   position: absolute;
   bottom: 0;
-  padding: 10px 10px;
-  background: linear-gradient(0deg, black, transparent);
+  left: 0;
+  background: linear-gradient(0deg, #111111, transparent);
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 200px;
+  // z-index: 11111111;
+  .content-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 3rem;
+  }
   .button-controls-container {
     position: relative;
     border: none;
@@ -53,14 +59,49 @@
   }
 }
 
+//Drop Claw Button
+.drop_claw_button-enter {
+  position: absolute;
+  transform: translateY(0);
+  transform: translate(-50%, 0);
+  transition: transform 500ms;
+  // transform: translateY(100%);
+  // -webkit-transform: translateY(100%);
+  // -moz-transform: translateY(100%);
+  // -ms-transform: translateY(100%);
+  // -o-transform: translateY(100%);
+}
+.drop_claw_button-enter-active {
+  position: absolute;
+  transform: translate(-50%, 60px);
+  transition: transform 500ms;
+}
+.drop_claw_button-exit {
+  position: absolute;
+  transform: translate(-50%, 60px);
+  transition: transform 500ms;
+}
+.drop_claw_button-exit-active {
+  position: absolute;
+  transform: translate(-50%, 0);
+  transition: transform 500ms;
+}
+
 @media only screen and (max-width: 600px) {
-  #transparent-game-controls .button-controls-container {
-    width: 120px;
-    .left-right-row svg {
-      height: 20px;
+  #transparent-game-controls {
+    padding: 10px !important;
+    height: 80px !important;
+    .content-wrapper {
+      padding: 0 !important;
     }
-    svg {
-      width: 20px;
+    .button-controls-container {
+      width: 120px;
+      .left-right-row svg {
+        height: 20px;
+      }
+      svg {
+        width: 20px;
+      }
     }
   }
 }

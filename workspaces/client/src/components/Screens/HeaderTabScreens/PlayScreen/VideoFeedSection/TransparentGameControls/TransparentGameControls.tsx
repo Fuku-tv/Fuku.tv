@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
+import Timer from 'src/components/game/Timer/Timer';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
+import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
+import { CSSTransition } from 'react-transition-group';
 import DropClawButton from '../../ContentSection/LoggedInContent/GameComponents/DropClawButton/DropClawButton';
 import ControlButton from '../../ContentSection/LoggedInContent/GameComponents/Controls/ControlButton';
 import './TransparentGameControls.scss';
@@ -73,10 +76,21 @@ const TransparentGameControls: React.FC = () => {
 
   const arrowBtns = <div ref={buttonControls} className="button-controls-container" />;
 
+  const btnContent = (
+    <div className="content-wrapper">
+      <Timer />
+
+      <DropClawButton />
+
+      <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
+    </div>
+  );
+
   return (
     <div id="transparent-game-controls" className="controls-container">
-      <DropClawButton />
-      <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
+      <SlideableContent direction={gameplay ? 'up' : 'down'} show={gameplay}>
+        {btnContent}
+      </SlideableContent>
     </div>
   );
 };

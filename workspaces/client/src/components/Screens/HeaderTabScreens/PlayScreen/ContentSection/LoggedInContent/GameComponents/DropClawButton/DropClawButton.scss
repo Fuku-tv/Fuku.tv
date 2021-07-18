@@ -1,5 +1,13 @@
 .drop-claw-button-container {
-  position: relative;
+  // position: relative;
+  position: absolute;
+  // bottom: -60px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1111111111111111;
+  animation: dropBtn 600ms forwards ease;
+  animation-delay: 500ms;
   #btnDrop {
     position: relative;
     background: transparent;
@@ -9,7 +17,7 @@
       flex-direction: column;
       span {
         margin-top: 5px;
-        font-size: 18px;
+        font-size: 13px;
       }
       svg {
         height: 36px;
@@ -31,6 +39,16 @@
       --button-primary-color-hover: var(--goldAccent);
       --button-primary-border: none;
     }
+  }
+}
+
+@keyframes dropBtn {
+  from {
+    transform: translate(-50%, 0);
+  }
+
+  to {
+    transform: translate(-50%, 60px);
   }
 }
 
