@@ -10,7 +10,7 @@ import type Command from './command';
 export class Player {
   socket: ws;
 
-  userdata: { email: string; nickname: string };
+  userdata: { email: string; nickname: string; pictureUrl: string };
 
   timePlay = 30100;
 
@@ -47,7 +47,7 @@ export class Player {
     }, 10000);
   }
 
-  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
+  Login(userdata: { nickname: string; email: string; pictureUrl: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
     this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {

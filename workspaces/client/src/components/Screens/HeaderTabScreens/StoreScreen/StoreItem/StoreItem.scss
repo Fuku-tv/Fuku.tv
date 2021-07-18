@@ -1,0 +1,66 @@
+article.store-item {
+  position: relative;
+  background-color: #ffffff;
+  color: var(--blackPrimary);
+  padding: 15px 5px;
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 240px;
+  // height: 235px;
+  flex-direction: column;
+  border-radius: 8px;
+  justify-content: flex-end;
+  .store-item__cost-value {
+    // position: absolute;
+    // top: 15px;
+    // left: 0;
+    margin-left: -5px;
+    width: fit-content;
+    font-weight: 700;
+    color: var(--purplePrimary);
+    padding: 4px 8px;
+    background-color: #f0eef5;
+  }
+  .store-item__body {
+    position: relative;
+    text-align: center;
+    .item-image {
+      position: relative;
+      max-height: 150px;
+      min-height: 130px;
+      width: auto;
+      height: auto;
+      margin-top: 10px;
+      img {
+        width: auto;
+        height: fit-content;
+        display: block;
+        max-height: 130px;
+        margin: 0 auto;
+      }
+    }
+    .item-title {
+      position: relative;
+      margin: 20px;
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 8px;
+      }
+    }
+  }
+  .flat-button-container {
+    padding-top: 10px;
+    // position: absolute;
+    // bottom: -60px;
+    // left: 50%;
+    // transform: translateX(-50%);
+    button {
+      // text-transform: uppercase;
+      // box-shadow: 0 1px 3px 3px rgb(0 0 0 / 14%);
+      font-weight: 500;
+      // font-size: 15px;
+      border-radius: 4px;
+    }
+  }
+}

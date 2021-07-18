@@ -2,14 +2,14 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import NavLinks from '../Header/NavLinks/NavLinks';
-import * as styles from './VerticalNavigation.module.scss';
+import styles from './VerticalNavigation.module.scss';
 
 const VerticalNavigation: React.FC = () => {
   // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
   // > (false);
   const { state, actions } = useAuthState();
   return (
-    <aside id={styles.default['vertical-navigation']}>
+    <aside id={styles['vertical-navigation']}>
       <NavLinks />
     </aside>
   );

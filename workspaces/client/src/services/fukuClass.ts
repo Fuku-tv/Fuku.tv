@@ -123,12 +123,19 @@ class Fuku {
 
   sendChatMessage = (message: Record<string, unknown>): void => {
     console.log('mess', message);
-
     this.send({
       command: constants.PlayerCommand.chatmsg,
       chatmessage: message,
     });
   };
+
+  // setCurrentlyPlaying = (message: Record<string, unknown>): void => {
+  //   console.log('mess', message);
+  //   this.send({
+  //     command: constants.PlayerCommand.chatmsg,
+  //     chatmessage: message,
+  //   });
+  // };
   /**
    * Login to fuku websocket
    */
@@ -186,7 +193,7 @@ class Fuku {
    * @param cmd parse incoming websocket command
    */
   private parseCommand(cmd: any) {
-    const { PlayerCommand, Video } = constants;
+    const { PlayerCommand, Video, GameState } = constants;
     console.log(`Got command: ${cmd.command}`);
     switch (cmd.command) {
       case PlayerCommand.init:
@@ -194,7 +201,6 @@ class Fuku {
         this.setGameStatus(cmd.command);
         this.setGameStats(cmd);
         break;
-
       case PlayerCommand.gamestats:
         this.setGameStats(cmd);
         break;
@@ -218,7 +224,6 @@ class Fuku {
         this.setPoints(cmd.points);
         if (cmd.jackpot === true) {
           console.log('JACKPOT WINNER');
-          // this.toggleJackpotModal();
         } else {
           this.toggleWinnerModal(cmd.pointswon);
         }
@@ -246,10 +251,15 @@ class Fuku {
           payload: false,
         });
         break;
-
       case PlayerCommand.chatmsg:
         console.log('Receving message from socket', cmd);
         this.updateChat(cmd.user, cmd.chatmessage);
+        break;
+      case GameState.playing:
+        this.uglyHackStore.dispatch({
+          type: 'GAME/setCurrentlyPlaying',
+          payload: cmd.player,
+        });
         break;
 
       default:
@@ -312,6 +322,12 @@ class Fuku {
       type: 'GAME/toggleCameraDirection',
     });
   }
+
+  // private setCurrentlyPlaying() {
+  //   this.uglyHackStore.dispatch({
+  //     type: 'GAME/setCurrentlyPlaying',
+  //   });
+  // }
 
   private resetTimers(): void {
     if (this.timerCommand !== null) clearTimeout(this.timerCommand);

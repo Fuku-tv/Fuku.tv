@@ -6,29 +6,19 @@ import { Squash as Hamburger } from 'hamburger-react';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 
-import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import ContentContainer from '../UIElements/ContentContainer/ContentContainer';
-import Modal from '../UIElements/Modal/Modal';
 import NavLinks from './NavLinks/NavLinks';
-import SideBar from '../Screens/MainScreen/Sidebar/Sidebar';
 import SideDrawer from '../UIElements/SideDrawer/SideDrawer';
-import './Header.scss';
-import FlatButton from '../UIElements/FlatButton/FlatButton';
 import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
-import NotificationDropdown from './NotificationsDropdown/NotificationsDropdown';
 import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
 import GameChat from '../UIElements/GameChat/GameChat';
+import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   const { state, actions } = useAuthState();
   const gameState = useGameState();
-  // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
-  // > (false);
-
   const [chatIsOpen, setChatIsOpen] = React.useState<boolean>(false);
   const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
-
-  // const modalTestHandler = () => { 		setModalIsActive((prev) => !prev); };
 
   const chatClickHandler = () => {
     setNavIsOpen(false);
@@ -60,16 +50,16 @@ const Header: React.FC = () => {
   );
   const profileButtonAuthContent = (
     <>
-      <HeaderProfileDropdown id="header-profile-button" />
+      <HeaderProfileDropdown id={styles['header-profile-button']} />
     </>
   );
 
   const profileButton = (
-    <div className="user-actions-container">
+    <div className={styles['user-actions-container']}>
       {state.isAuthenticated ? (
         profileButtonAuthContent
       ) : (
-        <button id="profile-dropdown-button" onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
+        <button id={styles['profile-dropdown-button']} onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
           {signInIcon}
           <span>SIGN IN</span>
         </button>
@@ -78,16 +68,20 @@ const Header: React.FC = () => {
   );
 
   const mobileButtons = (
-    <div className="mobile-button-wrapper">
+    <div className={styles['mobile-button-wrapper']}>
       <button
-        id="chat-button"
+        id={styles['chat-button']}
         onClick={chatClickHandler}
         onKeyDown={chatClickHandler}
-        className={`icon-wrapper mobile-button ${chatIsOpen && 'active'}`}
+        className={`${styles['icon-wrapper']} ${styles['mobile-button']}  ${chatIsOpen && styles.active}`}
       >
         {!chatIsOpen ? chatIcon : close}
       </button>
-      <button onClick={navClickHandler} onKeyDown={navClickHandler} className={`hamburger-icon-wrapper mobile-button ${navIsOpen && 'active'}`}>
+      <button
+        onClick={navClickHandler}
+        onKeyDown={navClickHandler}
+        className={`${styles['hamburger-icon-wrapper']} ${styles['mobile-button']}  ${navIsOpen && styles.active}`}
+      >
         <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
       </button>
     </div>
@@ -96,17 +90,19 @@ const Header: React.FC = () => {
   return (
     <>
       <header>
-        <div className="header__top-row">
+        <div className={styles['header__top-row']}>
           <ContentContainer>
-            <NavLink id="logo" to="/" exact>
-              {fukuLogo}
-            </NavLink>
-            {!isMobile && profileButton}
-            {isMobile && mobileButtons}
+            <div className={styles['header-content-wrapper']}>
+              <NavLink id={styles.logo} to="/" exact>
+                {fukuLogo}
+              </NavLink>
+              {!isMobile && profileButton}
+              {isMobile && mobileButtons}
+            </div>
           </ContentContainer>
         </div>
         {!isMobile && (
-          <div className="header__bottom-row">
+          <div className={styles['header__bottom-row']}>
             <ContentContainer>
               <HeadeNavLinks />
             </ContentContainer>
@@ -122,7 +118,7 @@ const Header: React.FC = () => {
 export default Header;
 
 const fukuLogo = (
-  <svg id="fuku" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
+  <svg id={styles.fuku} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
     <g id="icon">
       <path
         d="M30.39,42c2.3.76,2.3.78.57,2.62a1,1,0,0,0-.29.64c0,5.46,0,10.91,0,16.53,2.18,0,4.29,0,6.4,0,.23,0,.49-.34.66-.57.37-.52.68-1.07,1-1.66l7.73,5.91c0,.1,0,.21,0,.23-1.46,1.15-2,2.8-2.68,4.47-2.89,7.43-7.26,14-12,20.37-.21.28-.4.56-.66.93,1.34.63,2.61,1.23,3.86,1.85a55.42,55.42,0,0,1,11.85,7.85,1,1,0,0,1,.32,1.5c-1.59,3.08-3.12,6.19-4.74,9.41a44.28,44.28,0,0,0-11.77-9.83v47.85H21.38V103L7.82,115.1l-1.9-4.55v-8.09c11.62-8.32,20.4-19,27.21-31.75H6.83V61.77H21.39V48.71c0-2.23,0-4.47.06-6.69Z"
@@ -186,7 +182,7 @@ const chatIcon = (
 );
 
 const signInIcon = (
-  <div className="sign-in-icon-wrapper">
+  <div className={styles['sign-in-icon-wrapper']}>
     <svg xmlns="http://www.w3.org/2000/svg" height="512pt" viewBox="0 -32 512.016 512" width="512pt">
       <path d="m192 213.339844c-58.816406 0-106.667969-47.847656-106.667969-106.664063 0-58.816406 47.851563-106.6679685 106.667969-106.6679685s106.667969 47.8515625 106.667969 106.6679685c0 58.816407-47.851563 106.664063-106.667969 106.664063zm0-181.332032c-41.171875 0-74.667969 33.492188-74.667969 74.667969 0 41.171875 33.496094 74.664063 74.667969 74.664063s74.667969-33.492188 74.667969-74.664063c0-41.175781-33.496094-74.667969-74.667969-74.667969zm0 0" />
       <path d="m368 448.007812h-352c-8.832031 0-16-7.167968-16-16v-74.667968c0-55.871094 45.460938-101.332032 101.332031-101.332032h181.335938c55.871093 0 101.332031 45.460938 101.332031 101.332032v74.667968c0 8.832032-7.167969 16-16 16zm-336-32h320v-58.667968c0-38.226563-31.105469-69.332032-69.332031-69.332032h-181.335938c-38.226562 0-69.332031 31.105469-69.332031 69.332032zm0 0" />
@@ -194,72 +190,4 @@ const signInIcon = (
       <path d="m410.667969 304.007812c-4.097657 0-8.191407-1.558593-11.308594-4.691406-6.25-6.253906-6.25-16.386718 0-22.636718l74.027344-74.027344-74.027344-74.027344c-6.25-6.25-6.25-16.382812 0-22.632812s16.382813-6.25 22.636719 0l85.332031 85.332031c6.25 6.25 6.25 16.386719 0 22.636719l-85.332031 85.332031c-3.136719 3.15625-7.234375 4.714843-11.328125 4.714843zm0 0" />
     </svg>
   </div>
-);
-
-const fukuIcon = (
-  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496.27 507.85">
-    <g id="fuku">
-      <path
-        d="M134.87,14.08c10.78,3.56,10.78,3.66,2.66,12.32a4.92,4.92,0,0,0-1.37,3c-.07,25.64-.06,51.28-.06,77.66,10.24,0,20.16.08,30.07-.13,1.07,0,2.31-1.59,3.1-2.7,1.71-2.42,3.17-5,4.91-7.79l36.33,27.76c0,.5.13,1,0,1.09-6.85,5.4-9.54,13.17-12.58,21-13.6,34.91-34.13,65.8-56.24,95.74-1,1.31-1.9,2.65-3.11,4.35,6.28,3,12.25,5.8,18.15,8.73a259,259,0,0,1,55.65,36.86c2.55,2.22,3.19,3.86,1.53,7.07-7.49,14.46-14.68,29.09-22.26,44.21-16-18.49-33.77-34-55.35-46.21V521.92H92.54V300.61L28.79,357.49c-3.37-8.1-6.15-14.76-8.92-21.41v-38C74.47,259,115.76,208.57,147.74,148.9H24.14v-42H92.56V101c0-18.49,0-37,0-55.47,0-10.49.19-21,.3-31.46Z"
-        transform="translate(-19.87 -14.08)"
-      />
-      <path
-        d="M92.87,14.08c-.11,10.48-.27,21-.3,31.46,0,18.49,0,37,0,55.47v5.91H24.14v42h123.6C115.76,208.57,74.47,259,19.87,298.08v-284Z"
-        transform="translate(-19.87 -14.08)"
-      />
-      <path
-        d="M266.76,498.51V520H229.9V293.27H507.56V510.94H470.77V498.51Zm203.45-35.67V412.51H386.3v50.33ZM348.68,412.47H267.14v50.22h81.54Zm121.65-84.11H386.39v48.35h83.94Zm-121.67.09H267.15v48.17h81.51Z"
-        transform="translate(-19.87 -14.08)"
-      />
-      <path
-        d="M474.24,132.1V254.76H254.09V132.1Zm-36.81,87.63c0-16.26-.16-32.06.1-47.85.08-4.39-1.11-5.6-5.55-5.58-45.14.16-90.27.1-135.4.11-1.78,0-3.55.16-5.35.24v53.08Z"
-        transform="translate(-19.87 -14.08)"
-      />
-      <path d="M216.45,88.78V48.12H516.13V88.78Z" transform="translate(-19.87 -14.08)" />
-    </g>
-  </svg>
-);
-
-const hamburgerIcon = (
-  <svg id="Layer_1" data-name="Layer 1" viewBox="0 0 45.5 32.5">
-    <title>hamburgerIcon</title>
-    <rect width="45.5" height="5.64" rx="2.82" />
-    <rect y="13.43" width="45.5" height="5.64" rx="2.82" />
-    <rect y="26.86" width="45.5" height="5.64" rx="2.82" />
-  </svg>
-);
-
-const rightArrow = (
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="long-arrow-alt-right"
-    className="svg-inline--fa fa-long-arrow-alt-right fa-w-14"
-    role="img"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 448 512"
-  >
-    <path
-      fill="currentColor"
-      d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"
-    />
-  </svg>
-);
-
-const congratulationsModalContent = (
-  <div className="congratulations-container">
-    <h2>Congrats! You Won!</h2>
-    <div className="modal__content_button">
-      <p>Claim My Prize</p>
-      {rightArrow}
-    </div>
-  </div>
-);
-
-const timesIcon = (
-  <svg id="times-icon" viewBox="0 0 138.35 138.35">
-    <rect x="378" y="135" width="18" height="180" rx="2" transform="translate(-45.38 -363.57) rotate(45)" />
-    <rect x="378" y="135" width="18" height="180" rx="2" transform="translate(-363.57 183.73) rotate(-45)" />
-  </svg>
 );

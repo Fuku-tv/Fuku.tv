@@ -80,9 +80,11 @@ const videoHttpsServer = http.createServer((req, res) => {
 });
 
 hcServer.listen(8080);
-controllerHttpsServer.listen(10888);
-videoHttpsServer.listen(10889);
 
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
 const discord = new DiscordBotServer();
+
+controller.run(10888);
+video.run(10889);
+discord.run();

@@ -47,6 +47,10 @@ const useGameState = () => {
     // dispatch(actions.sendChatMessage(message));
     dispatch(gameActions.sendMessage(message));
   };
+  const setCurrentlyPlaying = (player) => {
+    dispatch(actions.setCurrentlyPlaying(player));
+    // dispatch(gameActions.setCurrentlyPlaying(player));
+  };
 
   const startFuku = () => {
     dispatch(gameActions.startFuku());
@@ -70,6 +74,7 @@ const useGameState = () => {
       sendChatMessage,
       startFuku,
       endFuku,
+      setCurrentlyPlaying,
     },
   };
 };
