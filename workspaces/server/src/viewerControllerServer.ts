@@ -8,9 +8,9 @@ import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
 import WebsocketServerBase from './websocketServerBase';
 
-// import queuePublisher from './common/redis/queue/queuePublisher';
+import queuePublisher from './common/redis/queue/queuePublisher';
 
-// import queueSubscriber from './common/redis/queue/queueSubscriber';
+import queueSubscriber from './common/redis/queue/queueSubscriber';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -26,7 +26,7 @@ getWebhookClient()
   .catch();
 
 export class ControllerServer extends WebsocketServerBase {
-  queue: Player[] = [];
+  queue: string[] = [];
 
   players: Player[] = [];
 
@@ -63,12 +63,12 @@ export class ControllerServer extends WebsocketServerBase {
         chatmessage: message.chatmessage,
       });
     });
-    // queueSubscriber.onMessage((data) => {
-    //   console.log('queue message: ', { data });
-    // const { message } = JSON.parse(data);
-    // queuePublisher.publish(message.queue);
-    // });
-    // queueSubscriber.subscribe();
+    queueSubscriber.onMessage((data) => {
+      console.log('queue message: ', { data });
+      const { message } = JSON.parse(data);
+      queuePublisher.publish(message.queue);
+    });
+    queueSubscriber.subscribe();
     redisSubscriber.subscribe('chatmessage');
 
     this.wss.on('connection', (socket: any, req: any) => {
@@ -316,12 +316,19 @@ export class ControllerServer extends WebsocketServerBase {
     });
 
     if (this.currentPlayer === null && this.queue.length > 0) {
-      this.activatePlayer(this.queue.shift());
-      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+      const uid = this.queue.shift();
+
+      this.activatePlayer(this.players.find((x) => x.uid === uid));
+      queuePublisher
+        .setQueue(this.queue)
+        .then()
+        .catch((error) => {
+          logger.log(LogLevel.error, `queuePublisher error ${error}`);
+        });
     }
   }
 
-  activatePlayer(p: any) {
+  activatePlayer(p: Player) {
     logger.log(LogLevel.info, `${p.uid} - activatePlayer`);
     this.gameEnd();
     this.currentPlayer = p;
@@ -332,7 +339,7 @@ export class ControllerServer extends WebsocketServerBase {
     });
   }
 
-  deactivatePlayer(p: any) {
+  deactivatePlayer(p: Player) {
     logger.log(LogLevel.info, `${p.uid} - deactivatePlayer`);
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) {
       if (this.currentPlayer !== p) {
@@ -351,10 +358,15 @@ export class ControllerServer extends WebsocketServerBase {
       return;
     }
     logger.log(LogLevel.info, `${p.uid} - Queue`);
-    if (!this.queue.includes(p)) {
-      this.queue.push(p);
+    if (!this.queue.includes(p.uid)) {
+      this.queue.push(p.uid);
       webhookClient.send(`Player ${p.userdata.nickname} has entered the queue`, { username: 'Fuku.tv Bot' });
-      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+      queuePublisher
+        .setQueue(this.queue)
+        .then()
+        .catch((error) => {
+          logger.log(LogLevel.error, `queuePublisher error ${error}`);
+        });
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
       if (this.currentPlayer === null && this.queue.length === 1) {
@@ -371,7 +383,7 @@ export class ControllerServer extends WebsocketServerBase {
     logger.log(LogLevel.info, `${p.uid} - dequeue`);
     webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
     this.queue.forEach((item, index, object) => {
-      if (item === p) {
+      if (item === p.uid) {
         object.splice(index, 1);
         logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
         webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });

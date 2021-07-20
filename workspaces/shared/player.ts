@@ -16,11 +16,11 @@ export class Player {
 
   timeStandby = 60100;
 
-  playTimer: any = null;
+  playTimer: NodeJS.Timeout = null;
 
-  standbyTimer: any = null;
+  standbyTimer: NodeJS.Timeout = null;
 
-  keepaliveTimer: any = null;
+  keepaliveTimer: NodeJS.Timeout = null;
 
   isLoggedIn = false;
 
@@ -32,11 +32,11 @@ export class Player {
 
   ipAddr: any;
 
-  freeplay: any;
+  freeplay: number;
 
-  credits: any;
+  credits: number;
 
-  points: any;
+  points: number;
 
   constructor(socket: ws, ip: any) {
     this.socket = socket;
@@ -147,7 +147,7 @@ export class Player {
   }
 
   async redeemPoints(points: number, credits: number): Promise<void> {
-    await playersTableModel.addPoints(this.userdata.email, -1 * points);
+    await playersTableModel.removePoints(this.userdata.email, points);
     await playersTableModel.addCredits(this.userdata.email, credits);
   }
 

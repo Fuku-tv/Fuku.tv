@@ -1,3 +1,4 @@
+import { Player } from 'fuku.tv-shared';
 import { redisPublisher } from '../index';
 import { QUEUE_PUBLISH } from './const';
 
@@ -21,9 +22,10 @@ const queuePublisher = {
       });
     });
   },
-  async setQueue(data: any): Promise<string> {
+  async setQueue(data: string[]): Promise<string> {
     return new Promise<string>((resovle, reject) => {
-      redisPublisher.set(QUEUE_PUBLISH, data, (err: Error, reply: string) => {
+      console.log('Queue Set: ', { data });
+      redisPublisher.set(QUEUE_PUBLISH, JSON.stringify(data), (err: Error, reply: string) => {
         if (err) {
           console.error(err);
           reject(err);
