@@ -8,7 +8,7 @@ const CurrentlyWatching: React.FC = (props) => {
       <Eye />
 
       <span className="number">{state.watch}</span>
-      <span> watching</span>
+      {/* <span> watching</span> */}
     </div>
   );
 };
