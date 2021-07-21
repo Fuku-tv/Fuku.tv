@@ -78,20 +78,19 @@ const TransparentGameControls: React.FC = () => {
 
   const btnContent = (
     <div className="content-wrapper">
-      <Timer />
-
       <DropClawButton />
+      <Timer />
 
       <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
     </div>
   );
 
   return (
-    <div id="transparent-game-controls" className="controls-container">
-      <SlideableContent direction={gameplay ? 'up' : 'down'} show={gameplay}>
+    <SlideableContent direction={!gameplay ? 'up' : 'down'} show={gameplay}>
+      <div id="transparent-game-controls" className="controls-container">
         {btnContent}
-      </SlideableContent>
-    </div>
+      </div>
+    </SlideableContent>
   );
 };
 
