@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useAuthState, useGameState } from 'src/state/hooks';
-import SwitchCameraButton from '../VideoFeedSection/SwitchCameraButton/SwitchCameraButton';
+import SwitchCameraButton from '../../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 import LoggedOutContent from './LoggedOutContent';
 import LoggedInContent from './LoggedInContent/LoggedInContent';
 

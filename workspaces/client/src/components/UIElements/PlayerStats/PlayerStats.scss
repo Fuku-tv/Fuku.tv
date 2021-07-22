@@ -42,13 +42,10 @@
       .user-info-item__title {
         padding-right: 8px;
         padding-left: 3px;
-        // font-size: 14px !important;
       }
       .user-info-item__value {
-        // font-size: 14px !important;
         font-weight: bold;
-        // background-color: var(--goldAccent);
-        background-color: #c8b67c;
+        background-color: var(--goldSecondary);
       }
     }
     .user-info-item__title {
@@ -70,12 +67,15 @@
       padding-right: 4px;
     }
     .user-info-item__value {
-      background: #684778;
+      background: var(--purpleSecondary);
+      // background: #684778;
       // background: #373042;
     }
 
     > div {
-      background: #4b3d60;
+      background: #7a61a18a;
+      // background: var(--purplePrimary);
+      // background: #4b3d60;
       display: flex;
       align-items: center;
     }

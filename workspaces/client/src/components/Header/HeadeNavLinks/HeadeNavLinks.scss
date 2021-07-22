@@ -36,9 +36,11 @@ nav.header-nav-links-container {
         display: block;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        font-size: 12px !important;
+        font-weight: 600 !important;
         span {
-          font-size: 12px;
-          font-weight: 600;
+          font-size: 12px !important;
+          font-weight: 600 !important;
         }
         &.nav-link__active {
           position: relative;

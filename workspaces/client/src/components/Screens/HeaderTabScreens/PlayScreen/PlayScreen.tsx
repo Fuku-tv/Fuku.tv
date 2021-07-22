@@ -6,7 +6,7 @@ import PlayerStats from 'src/components/UIElements/PlayerStats/PlayerStats';
 import VideoFeedSection from './VideoFeedSection/VideoFeedSection';
 import Navigation from './Navigation/Navigation';
 import ContentSection from './ContentSection/ContentSection';
-import SwitchCameraButton from './VideoFeedSection/SwitchCameraButton/SwitchCameraButton';
+import SwitchCameraButton from '../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 
 import Sidebar from './Sidebar/Sidebar';
 import './PlayScreen.scss';

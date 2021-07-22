@@ -1,71 +1,71 @@
-#content-section {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-  padding: 40px 10px;
-  // padding-top: 35px;
-  // overflow-y: auto;
-  overflow-x: hidden;
-  background: #111111;
-  .inner-wrapper {
-    width: 100%;
-    max-width: 680px;
-    display: block;
-    margin: 0 auto;
-  }
-  .start-stop-buttons-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+// #content-section {
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   flex-grow: 1;
+//   padding: 40px 10px;
+//   // padding-top: 35px;
+//   // overflow-y: auto;
+//   overflow-x: hidden;
+//   background: #111111;
+//   .inner-wrapper {
+//     width: 100%;
+//     max-width: 680px;
+//     display: block;
+//     margin: 0 auto;
+//   }
+//   .start-stop-buttons-container {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
 
-  .table {
-    font-size: 14px;
-  }
+//   .table {
+//     font-size: 14px;
+//   }
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    div {
-      font-size: 14px;
-    }
-  }
-  .dynamic-number span:first-child {
-    margin-right: 5px;
-  }
-  .sign-in-prompt {
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-  }
+//   .header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     div {
+//       font-size: 14px;
+//     }
+//   }
+//   .dynamic-number span:first-child {
+//     margin-right: 5px;
+//   }
+//   .sign-in-prompt {
+//     display: block;
+//     margin: 30px auto;
+//     text-align: center;
+//   }
 
-  #player-queue-section {
-    // flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 280px;
-  }
+//   #player-queue-section {
+//     // flex-grow: 1;
+//     flex-shrink: 0;
+//     flex-basis: 280px;
+//   }
 
-  #main-display-section {
-    width: 100%;
-    text-align: center;
+//   #main-display-section {
+//     width: 100%;
+//     text-align: center;
 
-    #controls-section {
-      flex-basis: 100%;
-    }
-  }
-}
+//     #controls-section {
+//       flex-basis: 100%;
+//     }
+//   }
+// }
 
-@media only screen and (min-width: 600px) {
-  #content-section {
-    overflow: hidden;
-  }
-}
-@media only screen and (max-width: 600px) {
-  #content-section {
-    padding: 20px 0;
-  }
-}
+// @media only screen and (min-width: 600px) {
+//   #content-section {
+//     overflow: hidden;
+//   }
+// }
+// @media only screen and (max-width: 600px) {
+//   #content-section {
+//     padding: 20px 0;
+//   }
+// }
