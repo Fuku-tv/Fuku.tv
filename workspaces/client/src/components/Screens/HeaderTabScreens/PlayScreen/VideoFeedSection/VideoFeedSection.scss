@@ -1,9 +1,20 @@
 #video-feed-section {
   position: relative;
-  .timer-container {
+  .gradient-container {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(0deg, #111111, transparent);
+    width: 100%;
+    height: 105px;
+    z-index: 11111111;
+  }
+  // padding: 10px;
+  background: #111111;
+  .timer-container {
+    // position: absolute;
+    // right: 20px;
+    // bottom: 20px;
     // left: 50%;
     // transform: translateX(-50%);
     // bottom: -40px;
@@ -13,48 +24,12 @@
     display: block;
     max-height: 500px;
   }
-  .video-feed__information-container {
-    position: absolute;
-    bottom: 0px;
-    background: var(--gold);
-    color: #191919;
-    left: 50%;
-    padding: 3px;
-    width: 92%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 315px;
-    transform: translateX(-50%);
-    box-shadow: 0 0 4px 0px #191919ad;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    line-height: 12px;
-    z-index: 1111111111111111200;
-    padding: 8px 14px;
-    .game-plays-container {
-      display: flex;
-
-      .freeplay-credits {
-        margin-left: 10px;
-        padding-left: 10px;
-        border-left: 1px solid rgb(158 130 39);
-      }
-    }
-    .que-icon-wrapper,
-    span {
-      font-size: 13px !important;
-    }
-    .value {
-      font-weight: 500;
-    }
-  }
 }
 
 @media only screen and (max-width: 600px) {
   #video-feed-section .timer-container {
-    right: 10px;
-    bottom: 5px;
+    // right: 10px;
+    // bottom: 5px;
     .time-up {
       font-size: 14px;
     }

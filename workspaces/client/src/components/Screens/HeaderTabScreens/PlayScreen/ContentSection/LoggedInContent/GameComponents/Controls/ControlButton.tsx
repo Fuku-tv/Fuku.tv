@@ -8,6 +8,7 @@ interface Props {
   direction: 'up' | 'down' | 'left' | 'right';
   onButtonDown: () => void;
   onButtonUp: () => void;
+  color?: string;
 }
 
 const ControlButton: React.FC<Props> = (props) => {
@@ -44,7 +45,7 @@ const ControlButton: React.FC<Props> = (props) => {
       width={55}
       height={55}
       borderRadius={55}
-      color="purple"
+      color={props.color || 'purple'}
       onPointerDown={props.onButtonDown}
       onPointerUp={props.onButtonUp}
     />

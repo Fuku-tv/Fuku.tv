@@ -1,36 +1,54 @@
-#btnDrop {
-  position: relative;
-  background: transparent;
-  .button__content-wrapper {
-    display: flex;
-    flex-direction: column;
-    span {
-      margin-top: 10px;
+.drop-claw-button-container {
+  // position: absolute;
+  // bottom: 0;
+  // left: 50%;
+  // transform: translateX(-50%);
+  // opacity: 0;
+  // z-index: 1111111111111111;
+  // animation: fadeInDown 600ms forwards ease;
+  // animation-delay: 200ms;
+  #btnDrop {
+    position: relative;
+    background: transparent;
+
+    .button__content-wrapper {
+      display: flex;
+      flex-direction: column;
+      span {
+        margin-top: 5px;
+        font-size: 13px;
+      }
+      svg {
+        height: 36px;
+        margin: 0;
+        fill: #ffffff;
+      }
     }
-    svg {
-      height: 48px;
-      margin: 0;
-      fill: #ffffff;
+    .aws-btn {
+      --button-default-height: 125px;
+      --button-default-font-size: 16px;
+      --button-default-border-radius: 10px;
+      --button-horizontal-padding: 35px;
+      --button-raise-level: 5px;
+      --button-hover-pressure: 1;
+      --transform-speed: 0.175s;
+      --button-primary-color: var(--gold);
+      --button-primary-color-dark: #816715;
+      --button-primary-color-light: #ffffff;
+      --button-primary-color-hover: var(--goldAccent);
+      --button-primary-border: none;
     }
-  }
-  .aws-btn {
-    --button-default-height: 125px;
-    --button-default-font-size: 16px;
-    --button-default-border-radius: 10px;
-    --button-horizontal-padding: 35px;
-    --button-raise-level: 5px;
-    --button-hover-pressure: 1;
-    --transform-speed: 0.175s;
-    --button-primary-color: var(--gold);
-    --button-primary-color-dark: #816715;
-    --button-primary-color-light: #ffffff;
-    --button-primary-color-hover: var(--goldAccent);
-    --button-primary-border: none;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  #btnDrop .aws-btn {
-    --button-horizontal-padding: 15px !important;
+  .drop-claw-button-container #btnDrop {
+    font-size: 10px;
+    span {
+      font-size: 13px !important;
+    }
+    svg {
+      height: 28px !important;
+    }
   }
 }

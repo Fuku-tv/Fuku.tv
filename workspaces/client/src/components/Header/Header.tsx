@@ -87,6 +87,25 @@ const Header: React.FC = () => {
     </div>
   );
 
+  const feedInformationBar = (
+    <div className={`video-feed__information-container `}>
+      <div id="points" className="user-info-item">
+        <span className="user-info-item__title">My Points</span>
+        <span className="user-info-item__value">{gameState.state.points}</span>
+      </div>
+      <div className="game-plays-container">
+        <div id="credits" className="user-info-item">
+          <span className="user-info-item__title">Credits:</span>
+          <span className="user-info-item__value">{gameState.state.credits}</span>
+        </div>
+        <div id="freeplay-credits" className="user-info-item">
+          <span className="user-info-item__title">Freeplay:</span>
+          <span className="user-info-item__value">{gameState.state.freeplay}</span>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <header>
@@ -96,18 +115,17 @@ const Header: React.FC = () => {
               <NavLink id={styles.logo} to="/" exact>
                 {fukuLogo}
               </NavLink>
-              {!isMobile && profileButton}
+              {!isMobile && <HeadeNavLinks />}
+
               {isMobile && mobileButtons}
             </div>
           </ContentContainer>
         </div>
-        {!isMobile && (
+        {/* {state.isAuthenticated && (
           <div className={styles['header__bottom-row']}>
-            <ContentContainer>
-              <HeadeNavLinks />
-            </ContentContainer>
+            <ContentContainer>{feedInformationBar}</ContentContainer>
           </div>
-        )}
+        )} */}
         {sideDrawerContentLinks}
         {sideDrawerContentChat}
       </header>

@@ -19,7 +19,11 @@ const SpectatorInformation: React.FC<PROPS> = ({ showQueue, showWatching }) => {
 
   const individual = showQueue ? <CurrentlyWaiting /> : <CurrentlyWatching />;
 
-  return <div className="spectator-information-container">{showQueue || showWatching ? individual : both}</div>;
+  return (
+    <div className="spectator-information-container">
+      <CurrentlyWaiting />
+    </div>
+  );
 };
 
 export default SpectatorInformation;

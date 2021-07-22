@@ -24,9 +24,10 @@
   --boxShadow2: 0 2px 6px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #dadce0;
   --boxShadow3: rgba(0, 0, 0, 0.1) 0px 2px 3px 0px;
   --sideNavWidth: 85px;
-  --topHeaderHeight: 80px;
-  --subHeaderHeight: 45px;
-  --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
+  --topHeaderHeight: 50px;
+  --subHeaderHeight: 40px;
+  --headerHeight: var(--topHeaderHeight);
+  // --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
   --jost: 'Inter', sans-serif;
   --rubik: 'Rubik', sans-serif;
   --inter: 'Inter', sans-serif;
@@ -35,7 +36,7 @@
 @media only screen and (max-width: 600px) {
   :root {
     --topHeaderHeight: 60px;
-    --subHeaderHeight: 0px;
+    --subHeaderHeight: 36px;
   }
 }
 

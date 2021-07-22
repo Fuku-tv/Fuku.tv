@@ -55,7 +55,7 @@ const SideBar: React.FC = () => {
           <GameQueue />
         </SidebarWidget>
         {!isMobile && (
-          <SidebarWidget title="Chat" header={<SpectatorInformation showWatching />}>
+          <SidebarWidget title="Chat">
             <GameChat />
           </SidebarWidget>
         )}

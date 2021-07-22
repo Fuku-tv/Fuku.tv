@@ -5,6 +5,8 @@ import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import './HeadeNavLinks.scss';
 import { isMobile } from 'react-device-detect';
+import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
+import HeaderProfileDropdown from '../HeaderProfileDropdown/HeaderProfileDropdown';
 import SignInPrompt from '../SignInPrompt/SignInPrompt';
 
 const HeadeNavLinks: React.FC = () => {
@@ -12,6 +14,23 @@ const HeadeNavLinks: React.FC = () => {
   // > (false);
   const { state, actions } = useAuthState();
   const gameState = useGameState();
+
+  const loginButton = (
+    <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
+      <div className="profile-sub-link">
+        <span>{logoutIcon}</span>
+        <span>Login</span>
+      </div>
+    </button>
+  );
+  const logoutButton = (
+    <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
+      <div className="profile-sub-link">
+        <span>{logoutIcon}</span>
+        <span>Logout</span>
+      </div>
+    </button>
+  );
 
   const profileContent = (
     <>
@@ -39,12 +58,7 @@ const HeadeNavLinks: React.FC = () => {
             <span>Notifications</span>
           </div>
         </NavLink>
-        <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
-          <div className="profile-sub-link">
-            <span>{logoutIcon}</span>
-            <span>Logout</span>
-          </div>
-        </button>
+        {state.isAuthenticated ? logoutButton : loginButton}
       </div>
     </>
   );
@@ -66,6 +80,13 @@ const HeadeNavLinks: React.FC = () => {
           <NavLink activeClassName="nav-link__active" to="/store" exact>
             <span> Store </span>
           </NavLink>
+        </li>
+        <li>
+          {state.isAuthenticated ? (
+            <HeaderProfileDropdown id="header-profile-button" />
+          ) : (
+            <FlatButton id="header-login" text="SIGN IN" width={125} onClick={actions.loginWithRedirect} ghost />
+          )}
         </li>
       </ul>
     </nav>

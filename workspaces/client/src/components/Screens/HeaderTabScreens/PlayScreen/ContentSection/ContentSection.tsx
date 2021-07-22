@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { useAuthState } from 'src/state/hooks';
-import SwitchCameraButton from '../VideoFeedSection/SwitchCameraButton/SwitchCameraButton';
+import { useAuthState, useGameState } from 'src/state/hooks';
+import SwitchCameraButton from '../../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 import LoggedOutContent from './LoggedOutContent';
 import LoggedInContent from './LoggedInContent/LoggedInContent';
+
 import './ContentSection.scss';
 
 // import useNavigationState from 'src/state/hooks/useNavigationState';
@@ -17,15 +18,26 @@ import './ContentSection.scss';
 
 const ContentSection: React.FC = () => {
   const authState = useAuthState();
-
-  return (
-    <section id="content-section">
-      <SwitchCameraButton />
-      <div className="inner-wrapper">
-        <section id="play-game-tab">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>
+  const { state, actions } = useGameState();
+  const feedInformationBar = (
+    <div className={`video-feed__information-container `}>
+      <div id="points" className="user-info-item">
+        <span className="user-info-item__title">My Points</span>
+        <span className="user-info-item__value">{state.points}</span>
       </div>
-    </section>
+      <div className="game-plays-container">
+        <div id="credits" className="user-info-item">
+          <span className="user-info-item__title">Credits:</span>
+          <span className="user-info-item__value">{state.credits}</span>
+        </div>
+        <div id="freeplay-credits" className="user-info-item">
+          <span className="user-info-item__title">Freeplay:</span>
+          <span className="user-info-item__value">{state.freeplay}</span>
+        </div>
+      </div>
+    </div>
   );
+  return <section id="content-section">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>;
 };
 
 export default ContentSection;

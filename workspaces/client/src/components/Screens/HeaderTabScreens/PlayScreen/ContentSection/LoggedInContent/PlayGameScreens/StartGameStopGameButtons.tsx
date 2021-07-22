@@ -6,12 +6,24 @@ import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 const StartGameStopGameButtons: React.FC = () => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
+  const pointerUpHandler = (action) => {
+    if (state.winnerModalActive) {
+      actions.toggleWinnerModal();
+    }
+    actions.buttonUpEvent(action);
+  };
+  const pointerDownpHandler = (action) => {
+    if (state.winnerModalActive) {
+      actions.toggleWinnerModal();
+    }
+    actions.buttonDownEvent(action);
+  };
 
   return (
     <div id="start" className="start-stop-buttons-container">
       <DepthButton
-        onPointerUp={() => actions.buttonUpEvent('stop')}
-        onPointerDown={() => actions.buttonDownEvent('stop')}
+        onPointerUp={() => pointerUpHandler('stop')}
+        onPointerDown={() => pointerDownpHandler('stop')}
         id="btnStop"
         buttonText="End Game"
         width={110}
@@ -20,8 +32,8 @@ const StartGameStopGameButtons: React.FC = () => {
       />
 
       <DepthButton
-        onPointerUp={() => actions.buttonUpEvent('start')}
-        onPointerDown={() => actions.buttonDownEvent('start')}
+        onPointerUp={() => pointerUpHandler('start')}
+        onPointerDown={() => pointerDownpHandler('start')}
         id="btnStart"
         buttonText="Start Round"
         width={160}

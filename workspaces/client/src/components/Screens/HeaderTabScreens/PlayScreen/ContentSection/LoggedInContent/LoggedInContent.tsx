@@ -2,11 +2,12 @@ import * as React from 'react';
 // import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
 
-import './LoggedInContent.scss';
+// import './LoggedInContent.scss';
 
 import LetsPlayScreen from './PlayGameScreens/LetsPlayScreen';
 import ReadyToGoScreen from './PlayGameScreens/ReadyToGoScreen';
 import CurrentlyPlayingScreen from './PlayGameScreens/CurrentlyPlayingScreen';
+import TransparentGameControls from '../../VideoFeedSection/TransparentGameControls/TransparentGameControls';
 
 const LoggedInContent: React.FC = () => {
   // const old = <Buttons/>;
@@ -33,11 +34,12 @@ const LoggedInContent: React.FC = () => {
   }, [state.gameStatus]);
 
   return (
-    <section id="controls-section">
+    <>
       <LetsPlayScreen gameStatus={gameStatus} />
       <ReadyToGoScreen gameStatus={gameStatus} />
-      <CurrentlyPlayingScreen gameStatus={gameStatus} />
-    </section>
+      <TransparentGameControls />
+      {/* <CurrentlyPlayingScreen gameStatus={gameStatus} /> */}
+    </>
   );
 };
 
