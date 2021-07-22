@@ -85,7 +85,7 @@ const HeadeNavLinks: React.FC = () => {
           {state.isAuthenticated ? (
             <HeaderProfileDropdown id="header-profile-button" />
           ) : (
-            <FlatButton id="header-login" text="Login" width={105} onClick={actions.loginWithRedirect} ghost />
+            <FlatButton id="header-login" text="SIGN IN" width={125} onClick={actions.loginWithRedirect} ghost />
           )}
         </li>
       </ul>

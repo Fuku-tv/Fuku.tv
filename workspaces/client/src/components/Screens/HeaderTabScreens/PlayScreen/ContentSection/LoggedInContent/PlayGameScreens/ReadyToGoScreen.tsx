@@ -61,7 +61,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
         descriptionStart="You have"
         dynamicNumber={state.freeplay > 0 ? state.freeplay : state.credits}
         descriptionEnd={state.freeplay > 0 ? 'freeplay tickets left!' : 'credits left!'}
-      />{' '}
+      />
       <StartGameStopGameButtons />
     </>
   );

@@ -3,8 +3,9 @@
   top: 0;
   right: 0;
   height: 100%;
+
   button {
-    cursor: pointer;
+    position: relative;
     cursor: pointer;
     width: 60px;
     height: 100%;
@@ -17,10 +18,19 @@
     box-shadow: none;
     border-radius: 0;
     transition: 180ms ease;
-    border-left: 1px solid #2e2e2e;
+    // border-left: 1px solid #2e2e2e;
     svg {
       fill: #ffffff;
       height: 24px;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      height: calc(100% - 24px);
+      width: 1px;
+      background: #ffffff38;
     }
     &:hover {
       // background-color: var(--purplePrimary);

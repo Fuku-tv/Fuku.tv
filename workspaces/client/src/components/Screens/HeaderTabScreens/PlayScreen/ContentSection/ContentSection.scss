@@ -5,16 +5,25 @@
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  height: 100%;
   padding: 40px 10px;
   // padding-top: 35px;
   // overflow-y: auto;
   overflow-x: hidden;
+  background: #111111;
+  min-height: 220px;
   .inner-wrapper {
     width: 100%;
     max-width: 680px;
     display: block;
     margin: 0 auto;
   }
+  .start-stop-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .table {
     font-size: 14px;
   }

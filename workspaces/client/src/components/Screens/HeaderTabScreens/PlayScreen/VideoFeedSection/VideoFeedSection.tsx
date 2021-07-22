@@ -1,19 +1,21 @@
 import * as React from 'react';
 import VideoFeed from 'src/components/game/VideoFeed';
-import { useGameState } from 'src/state/hooks';
+import { useGameState, useAuthState } from 'src/state/hooks';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import PlayerStats from 'src/components/UIElements/PlayerStats/PlayerStats';
+import authSlice from 'src/state/slices/auth.slice';
 import Timer from '../../../../game/Timer/Timer';
 
 import CurrentlyPlayingScreen from '../ContentSection/LoggedInContent/PlayGameScreens/CurrentlyPlayingScreen';
 import TransparentGameControls from './TransparentGameControls/TransparentGameControls';
 // import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import SwitchCameraButton from './SwitchCameraButton/SwitchCameraButton';
+import SwitchCameraButton from '../../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 import './VideoFeedSection.scss';
 // import SpectatorInformation from './SpectatorInformation/SpectatorInformation';
 
 const VideoFeedSection: React.FC = () => {
   const { state, actions } = useGameState();
+  const authState = useAuthState();
   const gameplay = state.gameStatus === 'gameplay';
   const feedInformationBar = (
     <div className={`video-feed__information-container `}>
@@ -35,8 +37,7 @@ const VideoFeedSection: React.FC = () => {
   );
   return (
     <section id="video-feed-section">
-      {/* <SwitchCameraButton /> */}
-      <PlayerStats />
+      {authState.state.isAuthenticated && <PlayerStats />}
       <VideoFeed width="100%" height="480" />
       <div className="gradient-container" />
     </section>
