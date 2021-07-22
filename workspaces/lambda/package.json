@@ -5,7 +5,6 @@
   "main": "index.js",
   "module": "index.ts",
   "scripts": {
-    "clean": "rimraf .build .serverless .dynamodb .webpack",
     "build": "cross-env SLS_DEBUG=* sls package --stage local",
     "dev": "sls offline --stage local",
     "deploy": "sls deploy --stage local",

@@ -10,7 +10,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --use-workspaces",
     "kill": "taskkill /IM node.exe /F",
-    "clean": "lerna run clean",
+    "clean": "git clean -fxdn -e node_modules",
     "clean:deep": "yarn clean && rimraf node_modules package-lock.json yarn.lock",
     "start": "lerna run start",
     "dev": "lerna run dev",
