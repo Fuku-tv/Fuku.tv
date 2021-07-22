@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
+import SlotsModal from 'src/components/UIElements/SlotsModal/SlotsModal';
+
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
 
 // import './ControlsSection.scss';
@@ -21,6 +23,7 @@ const LetsPlayScreen: React.FC<PROPS> = ({ gameStatus }) => {
 
   return (
     <SlideableContent direction="left" show={gameStatus !== 'controlsVisible'}>
+      <SlotsModal closeDrawer={() => setModalIsActive(false)} show={modalIsActive} />
       <div className="play-game-button-container">
         <TitleDescription
           title="Let's Play Fuku"
@@ -38,6 +41,10 @@ const LetsPlayScreen: React.FC<PROPS> = ({ gameStatus }) => {
           color="purple"
           center
         />
+      </div>
+
+      <div className="slots">
+        <button onClick={() => setModalIsActive(true)}>Slots</button>
       </div>
     </SlideableContent>
   );
