@@ -1,27 +1,25 @@
 import * as React from 'react';
 import './SlideableContent.scss';
-import {CSSTransition} from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
+
 interface Props {
-  direction : string;
-  show : boolean;
+  direction: string;
+  show: boolean;
   onCancel?: () => void;
 }
 
-const SlideableContent : React.FC < Props > = (props) => {
-  return (
-    <React.Fragment>
-      <CSSTransition
-        in={props.show}
-        timeout={500}
-        classNames={props.direction === 'right'
-        ? 'left_to_right'
-        : 'right_to_left'}
-        mountOnEnter
-        unmountOnExit>
-        <div className="slideable-content-container">{props.children}</div>
-      </CSSTransition>
-    </React.Fragment>
-  );
+const directions = {
+  up: 'down_to_up',
+  down: 'up_to_down',
+  right: 'left_to_right',
+  left: 'right_to_left',
+  dropClawButton: 'drop_claw_button',
+  dropClawExit: 'drop_claw_button_exit',
 };
 
+const SlideableContent: React.FC<Props> = (props) => (
+  <CSSTransition in={props.show} timeout={500} classNames={directions[props.direction]} mountOnEnter unmountOnExit>
+    <div className="slideable-content-container">{props.children}</div>
+  </CSSTransition>
+);
 export default SlideableContent;

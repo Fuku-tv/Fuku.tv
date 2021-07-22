@@ -53,7 +53,7 @@ const DepthButton: React.FC<Props> = ({ buttonText, id, width, height, onPointer
     console.log('up');
   };
 
-  return (
+  const depthButtonContent = (
     <div
       onMouseDown={mouseDownHandler}
       onMouseUp={mouseUpHandler}
@@ -70,6 +70,15 @@ const DepthButton: React.FC<Props> = ({ buttonText, id, width, height, onPointer
       </button>
     </div>
   );
+  const transparentButtonContent = (
+    <button className="transparent-button" onPointerUp={onPointerUp} onPointerDown={onPointerDown} id={id}>
+      <div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
+        {buttonText}
+      </div>
+    </button>
+  );
+
+  return color === 'transparent' ? transparentButtonContent : depthButtonContent;
 };
 
 export default DepthButton;
