@@ -245,7 +245,7 @@ export class ControllerServer extends WebsocketServerBase {
 
   updateGameStats() {
     this.players.forEach((p) => {
-      p.updateGameStats(this.queue.length, this.players.length);
+      p.updateGameStats(this.queue.length, this.players.length, this.currentPlayer.userdata.email.split('@')[0]);
     });
   }
 
@@ -276,7 +276,7 @@ export class ControllerServer extends WebsocketServerBase {
       this.resetClaw();
       // Unlock player controls
       this.currentPlayer.play(this.playEnd.bind(this));
-      this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
+      this.currentPlayer.updateGameStats(this.queue.length, this.players.length, this.currentPlayer.userdata.email.split('@')[0]);
       sendall(this.players, {
         command: constants.GameState.playing,
         player: this.currentPlayer.userdata.email.split('@')[0],

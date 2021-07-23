@@ -90,8 +90,9 @@ export class Player {
     if (this.standbyTimer !== null) clearTimeout(this.standbyTimer);
   }
 
-  updateGameStats(qc: number, wc: number): void {
+  updateGameStats(qc: number, wc: number, playing: string): void {
     this.send({
+      playing,
       command: constants.PlayerCommand.gamestats,
       queue: qc,
       watch: wc,
