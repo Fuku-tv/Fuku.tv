@@ -11,7 +11,7 @@
     "bootstrap": "lerna bootstrap --use-workspaces",
     "kill": "taskkill /IM node.exe /F",
     "clean": "git clean -fXd -e !node_modules",
-    "clean:deep": "yarn clean && rimraf node_modules package-lock.json yarn.lock",
+    "clean:deep": "git clean -fXd",
     "start": "lerna run start",
     "dev": "lerna run dev",
     "bump": "yarn upgrade --latest",
