@@ -8,7 +8,9 @@
     "dev": "yarn start",
     "postbuild": "ts-node ./scripts/sitemap.ts",
     "build": "parcel build src/index.html --no-source-maps --public-url ./ ",
-    "lint": "tsc && eslint . --ext .ts,.tsx --fix"
+    "lint": "tsc && eslint . --ext .ts,.tsx --fix",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.4.0",
@@ -43,6 +45,12 @@
   "devDependencies": {
     "@parcel/packager-raw-url": "2.0.0-nightly.2346",
     "@parcel/transformer-sass": "2.0.0-nightly.778",
+    "@storybook/addon-actions": "^6.3.5",
+    "@storybook/addon-essentials": "^6.3.5",
+    "@storybook/addon-links": "^6.3.5",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^6.3.5",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
