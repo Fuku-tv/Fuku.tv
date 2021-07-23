@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { isMobile } from 'react-device-detect';
-import './App.scss';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import CookieConsent from 'react-cookie-consent';
+import styles from './App.module.scss';
 import Provider from './state';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
@@ -23,7 +23,7 @@ const App: React.FC = () => (
   <Provider>
     <Router>
       <Header />
-      <div className="app-body-wrapper">
+      <div className={styles['app-body-wrapper']}>
         <Main />
       </div>
     </Router>

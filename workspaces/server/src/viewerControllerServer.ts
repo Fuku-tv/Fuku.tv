@@ -245,7 +245,8 @@ export class ControllerServer extends WebsocketServerBase {
 
   updateGameStats() {
     this.players.forEach((p) => {
-      p.updateGameStats(this.queue.length, this.players.length, this.currentPlayer.userdata.email.split('@')[0]);
+      const currentlyPlaying = this.currentPlayer?.userdata.email.split('@')[0] && null;
+      p.updateGameStats(this.queue.length, this.players.length, currentlyPlaying);
     });
   }
 

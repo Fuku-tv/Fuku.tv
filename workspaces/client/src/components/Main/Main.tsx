@@ -17,7 +17,7 @@ import PrizesScreen from '../Screens/PrizesScreen/PrizesScreen';
 import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCustomizationScreen';
 import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
 import StoreScreen from '../Screens/HeaderTabScreens/StoreScreen/StoreScreen';
-import './Main.scss';
+import styles from './Main.module.scss';
 
 // import routes from './app/routes';
 // import SideBar from './components';
