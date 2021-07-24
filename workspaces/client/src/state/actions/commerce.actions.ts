@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPrices, redirectToCheckout } from 'src/services/commerceService';
 import Stripe from 'stripe';
 import { RootState } from '../store';
-import type { AppThunk } from './helpers/appThunk';
 
 export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
   const Prices = await getPrices();

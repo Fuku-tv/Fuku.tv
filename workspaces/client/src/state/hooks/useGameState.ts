@@ -1,8 +1,8 @@
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { actions } from 'src/state/slices/game.slice';
 import { useDispatch, useSelector, useStore } from './helpers/TypedStateHooks';
 
 import { gameActions } from '../actions';
+import useActions from './helpers/useActions';
 
 /**
  * A hook to access the game state/actions in redux
@@ -10,54 +10,52 @@ import { gameActions } from '../actions';
 const useGameState = () => {
   const state = useSelector((root) => root.game);
   const store = useStore();
-  const dispatch: ThunkDispatch<unknown, unknown, AnyAction> = useDispatch();
-
+  const boundActions = useActions({ ...actions, ...gameActions });
   const startStream = (ref) => {
-    dispatch(gameActions.startStream(ref));
+    boundActions.startStream(ref);
   };
 
   const mountStore = () => {
-    dispatch(gameActions.startStore(store));
+    boundActions.startStore(store);
   };
 
   const endStream = () => {
-    dispatch(gameActions.endStream());
+    boundActions.endStream();
   };
 
   const enterQueue = () => {
-    dispatch(gameActions.enterQueue());
+    boundActions.enterQueue();
   };
 
   const buttonDownEvent = (type: string) => {
-    dispatch(gameActions.buttonDown(type));
+    boundActions.buttonDown(type);
   };
 
   const buttonUpEvent = (type: string) => {
-    dispatch(gameActions.buttonUp(type));
+    boundActions.buttonUp(type);
   };
 
   const toggleCamera = () => {
-    dispatch(actions.toggleCameraDirection());
+    boundActions.toggleCameraDirection();
   };
 
   const toggleWinnerModal = () => {
-    dispatch(actions.toggleWinnerModal());
+    boundActions.toggleWinnerModal();
   };
   const sendChatMessage = (message) => {
     // dispatch(actions.sendChatMessage(message));
-    dispatch(gameActions.sendMessage(message));
+    boundActions.sendMessage(message);
   };
   const setCurrentlyPlaying = (player) => {
-    dispatch(actions.setCurrentlyPlaying(player));
-    // dispatch(gameActions.setCurrentlyPlaying(player));
+    boundActions.setCurrentlyPlaying(player);
   };
 
   const startFuku = () => {
-    dispatch(gameActions.startFuku());
+    boundActions.startFuku();
   };
 
   const endFuku = () => {
-    dispatch(gameActions.endFuku());
+    boundActions.endFuku();
   };
 
   return {

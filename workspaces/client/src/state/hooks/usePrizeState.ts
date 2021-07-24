@@ -1,24 +1,22 @@
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { prizeActions } from '../actions';
 import { useDispatch, useSelector, useStore } from './helpers/TypedStateHooks';
+import useActions from './helpers/useActions';
 
 /**
  * A hook to access the game state/actions in redux
  */
 const usePrizeState = () => {
   const state = useSelector((root) => root.prize);
-  const store = useStore();
-  const dispatch: ThunkDispatch<unknown, unknown, AnyAction> = useDispatch();
 
+  const boundActions = useActions(prizeActions);
   const getPrizeList = () => {
-    dispatch(prizeActions.getPrizeList(null));
+    boundActions.getPrizeList(null);
   };
 
   const redeemPoints = (amount: number) => {
-    dispatch(prizeActions.redeemGiftCard(amount));
+    boundActions.redeemGiftCard(amount);
   };
-
-  // const startStream = (ref) => {   dispatch(gameActions.startStream(ref)); };
 
   return {
     state,

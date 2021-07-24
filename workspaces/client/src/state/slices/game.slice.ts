@@ -69,7 +69,7 @@ const gameSlice = createSlice({
       };
     },
 
-    setCurrentlyPlaying(state, action: PayloadAction<typeof initialState>) {
+    setCurrentlyPlaying(state, action: PayloadAction<string>) {
       return {
         ...state,
         currentlyPlaying: action.payload,

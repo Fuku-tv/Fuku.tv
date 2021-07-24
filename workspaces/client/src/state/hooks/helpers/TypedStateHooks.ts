@@ -9,12 +9,15 @@ interface TypedHooks<S, D> {
   useStore: () => Store<S, AnyAction>;
 }
 
-const CreateTypedHooks = <S, D>(): TypedHooks<S, D> => {
-  return {
-    useSelector: useReduxSelector,
-    useDispatch: () => useReduxDispatch<D>(),
-    useStore: createStoreHook<S>(),
-  };
-};
+export interface StateHook<T> {
+  state: T;
+  actions: Record<string, unknown>;
+}
+
+const CreateTypedHooks = <S, D>(): TypedHooks<S, D> => ({
+  useSelector: useReduxSelector,
+  useDispatch: () => useReduxDispatch<D>(),
+  useStore: createStoreHook<S>(),
+});
 
 export const { useSelector, useDispatch, useStore } = CreateTypedHooks<RootState, RootDispatch>();
