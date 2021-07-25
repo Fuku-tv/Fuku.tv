@@ -4,55 +4,54 @@ import './LeaderboardsScreen.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import Screen from 'src/components/UIElements/Screen/Screen';
-import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import LeaderboardRow from './LeaderboardRow';
 import LeaderboardPodium from './LeaderboardPodium/LeaderboardPodium';
 
+const SAMPLE_LEADERBOARD_DATA = [
+  {
+    userName: 'Creed',
+    userScore: '15',
+  },
+  {
+    userName: 'Michael',
+    userScore: '9',
+  },
+  {
+    userName: 'Dwight',
+    userScore: '7',
+  },
+  {
+    userName: 'Jim',
+    userScore: '6',
+  },
+  {
+    userName: 'Angela',
+    userScore: '5',
+  },
+  {
+    userName: 'Stanley',
+    userScore: '4',
+  },
+  {
+    userName: 'Michael',
+    userScore: '9',
+  },
+  {
+    userName: 'Dwight',
+    userScore: '7',
+  },
+  {
+    userName: 'Jim',
+    userScore: '6',
+  },
+  {
+    userName: 'Angela',
+    userScore: '5',
+  },
+];
+
 const LeaderboardsScreen: React.FC = () => {
   const { state, actions } = useAuthState();
-
-  const SAMPLE_LEADERBOARD_DATA = [
-    {
-      userName: 'Creed',
-      userScore: '15',
-    },
-    {
-      userName: 'Michael',
-      userScore: '9',
-    },
-    {
-      userName: 'Dwight',
-      userScore: '7',
-    },
-    {
-      userName: 'Jim',
-      userScore: '6',
-    },
-    {
-      userName: 'Angela',
-      userScore: '5',
-    },
-    {
-      userName: 'Stanley',
-      userScore: '4',
-    },
-    {
-      userName: 'Michael',
-      userScore: '9',
-    },
-    {
-      userName: 'Dwight',
-      userScore: '7',
-    },
-    {
-      userName: 'Jim',
-      userScore: '6',
-    },
-    {
-      userName: 'Angela',
-      userScore: '5',
-    },
-  ];
 
   const comingSoonScreen = (
     <Screen id="leaderboards" title="Leaderboards">
@@ -61,9 +60,8 @@ const LeaderboardsScreen: React.FC = () => {
   );
 
   React.useEffect(() => {
-    const p = playersTableModel.getList();
     const getL = async () => {
-      const playerIdList = await playersTableModel.getList();
+      const playerIdList = SAMPLE_LEADERBOARD_DATA;
       console.log('p-----------', playerIdList);
     };
     try {
