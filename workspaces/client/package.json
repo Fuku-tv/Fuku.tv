@@ -6,8 +6,9 @@
     "start": "parcel src/index.html  --open --https ",
     "serve": "serve dist",
     "dev": "yarn start",
-    "postbuild": "ts-node ./scripts/sitemap.ts && react-snap",
+    "prebuild": "rimraf dist",
     "build": "parcel build src/index.html --no-source-maps --public-url ./ ",
+    "postbuild": "ts-node ./scripts/sitemap.ts && react-snap",
     "lint": "tsc && eslint . --ext .ts,.tsx --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -93,7 +94,6 @@
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
-    ],
-    "puppeteerExecutablePath": "/opt/google/chrome/google-chrome"
+    ]
   }
 }

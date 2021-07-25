@@ -4,7 +4,12 @@ import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import App from './App';
 
-ReactDOM.render(React.createElement(App), document.getElementById('app'));
+const rootElement = document.getElementById('app');
+if (rootElement.hasChildNodes()) {
+  ReactDOM.hydrate(React.createElement(App), rootElement);
+} else {
+  ReactDOM.render(React.createElement(App), rootElement);
+}
 
 interface HotModule {
   hot?: {
