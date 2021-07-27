@@ -55,11 +55,8 @@ const LeaderboardsScreen: React.FC = () => {
   const { state, actions } = useLeaderboardState();
 
   React.useEffect(() => {
-    const getL = async () => {
-      actions.updateLeaderboards(SAMPLE_LEADERBOARD_DATA);
-    };
     try {
-      getL();
+      actions.getLeaderboard();
     } catch (error) {
       console.log(error);
     }
@@ -77,10 +74,10 @@ const LeaderboardsScreen: React.FC = () => {
             <div className="header__wins">Wins</div>
           </div>
           {state.playerList.map((u, i) => (
-            <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.userName} score={u.userScore} />
+            <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.id} score={u.points} />
           ))}
         </div>
-        <LeaderboardPodium first={state.playerList[0]?.userName} second={state.playerList[1]?.userName} third={state.playerList[2]?.userName} />
+        <LeaderboardPodium first={state.playerList[0]?.id} second={state.playerList[1]?.id} third={state.playerList[2]?.id} />
       </div>
     </Screen>
   );

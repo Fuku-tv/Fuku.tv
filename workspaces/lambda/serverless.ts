@@ -79,6 +79,18 @@ const serverlessConfiguration: Serverless = {
         },
       ],
     },
+    leaderboard: {
+      handler: 'src/http/leaderboard.index',
+      events: [
+        {
+          http: {
+            path: '/leaderboard',
+            method: 'get',
+            cors: true,
+          },
+        },
+      ],
+    },
     index: {
       handler: 'src/http/handler.index',
       events: [

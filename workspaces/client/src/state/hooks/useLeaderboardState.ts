@@ -1,5 +1,5 @@
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { actions } from 'src/state/slices/leaderboard.sice';
+import { getLeaderboards } from 'src/state/actions/leaderboard.actions';
 import { useDispatch, useSelector, useStore } from './helpers/TypedStateHooks';
 import useActions from './helpers/useActions';
 
@@ -9,10 +9,10 @@ import useActions from './helpers/useActions';
 const useLeaderboardState = () => {
   const state = useSelector((root) => root.leaderboard);
 
-  const boundActions = useActions(actions);
+  const boundActions = useActions({ getLeaderboards });
 
-  const updateLeaderboards = (playerList = []) => {
-    boundActions.updateLeaderboards(playerList);
+  const getLeaderboard = () => {
+    boundActions.getLeaderboards();
   };
 
   // const startStream = (ref) => {   dispatch(gameActions.startStream(ref)); };
@@ -20,7 +20,7 @@ const useLeaderboardState = () => {
   return {
     state,
     actions: {
-      updateLeaderboards,
+      getLeaderboard,
     },
   };
 };

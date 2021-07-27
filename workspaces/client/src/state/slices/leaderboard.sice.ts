@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getLeaderboards } from '../actions/leaderboard.actions';
 
 const initialState = {
   playerList: [],
@@ -7,13 +8,12 @@ const initialState = {
 const leaderboardSlice = createSlice({
   name: 'LEADERBOARD',
   initialState,
-  reducers: {
-    updateLeaderboards(state, action) {
-      return {
-        ...state,
-        playerList: action.payload,
-      };
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getLeaderboards.fulfilled, (state, action) => ({
+      ...state,
+      playerList: action.payload.playerList,
+    }));
   },
 });
 
