@@ -11,7 +11,7 @@ const leaderboardSlice = createSlice({
     updateLeaderboards(state, action) {
       return {
         ...state,
-        playerLList: action.payload,
+        playerList: action.payload,
       };
     },
   },

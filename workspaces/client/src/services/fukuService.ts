@@ -35,10 +35,6 @@ export const sendChatMessage = (message: Record<string, unknown>): void => {
   fuku.sendChatMessage(message);
 };
 
-export const setCurrentlyPlaying = (player: Record<string, unknown>): void => {
-  fuku.setCurrentlyPlaying(player);
-};
-
 // export const updateCurrentlyPlaying = (player: Record<string, unknown>): void => {
 //   fuku.updateCurrentlyPlaying(player);
 // };

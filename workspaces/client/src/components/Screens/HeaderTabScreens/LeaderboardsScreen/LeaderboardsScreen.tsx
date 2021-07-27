@@ -4,6 +4,7 @@ import './LeaderboardsScreen.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 import Screen from 'src/components/UIElements/Screen/Screen';
+import useLeaderboardState from 'src/state/hooks/useLeaderboardState';
 import LeaderboardRow from './LeaderboardRow';
 import LeaderboardPodium from './LeaderboardPodium/LeaderboardPodium';
 
@@ -51,27 +52,21 @@ const SAMPLE_LEADERBOARD_DATA = [
 ];
 
 const LeaderboardsScreen: React.FC = () => {
-  const { state, actions } = useAuthState();
-
-  const comingSoonScreen = (
-    <Screen id="leaderboards" title="Leaderboards">
-      <div className="table leaderboards-table">Fuku leaderboards coming soon!</div>
-    </Screen>
-  );
+  const { state, actions } = useLeaderboardState();
 
   React.useEffect(() => {
     const getL = async () => {
-      const playerIdList = SAMPLE_LEADERBOARD_DATA;
-      console.log('p-----------', playerIdList);
+      actions.updateLeaderboards(SAMPLE_LEADERBOARD_DATA);
     };
     try {
       getL();
     } catch (error) {
       console.log(error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const content = (
+  return (
     <Screen id="leaderboards" title="Leaderboards">
       <div className="leaderboard-screen-content-wrapper">
         <div className="table leaderboards-table">
@@ -81,16 +76,14 @@ const LeaderboardsScreen: React.FC = () => {
             <div className="header__score">Score</div>
             <div className="header__wins">Wins</div>
           </div>
-          {SAMPLE_LEADERBOARD_DATA.map((u, i) => (
+          {state.playerList.map((u, i) => (
             <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.userName} score={u.userScore} />
           ))}
         </div>
-        <LeaderboardPodium first="Jimmy Oliva" second="AJ Oliva" third="Fred" />
+        <LeaderboardPodium first={state.playerList[0]?.userName} second={state.playerList[1]?.userName} third={state.playerList[2]?.userName} />
       </div>
     </Screen>
   );
-
-  return comingSoonScreen;
 };
 
 export default LeaderboardsScreen;

@@ -159,15 +159,13 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
-      if (player.points === undefined) this.points = 0;
-      else this.points = player.points;
-      if (player.credits === undefined) this.credits = 0;
-      else this.credits = player.credits;
+
+      this.points = player.points ?? 0;
+      this.credits = player.credits ?? 0;
       if (player.freeplay === undefined) {
         await playersTableModel.addFreeplay(this.userdata.email, 10);
         this.freeplay = 10;
       } else this.freeplay = player.freeplay;
-
       this.uid = player.id;
     } catch {
       // no player found, creating new player
