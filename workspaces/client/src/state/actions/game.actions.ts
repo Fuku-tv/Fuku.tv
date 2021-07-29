@@ -46,6 +46,6 @@ export const sendMessage = createAsyncThunk('SEND_CHAT_MESSAGE', async (message:
   fukuService.sendChatMessage(message);
 });
 
-export const setCurrentlyPlaying = createAsyncThunk('UPDATE_CURRENTLY_PLAYING', async (player: Record<string, unknown>) => {
-  fukuService.setCurrentlyPlaying(player);
-});
+// export const setCurrentlyPlaying = createAsyncThunk('UPDATE_CURRENTLY_PLAYING', async (player: Record<string, unknown>) => {
+//   fukuService.setCurrentlyPlaying(player);
+// });
