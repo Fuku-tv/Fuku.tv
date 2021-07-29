@@ -1,4 +1,4 @@
 dist
 .cache
+build
 public
-cosmos-export
