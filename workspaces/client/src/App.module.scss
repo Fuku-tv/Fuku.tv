@@ -1,4 +1,4 @@
-.app-body-wrapper {
+.appBodyWrapper {
   // min-height: 90vh;
   position: absolute;
   top: var(--headerHeight);
@@ -20,10 +20,6 @@
       // padding: 10px;
     }
   }
-}
-
-.appWrapper {
-  position: absolute;
 }
 
 @media only screen and (max-width: 600px) {

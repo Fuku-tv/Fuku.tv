@@ -23,7 +23,7 @@ const App: React.FC = () => (
   <Provider>
     <Router>
       <Header />
-      <div className={styles.appWrapper}>
+      <div className={styles.appBodyWrapper}>
         <Main />
       </div>
     </Router>
