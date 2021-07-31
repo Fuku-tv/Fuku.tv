@@ -91,6 +91,18 @@ const serverlessConfiguration: Serverless = {
         },
       ],
     },
+    checkout: {
+      handler: 'src/http/checkout.index',
+      events: [
+        {
+          http: {
+            path: '/checkout',
+            method: 'post',
+            cors: true,
+          },
+        },
+      ],
+    },
     index: {
       handler: 'src/http/handler.index',
       events: [

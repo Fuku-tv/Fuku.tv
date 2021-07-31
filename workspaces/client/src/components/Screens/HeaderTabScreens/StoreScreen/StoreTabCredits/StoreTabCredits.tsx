@@ -14,6 +14,7 @@ const StoreTabCredits: React.FC = () => {
       {
         price: item.priceId,
         quantity: 1,
+        type: item.type,
       },
     ];
     actions.checkout(lineItems);

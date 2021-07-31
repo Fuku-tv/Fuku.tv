@@ -11,4 +11,10 @@ export const getLeaderboard = async () => {
   return result.data;
 };
 
+export const getCheckoutUrl = async (items: any[], customerEmail: string, clientUrl: string): Promise<string> => {
+  const result = await FukuAPI.post('/checkout', { items, customerEmail, clientUrl });
+
+  return result.data.url;
+};
+
 export default {};
