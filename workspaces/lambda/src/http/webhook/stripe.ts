@@ -41,7 +41,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
       // Fulfill the purchase...
       console.log(`Sending ${credits} credits to ${session.customer_email}`);
       // const credits = getCreditsFromWebhookMetadata()
-      await playersTableModel.addCredits(session.customer_email, parseFloat(credits));
+      await playersTableModel.addCredits(session.customer_details.email, parseFloat(credits));
 
       // logger.log(LogLevel.info, `Webhook successful, granted ${session.customer_email} ${credits} Credits using ${playersTableModel}`);
       return Responses.ok(JSON.stringify(items.data));
