@@ -11,6 +11,7 @@
     "jpoissonnier.vscode-styled-components",
     "editorconfig.editorconfig",
     "yzhang.markdown-all-in-one",
-    "davidanson.vscode-markdownlint"
+    "davidanson.vscode-markdownlint",
+    "orta.vscode-jest"
   ]
 }

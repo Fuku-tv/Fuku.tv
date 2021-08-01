@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "jest-config-core",
+  "version": "1.0.0",
+  "main": "jest.config.js",
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.4"
+  }
+}

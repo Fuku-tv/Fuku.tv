@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "module": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.24.0",
     "@aws-sdk/client-secrets-manager": "^3.24.0",

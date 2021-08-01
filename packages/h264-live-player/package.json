@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "distww": "browserify  --bare --standalone WSAvcPlayer --plugin discify wsavc/wsavc_webworker.js > dist/http-live-player-worker.js",
-    "dist": "browserify  --bare --standalone WSAvcPlayer --plugin discify wsavc/ > dist/http-live-player.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist": "browserify  --bare --standalone WSAvcPlayer --plugin discify wsavc/ > dist/http-live-player.js"
   },
   "repository": {
     "type": "git",

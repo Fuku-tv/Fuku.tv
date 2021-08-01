@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "eslint-config-core": "*",
+    "jest-config-core": "*",
     "ts-compile": "*"
   }
 }
