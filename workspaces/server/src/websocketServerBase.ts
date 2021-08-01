@@ -3,7 +3,7 @@ import http from 'http';
 import { LoggerClass } from 'fuku.tv-shared';
 
 interface WebsocketServer {
-  run: (port) => void;
+  run: () => void;
 }
 
 const logger = new LoggerClass('WebsocketServer');
@@ -18,10 +18,7 @@ abstract class WebsocketServerBase implements WebsocketServer {
     this.wss = new WS.Server({ server });
   }
 
-  run(port: number): void {
-    this.server.listen(port);
-    logger.logInfo(`Websocket server ${port} started.`);
-  }
+  abstract run(): void;
 }
 
 export default WebsocketServerBase;

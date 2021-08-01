@@ -38,8 +38,7 @@ export class ControllerServer extends WebsocketServerBase {
 
   creditsMultiplier = 100;
 
-  async run(port: number): Promise<void> {
-    super.run(port);
+  async run(): Promise<void> {
     this.connectController();
 
     redisSubscriber.on('connect', () => {

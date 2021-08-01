@@ -15,8 +15,7 @@ export class VideoServer extends WebsocketServerBase {
 
   videoState: string[] = [];
 
-  async run(port: number): Promise<void> {
-    super.run(port);
+  async run(): Promise<void> {
     this.connectVideo(uriVideo1, constants.Video.front);
     this.connectVideo(uriVideo2, constants.Video.side);
 
