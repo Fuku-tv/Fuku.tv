@@ -1,4 +1,4 @@
-import { DynamoDB, config } from 'aws-sdk';
+import { DynamoDB, CreateTableInput } from '@aws-sdk/client-dynamodb';
 import * as path from 'path';
 import { getStage } from '../env';
 import { LoggerClass, LogLevel } from '../logger';
@@ -19,7 +19,7 @@ export const tableList = {
  */
 export const initializeDatabase = async (): Promise<void> => {
   // get list of all tables in DynamoDB
-  const result = await ddb.listTables().promise();
+  const result = await ddb.listTables({});
 
   // check results for existing tables to prevent overwriting
   const list = Object.values(tableList).map((table) => {
@@ -37,13 +37,12 @@ export const initializeDatabase = async (): Promise<void> => {
 
     ddb
       .createTable(setTableParams(table))
-      .promise()
       .then(() => {})
       .catch((err) => {});
   });
 };
 
-const setTableParams = (tableName: string): DynamoDB.CreateTableInput => ({
+const setTableParams = (tableName: string): CreateTableInput => ({
   AttributeDefinitions: [
     {
       AttributeName: 'id',

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getPrices, redirectToCheckout, redirectToCheckoutSession } from 'src/services/commerceService';
+import { getPrices, redirectToCheckoutSession } from 'src/services/commerceService';
 import Stripe from 'stripe';
 import { RootState } from '../store';
 

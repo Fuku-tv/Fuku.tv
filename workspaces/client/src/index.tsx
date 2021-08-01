@@ -6,9 +6,9 @@ import App from './App';
 
 const rootElement = document.getElementById('app');
 if (rootElement.hasChildNodes()) {
-  ReactDOM.hydrate(React.createElement(App), rootElement);
+  ReactDOM.hydrate(<App />, rootElement);
 } else {
-  ReactDOM.render(React.createElement(App), rootElement);
+  ReactDOM.render(<App />, rootElement);
 }
 
 interface HotModule {
