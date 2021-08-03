@@ -19,6 +19,7 @@ import Main from './components/Main/Main';
 // import routes from './app/routes';
 // import SideBar from './components';
 
+const props = {};
 const App: React.FC = () => (
   <Provider>
     <Router>
