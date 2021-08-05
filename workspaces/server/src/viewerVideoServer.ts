@@ -26,7 +26,9 @@ export class VideoServer extends WebsocketServerBase {
 
       socket.on('message', (data: any) => {
         const msg = typeof data === 'object' ? JSON.stringify(data) : JSON.parse(data);
-        switch (msg.command) {
+
+        const swapCommand = JSON.parse(data);
+        switch (swapCommand.command) {
           case constants.PlayerCommand.swapvideo:
             this.swapVideo(viewer, msg.video);
             break;
