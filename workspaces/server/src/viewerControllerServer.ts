@@ -3,13 +3,14 @@ import WS from 'ws';
 import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
-
+import { getDiscordClient, getWebhookClient, WebhookClient } from 'fuku.tv-shared/discord';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
+import WebsocketServerBase from './websocketServerBase';
 
-// import queuePublisher from './common/redis/queue/queuePublisher';
+import queuePublisher from './common/redis/queue/queuePublisher';
 
-// import queueSubscriber from './common/redis/queue/queueSubscriber';
+import queueSubscriber from './common/redis/queue/queueSubscriber';
 
 const logger = new LoggerClass('viewerServer');
 
@@ -17,8 +18,15 @@ const uriController = 'ws://96.61.12.109';
 
 const portController = 10777;
 
-export class ControllerServer {
-  queue: Player[] = [];
+let webhookClient: WebhookClient;
+getWebhookClient()
+  .then((client) => {
+    webhookClient = client;
+  })
+  .catch();
+
+export class ControllerServer extends WebsocketServerBase {
+  queue: string[] = [];
 
   players: Player[] = [];
 
@@ -26,13 +34,11 @@ export class ControllerServer {
 
   clientController: WS;
 
-  wss: WS.Server;
-
   progressiveJackpot = 10000;
 
   creditsMultiplier = 100;
 
-  constructor(server: http.Server) {
+  async run(): Promise<void> {
     this.connectController();
 
     redisSubscriber.on('connect', () => {
@@ -56,18 +62,13 @@ export class ControllerServer {
         chatmessage: message.chatmessage,
       });
     });
-    // queueSubscriber.onMessage((data) => {
-    //   console.log('queue message: ', { data });
-    //   // const { message } = JSON.parse(data);
-    //   // queuePublisher.publish(message.queue);
-    // });
-    // queueSubscriber.subscribe();
-    redisSubscriber.subscribe('chatmessage');
-
-    // client->us
-    this.wss = new WS.Server({
-      server,
+    queueSubscriber.onMessage((data) => {
+      console.log('queue message: ', { data });
+      const { message } = JSON.parse(data);
+      queuePublisher.publish(message.queue);
     });
+    queueSubscriber.subscribe();
+    redisSubscriber.subscribe('chatmessage');
 
     this.wss.on('connection', (socket: any, req: any) => {
       const clientPlayer = new Player(socket, req.headers['x-forwarded-for'] || req.socket.remoteAddress);
@@ -112,7 +113,6 @@ export class ControllerServer {
             }
             break;
           case constants.PlayerCommand.queue:
-            console.log('Starting Queue');
             this.queuePlayer(clientPlayer);
             this.updateGameStats();
             break;
@@ -131,7 +131,9 @@ export class ControllerServer {
           case constants.PlayerCommand.chatmsg:
             redisPublisher.publish(
               'discordmessage',
-              JSON.stringify({ message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage } }),
+              JSON.stringify({
+                message: { username: clientPlayer.userdata.nickname, chatmessage: msg.chatmessage, pictureUrl: clientPlayer.userdata.pictureUrl },
+              }),
               () => {}
             );
             break;
@@ -242,7 +244,8 @@ export class ControllerServer {
 
   updateGameStats() {
     this.players.forEach((p) => {
-      p.updateGameStats(this.queue.length, this.players.length);
+      const currentlyPlaying = this.currentPlayer?.userdata.email.split('@')[0] && null;
+      p.updateGameStats(this.queue.length, this.players.length, currentlyPlaying);
     });
   }
 
@@ -269,13 +272,15 @@ export class ControllerServer {
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
         return;
       }
-
       // set the claw to a default position so timeouts, etc work
       this.resetClaw();
-
       // Unlock player controls
       this.currentPlayer.play(this.playEnd.bind(this));
-      this.currentPlayer.updateGameStats(this.queue.length, this.players.length);
+      this.currentPlayer.updateGameStats(this.queue.length, this.players.length, this.currentPlayer.userdata.email.split('@')[0]);
+      sendall(this.players, {
+        command: constants.GameState.playing,
+        player: this.currentPlayer.userdata.email.split('@')[0],
+      });
     });
   }
 
@@ -285,6 +290,7 @@ export class ControllerServer {
       return;
     }
     this.currentPlayer.playEnd();
+
     // Waiting long enough for the claw to pick up the prize, return to home,
     // drop the prize, and reset for next play
     setTimeout(() => {
@@ -304,13 +310,25 @@ export class ControllerServer {
       return;
     }
 
+    sendall(this.players, {
+      command: constants.GameState.playing,
+      player: '',
+    });
+
     if (this.currentPlayer === null && this.queue.length > 0) {
-      this.activatePlayer(this.queue.shift());
-      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+      const uid = this.queue.shift();
+
+      this.activatePlayer(this.players.find((x) => x.uid === uid));
+      queuePublisher
+        .setQueue(this.queue)
+        .then()
+        .catch((error) => {
+          logger.log(LogLevel.error, `queuePublisher error ${error}`);
+        });
     }
   }
 
-  activatePlayer(p: any) {
+  activatePlayer(p: Player) {
     logger.log(LogLevel.info, `${p.uid} - activatePlayer`);
     this.gameEnd();
     this.currentPlayer = p;
@@ -321,7 +339,7 @@ export class ControllerServer {
     });
   }
 
-  deactivatePlayer(p: any) {
+  deactivatePlayer(p: Player) {
     logger.log(LogLevel.info, `${p.uid} - deactivatePlayer`);
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) {
       if (this.currentPlayer !== p) {
@@ -340,9 +358,15 @@ export class ControllerServer {
       return;
     }
     logger.log(LogLevel.info, `${p.uid} - Queue`);
-    if (!this.queue.includes(p)) {
-      this.queue.push(p);
-      // queuePublisher.setQueue(JSON.stringify(this.queue)).then();
+    if (!this.queue.includes(p.uid)) {
+      this.queue.push(p.uid);
+      webhookClient.send(`Player ${p.userdata.nickname} has entered the queue`, { username: 'Fuku.tv Bot' });
+      queuePublisher
+        .setQueue(this.queue)
+        .then()
+        .catch((error) => {
+          logger.log(LogLevel.error, `queuePublisher error ${error}`);
+        });
       p.send({ command: constants.PlayerCommand.queue, success: true });
       logger.log(LogLevel.info, `${p.uid} - player queued`);
       if (this.currentPlayer === null && this.queue.length === 1) {
@@ -357,10 +381,12 @@ export class ControllerServer {
 
   dequeuePlayer(p: Player): void {
     logger.log(LogLevel.info, `${p.uid} - dequeue`);
+    webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
     this.queue.forEach((item, index, object) => {
-      if (item === p) {
+      if (item === p.uid) {
         object.splice(index, 1);
         logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
+        webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
       }
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
@@ -395,7 +421,7 @@ const authenticateConnection = async (token: string): Promise<any> => {
     const data = await res.json();
 
     logger.log(LogLevel.info, `Validated user: ${data.email} ${data.nickname}`);
-    return { email: data.email, nickname: data.nickname };
+    return { email: data.email, nickname: data.nickname, pictureUrl: data.picture };
   } catch (err) {
     logger.log(LogLevel.error, `Login Error: ${err}`);
     return null;

@@ -10,12 +10,13 @@ import AboutScreen from '../Screens/AboutScreen/AboutScreen';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import ContentContainer from '../UIElements/ContentContainer/ContentContainer';
 import VerticalNavigation from '../VerticalNavigation/VerticalNavigation';
-import MainScreen from '../Screens/MainScreen/MainScreen';
-import LeaderboardsScreen from '../Screens/LeaderboardsScreen/LeaderboardsScreen';
-import StoreScreen from '../Screens/StoreScreen/StoreScreen';
+import PlayScreen from '../Screens/HeaderTabScreens/PlayScreen/PlayScreen';
+import LeaderboardsScreen from '../Screens/HeaderTabScreens/LeaderboardsScreen/LeaderboardsScreen';
+
 import PrizesScreen from '../Screens/PrizesScreen/PrizesScreen';
 import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCustomizationScreen';
 import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
+import StoreScreen from '../Screens/HeaderTabScreens/StoreScreen/StoreScreen';
 
 // import routes from './app/routes';
 // import SideBar from './components';
@@ -43,6 +44,7 @@ const Main: React.FC = () => {
   //   </div>
   // );
   const { actions, state } = useGameState();
+  const authState = useAuthState();
   React.useEffect(() => {
     actions.mountStore();
 
@@ -51,11 +53,11 @@ const Main: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <main>
+    <main className={!authState.state.isAuthenticated && 'logged-out'}>
       <ContentContainer>
         <Switch>
           <Route path="/" exact>
-            <MainScreen />
+            <PlayScreen />
           </Route>
           <Route path="/about" exact>
             <AboutScreen />

@@ -2,12 +2,13 @@ import { ActionCreator, ActionCreatorsMapObject, bindActionCreators } from 'redu
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 
+/** binds actions to redux dispatch  */
 export default function useActions<T>(actions: T): T {
   const dispatch = useDispatch();
   return useMemo(() => {
     if (Array.isArray(actions)) {
-      return ((actions as unknown) as ActionCreatorsMapObject).map((a) => bindActionCreators(a, dispatch));
+      return (actions as unknown as ActionCreatorsMapObject).map((a) => bindActionCreators(a, dispatch));
     }
-    return bindActionCreators((actions as unknown) as ActionCreatorsMapObject, dispatch);
+    return bindActionCreators(actions as unknown as ActionCreatorsMapObject, dispatch);
   }, [actions, dispatch]);
 }

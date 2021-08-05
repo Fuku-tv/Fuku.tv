@@ -1,8 +1,8 @@
-import * as AWS from 'aws-sdk';
-import type { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocument, PutCommandInput, DeleteCommandInput, ScanCommandInput, GetCommandInput } from '@aws-sdk/lib-dynamodb';
 import { BaseModel } from './models';
 
-const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: 'latest', region: 'us-east-1' });
+const documentClient = DynamoDBDocument.from(new DynamoDBClient({ apiVersion: 'latest', region: 'us-east-1' }));
 
 const Dynamo = {
   /**
@@ -11,12 +11,12 @@ const Dynamo = {
    * @returns
    */
   async getList<T>(tableName: string, attributes: string[]): Promise<T[]> {
-    const params: DocumentClient.ScanInput = {
+    const params: ScanCommandInput = {
       TableName: tableName,
       ProjectionExpression: attributes.join(),
     };
 
-    const data = await documentClient.scan(params).promise();
+    const data = await documentClient.scan(params);
 
     if (!data || data.Count <= 0) {
       throw Error(`There was an error fetching the data list for ${tableName}`);
@@ -25,14 +25,14 @@ const Dynamo = {
     return data.Items as T[];
   },
   async get<T>(id: string, tableName: string): Promise<T> {
-    const params = {
+    const params: GetCommandInput = {
       TableName: tableName,
       Key: {
         id,
       },
     };
 
-    const data = await documentClient.get(params).promise();
+    const data = await documentClient.get(params);
 
     if (!data || !data.Item) {
       throw Error(`There was an error fetching the data for id of ${id} from ${tableName}`);
@@ -46,11 +46,11 @@ const Dynamo = {
       throw Error('no id on the data');
     }
 
-    const params = {
+    const params: PutCommandInput = {
       TableName: tableName,
       Item: data,
     };
-    const res = await documentClient.put(params).promise();
+    const res = await documentClient.put(params);
 
     if (!res) {
       throw Error(`There was an error inserting id of ${data.id} in table ${tableName}`);
@@ -58,13 +58,13 @@ const Dynamo = {
   },
 
   async delete(id: string, tableName: string): Promise<void> {
-    const params = {
+    const params: DeleteCommandInput = {
       TableName: tableName,
       Key: {
         id,
       },
     };
-    const res = await documentClient.delete(params).promise();
+    const res = await documentClient.delete(params);
     if (!res) {
       throw Error(`There was an error deleting id of ${id} in table ${tableName}`);
     }

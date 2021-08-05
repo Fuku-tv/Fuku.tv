@@ -10,17 +10,17 @@ import type Command from './command';
 export class Player {
   socket: ws;
 
-  userdata: { email: string; nickname: string };
+  userdata: { email: string; nickname: string; pictureUrl: string };
 
   timePlay = 30100;
 
   timeStandby = 60100;
 
-  playTimer: any = null;
+  playTimer: NodeJS.Timeout = null;
 
-  standbyTimer: any = null;
+  standbyTimer: NodeJS.Timeout = null;
 
-  keepaliveTimer: any = null;
+  keepaliveTimer: NodeJS.Timeout = null;
 
   isLoggedIn = false;
 
@@ -32,11 +32,11 @@ export class Player {
 
   ipAddr: any;
 
-  freeplay: any;
+  freeplay: number;
 
-  credits: any;
+  credits: number;
 
-  points: any;
+  points: number;
 
   constructor(socket: ws, ip: any) {
     this.socket = socket;
@@ -47,7 +47,7 @@ export class Player {
     }, 10000);
   }
 
-  Login(userdata: { nickname: string; email: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
+  Login(userdata: { nickname: string; email: string; pictureUrl: string }, queueCount = 0, watchCount = 0, videoWidth = 0, videoHeight = 0): void {
     this.userdata = userdata;
     this.fetchInitialPlayerData()
       .then(() => {
@@ -90,8 +90,9 @@ export class Player {
     if (this.standbyTimer !== null) clearTimeout(this.standbyTimer);
   }
 
-  updateGameStats(qc: number, wc: number): void {
+  updateGameStats(qc: number, wc: number, playing: string): void {
     this.send({
+      playing,
       command: constants.PlayerCommand.gamestats,
       queue: qc,
       watch: wc,
@@ -147,7 +148,7 @@ export class Player {
   }
 
   async redeemPoints(points: number, credits: number): Promise<void> {
-    await playersTableModel.addPoints(this.userdata.email, -1 * points);
+    await playersTableModel.removePoints(this.userdata.email, points);
     await playersTableModel.addCredits(this.userdata.email, credits);
   }
 
@@ -158,15 +159,13 @@ export class Player {
     // get current player
     try {
       const player = await playersTableModel.get(this.userdata.email);
-      if (player.points === undefined) this.points = 0;
-      else this.points = player.points;
-      if (player.credits === undefined) this.credits = 0;
-      else this.credits = player.credits;
+
+      this.points = player.points ?? 0;
+      this.credits = player.credits ?? 0;
       if (player.freeplay === undefined) {
         await playersTableModel.addFreeplay(this.userdata.email, 10);
         this.freeplay = 10;
       } else this.freeplay = player.freeplay;
-
       this.uid = player.id;
     } catch {
       // no player found, creating new player

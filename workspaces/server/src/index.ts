@@ -86,3 +86,7 @@ videoHttpsServer.listen(10889);
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
 const discord = new DiscordBotServer();
+
+controller.run();
+video.run();
+discord.run();

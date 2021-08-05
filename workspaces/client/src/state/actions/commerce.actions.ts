@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getPrices, redirectToCheckout } from 'src/services/commerceService';
+import { getPrices, redirectToCheckoutSession } from 'src/services/commerceService';
 import Stripe from 'stripe';
 import { RootState } from '../store';
-import type { AppThunk } from './helpers/appThunk';
 
 export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
   const Prices = await getPrices();
@@ -15,6 +14,7 @@ export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
       imgUrl: product.images[0],
       price: parseFloat((price.unit_amount / 100).toFixed(2)),
       priceId: price.id,
+      type: price.type,
     };
   });
   return productList;
@@ -22,5 +22,5 @@ export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
 
 export const checkout = createAsyncThunk<unknown, unknown, { state: RootState }>('CHECKOUT', async (items: any, thunkAPI) => {
   const customerEmail = thunkAPI.getState().auth.email;
-  await redirectToCheckout(items, customerEmail);
+  await redirectToCheckoutSession(items, customerEmail);
 });

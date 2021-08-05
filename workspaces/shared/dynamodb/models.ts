@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+
 export class BaseModel {
   id: string;
 }

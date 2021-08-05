@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Jost:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,17 +24,19 @@
   --boxShadow2: 0 2px 6px 0 rgba(0, 0, 0, 0.12), inset 0 -1px 0 0 #dadce0;
   --boxShadow3: rgba(0, 0, 0, 0.1) 0px 2px 3px 0px;
   --sideNavWidth: 85px;
-  --topHeaderHeight: 80px;
-  --subHeaderHeight: 45px;
-  --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
-  --jost: 'Jost', sans-serif;
+  --topHeaderHeight: 50px;
+  --subHeaderHeight: 40px;
+  --headerHeight: var(--topHeaderHeight);
+  // --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
+  --jost: 'Inter', sans-serif;
   --rubik: 'Rubik', sans-serif;
+  --inter: 'Inter', sans-serif;
 }
 
 @media only screen and (max-width: 600px) {
   :root {
     --topHeaderHeight: 60px;
-    --subHeaderHeight: 0px;
+    --subHeaderHeight: 36px;
   }
 }
 
@@ -60,8 +63,10 @@ button {
 body,
 button,
 span,
-p {
-  font-family: var(--jost);
+p,
+select {
+  font-family: var(--inter);
+  font-size: 13px;
 }
 
 h1,

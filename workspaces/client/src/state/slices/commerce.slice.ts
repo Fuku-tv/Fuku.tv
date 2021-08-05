@@ -12,6 +12,7 @@ interface Product {
   imgUrl: string;
   price: number;
   priceId: string;
+  type: string;
 }
 
 const initialState: State = {

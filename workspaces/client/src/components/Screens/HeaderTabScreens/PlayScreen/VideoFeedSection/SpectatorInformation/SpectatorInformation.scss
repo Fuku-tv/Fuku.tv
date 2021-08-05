@@ -1,0 +1,33 @@
+.spectator-information-container {
+  .que-icon-wrapper {
+    display: inline-block;
+    // margin: 5px;
+    font-size: 14px;
+    &:nth-child(2) {
+      margin-left: 10px;
+      padding-left: 10px;
+      border: none;
+      // border-left: 1px solid #fff;
+    }
+    span {
+      display: inline;
+    }
+    svg {
+      height: 13px;
+      margin-right: 4px;
+      margin-bottom: -2px;
+    }
+
+    .number {
+      font-weight: 500;
+      margin-left: 4px;
+      font-family: var(--rubik);
+    }
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .que-icon-wrapper {
+    font-size: 11px !important;
+  }
+}

@@ -5,6 +5,7 @@ import confetti from 'canvas-confetti';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 import './ConfettiBackdrop.scss';
+import { gameActions } from 'src/state/actions';
 
 interface Props {
   onClick?: () => void;
@@ -14,7 +15,7 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
   const gameState = useGameState();
   const canvasRef = React.useRef(null);
   const removeConfetti = () => {
-    console.log({ confetti });
+    gameState.actions.toggleWinnerModal();
     confetti.reset();
   };
 
@@ -89,15 +90,15 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
     // End delayed confetti
   };
 
-  React.useEffect(() => {
-    blastConfetti();
-    return () => {
-      removeConfetti();
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   blastConfetti();
+  //   return () => {
+  //     removeConfetti();
+  //   };
+  // }, []);
 
   const content = (
-    <div className="confetti-backdrop" role="button" tabIndex={0}>
+    <div className="confetti-backdrop" onKeyDown={() => removeConfetti()} onClick={() => removeConfetti()} role="button" tabIndex={0}>
       <div className="player-congrats">
         <h2 className="player-name">Congratulations!</h2>
         <div className="value-won">

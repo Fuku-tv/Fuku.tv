@@ -1,7 +1,11 @@
 import * as Discord from 'discord.js';
-import { discordWebhookId, discordWebhookToken } from '../secrets/getSecret';
+import { discordBotToken, discordWebhookId, discordWebhookToken } from '../secrets/getSecret';
 
-export const getDiscordClient = (): Discord.Client => new Discord.Client();
+export const getDiscordClient = async (): Promise<Discord.Client> => {
+  const client = new Discord.Client();
+  client.login(await discordBotToken());
+  return client;
+};
 
 export const getWebhookClient = async (): Promise<Discord.WebhookClient> => {
   const WEBHOOK_ID = await discordWebhookId();
@@ -10,3 +14,5 @@ export const getWebhookClient = async (): Promise<Discord.WebhookClient> => {
 };
 
 export type WebhookClient = Discord.WebhookClient;
+
+export type DiscordClient = Discord.Client;

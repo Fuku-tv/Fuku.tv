@@ -69,6 +69,23 @@ const DropdownButton: React.FC<PROPS> = (props) => {
     background: dropdownIsOpen ? 'var(--purpleSecondary)' : 'inherit',
   };
 
+  // const pointAndCredits = (
+  //   <div id="points-and-credits">
+  //     <div className="stat-item-wrapper">
+  //       <span className="player-stats__item">Credits:</span>
+  //       <span className="player-stats__value">{gameState.state.credits}</span>
+  //     </div>
+  //     <div className="stat-item-wrapper">
+  //       <span className="player-stats__item">Freeplay:</span>
+  //       <span className="player-stats__value">{gameState.state.freeplay}</span>
+  //     </div>
+  //     <div className="stat-item-wrapper">
+  //       <span className="player-stats__item">Points:</span>
+  //       <span className="player-stats__value">{gameState.state.points}</span>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <button onClick={() => setDropdownIsOpen((s) => !s)} style={buttonStyles} id={props.id} className="header-profile-dropdown-container">
       <div className="header-profile-wrapper ">
@@ -77,21 +94,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
         </div>
         <div className="header-profile__content">
           <div className="profile__name">
-            <h2>{state.username || state.nickname || state.name}</h2>
-          </div>
-          <div id="points-and-credits">
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Credits:</span>
-              <span className="player-stats__value">{gameState.state.credits}</span>
-            </div>
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Freeplay:</span>
-              <span className="player-stats__value">{gameState.state.freeplay}</span>
-            </div>
-            <div className="stat-item-wrapper">
-              <span className="player-stats__item">Points:</span>
-              <span className="player-stats__value">{gameState.state.points}</span>
-            </div>
+            <span>{state.username || state.nickname || state.name}</span>
           </div>
         </div>
 

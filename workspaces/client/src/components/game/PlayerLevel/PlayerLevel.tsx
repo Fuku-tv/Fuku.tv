@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import * as styles from './PlayerLevel.module.scss';
+import styles from './PlayerLevel.module.scss';
 import { levels } from './playerLevels';
 
 const PlayerLevel: React.FC = () => {
@@ -42,14 +42,12 @@ const PlayerLevel: React.FC = () => {
           // Rotation of path and trail, in number of turns (0-1)
           strokeLinecap: 'butt',
           textSize: '44px',
-          fontWeight: 'bold',
           pathTransitionDuration: 0.5,
           textColor: '#fff',
           trailColor: '#c4b9d7',
           pathColor: '#f9bf00',
         })}
         value={gameState.state.points === 0 ? 1 : playerLevel}
-        text={playerLevel}
       />
     </div>
   );

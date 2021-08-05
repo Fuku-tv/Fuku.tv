@@ -30,24 +30,22 @@ const ClawCustomizationScreen: React.FC = () => {
   //     </div>
   //   );
   // };
-  const LaserTableItem = (props) => {
-    return (
-      <div data-tip data-for="table-item-tooltip" className="laser table-item">
-        <div className="table-item__initials">LP</div>
-        <div className="table-item__icon">{laser}</div>
-        <div className="table-item__time-remaining">{infiniti}</div>
-        <TableItemTooltip
-          title={props.title}
-          description={props.description}
-          descriptionValue={props.descriptionValue}
-          timeRemainingValue={props.timeRemainingValue}
-          color="#111111"
-          backgroundColor="#01ff12"
-          icon={laser}
-        />
-      </div>
-    );
-  };
+  const LaserTableItem = (props) => (
+    <div data-tip data-for="table-item-tooltip" className="laser table-item">
+      <div className="table-item__initials">LP</div>
+      <div className="table-item__icon">{laser}</div>
+      <div className="table-item__time-remaining">{infiniti}</div>
+      <TableItemTooltip
+        title={props.title}
+        description={props.description}
+        descriptionValue={props.descriptionValue}
+        timeRemainingValue={props.timeRemainingValue}
+        color="#111111"
+        backgroundColor="#01ff12"
+        icon={laser}
+      />
+    </div>
+  );
 
   const playerTitleAppliedStats = (
     <>
