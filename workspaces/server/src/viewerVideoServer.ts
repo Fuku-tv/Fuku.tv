@@ -25,6 +25,7 @@ export class VideoServer extends WebsocketServerBase {
       logger.log(LogLevel.info, `${viewer.ipAddr} - socket open.`);
 
       socket.on('message', (data: any) => {
+        this.swapVideo(viewer, data.video);
         switch (data.command) {
           case constants.PlayerCommand.swapvideo:
             this.swapVideo(viewer, data.video);
