@@ -25,12 +25,13 @@ export class VideoServer extends WebsocketServerBase {
       logger.log(LogLevel.info, `${viewer.ipAddr} - socket open.`);
 
       socket.on('message', (data: any) => {
-        switch (data.command) {
+        const message = JSON.parse(data);
+        switch (message.command) {
           case constants.PlayerCommand.swapvideo:
-            this.swapVideo(viewer, data.video);
+            this.swapVideo(viewer, message.video);
             break;
           default:
-            logger.log(LogLevel.error, `Bad command: ${data}, command passed was ${data.command},`);
+            logger.log(LogLevel.error, `Bad command: ${message}, command passed was ${message.command},`);
             break;
         }
       });
