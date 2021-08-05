@@ -26,13 +26,12 @@ export class VideoServer extends WebsocketServerBase {
 
       socket.on('message', (data: any) => {
         const msg = typeof data === 'object' ? JSON.stringify(data) : JSON.parse(data);
-
         switch (msg.command) {
           case constants.PlayerCommand.swapvideo:
             this.swapVideo(viewer, msg.video);
             break;
           default:
-            logger.log(LogLevel.error, `Bad command: ${data}`);
+            logger.log(LogLevel.error, `Bad command: ${data} Message: ${msg}`);
             break;
         }
       });
