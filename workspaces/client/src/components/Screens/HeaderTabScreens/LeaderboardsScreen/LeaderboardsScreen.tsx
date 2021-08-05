@@ -74,10 +74,10 @@ const LeaderboardsScreen: React.FC = () => {
             <div className="header__wins">Wins</div>
           </div>
           {state.playerList.map((u, i) => (
-            <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.id} score={u.points} />
+            <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.nickname} score={u.points} />
           ))}
         </div>
-        <LeaderboardPodium first={state.playerList[0]?.id} second={state.playerList[1]?.id} third={state.playerList[2]?.id} />
+        <LeaderboardPodium first={state.playerList[0]?.nickname} second={state.playerList[1]?.nickname} third={state.playerList[2]?.nickname} />
       </div>
     </Screen>
   );
