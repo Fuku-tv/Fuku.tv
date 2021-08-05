@@ -381,12 +381,12 @@ export class ControllerServer extends WebsocketServerBase {
 
   dequeuePlayer(p: Player): void {
     logger.log(LogLevel.info, `${p.uid} - dequeue`);
-    webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
+    // webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
     this.queue.forEach((item, index, object) => {
       if (item === p.uid) {
         object.splice(index, 1);
         logger.log(LogLevel.info, `player dequeue - ${p.uid}`);
-        webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
+        // webhookClient.send(`Player ${p?.userdata?.nickname} has exited the queue`, { username: 'Fuku.tv Bot' });
       }
     });
     p.send({ action: constants.PlayerCommand.dequeue, success: true });
