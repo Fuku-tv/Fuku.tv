@@ -4,13 +4,15 @@ import { getWebhookClient } from 'fuku.tv-shared/discord';
 
 const FREEPLAY_COUNT = 2;
 
+const FREEPLAY_LIMIT = 10;
+
 export const index: ScheduledHandler = async () => {
   try {
     const discordWebhook = await getWebhookClient();
     const playerIdList = await playersTableModel.getList(['id', 'freeplay']);
     console.log(`Found ${playerIdList.length} players to update`);
     playerIdList.forEach(async (player) => {
-      if (player?.freeplay < 20) {
+      if (player?.freeplay < FREEPLAY_LIMIT) {
         console.log(`added ${FREEPLAY_COUNT} freeplay points to user ${player.id}`);
         playersTableModel.addFreeplay(player.id, FREEPLAY_COUNT);
       } else {
