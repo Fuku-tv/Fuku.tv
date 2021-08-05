@@ -43,9 +43,9 @@ const LetsPlayScreen: React.FC<PROPS> = ({ gameStatus }) => {
         />
       </div>
 
-      <div className="slots">
+      {/* <div className="slots">
         <button onClick={() => setModalIsActive(true)}>Slots</button>
-      </div>
+      </div> */}
     </SlideableContent>
   );
 };
