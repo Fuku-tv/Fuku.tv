@@ -27,7 +27,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
         title="Out of Credits"
         descriptionStart="You have"
         dynamicNumber={state.points}
-        descriptionEnd="points, trade them in for more credits?"
+        descriptionEnd="points, trade 200 points for another round?"
       />{' '}
       <DepthButton id="spend-points-button" buttonText="" />
       <div id="start" className="start-stop-buttons-container">
@@ -42,8 +42,8 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
         />
 
         <DepthButton
-          onPointerUp={() => setModalIsActive(true)}
-          onPointerDown={() => setModalIsActive(true)}
+          onPointerUp={() => actions.buttonDownEvent('start')}
+          onPointerDown={() => actions.buttonUpEvent('start')}
           id="spend-points-button"
           buttonText="Yes, Let's Trade"
           width={160}
