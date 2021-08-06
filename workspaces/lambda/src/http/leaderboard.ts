@@ -7,7 +7,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   const { domainName, stage, identity } = event.requestContext;
   const env = process.env.LAMBDA_ENV;
   try {
-    const players = await playersTableModel.getList(['id', 'points']);
+    const players = await playersTableModel.getList(['nickname', 'points']);
     const top20Players = players.slice(0, 20).sort((a, b) => b.points - a.points);
     return Responses.ok({ playerList: top20Players });
   } catch (error) {
