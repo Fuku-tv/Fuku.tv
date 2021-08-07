@@ -1,12 +1,13 @@
 {
   "git.autofetch": true,
-  "editor.formatOnSave": true,
-  "npm.packageManager": "yarn",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "breadcrumbs.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
+  "editor.formatOnSave": true,
+  "editor.linkedEditing": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "npm.packageManager": "yarn",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "breadcrumbs.enabled": true,
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

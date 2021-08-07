@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getAccessTokenSilent, loginPopup, logout } from '../actions/auth.actions';
+import { getAccessTokenSilent, loginPopup, logout, getUserProfile } from '../actions/auth.actions';
 
 const initialState = {
   nickname: '',
@@ -20,21 +20,22 @@ const authSlice = createSlice({
       ...action.payload,
     }),
   },
-  extraReducers: {
-    [loginPopup.fulfilled.toString()]: (state, action) => ({
+  extraReducers: (builder) => {
+    builder.addCase(getUserProfile.fulfilled, (state, action) => state);
+    builder.addCase(loginPopup.fulfilled, (state, action) => ({
       ...state,
       isAuthenticated: true,
       accessToken: action.payload,
-    }),
-    [loginPopup.rejected.toString()]: (state) => ({
+    }));
+    builder.addCase(loginPopup.rejected, (state) => ({
       ...state,
       isAuthenticated: false,
-    }),
-    [getAccessTokenSilent.fulfilled.toString()]: (state, action) => ({
+    }));
+    builder.addCase(getAccessTokenSilent.fulfilled, (state, action) => ({
       ...state,
       accessToken: action.payload,
-    }),
-    [logout.fulfilled.toString()]: (state, action) => initialState,
+    }));
+    builder.addCase(logout.fulfilled, (state, action) => initialState);
   },
 });
 

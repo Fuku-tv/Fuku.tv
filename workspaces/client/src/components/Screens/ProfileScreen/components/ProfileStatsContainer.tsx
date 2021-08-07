@@ -48,14 +48,12 @@ const percent = (
   </svg>
 );
 
-const UserProfile: React.FC = () => {
-  return (
-    <section id="profile-stats-container">
-      <ProfileStat title="Total Attempts" icon={claw} />
-      <ProfileStat title="Total Wins" icon={medal} />
-      <ProfileStat title="Winning Percentage" icon={percent} />
-    </section>
-  );
-};
+const UserProfile: React.FC = () => (
+  <section id="profile-stats-container">
+    <ProfileStat title="Total Attempts" icon={claw} />
+    <ProfileStat title="Total Wins" icon={medal} />
+    <ProfileStat title="Winning Percentage" icon={percent} />
+  </section>
+);
 
 export default UserProfile;

@@ -20,6 +20,9 @@ const useAuthState = () => {
   const getAccessTokenSilent = () => {
     boundActions.getAccessTokenSilent(auth0);
   };
+  const getUserProfile = () => {
+    boundActions.getUserProfile(auth0);
+  };
 
   const logout = () => {
     boundActions.logout(auth0);
@@ -30,6 +33,7 @@ const useAuthState = () => {
     actions: {
       loginWithRedirect,
       getAccessTokenSilent,
+      getUserProfile,
       logout,
     },
   };
