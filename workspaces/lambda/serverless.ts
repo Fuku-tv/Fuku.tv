@@ -41,6 +41,7 @@ const serverlessConfiguration: Serverless = {
     bundle: {
       // exclude discord.js due to lack of webpack support.
       sourcemaps: false,
+      packager: 'yarn',
       externals: ['discord.js'],
       linting: false,
       fixPackages: ['formidable@1.x'],
