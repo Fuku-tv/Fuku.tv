@@ -52,7 +52,7 @@ const serverlessConfiguration: Serverless = {
       shouldStartNameWithService: true,
     },
     name: 'aws',
-    runtime: 'nodejs12.x',
+    runtime: 'nodejs14.x',
     stage: STAGE,
     environment: {
       LAMBDA_ENV: STAGE,
