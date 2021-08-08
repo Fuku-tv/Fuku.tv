@@ -102,12 +102,6 @@ const serverlessConfiguration: Serverless = {
       handler: 'src/trigger/scheduled/updateFreeplay.index',
       events: [
         {
-          http: {
-            path: '/trigger/updateFreeplay',
-            method: 'post',
-          },
-        },
-        {
           schedule: {
             rate: 'rate(4 hours)',
           },
