@@ -8,7 +8,6 @@ const FREEPLAY_LIMIT = 10;
 
 export const index: ScheduledHandler = async () => {
   try {
-    const discordWebhook = await getWebhookClient();
     const playerIdList = await playersTableModel.getList(['id', 'freeplay']);
     console.log(`Found ${playerIdList.length} players to update`);
     playerIdList.forEach(async (player) => {
@@ -19,7 +18,12 @@ export const index: ScheduledHandler = async () => {
         console.log(`Player ${player.id} already has ${player.freeplay} points in their account, skipping`);
       }
     });
+  } catch (error) {
+    console.log('Update Freeplay error: ', error);
+  }
 
+  try {
+    const discordWebhook = await getWebhookClient();
     await discordWebhook.send(
       `The pepe fairy has granted everyone ${FREEPLAY_COUNT} freeplay tickets to play [Fuku.tv](https://fuku.tv)! Feels good man`,
       {
@@ -29,7 +33,7 @@ export const index: ScheduledHandler = async () => {
     );
     console.log(`Sent notification to discord server`);
   } catch (error) {
-    console.log(error);
+    console.log('Unable to send discord notification: ', error);
   }
 };
 

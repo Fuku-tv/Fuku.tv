@@ -41,7 +41,6 @@ const serverlessConfiguration: Serverless = {
     bundle: {
       // exclude discord.js due to lack of webpack support.
       externals: ['discord.js'],
-      sourcemaps: false,
       linting: false,
       fixPackages: ['formidable@1.x'],
     },
@@ -68,7 +67,7 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-plugin-parcel', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
     authorization: {
