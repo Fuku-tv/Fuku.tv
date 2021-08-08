@@ -40,6 +40,7 @@ const serverlessConfiguration: Serverless = {
   custom: {
     bundle: {
       // exclude discord.js due to lack of webpack support.
+      sourcemaps: false,
       externals: ['discord.js'],
       linting: false,
       fixPackages: ['formidable@1.x'],
@@ -101,6 +102,12 @@ const serverlessConfiguration: Serverless = {
     update_freeplay: {
       handler: 'src/trigger/scheduled/updateFreeplay.index',
       events: [
+        {
+          http: {
+            path: '/trigger/updateFreeplay',
+            method: 'post',
+          },
+        },
         {
           schedule: {
             rate: 'rate(4 hours)',
