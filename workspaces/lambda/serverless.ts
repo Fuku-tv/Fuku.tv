@@ -68,7 +68,7 @@ const serverlessConfiguration: Serverless = {
       },
     ],
   },
-  plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
+  plugins: ['serverless-plugin-parcel', 'serverless-dynamodb-local', 'serverless-offline'],
 
   functions: {
     authorization: {
@@ -102,6 +102,12 @@ const serverlessConfiguration: Serverless = {
     update_freeplay: {
       handler: 'src/trigger/scheduled/updateFreeplay.index',
       events: [
+        {
+          http: {
+            path: '/trigger/updateFreeplay',
+            method: 'post',
+          },
+        },
         {
           schedule: {
             rate: 'rate(4 hours)',
