@@ -35,6 +35,9 @@
     ],
     "*.{scss}": [
       "stylelint **/*.scss"
+    ],
+    "*": [
+      "pretty-quick --staged"
     ]
   },
   "devDependencies": {
