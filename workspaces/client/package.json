@@ -9,7 +9,9 @@
     "prebuild": "rimraf dist",
     "build": "parcel build src/index.html --public-url ./ ",
     "postbuild": "ts-node ./scripts/sitemap.ts",
-    "lint": "tsc && eslint . --ext .ts,.tsx --fix",
+    "lint": "yarn lint:code && yarn lint:style",
+    "lint:code": "eslint . --ext .ts,.tsx --fix",
+    "lint:style": "stylelint **/*.scss --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
