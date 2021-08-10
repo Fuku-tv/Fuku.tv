@@ -1,5 +1,4 @@
 import * as React from 'react';
-import state from 'src/state';
 import { useGameState } from 'src/state/hooks';
 import './SwitchCameraButton.scss';
 
