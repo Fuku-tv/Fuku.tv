@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { isMobile } from 'react-device-detect';
-import styles from './Timer.module.scss';
+import './Timer.scss';
 
 const Timer: React.FC = () => {
   const { state, actions } = useGameState();
