@@ -1,6 +1,12 @@
 import type { APIGatewayAuthorizerResult, APIGatewayProxyHandler, APIGatewayTokenAuthorizerHandler } from 'aws-lambda';
 import auth0, { UserData } from 'auth0';
+import jwt from 'jsonwebtoken';
+import validateUser from 'src/common/authorizer';
 import * as Responses from '../common/ApiResponses';
+
+// Set in `environment` of serverless.yml
+const { AUTH0_CLIENT_ID } = process.env;
+const { AUTH0_CLIENT_PUBLIC_KEY } = process.env;
 
 const auth0Client = new auth0.AuthenticationClient({
   domain: 'fukutv-alpha.us.auth0.com',
@@ -24,19 +30,40 @@ const generatePolicy = (principalId, effect, resource) => {
   return authResponse;
 };
 
-export const authorizer: APIGatewayTokenAuthorizerHandler = (event, context, callback) =>
-  // console.log(event.authorizationToken);
-  // try {
-  //   console.log(event.authorizationToken);
-  //   const user: UserData = await auth0Client.getProfile(event.authorizationToken);
-  //   callback('Allow', generatePolicy(user.email, 'Allow', event.methodArn));
-  //   return user;
-  // } catch (error) {
-  //   console.log(event.authorizationToken);
-  //   callback('Unauthorized');
-  //   return error;
-  // }
+// eslint-disable-next-line consistent-return
+export const index: APIGatewayTokenAuthorizerHandler = (event, context, callback) => {
+  if (!event.authorizationToken) {
+    return callback('Token not found');
+  }
 
-  callback(null, generatePolicy('user', 'Allow', event.methodArn));
+  const tokenParts = event.authorizationToken.split(' ');
+  const tokenValue = tokenParts[1];
+
+  if (!(tokenParts[0].toLowerCase() === 'bearer' && tokenValue)) {
+    // no auth token!
+    return callback('Token is malformed');
+  }
+
+  validateUser(tokenValue)
+    .then((user) => callback(null, generatePolicy('user', 'Allow', event.methodArn)))
+    .catch((err) => callback(`catch error. Invalid token : ${err}`));
+
+  // try {
+  //   jwt.verify(tokenValue, AUTH0_CLIENT_PUBLIC_KEY, options, (verifyError, decoded) => {
+  //     if (verifyError) {
+  //       console.log('verifyError', verifyError);
+  //       // 401 Unauthorized
+  //       console.log(`Token invalid. ${verifyError}`);
+  //       return callback(`Token invalid. ${verifyError}`);
+  //     }
+  //     // is custom authorizer function
+  //     console.log('valid from customAuthorizer', decoded);
+  //     return callback(null, generatePolicy(decoded.sub, 'Allow', event.methodArn));
+  //   });
+  // } catch (err) {
+  //   console.log('catch error. Invalid token', err);
+  //   return callback(`catch error. Invalid token : ${err}`);
+  // }
+};
 
 export default {};

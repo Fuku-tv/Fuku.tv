@@ -18,10 +18,10 @@ export const badRequest = (data = {}): APIGatewayProxyResult => ({
   body: JSON.stringify(data),
 });
 
-export const unauthorized = (): APIGatewayProxyResult => ({
+export const unauthorized = (message = ''): APIGatewayProxyResult => ({
   headers,
   statusCode: 401,
-  body: 'unauthorized',
+  body: JSON.stringify(message) || 'unauthorized',
 });
 
 export const serverError = (data = {}): APIGatewayProxyResult => ({

@@ -6,6 +6,7 @@ import * as commerceActions from './commerce.actions';
 
 import * as prizeActions from './prize.actions';
 
+import * as leaderboardActions from './leaderboard.actions';
 // import * as navigationActions from './navigation.actions';
 
-export { gameActions, authActions, commerceActions, prizeActions };
+export { gameActions, authActions, commerceActions, prizeActions, leaderboardActions };

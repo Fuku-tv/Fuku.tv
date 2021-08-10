@@ -1,5 +1,6 @@
 import { Auth0ContextInterface } from '@auth0/auth0-react';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import * as fukuApiService from 'src/services/fukuApiService';
 import * as fukuService from 'src/services/fukuService';
 
 export const loginPopup = createAsyncThunk('LOGIN_POPUP', async (auth: Auth0ContextInterface) => {
@@ -18,6 +19,12 @@ export const getAccessTokenSilent = createAsyncThunk('GET_ACCESS_TOKEN_SILENT', 
   const token = await auth.getAccessTokenSilently();
   fukuService.login(token);
   return token;
+});
+
+export const getUserProfile = createAsyncThunk('GET_USER_PROFILE', async (auth: Auth0ContextInterface) => {
+  const token = await auth.getAccessTokenSilently();
+  const data = await fukuApiService.getuserProfile(token);
+  return data;
 });
 
 export const logout = createAsyncThunk('LOGOUT', async (auth: Auth0ContextInterface) => {

@@ -12,6 +12,7 @@
     "editorconfig.editorconfig",
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
-    "orta.vscode-jest"
+    "stylelint.vscode-stylelint",
+    "cschleiden.vscode-github-actions"
   ]
 }

@@ -1,12 +1,19 @@
 import axios from 'axios';
-import { env } from 'fuku.tv-shared';
+import { fukuApiServerURL } from 'fuku.tv-shared/env';
 
 const FukuAPI = axios.create({
-  baseURL: env.fukuApiServerURL(),
+  baseURL: fukuApiServerURL(),
 });
 
 export const getLeaderboard = async () => {
   const result = await FukuAPI.get('/leaderboard');
+
+  return result.data;
+};
+
+export const getuserProfile = async (token: string) => {
+  FukuAPI.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const result = await FukuAPI.get('/user');
 
   return result.data;
 };
@@ -16,5 +23,3 @@ export const getCheckoutUrl = async (items: any[], customerEmail: string, client
 
   return result.data.url;
 };
-
-export default {};
