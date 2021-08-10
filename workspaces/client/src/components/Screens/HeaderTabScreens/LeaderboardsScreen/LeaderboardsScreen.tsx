@@ -96,7 +96,7 @@ const LeaderboardsScreen: React.FC = () => {
             <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.nickname} score={u.points} />
           ))}
         </div>
-        <LeaderboardPodium first={state.playerList[0]?.nickname} second={state.playerList[1]?.nickname} third={state.playerList[2]?.nickname} />
+        <LeaderboardPodium first={state.playerList[0]} second={state.playerList[1]} third={state.playerList[2]} />
       </div>
     </Screen>
   );
