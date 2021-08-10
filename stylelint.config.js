@@ -2,5 +2,5 @@
 
 module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-css-modules'],
-  rules: { 'max-nesting-depth': 1 },
+  rules: { 'max-nesting-depth': 4 },
 };

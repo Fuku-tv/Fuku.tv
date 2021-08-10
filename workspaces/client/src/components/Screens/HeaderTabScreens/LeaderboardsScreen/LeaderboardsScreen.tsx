@@ -49,6 +49,26 @@ const SAMPLE_LEADERBOARD_DATA = [
     userName: 'Angela',
     userScore: '5',
   },
+  {
+    userName: 'Stanley',
+    userScore: '4',
+  },
+  {
+    userName: 'Michael',
+    userScore: '9',
+  },
+  {
+    userName: 'Dwight',
+    userScore: '7',
+  },
+  {
+    userName: 'Jim',
+    userScore: '6',
+  },
+  {
+    userName: 'Angela',
+    userScore: '5',
+  },
 ];
 
 const LeaderboardsScreen: React.FC = () => {
@@ -71,9 +91,8 @@ const LeaderboardsScreen: React.FC = () => {
             <div className="header__rank">Rank</div>
             <div className="header__user">Username</div>
             <div className="header__score">Score</div>
-            <div className="header__wins">Wins</div>
           </div>
-          {state.playerList.map((u, i) => (
+          {state.playerList.slice(0, 10).map((u, i) => (
             <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.nickname} score={u.points} />
           ))}
         </div>
