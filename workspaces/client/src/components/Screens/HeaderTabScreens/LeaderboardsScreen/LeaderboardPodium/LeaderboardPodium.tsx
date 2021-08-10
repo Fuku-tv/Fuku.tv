@@ -3,18 +3,23 @@ import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 
 import './LeaderboardPodium.scss';
 
+interface Player {
+  nickname: string;
+  points: number;
+}
+
 interface PROPS {
-  first?: string;
-  second?: string;
-  third?: string;
+  first?: Player;
+  second?: Player;
+  third?: Player;
 }
 
 const LeaderboardPodium: React.FC<PROPS> = ({ first, second, third }) => (
   <div id="leaderboards-podium">
     <div className="trophy-icon">{trophy}</div>
-    <PodiumItem position="second" positionNumber="2" name={second} wins="115" />
-    <PodiumItem position="first" positionNumber="1" name={first} wins="140" />
-    <PodiumItem position="third" positionNumber="3" name={third} wins="111" />
+    <PodiumItem position="second" positionNumber="2" name={second?.nickname} wins={second?.points} />
+    <PodiumItem position="first" positionNumber="1" name={first?.nickname} wins={first?.points} />
+    <PodiumItem position="third" positionNumber="3" name={third?.nickname} wins={third?.points} />
   </div>
 );
 const PodiumItem = (props) => (
