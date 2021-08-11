@@ -6,8 +6,6 @@ const FREEPLAY_COUNT = 2;
 
 const FREEPLAY_LIMIT = 10;
 
-const AVATAR_URL = 'https://drive.google.com/thumbnail?id=11iu7MqSvByvalZ-ZUyMag0WJXXAKT3Uk';
-
 export const index: ScheduledHandler = async () => {
   try {
     const playerIdList = await playersTableModel.getList(['id', 'freeplay']);
@@ -28,7 +26,6 @@ export const index: ScheduledHandler = async () => {
     const discordWebhook = await getWebhookClient();
     await discordWebhook.send(`The fuku bot has granted everyone ${FREEPLAY_COUNT} freeplay tickets to play [Fuku.tv](https://fuku.tv)! Have fun`, {
       username: 'Fuku Bot',
-      avatarURL: AVATAR_URL,
     });
     console.log(`Sent notification to discord server`);
   } catch (error) {
