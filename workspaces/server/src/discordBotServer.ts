@@ -6,6 +6,8 @@ const logger = new LoggerClass('discordBot');
 
 logger.logInfo(`Discord current stage: ${env.getStage()}`);
 
+const AVATAR_URL = 'https://drive.google.com/thumbnail?id=11iu7MqSvByvalZ-ZUyMag0WJXXAKT3Uk';
+
 export class DiscordBotServer {
   discordClient: DiscordClient;
 
@@ -45,7 +47,7 @@ export class DiscordBotServer {
         if (message.jackpot === false) {
           this.webhookClient.send(`${message.username} just scored ${message.points} points!`, {
             username: 'Points! Oh Yeah!',
-            avatarURL: 'https://lh5.googleusercontent.com/QI2D-IJj-OfRpGJp_0eWNS4Mk_2BFfmdhv_D9yzYgEwZ0GLLjR-r6Ee-PIGvfVo6hw-8yjJShGCnf5UR6-tG',
+            avatarURL: AVATAR_URL,
           });
           redisPublisher.publish(
             'chatmessage',
@@ -54,7 +56,7 @@ export class DiscordBotServer {
         } else {
           this.webhookClient.send(`${message.username} WON THE ${message.points} POINT JACKPOT!`, {
             username: 'JACKPOT WINNER!',
-            avatarURL: 'https://lh5.googleusercontent.com/QI2D-IJj-OfRpGJp_0eWNS4Mk_2BFfmdhv_D9yzYgEwZ0GLLjR-r6Ee-PIGvfVo6hw-8yjJShGCnf5UR6-tG',
+            avatarURL: AVATAR_URL,
           });
           redisPublisher.publish(
             'chatmessage',
