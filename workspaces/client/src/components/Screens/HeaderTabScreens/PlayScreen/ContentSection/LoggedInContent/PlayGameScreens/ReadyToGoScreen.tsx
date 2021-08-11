@@ -5,6 +5,7 @@ import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
+import { useHistory } from 'react-router-dom';
 import Controls from '../GameComponents/Controls/Controls';
 import StartGameStopGameButtons from './StartGameStopGameButtons';
 
@@ -15,6 +16,7 @@ interface PROPS {
 const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
+  const history = useHistory();
   const [modalIsActive, setModalIsActive] = React.useState<boolean>(false);
 
   // const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
@@ -27,7 +29,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
         title="Out of Credits"
         descriptionStart="You have"
         dynamicNumber={state.points}
-        descriptionEnd="points, trade 200 points for another round?"
+        descriptionEnd="points, you can trade 200 points for another round or purchase more credits"
       />{' '}
       <DepthButton id="spend-points-button" buttonText="" />
       <div id="start" className="start-stop-buttons-container">
@@ -40,13 +42,13 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
           height={42}
           color="red"
         />
-
+        <DepthButton onPointerUp={() => history.push('/store')} id="btnStop" buttonText="Buy Credits" width={160} height={42} color="purple" />
         <DepthButton
           onPointerUp={() => actions.buttonDownEvent('start')}
           onPointerDown={() => actions.buttonUpEvent('start')}
           id="spend-points-button"
-          buttonText="Yes, Let's Trade"
-          width={160}
+          buttonText="Trade Points"
+          width={110}
           height={42}
           color="purple"
         />
