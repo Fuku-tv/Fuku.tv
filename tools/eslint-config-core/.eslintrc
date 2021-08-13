@@ -37,6 +37,9 @@
     // typescript already handles path resolution
     "import/no-unresolved": "off",
 
+    //disallow unassigned imports
+    "import/no-unassigned-import": "error",
+
     // disabled, all types auto-fix to interface. rule would be redundant.
     "@typescript-eslint/interface-name-prefix": "off",
 
