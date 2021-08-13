@@ -3,6 +3,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import Backdrop from '../Backdrop/Backdrop';
+import Portal from '../Portal';
 
 import './Modal.scss';
 
@@ -35,8 +36,7 @@ const ModalOverlay: React.FC<ModalOverlayProps> = (props) => {
       <div className={`modal__body ${contentClass}`}>{props.children}</div>
     </div>
   );
-
-  return ReactDOM.createPortal(content, document.getElementById('modal-hook'));
+  return <Portal id="modal-hook"> {content} </Portal>;
 };
 
 const Modal: React.FC<ModalProps> = (props) => {

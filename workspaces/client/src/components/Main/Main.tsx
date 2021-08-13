@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { isMobile } from 'react-device-detect';
 
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 
@@ -21,7 +20,7 @@ import StoreScreen from '../Screens/HeaderTabScreens/StoreScreen/StoreScreen';
 // import routes from './app/routes';
 // import SideBar from './components';
 
-const Main: React.FC = () => {
+const Main: React.FC = ({ children }) => {
   // const playerStats = (
   //   <div className="player-stats-container">
   //     <div className="inner-wrapper">
@@ -54,33 +53,7 @@ const Main: React.FC = () => {
   }, []);
   return (
     <main className={!authState.state.isAuthenticated && 'logged-out'}>
-      <ContentContainer>
-        <Switch>
-          <Route path="/" exact>
-            <PlayScreen />
-          </Route>
-          <Route path="/about" exact>
-            <AboutScreen />
-          </Route>
-          <Route path="/profile" exact>
-            <ProfileScreen />
-          </Route>
-          <Route path="/leaderboards" exact>
-            <LeaderboardsScreen />
-          </Route>
-          <Route path="/prizes" exact>
-            <PrizesScreen />
-          </Route>
-          <Route path="/store" exact>
-            <StoreScreen />
-          </Route>
-
-          <Route path="/claw-customization" exact>
-            <ClawCustomizationScreen />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      </ContentContainer>
+      <ContentContainer>{children}</ContentContainer>
     </main>
   );
 };

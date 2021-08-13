@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
-import './NavLinks.scss';
 import { isMobile } from 'react-device-detect';
+import NavLink from 'src/components/UIElements/NavLink';
+import styles from './NavLinks.module.scss';
 import SignInPrompt from '../SignInPrompt/SignInPrompt';
 
 const NavLinks: React.FC = () => {
@@ -61,20 +61,20 @@ const NavLinks: React.FC = () => {
       <div id="nav-links__general-navigation">
         <ul id="primary-links">
           <li>
-            <NavLink activeClassName="nav-link__active" to="/" exact>
+            <NavLink activeClassName="nav-link__active" to="/">
               <div className="icon-wrapper">{play}</div>
               <span>Play </span>
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName="nav-link__active" to="/leaderboards" exact>
+            <NavLink activeClassName="nav-link__active" to="/leaderboards">
               <div className="icon-wrapper">{trophy}</div>
               <span> Leaderboards </span>
             </NavLink>
           </li>
 
           <li>
-            <NavLink activeClassName="nav-link__active" to="/store" exact>
+            <NavLink activeClassName="nav-link__active" to="/store">
               <div className="icon-wrapper">{store}</div>
               <span> Store </span>
             </NavLink>
@@ -82,12 +82,12 @@ const NavLinks: React.FC = () => {
         </ul>
         <ul id="secondary-links">
           <li>
-            <NavLink activeClassName="nav-link__active" to="/about" exact>
+            <NavLink activeClassName="nav-link__active" to="/about">
               <span>About Fuku</span>
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName="nav-link__active" to="/legal" exact>
+            <NavLink activeClassName="nav-link__active" to="/legal">
               <span> Legal </span>
             </NavLink>
           </li>

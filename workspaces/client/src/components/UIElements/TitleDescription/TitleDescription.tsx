@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './TitleDescription.scss';
+import styles from './TitleDescription.module.scss';
 
 interface Props {
   title: string;

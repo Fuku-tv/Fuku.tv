@@ -1,9 +1,9 @@
 import * as React from 'react';
-import './MessageItem.scss';
 // import {ReactComponent as DownArrow} from 'src/shared/icons/downArrow.svg';
 // import { ReactComponent as UpArrow } from 'src/shared/icons/upArrow.svg';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import styles from './MessageItem.module.scss';
 
 interface PROPS {
   picture?: string;

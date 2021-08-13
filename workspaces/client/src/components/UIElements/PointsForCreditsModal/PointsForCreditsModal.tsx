@@ -7,6 +7,7 @@ import Backdrop from '../Backdrop/Backdrop';
 import FlatButton from '../FlatButton/FlatButton';
 import './PointsForCreditsModal.scss';
 import RobotBG from './fuku-robot-bg-black.png';
+import Portal from '../Portal';
 
 interface Props {
   closeDrawer?: () => void;
@@ -84,7 +85,8 @@ const PointsForCreditsModal: React.FC<Props> = ({ closeDrawer, show, children })
       </>
     </CSSTransition>
   );
-  return ReactDOM.createPortal(content, document.getElementById('modal-hook'));
+
+  return <Portal id="drawer-hook">{content}</Portal>;
 };
 
 export default PointsForCreditsModal;

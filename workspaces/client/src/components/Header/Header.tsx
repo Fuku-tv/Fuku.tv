@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 
+import NavLink from 'src/components/UIElements/NavLink';
 import ContentContainer from '../UIElements/ContentContainer/ContentContainer';
 import NavLinks from './NavLinks/NavLinks';
 import SideDrawer from '../UIElements/SideDrawer/SideDrawer';
@@ -108,7 +108,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header>
+      <header className={styles.header}>
         <div className={styles['header__top-row']}>
           <ContentContainer>
             <div className={styles['header-content-wrapper']}>

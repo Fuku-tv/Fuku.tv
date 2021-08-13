@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "preserve",
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
@@ -10,6 +10,20 @@
     "paths": {
       "src/*": ["src/*"]
     },
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
-  }
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ],
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": false,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

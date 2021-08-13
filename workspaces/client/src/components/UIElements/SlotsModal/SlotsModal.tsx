@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group';
 import Backdrop from '../Backdrop/Backdrop';
 import FlatButton from '../FlatButton/FlatButton';
 import './SlotsModal.scss';
+import Portal from '../Portal';
 
 interface Props {
   closeDrawer?: () => void;
@@ -45,7 +46,7 @@ const SlotsModal: React.FC<Props> = ({ closeDrawer, show, children }) => {
       </>
     </CSSTransition>
   );
-  return ReactDOM.createPortal(content, document.getElementById('modal-hook'));
+  return <Portal id="drawer-hook">{content}</Portal>;
 };
 
 export default SlotsModal;

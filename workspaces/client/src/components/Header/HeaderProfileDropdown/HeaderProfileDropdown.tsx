@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
 import useAuthState from 'src/state/hooks/useAuthState';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
@@ -10,8 +9,9 @@ import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
 // import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 // import 'react-circular-progressbar/dist/styles.css';
-import './HeaderProfileDropdown.scss';
 import PlayerLevel from 'src/components/game/PlayerLevel/PlayerLevel';
+import NavLink from 'src/components/UIElements/NavLink';
+import styles from './HeaderProfileDropdown.module.scss';
 
 interface PROPS {
   id: string;
@@ -23,7 +23,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
   // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
   // > (false);
 
-  const [dropdownIsOpen, setDropdownIsOpen] = React.useState<boolean>(false);
+  const [dropdownisopen, setDropdownIsOpen] = React.useState<boolean>(false);
 
   // const modalTestHandler = () => { 		setModalIsActive((prev) => !prev); };
 
@@ -31,13 +31,13 @@ const DropdownButton: React.FC<PROPS> = (props) => {
     <div className="dropdown-container__links">
       <ul>
         <li>
-          <NavLink className="nav-link-item" activeClassName="nav-link__active" to="/profile" exact>
+          <NavLink className="nav-link-item" activeClassName="nav-link__active" to="/profile">
             <div className="dropdown-icon-wrapper">{profile}</div>
             <span>Profile</span>
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link-item" activeClassName="nav-link__active" to="/claw-customization" exact>
+          <NavLink className="nav-link-item" activeClassName="nav-link__active" to="/claw-customization">
             <div className="dropdown-icon-wrapper">{clawIcon}</div>
             <span>Claw Settings</span>
           </NavLink>
@@ -66,7 +66,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
   );
 
   const buttonStyles = {
-    background: dropdownIsOpen ? 'var(--purpleSecondary)' : 'inherit',
+    background: dropdownisopen ? 'var(--purpleSecondary)' : 'inherit',
   };
 
   // const pointAndCredits = (
@@ -100,7 +100,7 @@ const DropdownButton: React.FC<PROPS> = (props) => {
 
         <div className="down-arrow-wrapper">{downArrow}</div>
       </div>
-      {dropdownIsOpen && temporaryLinksDropdown}
+      {dropdownisopen && temporaryLinksDropdown}
     </button>
   );
 };

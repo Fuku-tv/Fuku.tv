@@ -1,8 +1,8 @@
 import * as React from 'react';
-import './GameChat.scss';
 import { useGameState } from 'src/state/hooks';
 import useAuthState from 'src/state/hooks/useAuthState';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import styles from './GameChat.module.scss';
 import MessageItem from './MessageItem/MessageItem';
 import SocialMedia from '../SocialMedia/SocialMedia';
 
@@ -67,7 +67,7 @@ const GameChat: React.FC = () => {
   }, [gameState.state.chat]);
 
   return (
-    <div className="game-chat-container open" style={{ height: !chatIsOpen ? '70px' : '100%' }}>
+    <div className="game-chat-container open" style={{ height: !chatisopen ? '70px' : '100%' }}>
       <div className="game-chat__body">
         {header}
         <div ref={chatMessageContainerRef} className="body__messages">

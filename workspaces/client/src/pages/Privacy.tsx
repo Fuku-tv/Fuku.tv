@@ -365,3 +365,5 @@ const Privacy = () => (
     </ul>
   </div>
 );
+
+export default Privacy;

@@ -1,5 +1,5 @@
 import React from 'react';
-import './LoadingSpinner.scss';
+import styles from './LoadingSpinner.module.scss';
 // import './LoadingSpinner_Square.css';
 // import './LoadingSpinner.css';
 
@@ -34,8 +34,6 @@ interface Props {
 
 const original = <div className="lds-dual-ring" />;
 
-const LoadingSpinner: React.FC<Props> = ({ asOverlay }) => {
-  return <div className="loading-spinner__overlay">{squareSpinner}</div>;
-};
+const LoadingSpinner: React.FC<Props> = ({ asOverlay }) => <div className="loading-spinner__overlay">{squareSpinner}</div>;
 
 export default LoadingSpinner;

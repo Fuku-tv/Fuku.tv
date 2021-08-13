@@ -6,7 +6,6 @@ import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
 import LoadingSpinner from 'src/components/UIElements/LoadingSpinner/LoadingSpinner';
 import { useAuthState, usePrizeState } from 'src/state/hooks';
 import Modal from 'src/components/UIElements/Modal/Modal';
-import { Link } from 'react-router-dom';
 import StoreItem from './StoreItem/StoreItem';
 import GiftCard20 from './images/amazon-gift-card-20-dollar.png';
 import GiftCard50 from './images/amazon-gift-card-50-dollar.png';

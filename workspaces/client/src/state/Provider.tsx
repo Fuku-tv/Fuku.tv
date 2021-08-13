@@ -31,7 +31,11 @@ const ProviderChild: React.FC = (props) => {
 };
 
 export const Provider: React.FC = (props) => (
-  <Auth0Provider domain="fukutv-alpha.us.auth0.com" clientId="6N4jkRkDRisBK9GjkCsMjLmESvOpAZN1" redirectUri={globalThis.window.location.origin}>
+  <Auth0Provider
+    domain="fukutv-alpha.us.auth0.com"
+    clientId="6N4jkRkDRisBK9GjkCsMjLmESvOpAZN1"
+    redirectUri={typeof window !== 'undefined' && window.location.origin}
+  >
     <ReduxProvider store={store}>
       <ProviderChild> {props.children}</ProviderChild>
     </ReduxProvider>

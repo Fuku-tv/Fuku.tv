@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ProfileImage.scss';
+import moduleStyles from './ProfileImage.scss';
 
 interface Props {
   image?: string;
@@ -15,11 +15,11 @@ const UserProfile: React.FC<Props> = (props) => {
   const styles = {
     width: props.size,
     height: props.size,
-    marginLeft: props.marginLeft,
-    marginRight: props.marginRight,
-    marginTop: props.marginTop,
-    marginBottom: props.marginBottom,
-    borderRadius: props.borderRadius,
+    marginLeft: props.marginleft,
+    marginRight: props.marginright,
+    marginTop: props.margintop,
+    marginBottom: props.marginbottom,
+    borderRadius: props.borderradius,
   };
 
   // const placeholderImage = 'https://www.nacdnet.org/wp-content/uploads/2016/06/person-placeholder.jpg';

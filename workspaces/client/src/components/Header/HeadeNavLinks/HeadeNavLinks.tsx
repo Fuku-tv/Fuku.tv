@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
-import './HeadeNavLinks.scss';
 import { isMobile } from 'react-device-detect';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
+import NavLink from 'src/components/UIElements/NavLink';
+import styles from './HeadeNavLinks.module.scss';
 import HeaderProfileDropdown from '../HeaderProfileDropdown/HeaderProfileDropdown';
 import SignInPrompt from '../SignInPrompt/SignInPrompt';
 
@@ -40,19 +40,19 @@ const HeadeNavLinks: React.FC = () => {
       </div>
 
       <div className="profile-link__profile-sub-links">
-        <NavLink activeClassName="nav-link__active--mobile" to="/profile" exact>
+        <NavLink activeClassName="nav-link__active--mobile" to="/profile">
           <div className="profile-sub-link">
             <span>{profile}</span>
             <span>Profile</span>
           </div>
         </NavLink>
-        <NavLink activeClassName="nav-link__active--mobile" to="/claw-customization" exact>
+        <NavLink activeClassName="nav-link__active--mobile" to="/claw-customization">
           <div className="profile-sub-link">
             <span>{clawIcon}</span>
             <span>Claw</span>
           </div>
         </NavLink>
-        <NavLink to="/" exact>
+        <NavLink to="/">
           <div className="profile-sub-link">
             <span>{bellIcon}</span>
             <span>Notifications</span>
@@ -67,17 +67,17 @@ const HeadeNavLinks: React.FC = () => {
     <nav className="header-nav-links-container">
       <ul>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/" exact>
+          <NavLink activeClassName="nav-link__active" to="/">
             <span>Play </span>
           </NavLink>
         </li>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/leaderboards" exact>
+          <NavLink activeClassName="nav-link__active" to="/leaderboards">
             <span> Leaderboards </span>
           </NavLink>
         </li>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/store" exact>
+          <NavLink activeClassName="nav-link__active" to="/store">
             <span> Store </span>
           </NavLink>
         </li>

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
+import Portal from '../Portal';
 
-import './SideDrawer.scss';
+import styles from './SideDrawer.module.scss';
 
 interface Props {
   closeDrawer?: () => void;
@@ -15,7 +16,7 @@ const SideDrawer: React.FC<Props> = ({ closeDrawer, show, children }) => {
       <aside className="side-drawer">{children}</aside>
     </CSSTransition>
   );
-  return ReactDOM.createPortal(content, document.getElementById('drawer-hook'));
+  return <Portal id="drawer-hook">{content}</Portal>;
 };
 
 export default SideDrawer;

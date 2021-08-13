@@ -1,4 +1,4 @@
-.appBodyWrapper {
+.app_body_wrapper {
   // min-height: 90vh;
   position: absolute;
   top: var(--headerHeight);
@@ -9,7 +9,6 @@
     position: fixed;
     width: calc(100% - var(--sideNavWidth));
     top: var(--headerHeight);
-    width: 100%;
     height: calc(100% - var(--headerHeight));
     & > div {
       height: 100%;
@@ -23,11 +22,13 @@
 }
 
 @media only screen and (max-width: 600px) {
-  main {
-    padding: 0px !important;
-    margin: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
+  .app_body_wrapper {
+    main {
+      padding: 0 !important;
+      margin: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+    }
   }
 
   // .player-stats-container {

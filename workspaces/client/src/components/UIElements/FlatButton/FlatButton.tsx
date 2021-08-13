@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './FlatButton.scss';
-
 import { useAuthState, useGameState } from 'src/state/hooks';
+import styles from './FlatButton.module.scss';
+
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 interface Props {

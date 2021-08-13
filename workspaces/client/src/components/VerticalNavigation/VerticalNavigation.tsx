@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import NavLinks from '../Header/NavLinks/NavLinks';
 import styles from './VerticalNavigation.module.scss';

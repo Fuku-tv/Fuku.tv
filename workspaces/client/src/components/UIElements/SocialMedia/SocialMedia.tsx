@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './SocialMedia.scss';
+import styles from './SocialMedia.module.scss';
 
 interface Props {
   closeDrawer?: () => void;

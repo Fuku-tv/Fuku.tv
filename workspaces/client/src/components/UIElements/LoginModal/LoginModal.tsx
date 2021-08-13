@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import Backdrop from '../Backdrop/Backdrop';
 import FlatButton from '../FlatButton/FlatButton';
 import './LoginModal.scss';
+import Portal from '../Portal';
 
 interface Props {
   closeDrawer?: () => void;
@@ -37,7 +38,7 @@ const LoginModal: React.FC<Props> = ({ closeDrawer, show, children }) => {
       </>
     </CSSTransition>
   );
-  return ReactDOM.createPortal(content, document.getElementById('modal-hook'));
+  return <Portal id="modal-hook"> {content} </Portal>;
 };
 
 export default LoginModal;

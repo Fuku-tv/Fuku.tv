@@ -1,5 +1,5 @@
 dist
 .cache
 .parcel-cache
+.next
 build
-public
