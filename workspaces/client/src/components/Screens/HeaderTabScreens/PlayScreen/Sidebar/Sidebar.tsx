@@ -9,7 +9,7 @@ import Header from '../../../../Header/Header';
 // import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
 import SidebarWidget from './SidebarWidget/SidebarWidget';
-import './Sidebar.scss';
+import styles from './Sidebar.module.scss';
 import GameQueue from './GameQueue/GameQueue';
 import SpectatorInformation from '../VideoFeedSection/SpectatorInformation/SpectatorInformation';
 import DiscordChat from './DiscordChat/DiscordChat';

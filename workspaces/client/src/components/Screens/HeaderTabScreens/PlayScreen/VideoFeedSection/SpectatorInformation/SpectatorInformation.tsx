@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CurrentlyWaiting from './CurrentlyWaiting/CurrentlyWaiting';
 import CurrentlyWatching from './CurrentlyWatching/CurrentlyWatching';
-import './SpectatorInformation.scss';
+import styles from './SpectatorInformation.module.scss';
 
 interface PROPS {
   showQueue?: boolean;

@@ -1,7 +1,12 @@
 import * as React from 'react';
-import './SidebarWidget.scss';
+import styles from './SidebarWidget.module.scss';
 
-const SidebarWidget: React.FC = (props) => (
+interface Props {
+  title: string;
+  header: string;
+}
+
+const SidebarWidget: React.FC<Props> = (props) => (
   <div className="sidebar-widget-wrapper">
     <div className="sidebar-widget__header">
       <h3 className="title">{props.title}</h3>

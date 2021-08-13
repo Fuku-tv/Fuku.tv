@@ -8,7 +8,7 @@ import SwitchCameraButton from 'src/components/UIElements/SwitchCameraButton/Swi
 import { CSSTransition } from 'react-transition-group';
 import DropClawButton from '../../ContentSection/LoggedInContent/GameComponents/DropClawButton/DropClawButton';
 import ControlButton from '../../ContentSection/LoggedInContent/GameComponents/Controls/ControlButton';
-import './TransparentGameControls.scss';
+import styles from './TransparentGameControls.module.scss';
 
 const TransparentGameControls: React.FC = () => {
   const { state, actions } = useGameState();

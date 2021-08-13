@@ -3,7 +3,7 @@ import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 
 import { isMobile } from 'react-device-detect';
-import './DropClawButton.scss';
+import styles from './DropClawButton.module.scss';
 
 const DropClawButton: React.FC = () => {
   const { state, actions } = useGameState();

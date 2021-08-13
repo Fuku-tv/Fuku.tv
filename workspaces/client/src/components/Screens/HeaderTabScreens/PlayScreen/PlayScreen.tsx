@@ -9,7 +9,7 @@ import ContentSection from './ContentSection/ContentSection';
 import SwitchCameraButton from '../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 
 import Sidebar from './Sidebar/Sidebar';
-import './PlayScreen.scss';
+import styles from './PlayScreen.module.scss';
 import CurrentlyWatching from './VideoFeedSection/SpectatorInformation/CurrentlyWatching/CurrentlyWatching';
 
 const MainScreen: React.FC = () => {

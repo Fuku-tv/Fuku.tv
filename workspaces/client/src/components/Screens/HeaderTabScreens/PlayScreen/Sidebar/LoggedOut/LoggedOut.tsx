@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './LoggedOut.scss';
 import useAuthState from 'src/state/hooks/useAuthState';
+import styles from './LoggedOut.module.scss';
 
 interface Props {
   setIsSignedIn: () => void;

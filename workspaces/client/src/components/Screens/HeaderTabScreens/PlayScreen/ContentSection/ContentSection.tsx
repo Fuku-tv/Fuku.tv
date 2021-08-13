@@ -4,7 +4,7 @@ import SwitchCameraButton from '../../../../UIElements/SwitchCameraButton/Switch
 import LoggedOutContent from './LoggedOutContent';
 import LoggedInContent from './LoggedInContent/LoggedInContent';
 
-import './ContentSection.scss';
+import styles from './ContentSection.module.scss';
 
 // import useNavigationState from 'src/state/hooks/useNavigationState';
 // import PlayGameTab from './PlayGame/PlayGameTab';

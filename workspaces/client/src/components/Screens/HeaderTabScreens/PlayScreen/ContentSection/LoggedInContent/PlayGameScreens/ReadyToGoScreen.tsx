@@ -5,7 +5,7 @@ import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import Controls from '../GameComponents/Controls/Controls';
 import StartGameStopGameButtons from './StartGameStopGameButtons';
 
@@ -16,7 +16,7 @@ interface PROPS {
 const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
-  const history = useHistory();
+  const router = useRouter();
   const [modalIsActive, setModalIsActive] = React.useState<boolean>(false);
 
   // const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
@@ -42,7 +42,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
           height={42}
           color="red"
         />
-        <DepthButton onPointerUp={() => history.push('/store')} id="btnStop" buttonText="Buy Credits" width={160} height={42} color="purple" />
+        <DepthButton onPointerUp={() => router.push('/store')} id="btnStop" buttonText="Buy Credits" width={160} height={42} color="purple" />
         <DepthButton
           onPointerUp={() => actions.buttonDownEvent('start')}
           onPointerDown={() => actions.buttonUpEvent('start')}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useGameState, useAuthState } from 'src/state/hooks';
-import './GameQueue.scss';
+import styles from './GameQueue.module.scss';
 
 const GameQueue: React.FC = () => {
   const { state, actions } = useGameState();
