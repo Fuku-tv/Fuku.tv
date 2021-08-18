@@ -1,15 +1,17 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
+import { getPateronUser, getCreatorCampaign, getCurrentUser } from 'fuku.tv-shared/patreon';
 import validateUser from 'src/common/authorizer';
 
 import * as Responses from '../common/ApiResponses';
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
-  const { domainName, stage, identity } = event.requestContext;
+  const { domainName, stage, identity, authorizer } = event.requestContext;
   const env = process.env.LAMBDA_ENV;
+  console.log(await getCurrentUser());
 
   try {
-    // validate user token
+    // fetch user profile info
     const user = await validateUser(event.headers.Authorization);
 
     return Responses.ok({ userProfile: user });

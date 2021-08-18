@@ -1,3 +1,16 @@
+export const fukuOauthRedirectURL = (): string => {
+  if (process.env.NODE_ENV === 'development') {
+    // Local Development
+    return 'http://localhost:10888/oauth/redirect';
+  }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'https://dev.fuku.tv/oauth/redirect';
+  }
+  // Prod Environment
+  return 'https://prod.fuku.tv/oauth/redirect';
+};
+
 export const fukuControllerServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
