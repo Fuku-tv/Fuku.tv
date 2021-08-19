@@ -76,7 +76,6 @@ export const fukuRedisServerURL = (): string => {
     return 'fuku-cache.jtlxqc.ng.0001.use1.cache.amazonaws.com';
   }
   // Prod Environment
-  // TODO get production URL from elasticache
   return 'fuku-cache-prod.jtlxqc.ng.0001.use1.cache.amazonaws.com';
 };
 
@@ -86,7 +85,6 @@ export const amazonGiftCardURL = (): string => {
     return 'agcod-v2-gamma.amazon.com';
   }
   // Prod Environment
-  // TODO get production URL from elasticache
   return 'agcod-v2.amazon.com';
 };
 
