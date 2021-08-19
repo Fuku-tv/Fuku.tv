@@ -34,10 +34,11 @@ const patreonClient = {
     const {
       data: { data },
       status,
+      statusText,
     } = response;
 
-    if (status >= 200 && status < 300) {
-      throw Error('Failed to get endpoint');
+    if (status < 200 && status >= 300) {
+      throw Error(`Failed to post data, ${status} ${statusText}`);
     }
     return data;
   },
@@ -47,10 +48,11 @@ const patreonClient = {
     const {
       data: { data },
       status,
+      statusText,
     } = response;
 
-    if (status >= 200 && status < 300) {
-      throw Error('Failed to post data');
+    if (status < 200 && status >= 300) {
+      throw Error(`Failed to post data, ${status} ${statusText}`);
     }
 
     return data;
