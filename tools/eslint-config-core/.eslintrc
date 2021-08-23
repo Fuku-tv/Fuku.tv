@@ -44,6 +44,16 @@
     //disallow unassigned imports
     "import/no-unassigned-import": "error",
 
+
+    // not needed, we do not publish packages to NPM.
+    "import/no-extraneous-dependencies": "off",
+
+    // disabled, all types auto-fix to interface. rule would be redundant.
+    "@typescript-eslint/interface-name-prefix": "off",
+
+    // established coding standards in different packages use a different naming convention
+    "@typescript-eslint/camelcase": "off",
+
     // allow empty arrow functions for useEffect hooks
     "@typescript-eslint/no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
 
