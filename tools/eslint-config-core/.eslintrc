@@ -44,7 +44,6 @@
     //disallow unassigned imports
     "import/no-unassigned-import": "error",
 
-
     // not needed, we do not publish packages to NPM.
     "import/no-extraneous-dependencies": "off",
 
@@ -67,6 +66,9 @@
     "react/jsx-filename-extension": ["error", { "extensions": ["tsx"] }],
 
     // destructuring props is not required, this can malform redux state updates
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+
+    // Props validation is handled by Typescript compiler
+    "react/prop-types": "off"
   }
 }
