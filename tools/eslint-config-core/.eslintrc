@@ -40,6 +40,9 @@
     //disallow unassigned imports
     "import/no-unassigned-import": "error",
 
+    // not needed, we do not publish packages to NPM.
+    "import/no-extraneous-dependencies": "off",
+
     // disabled, all types auto-fix to interface. rule would be redundant.
     "@typescript-eslint/interface-name-prefix": "off",
 
