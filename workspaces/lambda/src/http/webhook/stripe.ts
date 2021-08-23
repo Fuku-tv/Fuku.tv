@@ -7,7 +7,7 @@ import * as Responses from '../../common/ApiResponses';
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage } = event.requestContext;
 
-  let stripeEvent: Stripe.Event;
+  let stripeEvent: Stripe.Event = null;
   const signature = event.headers['Stripe-Signature'];
   const { body } = event;
 

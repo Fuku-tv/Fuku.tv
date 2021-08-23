@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "typescript-config-core",
+  "version": "1.0.0",
+  "main": "./tsconfig.json",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}

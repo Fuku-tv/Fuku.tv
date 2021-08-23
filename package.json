@@ -20,7 +20,7 @@
     "lint": "lerna run lint",
     "lint:client": "yarn workspace fuku.tv-client lint",
     "lint:server": "yarn workspace fuku.tv-server lint",
-    "test": "lerna run test",
+    "test": "yarn jest",
     "build": "lerna run build",
     "build:client": "yarn workspace fuku.tv-client build",
     "build:server": "yarn workspace fuku.tv-server build",
@@ -54,12 +54,12 @@
     "stylelint-config-css-modules": "^2.2.0",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^22.0.0",
-    "typescript": "^4.3.5",
     "wscat": "^4.0.1"
   },
   "dependencies": {
     "eslint-config-core": "*",
     "jest-config-core": "*",
+    "typescript-config-core": "*",
     "ts-compile": "*"
   }
 }

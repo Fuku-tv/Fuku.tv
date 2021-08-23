@@ -2,7 +2,8 @@
   "root": true,
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "extends": ["airbnb", "airbnb/hooks", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
@@ -10,12 +11,15 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
+
+    // ensure typed imports are used via 'import type {Type} from 'package''
+    "@typescript-eslint/consistent-type-imports": "error",
 
     // allow calls to console.log
     "no-console": "off",
@@ -26,7 +30,7 @@
     // typescript already checks for undefined/unsed vars
     "no-undef": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
 
     //quick fix for https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined
     "no-use-before-define": "off",
@@ -39,6 +43,7 @@
 
     //disallow unassigned imports
     "import/no-unassigned-import": "error",
+
 
     // not needed, we do not publish packages to NPM.
     "import/no-extraneous-dependencies": "off",
@@ -58,29 +63,10 @@
     // not using defaultProps with typescript/function components
     "react/require-default-props": [0],
 
-    // permit JSX in tsx files
+    // permit JSX syntax in tsx files
     "react/jsx-filename-extension": ["error", { "extensions": ["tsx"] }],
 
-    // removes prop-types requirement because Typescript
-    "react/prop-types": "off",
-
     // destructuring props is not required, this can malform redux state updates
-    "react/destructuring-assignment": "off",
-
-    // why is this needed?
-    "react/button-has-type": "off",
-
-    // conflicts with prettier formatting (print limit)
-    "react/jsx-one-expression-per-line": "off",
-
-    // not needed for certain React Functions
-    "@typescript-eslint/explicit-function-return-type": "off",
-
-    // modified, removes code-bloat accessors in TS React.
-    "@typescript-eslint/explicit-member-accessibility": "off",
-
-    // deprecated
-    "jsx-a11y/label-has-for": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "react/destructuring-assignment": "off"
   }
 }
