@@ -5,11 +5,10 @@ import validateUser from 'src/common/authorizer';
 import * as Responses from '../common/ApiResponses';
 
 export const index: APIGatewayProxyHandler = async (event, context, callback) => {
-  const { domainName, stage, identity } = event.requestContext;
+  const { domainName, stage, identity, authorizer } = event.requestContext;
   const env = process.env.LAMBDA_ENV;
-
   try {
-    // validate user token
+    // fetch user profile info
     const user = await validateUser(event.headers.Authorization);
 
     return Responses.ok({ userProfile: user });
