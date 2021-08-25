@@ -2,7 +2,7 @@ import type { ScheduledHandler } from 'aws-lambda';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { getWebhookClient } from 'fuku.tv-shared/discord';
 
-const FREEPLAY_COUNT = 2;
+const FREEPLAY_COUNT = 1;
 
 const FREEPLAY_LIMIT = 10;
 
