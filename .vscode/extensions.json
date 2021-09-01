@@ -13,6 +13,8 @@
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
     "stylelint.vscode-stylelint",
-    "cschleiden.vscode-github-actions"
+    "cschleiden.vscode-github-actions",
+    "eamodio.gitlens",
+    "dsznajder.es7-react-js-snippets"
   ]
 }

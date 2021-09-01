@@ -22,20 +22,12 @@ const Header: React.FC = () => {
 
   const chatClickHandler = () => {
     setNavIsOpen(false);
-    if (chatIsOpen) {
-      setChatIsOpen(false);
-    } else {
-      setChatIsOpen(true);
-    }
+    setChatIsOpen(!chatIsOpen);
   };
 
   const navClickHandler = () => {
     setChatIsOpen(false);
-    if (navIsOpen) {
-      setNavIsOpen(false);
-    } else {
-      setNavIsOpen(true);
-    }
+    setNavIsOpen(!navIsOpen);
   };
 
   const sideDrawerContentChat = (
@@ -59,7 +51,7 @@ const Header: React.FC = () => {
       {state.isAuthenticated ? (
         profileButtonAuthContent
       ) : (
-        <button id={styles['profile-dropdown-button']} onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
+        <button type="button" id={styles['profile-dropdown-button']} onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
           {signInIcon}
           <span>SIGN IN</span>
         </button>
@@ -70,6 +62,7 @@ const Header: React.FC = () => {
   const mobileButtons = (
     <div className={styles['mobile-button-wrapper']}>
       <button
+        type="button"
         id={styles['chat-button']}
         onClick={chatClickHandler}
         onKeyDown={chatClickHandler}
@@ -78,6 +71,7 @@ const Header: React.FC = () => {
         {!chatIsOpen ? chatIcon : close}
       </button>
       <button
+        type="button"
         onClick={navClickHandler}
         onKeyDown={navClickHandler}
         className={`${styles['hamburger-icon-wrapper']} ${styles['mobile-button']}  ${navIsOpen && styles.active}`}

@@ -31,6 +31,7 @@ const commerceSlice = createSlice({
       }))
       .addCase(getProductList.rejected, (state, action) => ({
         ...state,
+        error: action.error,
       }));
   },
 });

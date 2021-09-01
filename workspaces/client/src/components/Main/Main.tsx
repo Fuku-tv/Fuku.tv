@@ -17,6 +17,7 @@ import PrizesScreen from '../Screens/PrizesScreen/PrizesScreen';
 import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCustomizationScreen';
 import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
 import StoreScreen from '../Screens/HeaderTabScreens/StoreScreen/StoreScreen';
+import PatreonTestScreen from '../Screens/PatreonTestScreen/PatreonTestScreen';
 
 // import routes from './app/routes';
 // import SideBar from './components';
@@ -74,6 +75,7 @@ const Main: React.FC = () => {
           <Route path="/store" exact>
             <StoreScreen />
           </Route>
+          
 
           <Route path="/claw-customization" exact>
             <ClawCustomizationScreen />

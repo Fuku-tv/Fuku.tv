@@ -73,6 +73,7 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   let email: string;
   try {
     const user = await validateUser(event.headers.Authorization);
+    // eslint-disable-next-line prefer-const
     email = user.email;
   } catch (error) {
     return Responses.badRequest({ message: 'User could not be validated' });
@@ -96,7 +97,6 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   // deduct points and send customer redemption code
   try {
     await playersTableModel.removePoints(email, giftCard.pointCost);
-    // TODO get gift card amount from request body
     const claimCode = await createGiftCard(giftCard.amount, URL);
     await sendEmail('support@fuku.tv', email, 'Fuku Prize Redemption', emailBody(giftCard.amount, claimCode));
     return Responses.ok({ message: `Prize redemption was successful, receipt email sent to ${email}` });

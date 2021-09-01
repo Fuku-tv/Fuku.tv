@@ -18,7 +18,7 @@ const ConfettiTest = () => {
 
   return (
     <div className={styles.confetti}>
-      <button onClick={click} className={box}>
+      <button type="button" onClick={click} className={box}>
         Click Confetti
       </button>
     </div>

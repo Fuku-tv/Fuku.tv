@@ -4,13 +4,6 @@ import jwt from 'jsonwebtoken';
 import validateUser from 'src/common/authorizer';
 import * as Responses from '../common/ApiResponses';
 
-// Set in `environment` of serverless.yml
-const { AUTH0_CLIENT_ID } = process.env;
-const { AUTH0_CLIENT_PUBLIC_KEY } = process.env;
-
-const auth0Client = new auth0.AuthenticationClient({
-  domain: 'fukutv-alpha.us.auth0.com',
-});
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
   const authResponse: APIGatewayAuthorizerResult = {
@@ -45,7 +38,7 @@ export const index: APIGatewayTokenAuthorizerHandler = (event, context, callback
   }
 
   validateUser(tokenValue)
-    .then((user) => callback(null, generatePolicy('user', 'Allow', event.methodArn)))
+    .then((user) => callback(null, generatePolicy(user, 'Allow', event.methodArn)))
     .catch((err) => callback(`catch error. Invalid token : ${err}`));
 
   // try {

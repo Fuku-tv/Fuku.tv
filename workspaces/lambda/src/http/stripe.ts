@@ -10,7 +10,7 @@ interface lineItems {
   type: string;
 }
 
-export const index: APIGatewayProxyHandler = async (event, context, callback) => {
+export const checkout: APIGatewayProxyHandler = async (event, context, callback) => {
   const { domainName, stage, identity } = event.requestContext;
   const { items, customerEmail, clientUrl }: { items: lineItems[]; customerEmail: string; clientUrl: string } = JSON.parse(event.body);
   const env = process.env.LAMBDA_ENV;
@@ -47,4 +47,17 @@ export const index: APIGatewayProxyHandler = async (event, context, callback) =>
   }
 };
 
-export default index;
+export const products: APIGatewayProxyHandler = async (event, context, callback) => {
+  try {
+    const stripe = new Stripe(await stripeApiSecret(), {
+      apiVersion: '2020-08-27',
+    });
+
+    const productList = await stripe.prices.list({ expand: ['data.product'], active: true });
+
+    return Responses.ok([...productList.data]);
+  } catch (error) {
+    callback(error);
+    return Responses.badRequest({ message: 'message could not be received', error });
+  }
+};

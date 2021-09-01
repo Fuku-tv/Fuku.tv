@@ -1,24 +1,8 @@
 import { getSecrets, Secrets, getSecret } from '.';
 
-export const stripeApiKey = async (): Promise<string> => {
-  try {
-    return (await getSecrets()).STRIPE_API_KEY;
-  } catch (error) {
-    return (
-      process.env.STRIPE_API_KEY || 'pk_test_51HxGG6Gx8BmO5evBcDbYjClczRZa0rC96ZiA3ZFyn5ErewXeH2TgAs9cseKW6mT1mMpfRepbtbXEgrPEWovaHbn100wlrLXvff'
-    );
-  }
-};
+export const stripeApiKey = async (): Promise<string> => (await getSecrets()).STRIPE_API_KEY;
 
-export const stripeApiSecret = async (): Promise<string> => {
-  try {
-    return (await getSecrets()).STRIPE_API_SECRET;
-  } catch (error) {
-    return (
-      process.env.STRIPE_API_SECRET || 'rk_test_51HxGG6Gx8BmO5evBLmxbuvgdsXyOf6BJLQKlzl5lEzFTBi1lUFixP09FJ6dPZUeWXzjn2cTF73zDVnTjGQEOqcH300qsohCbx9'
-    );
-  }
-};
+export const stripeApiSecret = async (): Promise<string> => (await getSecrets()).STRIPE_API_SECRET;
 
 export const stripeWebhookSecret = async (): Promise<string> => (await getSecrets()).STRIPE_WEBHOOK_SECRET;
 
