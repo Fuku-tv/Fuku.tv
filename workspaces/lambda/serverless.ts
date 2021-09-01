@@ -125,12 +125,24 @@ const serverlessConfiguration: Serverless = {
       ],
     },
     checkout: {
-      handler: 'src/http/checkout.index',
+      handler: 'src/http/stripe.checkout',
       events: [
         {
           http: {
             path: '/checkout',
             method: 'post',
+            cors: true,
+          },
+        },
+      ],
+    },
+    products: {
+      handler: 'src/http/stripe.products',
+      events: [
+        {
+          http: {
+            path: '/products',
+            method: 'get',
             cors: true,
           },
         },

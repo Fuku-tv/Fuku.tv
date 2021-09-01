@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPrices, redirectToCheckoutSession } from 'src/services/commerceService';
-import Stripe from 'stripe';
-import { RootState } from '../store';
+import type Stripe from 'stripe';
+import type { RootState } from '../store';
 
 export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
   const Prices = await getPrices();
 
+  console.log('Prices', Prices);
   const productList = Prices.map((price) => {
     const product = price.product as Stripe.Product;
+    console.log('product', product);
     return {
       name: product.name,
       description: product.description,
@@ -17,6 +19,7 @@ export const getProductList = createAsyncThunk('GET_PRODUCT_LIST', async () => {
       type: price.type,
     };
   });
+
   return productList;
 });
 

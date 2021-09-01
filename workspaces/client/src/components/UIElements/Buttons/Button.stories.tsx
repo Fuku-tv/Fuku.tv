@@ -1,5 +1,4 @@
 import type { Meta } from '@storybook/react';
-import React from 'react';
 import { templateForComponent } from 'src/components/Helpers/Helpers';
 import Button from './Button';
 
@@ -13,4 +12,14 @@ const Template = templateForComponent(Button);
 export const Default = Template({
   label: 'Default',
   type: 'button',
+});
+
+export const Submit = Template({
+  label: 'Default',
+  type: 'submit',
+});
+
+export const Reset = Template({
+  label: 'Default',
+  type: 'reset',
 });

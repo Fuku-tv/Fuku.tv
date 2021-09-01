@@ -1,15 +1,16 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
+import type { FC } from 'react';
 
 export interface Props {
   label: string;
-  type: 'button' | 'submit' | 'reset';
+  type?: 'button' | 'submit' | 'reset';
   className?: string;
 }
 
-const Button: React.FC<Props> = (props) => (
-  <button type={props.type} className={props.className}>
-    {props.label}
+const Button: FC<Props> = ({ type = 'button', className, label }) => (
+  <button type={type} className={className}>
+    {label}
   </button>
 );
 
