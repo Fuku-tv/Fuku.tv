@@ -1,5 +1,6 @@
 import { LogLevel, LoggerClass, env } from 'fuku.tv-shared';
-import { getDiscordClient, getWebhookClient, WebhookClient, DiscordClient } from 'fuku.tv-shared/discord';
+import type { WebhookClient, DiscordClient } from 'fuku.tv-shared/discord';
+import { getDebugWebhookClient, getDiscordClient, getWebhookClient } from 'fuku.tv-shared/discord';
 import { redisSubscriber, redisPublisher } from './common/redis';
 
 const logger = new LoggerClass('discordBot');
@@ -13,12 +14,16 @@ export class DiscordBotServer {
 
   webhookClient: WebhookClient;
 
+  debugWebhookClient: WebhookClient;
+
   isOnline = false;
 
   async run(): Promise<void> {
     try {
       this.webhookClient = await getWebhookClient();
       this.discordClient = await getDiscordClient();
+
+      this.debugWebhookClient = await getDebugWebhookClient();
       this.isOnline = true;
       logger.logInfo('Discord bot logged in');
     } catch (error) {
@@ -65,6 +70,7 @@ export class DiscordBotServer {
             })
           );
         }
+        this.debugWebhookClient.send(`Player ${message.username} has earned ${message.points} Points`);
       }
     });
     redisSubscriber.subscribe('discordmessage');

@@ -4,7 +4,7 @@ import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
 import fetch from 'node-fetch';
 import type { WebhookClient } from 'fuku.tv-shared/discord';
-import { getDiscordClient, getWebhookClient } from 'fuku.tv-shared/discord';
+import { getDiscordClient, getWebhookClient, getDebugWebhookClient } from 'fuku.tv-shared/discord';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { redisPublisher, redisSubscriber } from './common/redis';
 import WebsocketServerBase from './websocketServerBase';
@@ -20,9 +20,16 @@ const uriController = 'ws://96.61.12.109';
 const portController = 10777;
 
 let webhookClient: WebhookClient;
+let debugWebhookClient: WebhookClient;
 getWebhookClient()
   .then((client) => {
     webhookClient = client;
+  })
+  .catch();
+
+getDebugWebhookClient()
+  .then((client) => {
+    debugWebhookClient = client;
   })
   .catch();
 
@@ -265,14 +272,21 @@ export class ControllerServer extends WebsocketServerBase {
     send(this.clientController, { command: constants.ControllerCommand.resetclaw });
   }
 
+  // player spends credits/freeplay/points to play the game
   playStart() {
     playersTableModel.get(this.currentPlayer.userdata.email).then((player) => {
       this.currentPlayer.credits = player.credits;
       this.currentPlayer.freeplay = player.freeplay;
       this.currentPlayer.points = player.points;
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
+        debugWebhookClient.send(
+          `Player ${player.id} has insufficent funds to play, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
+        );
         return;
       }
+      debugWebhookClient.send(
+        `Player ${player.id} is currently playing the game, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
+      );
       // set the claw to a default position so timeouts, etc work
       this.resetClaw();
       // Unlock player controls
@@ -303,6 +317,7 @@ export class ControllerServer extends WebsocketServerBase {
 
   gameEnd() {
     if (this.currentPlayer !== null && this.currentPlayer !== undefined) this.currentPlayer.gameEnd();
+
     this.currentPlayer = null;
     this.resetClaw();
 
@@ -347,6 +362,9 @@ export class ControllerServer extends WebsocketServerBase {
         logger.log(LogLevel.info, `${p.uid} - bad player!`);
         return;
       }
+      debugWebhookClient.send(
+        `Player ${this.currentPlayer.uid} has stopped playing the game, credits: ${this.currentPlayer.credits}, freeplay:${this.currentPlayer.freeplay}, points:${this.currentPlayer.points} `
+      );
       this.gameEnd();
     }
   }
@@ -362,6 +380,7 @@ export class ControllerServer extends WebsocketServerBase {
     if (!this.queue.includes(p.uid)) {
       this.queue.push(p.uid);
       webhookClient.send(`Player ${p.userdata.nickname} has entered the queue`, { username: 'Fuku.tv Bot' });
+      debugWebhookClient.send(`Player ${p.userdata.nickname} has entered the queue`);
       queuePublisher
         .setQueue(this.queue)
         .then()
