@@ -4,7 +4,7 @@ import { getWebhookClient } from 'fuku.tv-shared/discord';
 
 const FREEPLAY_COUNT = 1;
 
-const FREEPLAY_LIMIT = 10;
+const FREEPLAY_LIMIT = 5;
 
 export const index: ScheduledHandler = async () => {
   try {

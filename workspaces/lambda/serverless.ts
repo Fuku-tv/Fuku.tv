@@ -84,7 +84,7 @@ const serverlessConfiguration: Serverless = {
         },
         {
           schedule: {
-            rate: 'rate(4 hours)',
+            rate: 'rate(8 hours)',
           },
         },
       ],
