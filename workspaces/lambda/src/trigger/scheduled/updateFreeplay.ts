@@ -2,7 +2,7 @@ import type { ScheduledHandler } from 'aws-lambda';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { getWebhookClient } from 'fuku.tv-shared/discord';
 
-const FREEPLAY_COUNT = 1;
+const FREEPLAY_COUNT = 5;
 
 const FREEPLAY_LIMIT = 5;
 
@@ -12,8 +12,10 @@ export const index: ScheduledHandler = async () => {
     console.log(`Found ${playerIdList.length} players to update`);
     playerIdList.forEach(async (player) => {
       if (player?.freeplay < FREEPLAY_LIMIT) {
-        console.log(`added ${FREEPLAY_COUNT} freeplay points to user ${player.id}`);
-        playersTableModel.addFreeplay(player.id, FREEPLAY_COUNT);
+        // add freeplay, but dont go over the freeplay limit
+        const freeplayToAdd = FREEPLAY_COUNT + player.freeplay < FREEPLAY_LIMIT ? FREEPLAY_COUNT : FREEPLAY_LIMIT - player.freeplay;
+        console.log(`added ${freeplayToAdd} freeplay points to user ${player.id}`);
+        playersTableModel.addFreeplay(player.id, freeplayToAdd);
       } else {
         console.log(`Player ${player.id} already has ${player.freeplay} points in their account, skipping`);
       }
