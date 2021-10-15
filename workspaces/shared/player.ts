@@ -180,10 +180,11 @@ export class Player {
         ipAddress: this.ipAddr,
       };
       await playersTableModel.write(data);
-      // read data once written
-      const player = await playersTableModel.get(this.userdata.email);
-      this.credits = player.credits;
-      this.uid = player.id;
+
+      this.credits = data.credits;
+      this.freeplay = data.freeplay;
+      this.points = data.points;
+      this.uid = data.id;
     }
   }
 }

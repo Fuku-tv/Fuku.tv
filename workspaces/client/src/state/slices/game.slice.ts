@@ -1,4 +1,5 @@
-import { ActionReducerMapBuilder, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 import { endStream, startFuku, startStream } from '../actions/game.actions';
 
 const initialState = {
@@ -28,7 +29,7 @@ const gameSlice = createSlice({
         isPlayerInQueue: action.payload,
       };
     },
-    gamestats(state, action: PayloadAction<typeof initialState>) {
+    gameStats(state, action: PayloadAction<typeof initialState>) {
       return {
         ...state,
         credits: action.payload.credits === undefined ? state.credits : action.payload.credits,
