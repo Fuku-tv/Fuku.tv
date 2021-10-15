@@ -1,3 +1,7 @@
 {
-  "extends": "typescript-config-core/tsconfig.json"
+  "extends": "typescript-config-core",
+  "compilerOptions": {
+    // disallow accessing browser globals (e.g. window, document, fetch)
+    "lib": ["esnext"]
+  }
 }

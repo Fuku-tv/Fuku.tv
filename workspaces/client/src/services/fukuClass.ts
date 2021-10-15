@@ -280,7 +280,7 @@ class Fuku {
 
   private setGameStats(stats) {
     this.uglyHackStore.dispatch({
-      type: 'GAME/gamestats',
+      type: 'GAME/gameStats',
       payload: {
         queue: stats.queue,
         watch: stats.watch,

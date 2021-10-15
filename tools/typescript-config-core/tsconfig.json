@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "allowJs": false,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,

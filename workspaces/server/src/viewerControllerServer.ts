@@ -2,7 +2,7 @@
 import WS from 'ws';
 import type http from 'http';
 import { Player, LogLevel, LoggerClass, constants, env } from 'fuku.tv-shared';
-import fetch from 'node-fetch';
+import axios from 'axios';
 import type { WebhookClient } from 'fuku.tv-shared/discord';
 import { getDiscordClient, getWebhookClient, getDebugWebhookClient } from 'fuku.tv-shared/discord';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
@@ -432,13 +432,13 @@ const authenticateConnection = async (token: string): Promise<any> => {
 
   // pass token to auth0 for validation
   try {
-    const res = await fetch('https://fukutv-alpha.us.auth0.com/userinfo', {
+    const res = await axios.get('https://fukutv-alpha.us.auth0.com/userinfo', {
       method: 'get',
       headers: {
         Authorization: `bearer ${token}`,
       },
     });
-    const data = await res.json();
+    const data = await res.data;
 
     logger.log(LogLevel.info, `Validated user: ${data.email} ${data.nickname}`);
     return { email: data.email, nickname: data.nickname, pictureUrl: data.picture };
