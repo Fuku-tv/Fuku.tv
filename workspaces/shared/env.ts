@@ -1,27 +1,27 @@
 export const fukuControllerServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
-    return 'ws://localhost:10888';
+    return 'wss://localhost:10888';
   }
   if (process.env.EB_ENVIRONMENT !== 'production') {
     // Dev Environment
-    return 'wss://dev.fuku.tv/controller';
+    return 'wss://dev.fuku.tv:10888';
   }
   // Prod Environment
-  return 'wss://prod.fuku.tv/controller';
+  return 'wss://prod.fuku.tv:10888';
 };
 
 export const fukuVideoServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
-    return 'ws://localhost:10889';
+    return 'wss://localhost:10889';
   }
   if (process.env.EB_ENVIRONMENT !== 'production') {
     // Dev Environment
-    return 'wss://dev.fuku.tv/video';
+    return 'wss://dev.fuku.tv:10889';
   }
   // Prod Environment
-  return 'wss://prod.fuku.tv/video';
+  return 'wss://prod.fuku.tv:10889';
 };
 
 /**
