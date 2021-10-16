@@ -1,5 +1,4 @@
 import https from 'https';
-import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import RedisServer from 'redis-server';
@@ -23,12 +22,12 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-// const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
-// const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-// };
+const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
+const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+};
 
 const logger = new LoggerClass('server');
 
@@ -57,23 +56,24 @@ if (process.env.NODE_ENV === 'development' || process.env.REDIS_LOCAL === 'true'
     }
   });
 }
-
+// quick juryrig to test in local env
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0 as any;
 /**
  * Health Check endpoint
  */
-const hcServer = http.createServer((req, res) => {
+const hcServer = https.createServer(credentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, default endpoint good here!');
   res.end();
 });
 
-const controllerHttpsServer = http.createServer((req, res) => {
+const controllerHttpsServer = https.createServer(credentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, controller good here!');
   res.end();
 });
 
-const videoHttpsServer = http.createServer((req, res) => {
+const videoHttpsServer = https.createServer(credentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, video good here!');
   res.end();
