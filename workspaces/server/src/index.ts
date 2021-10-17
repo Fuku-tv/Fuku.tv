@@ -24,9 +24,15 @@ Sentry.init({
 
 const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/key.pem'), 'utf8');
 const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem'), 'utf8');
+const pfx = fs.readFileSync(path.resolve(__dirname, '../certs/fuku.pfx'));
 const credentials = {
   key: privateKey,
   cert: certificate,
+};
+
+const pfxCredentials = {
+  pfx,
+  passphrase: '',
 };
 
 const logger = new LoggerClass('server');
@@ -61,19 +67,19 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0 as any;
 /**
  * Health Check endpoint
  */
-const hcServer = https.createServer(credentials, (req, res) => {
+const hcServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, default endpoint good here!');
   res.end();
 });
 
-const controllerHttpsServer = https.createServer(credentials, (req, res) => {
+const controllerHttpsServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, controller good here!');
   res.end();
 });
 
-const videoHttpsServer = https.createServer(credentials, (req, res) => {
+const videoHttpsServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, video good here!');
   res.end();
