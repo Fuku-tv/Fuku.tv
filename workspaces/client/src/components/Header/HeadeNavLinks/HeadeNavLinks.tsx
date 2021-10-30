@@ -76,11 +76,11 @@ const HeadeNavLinks: React.FC = () => {
             <span> Leaderboards </span>
           </NavLink>
         </li>
-        <li className="nav-link-item">
+        {/* <li className="nav-link-item">
           <NavLink activeClassName="nav-link__active" to="/store" exact>
             <span> Store </span>
           </NavLink>
-        </li>
+        </li> */}
         <li>
           {state.isAuthenticated ? (
             <HeaderProfileDropdown id="header-profile-button" />
