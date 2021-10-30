@@ -69,13 +69,12 @@ const Main: React.FC = () => {
           <Route path="/leaderboards" exact>
             <LeaderboardsScreen />
           </Route>
-          <Route path="/prizes" exact>
+          {/* <Route path="/prizes" exact>
             <PrizesScreen />
           </Route>
           <Route path="/store" exact>
             <StoreScreen />
-          </Route>
-          
+          </Route> */}
 
           <Route path="/claw-customization" exact>
             <ClawCustomizationScreen />
