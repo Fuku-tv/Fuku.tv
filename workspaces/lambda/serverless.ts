@@ -84,7 +84,7 @@ const serverlessConfiguration: Serverless = {
         },
         {
           schedule: {
-            rate: 'rate(24 hours)',
+            rate: 'cron(0 24 * * ? *)',
           },
         },
       ],

@@ -2,9 +2,9 @@ import type { ScheduledHandler } from 'aws-lambda';
 import { playersTableModel } from 'fuku.tv-shared/dynamodb/table';
 import { getWebhookClient } from 'fuku.tv-shared/discord';
 
-const FREEPLAY_COUNT = 5;
+const FREEPLAY_COUNT = 10;
 
-const FREEPLAY_LIMIT = 5;
+const FREEPLAY_LIMIT = 10;
 
 export const index: ScheduledHandler = async () => {
   try {
