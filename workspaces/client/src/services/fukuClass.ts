@@ -292,6 +292,8 @@ class Fuku {
   }
 
   private updateChat(user, message) {
+    // TODO find out what is sending th double chatMessage command from server
+    if (message === null || message === undefined || message === '') return;
     const chatMessage = { user, message };
     this.uglyHackStore.dispatch({
       type: 'GAME/sendChatMessage',
