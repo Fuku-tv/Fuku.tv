@@ -25,6 +25,7 @@
     "auth0": "^2.35.1",
     "aws-sdk": "^2.959.0",
     "jsonwebtoken": "^8.5.1",
+    "@nowpaymentsio/nowpayments-api-js": "^1.0.5",
     "stripe": "^8.164.0"
   },
   "peerDependencies": {
