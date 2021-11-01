@@ -84,7 +84,23 @@ const serverlessConfiguration: Serverless = {
         },
         {
           schedule: {
-            rate: 'cron(0 24 * * ? *)',
+            rate: 'cron(0 0 * * ? *)',
+          },
+        },
+      ],
+    },
+    reset_points: {
+      handler: 'src/trigger/scheduled/resetPoints.index',
+      events: [
+        {
+          http: {
+            path: '/trigger/resetPoints',
+            method: 'post',
+          },
+        },
+        {
+          schedule: {
+            rate: 'cron(0 0 * * 1 *)',
           },
         },
       ],

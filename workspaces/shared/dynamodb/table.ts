@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import dynamo from './dynamo';
-import { Player, PointsLedger, Replay, defaults, BaseModel } from './models';
+import type { Player, PointsLedger, Replay, BaseModel } from './models';
+import { defaults } from './models';
 import { tableList } from './index';
 
 export const genericTableMethods = <T extends BaseModel>(tableName: string) => ({
@@ -42,6 +43,12 @@ export const playersTableModel = {
     const player = await playersTableModel.get(id);
     if (player.points === undefined) player.points = pointsToAdd;
     else player.points += pointsToAdd;
+    await playersTableModel.write(player);
+  },
+
+  async resetPoints(id: string) {
+    const player = await playersTableModel.get(id);
+    player.points = 0;
     await playersTableModel.write(player);
   },
 
