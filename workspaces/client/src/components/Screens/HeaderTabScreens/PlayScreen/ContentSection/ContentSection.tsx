@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useAuthState, useGameState } from 'src/state/hooks';
+import { css } from '@emotion/css';
 import SwitchCameraButton from '../../../../UIElements/SwitchCameraButton/SwitchCameraButton';
 import LoggedOutContent from './LoggedOutContent';
 import LoggedInContent from './LoggedInContent/LoggedInContent';
-
 import './ContentSection.scss';
 
 // import useNavigationState from 'src/state/hooks/useNavigationState';
@@ -37,7 +37,24 @@ const ContentSection: React.FC = () => {
       </div>
     </div>
   );
-  return <section id="content-section">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>;
+  return (
+    <>
+      <section id="content-section">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>
+      <a
+        className={css`
+          font-size: 32px;
+          text-align: center;
+          text-decoration: none;
+          padding: 8px 16px;
+          background-color: purple;
+          color: white;
+        `}
+        href="https://nowpayments.io/donation/fuku"
+      >
+        Donate
+      </a>
+    </>
+  );
 };
 
 export default ContentSection;
