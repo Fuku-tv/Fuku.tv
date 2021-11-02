@@ -5,6 +5,7 @@ import useNavigationState from 'src/state/hooks/useNavigationState';
 import { isMobile } from 'react-device-detect';
 import GameChat from 'src/components/UIElements/GameChat/GameChat';
 
+import { css } from '@emotion/css';
 import Header from '../../../../Header/Header';
 // import DiscordChat from '../Sidebar/DiscordChat/DiscordChat';
 import LoggedOut from './LoggedOut/LoggedOut';
@@ -52,7 +53,26 @@ const SideBar: React.FC = () => {
     <aside id="sidebar-section">
       <div className="sidebar-inner-wrapper">
         <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue={!isMobile} />}>
-          <GameQueue />
+          <div
+            className={css`
+              position: relative;
+            `}
+          >
+            <a
+              className={css`
+                display: block;
+                font-size: 32px;
+                text-align: center;
+                text-decoration: none;
+                padding: 8px 16px;
+                background-color: purple;
+                color: white;
+              `}
+              href="https://nowpayments.io/donation/fuku"
+            >
+              Donate
+            </a>
+          </div>
         </SidebarWidget>
         {!isMobile && (
           <SidebarWidget title="Chat">
