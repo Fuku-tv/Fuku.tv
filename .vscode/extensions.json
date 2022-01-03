@@ -8,13 +8,13 @@
     "oderwat.indent-rainbow",
     "christian-kohler.path-intellisense",
     "esbenp.prettier-vscode",
-    "jpoissonnier.vscode-styled-components",
     "editorconfig.editorconfig",
     "yzhang.markdown-all-in-one",
     "davidanson.vscode-markdownlint",
     "stylelint.vscode-stylelint",
     "cschleiden.vscode-github-actions",
     "eamodio.gitlens",
-    "dsznajder.es7-react-js-snippets"
+    "dsznajder.es7-react-js-snippets",
+    "styled-components.vscode-styled-components"
   ]
 }
