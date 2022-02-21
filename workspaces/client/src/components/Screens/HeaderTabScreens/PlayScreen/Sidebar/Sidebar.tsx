@@ -53,26 +53,7 @@ const SideBar: React.FC = () => {
     <aside id="sidebar-section">
       <div className="sidebar-inner-wrapper">
         <SidebarWidget title="Game Queue" header={<SpectatorInformation showQueue={!isMobile} />}>
-          <div
-            className={css`
-              position: relative;
-            `}
-          >
-            <a
-              className={css`
-                display: block;
-                font-size: 32px;
-                text-align: center;
-                text-decoration: none;
-                padding: 8px 16px;
-                background-color: purple;
-                color: white;
-              `}
-              href="https://nowpayments.io/donation/fuku"
-            >
-              Donate
-            </a>
-          </div>
+        <GameQueue />
         </SidebarWidget>
         {!isMobile && (
           <SidebarWidget title="Chat">

@@ -40,19 +40,6 @@ const ContentSection: React.FC = () => {
   return (
     <>
       <section id="content-section">{authState.state.isAuthenticated ? <LoggedInContent /> : <LoggedOutContent />}</section>
-      <a
-        className={css`
-          font-size: 32px;
-          text-align: center;
-          text-decoration: none;
-          padding: 8px 16px;
-          background-color: purple;
-          color: white;
-        `}
-        href="https://nowpayments.io/donation/fuku"
-      >
-        Donate
-      </a>
     </>
   );
 };
