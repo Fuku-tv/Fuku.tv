@@ -22,17 +22,17 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/private.key'), 'utf8');
-const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/certificate.crt'), 'utf8');
-const authority = fs.readFileSync(path.resolve(__dirname, '../certs/ca_bundle.crt'), 'utf8');
+// const privateKey = fs.readFileSync(path.resolve(__dirname, '../certs/private.key'), 'utf8');
+// const certificate = fs.readFileSync(path.resolve(__dirname, '../certs/certificate.crt'), 'utf8');
+// const authority = fs.readFileSync(path.resolve(__dirname, '../certs/ca_bundle.crt'), 'utf8');
 const pfx = fs.readFileSync(path.resolve(__dirname, '../certs/fuku.pfx'));
-const credentials: https.ServerOptions = {
-  key: privateKey,
-  cert: certificate,
-  ca: authority,
-};
+// const credentials: https.ServerOptions = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: authority,
+// };
 
-const pfxCredentials = {
+const pfxCredentials: https.ServerOptions = {
   pfx,
   passphrase: '',
 };
@@ -70,19 +70,19 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0 as any;
 /**
  * Health Check endpoint
  */
-const hcServer = https.createServer(credentials, (req, res) => {
+const hcServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, default endpoint good here!');
   res.end();
 });
 
-const controllerHttpsServer = https.createServer(credentials, (req, res) => {
+const controllerHttpsServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, controller good here!');
   res.end();
 });
 
-const videoHttpsServer = https.createServer(credentials, (req, res) => {
+const videoHttpsServer = https.createServer(pfxCredentials, (req, res) => {
   res.writeHead(200);
   res.write('ok, video good here!');
   res.end();
