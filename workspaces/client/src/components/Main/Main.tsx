@@ -18,6 +18,7 @@ import ClawCustomizationScreen from '../Screens/ClawCustomizationScreen/ClawCust
 import PlayerLevel from '../game/PlayerLevel/PlayerLevel';
 import StoreScreen from '../Screens/HeaderTabScreens/StoreScreen/StoreScreen';
 import PatreonTestScreen from '../Screens/PatreonTestScreen/PatreonTestScreen';
+import PrivacyPolicyScreen from '../Screens/LegalScreen/PrivacyPolicyScreen';
 
 // import routes from './app/routes';
 // import SideBar from './components';
@@ -68,6 +69,9 @@ const Main: React.FC = () => {
           </Route>
           <Route path="/leaderboards" exact>
             <LeaderboardsScreen />
+          </Route>
+          <Route path="/privacy" exact>
+            <PrivacyPolicyScreen />
           </Route>
           {/* <Route path="/prizes" exact>
             <PrizesScreen />

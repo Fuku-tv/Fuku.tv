@@ -3,11 +3,104 @@ import { NavLink } from 'react-router-dom';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
-import './HeadeNavLinks.scss';
+// import './HeadeNavLinks.scss';
 import { isMobile } from 'react-device-detect';
 import FlatButton from 'src/components/UIElements/FlatButton/FlatButton';
+import { css } from '@emotion/css';
 import HeaderProfileDropdown from '../HeaderProfileDropdown/HeaderProfileDropdown';
 import SignInPrompt from '../SignInPrompt/SignInPrompt';
+
+const container = css`
+  @media only screen and (max-width: 600px) {
+    flex-grow: 1;
+  }
+
+  display: flex;
+  // flex-direction: column;
+  // flex-basis: 100%;
+  height: 100%;
+  ul {
+    @media only screen and (max-width: 600px) {
+      flex-grow: 1;
+    }
+    display: flex;
+    width: 100%;
+    height: 100%;
+    li {
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      list-style: none;
+      text-align: center;
+      // width: 100%;
+      // margin-bottom: 10px;
+      // flex-grow: 1;
+      list-style: none;
+      > :first-child {
+        padding: 0 22px;
+      }
+      a,
+      button {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        text-decoration: none;
+        margin: 0 auto;
+        color: #fff;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        span {
+          font-size: 12px !important;
+          font-weight: 600 !important;
+        }
+        &.nav-link__active {
+          position: relative;
+          transition: 250ms;
+          // background-color: var(--purplePrimary);
+          background: rgb(124, 99, 163);
+          background: -moz-linear-gradient(180deg, rgba(124, 99, 163, 1) 0%, rgba(164, 139, 203, 1) 100%);
+          background: -webkit-linear-gradient(180deg, rgba(124, 99, 163, 1) 0%, rgba(164, 139, 203, 1) 100%);
+          background: linear-gradient(180deg, rgba(124, 99, 163, 1) 0%, rgba(164, 139, 203, 1) 100%);
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7c63a3",endColorstr="#a48bcb",GradientType=1);
+          &:after {
+            content: '';
+            width: calc(100% + 2px);
+            height: 4px;
+            background: #fff;
+            position: absolute;
+            bottom: 0;
+            left: -1px;
+            border-radius: 40px;
+          }
+        }
+        .icon-wrapper svg {
+          display: block;
+          margin: 0 auto;
+          height: 16px;
+          margin-bottom: 4px;
+        }
+
+        &:hover {
+          color: rgba(255, 255, 255, 0.811);
+        }
+      }
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+`;
 
 const HeadeNavLinks: React.FC = () => {
   // testing const [modalIsActive, 		setModalIsActive] = React.useState < boolean
@@ -16,7 +109,7 @@ const HeadeNavLinks: React.FC = () => {
   const gameState = useGameState();
 
   const loginButton = (
-    <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
+    <button type="button" onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
       <div className="profile-sub-link">
         <span>{logoutIcon}</span>
         <span>Login</span>
@@ -24,7 +117,7 @@ const HeadeNavLinks: React.FC = () => {
     </button>
   );
   const logoutButton = (
-    <button onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
+    <button type="button" onClick={() => actions.logout()} onKeyDown={() => actions.logout()}>
       <div className="profile-sub-link">
         <span>{logoutIcon}</span>
         <span>Logout</span>
@@ -64,7 +157,7 @@ const HeadeNavLinks: React.FC = () => {
   );
 
   return (
-    <nav className="header-nav-links-container">
+    <nav className={container}>
       <ul>
         <li className="nav-link-item">
           <NavLink activeClassName="nav-link__active" to="/" exact>
@@ -81,6 +174,12 @@ const HeadeNavLinks: React.FC = () => {
             <span> Store </span>
           </NavLink>
         </li> */}
+
+        <li className="nav-link-item">
+          <NavLink activeClassName="nav-link__active" to="/Privacy" exact>
+            <span> Privacy </span>
+          </NavLink>
+        </li>
         <li>
           {state.isAuthenticated ? (
             <HeaderProfileDropdown id="header-profile-button" />
