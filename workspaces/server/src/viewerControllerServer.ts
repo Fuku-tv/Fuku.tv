@@ -363,7 +363,7 @@ export class ControllerServer extends WebsocketServerBase {
         return;
       }
       debugWebhookClient.send(
-        `Player ${this.currentPlayer.uid} has stopped playing the game, credits: ${this.currentPlayer.credits}, freeplay:${this.currentPlayer.freeplay}, points:${this.currentPlayer.points} `
+        `Player ${p?.userdata?.nickname} has stopped playing the game, credits: ${this.currentPlayer.credits}, freeplay:${this.currentPlayer.freeplay}, points:${this.currentPlayer.points} `
       );
       this.gameEnd();
     }
