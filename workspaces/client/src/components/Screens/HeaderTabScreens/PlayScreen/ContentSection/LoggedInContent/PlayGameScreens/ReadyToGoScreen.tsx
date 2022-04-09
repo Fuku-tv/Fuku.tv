@@ -42,7 +42,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
           height={42}
           color="red"
         />
-        <DepthButton onPointerUp={() => history.push('/store')} id="btnStop" buttonText="Buy Credits" width={160} height={42} color="purple" />
+        {/* <DepthButton onPointerUp={() => history.push('/store')} id="btnStop" buttonText="Buy Credits" width={160} height={42} color="purple" /> */}
         <DepthButton
           onPointerUp={() => actions.buttonDownEvent('start')}
           onPointerDown={() => actions.buttonUpEvent('start')}

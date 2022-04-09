@@ -280,12 +280,12 @@ export class ControllerServer extends WebsocketServerBase {
       this.currentPlayer.points = player.points;
       if (player.credits === 0 && player.freeplay === 0 && player.points < 200) {
         debugWebhookClient.send(
-          `Player ${player.id} has insufficent funds to play, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
+          `Player ${player.nickname} has insufficent funds to play, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
         );
         return;
       }
       debugWebhookClient.send(
-        `Player ${player.id} is currently playing the game, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
+        `Player ${player.nickname} is currently playing the game, credits: ${player.credits}, freeplay:${player.freeplay}, points:${player.points} `
       );
       // set the claw to a default position so timeouts, etc work
       this.resetClaw();
@@ -363,7 +363,7 @@ export class ControllerServer extends WebsocketServerBase {
         return;
       }
       debugWebhookClient.send(
-        `Player ${this.currentPlayer.uid} has stopped playing the game, credits: ${this.currentPlayer.credits}, freeplay:${this.currentPlayer.freeplay}, points:${this.currentPlayer.points} `
+        `Player ${p?.userdata?.nickname} has stopped playing the game, credits: ${this.currentPlayer.credits}, freeplay:${this.currentPlayer.freeplay}, points:${this.currentPlayer.points} `
       );
       this.gameEnd();
     }
