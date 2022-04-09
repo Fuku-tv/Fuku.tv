@@ -8,25 +8,24 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap --use-workspaces",
     "kill": "taskkill /IM node.exe /F",
     "clean": "git clean -fXd -e !node_modules",
     "clean:deep": "git clean -fXd",
-    "start": "lerna run start",
-    "dev": "lerna run dev",
+    "start": "turbo run start",
+    "dev": "turbo run dev",
     "bump": "yarn upgrade --latest",
     "start:client": "yarn workspace fuku.tv-client start",
     "start:server": "yarn workspace fuku.tv-server start:dev",
-    "lint": "lerna run lint",
+    "lint": "turbo run lint",
     "lint:client": "yarn workspace fuku.tv-client lint",
     "lint:server": "yarn workspace fuku.tv-server lint",
     "test": "yarn jest",
-    "build": "lerna run build",
+    "build": "turbo run build",
     "build:client": "yarn workspace fuku.tv-client build",
     "build:server": "yarn workspace fuku.tv-server build",
     "build:iot": "yarn workspace fuku.tv-iot build",
     "update": "yarn upgrade-interactive --latest",
-    "assemble": "lerna run assemble",
+    "assemble": "turbo run assemble",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -39,6 +38,17 @@
     "*": [
       "pretty-quick --staged"
     ]
+  },
+  "turbo": {
+    "pipeline": {
+      "start": {},
+      "dev": {
+        "cache": false
+      },
+      "lint": {},
+      "build": {},
+      "assemble": {}
+    }
   },
   "devDependencies": {
     "cp-cli": "^2.0.0",
