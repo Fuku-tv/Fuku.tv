@@ -165,6 +165,11 @@ const HeadeNavLinks: React.FC = () => {
           </NavLink>
         </li>
         <li className="nav-link-item">
+          <NavLink activeClassName="nav-link__active" to="/about" exact>
+            <span>About </span>
+          </NavLink>
+        </li>
+        <li className="nav-link-item">
           <NavLink activeClassName="nav-link__active" to="/leaderboards" exact>
             <span> Leaderboards </span>
           </NavLink>
