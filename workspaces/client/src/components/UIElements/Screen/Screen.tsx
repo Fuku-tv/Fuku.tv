@@ -1,7 +1,6 @@
 import * as React from 'react';
+import { css } from '@emotion/css';
 import ContentContainer from '../ContentContainer/ContentContainer';
-
-import './Screen.scss';
 
 interface PROPS {
   id: string;
@@ -9,8 +8,21 @@ interface PROPS {
 }
 
 const Screen: React.FC<PROPS> = (props) => (
-  <section id={`${props.id}-screen`} className="outer-screen-wrapper">
-    <h1 className="screen-title">{props.title}</h1>
+  <section
+    id={`${props.id}-screen`}
+    className={css`
+      position: relative;
+      padding: 15px;
+    `}
+  >
+    <h1
+      className={css`
+        font-size: 38px;
+        margin-bottom: 25px;
+      `}
+    >
+      {props.title}
+    </h1>
     <ContentContainer>{props.children}</ContentContainer>
   </section>
 );
