@@ -1,3 +1,4 @@
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { css } from '@emotion/css';
 import * as React from 'react';
 import CookieConsent from 'react-cookie-consent';
@@ -5,10 +6,19 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Provider from './state';
+// theme.js
+
+const config = {
+  initialColorMode: 'dark',
+};
+
+// 3. extend the theme
+const theme = extendTheme({ config });
 
 const styles = {
   appBodyWrapper: css`
     // min-height: 90vh;
+    background-color: #222222;
     position: absolute;
     top: var(--headerHeight);
     width: 100%;
@@ -50,10 +60,12 @@ const styles = {
 const App: React.FC = () => (
   <Provider>
     <Router>
-      <Header />
-      <div className={styles.appBodyWrapper}>
-        <Main />
-      </div>
+      <ChakraProvider resetCSS theme={theme}>
+        <Header />
+        <div className={styles.appBodyWrapper}>
+          <Main />
+        </div>
+      </ChakraProvider>
     </Router>
     <CookieConsent style={{ textAlign: 'center', fontSize: '14px' }}>
       This website uses cookies to enhance the user experience. This site is inteded for use by users 13 and older

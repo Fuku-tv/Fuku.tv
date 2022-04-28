@@ -1,75 +1,8 @@
 import * as React from 'react';
 
-import './LeaderboardsScreen.scss';
-import useAuthState from 'src/state/hooks/useAuthState';
-import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
-import Screen from 'src/components/UIElements/Screen/Screen';
+import { Center, Flex, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Heading } from '@chakra-ui/react';
 import useLeaderboardState from 'src/state/hooks/useLeaderboardState';
-import LeaderboardRow from './LeaderboardRow';
 import LeaderboardPodium from './LeaderboardPodium/LeaderboardPodium';
-
-const SAMPLE_LEADERBOARD_DATA = [
-  {
-    userName: 'Creed',
-    userScore: '15',
-  },
-  {
-    userName: 'Michael',
-    userScore: '9',
-  },
-  {
-    userName: 'Dwight',
-    userScore: '7',
-  },
-  {
-    userName: 'Jim',
-    userScore: '6',
-  },
-  {
-    userName: 'Angela',
-    userScore: '5',
-  },
-  {
-    userName: 'Stanley',
-    userScore: '4',
-  },
-  {
-    userName: 'Michael',
-    userScore: '9',
-  },
-  {
-    userName: 'Dwight',
-    userScore: '7',
-  },
-  {
-    userName: 'Jim',
-    userScore: '6',
-  },
-  {
-    userName: 'Angela',
-    userScore: '5',
-  },
-  {
-    userName: 'Stanley',
-    userScore: '4',
-  },
-  {
-    userName: 'Michael',
-    userScore: '9',
-  },
-  {
-    userName: 'Dwight',
-    userScore: '7',
-  },
-  {
-    userName: 'Jim',
-    userScore: '6',
-  },
-  {
-    userName: 'Angela',
-    userScore: '5',
-  },
-];
 
 const LeaderboardsScreen: React.FC = () => {
   const { state, actions } = useLeaderboardState();
@@ -84,21 +17,38 @@ const LeaderboardsScreen: React.FC = () => {
   }, []);
 
   return (
-    <Screen id="leaderboards" title="Leaderboards">
-      <div className="leaderboard-screen-content-wrapper">
-        <div className="table leaderboards-table">
-          <div id="leaderboard__header" className="leaderboard-row">
-            <div className="header__rank">Rank</div>
-            <div className="header__user">Username</div>
-            <div className="header__score">Score</div>
-          </div>
-          {state.playerList.slice(0, 10).map((u, i) => (
-            <LeaderboardRow key={Math.random()} imgURL="asd" rank={i} name={u.nickname} score={u.points} />
-          ))}
-        </div>
+    <>
+      <Heading paddingTop={12}>Leaderboards</Heading>
+      <Flex alignItems="center" wrap="wrap" direction="row">
+        <TableContainer flexBasis="100%" maxWidth="665px">
+          <Table variant="striped" colorScheme="blackAlpha" size="lg">
+            <Thead>
+              <Tr>
+                <Th>Rank</Th>
+                <Th>Username</Th>
+                <Th isNumeric>score</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {state.playerList.length <= 0 ? (
+                <Center>
+                  <Spinner />
+                </Center>
+              ) : (
+                state.playerList.slice(0, 10).map((user, index) => (
+                  <Tr key={Math.random()}>
+                    <Td>{index + 1}</Td>
+                    <Td>{user.nickname}</Td>
+                    <Td isNumeric>{user.points}</Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </Table>
+        </TableContainer>
         <LeaderboardPodium first={state.playerList[0]} second={state.playerList[1]} third={state.playerList[2]} />
-      </div>
-    </Screen>
+      </Flex>
+    </>
   );
 };
 
