@@ -8,6 +8,7 @@ import Provider from './state';
 
 // 3. extend the theme
 const theme = extendTheme({
+  // lock on dark mode
   config: { initialColorMode: 'dark', useSystemColorMode: false },
 
   // load font

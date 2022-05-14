@@ -25,7 +25,7 @@ const Main: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Box as="main" width="100%" className={!authState.state.isAuthenticated && 'logged-out'}>
+    <Box as="main" width="100%" flexGrow={1} backgroundColor="gray.900" className={!authState.state.isAuthenticated && 'logged-out'}>
       <Container maxWidth={{ base: '1050px', '2xl': '1350px' }}>
         <Routes>
           <Route path="/" element={<SuspensePage component={HomePage} />} />
