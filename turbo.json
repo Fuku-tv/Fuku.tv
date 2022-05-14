@@ -1,0 +1,11 @@
+{
+  "pipeline": {
+    "start": {},
+    "dev": {
+      "cache": false
+    },
+    "lint": {},
+    "build": {},
+    "assemble": {}
+  }
+}

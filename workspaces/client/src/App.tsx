@@ -1,70 +1,30 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { css } from '@emotion/css';
+import { ChakraProvider, DarkMode, extendTheme, Flex, Stack } from '@chakra-ui/react';
 import * as React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
+import Header from './layout/Header';
+import Main from './layout/Main';
 import Provider from './state';
-// theme.js
-
-const config = {
-  initialColorMode: 'dark',
-};
 
 // 3. extend the theme
-const theme = extendTheme({ config });
+const theme = extendTheme({
+  config: { initialColorMode: 'dark', useSystemColorMode: false },
 
-const styles = {
-  appBodyWrapper: css`
-    // min-height: 90vh;
-    background-color: #222222;
-    position: absolute;
-    top: var(--headerHeight);
-    width: 100%;
-    height: calc(100% - var(--headerHeight));
-    main {
-      overflow-y: auto;
-      position: fixed;
-      width: calc(100% - var(--sideNavWidth));
-      top: var(--headerHeight);
-      width: 100%;
-      height: calc(100% - var(--headerHeight));
-      & > div {
-        height: 100%;
-        // padding-top: 30px;
-        // height: calc(100% - 30px);
-        // margin-top: 30px;
-        // padding: 10px 0;
-        // padding: 10px;
-      }
-    }
-    @media only screen and (max-width: 600px) {
-      main {
-        padding: 0px !important;
-        margin: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-      }
+  // load font
 
-      // .player-stats-container {
-      //   justify-content: space-between !important;
-      //   #level progress {
-      //     width: 80px !important;
-      //   }
-      // }
-    }
-  `,
-};
+  fonts: {
+    body: 'Inter, sans-serif',
+  },
+});
 
 const App: React.FC = () => (
   <Provider>
     <Router>
       <ChakraProvider resetCSS theme={theme}>
-        <Header />
-        <div className={styles.appBodyWrapper}>
+        <Flex flexDirection="column" minHeight="100vh">
+          <Header />
           <Main />
-        </div>
+        </Flex>
       </ChakraProvider>
     </Router>
     <CookieConsent style={{ textAlign: 'center', fontSize: '14px' }}>

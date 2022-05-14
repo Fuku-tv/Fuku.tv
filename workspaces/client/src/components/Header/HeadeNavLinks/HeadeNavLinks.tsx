@@ -133,19 +133,19 @@ const HeadeNavLinks: React.FC = () => {
       </div>
 
       <div className="profile-link__profile-sub-links">
-        <NavLink activeClassName="nav-link__active--mobile" to="/profile" exact>
+        <NavLink to="/profile">
           <div className="profile-sub-link">
             <span>{profile}</span>
             <span>Profile</span>
           </div>
         </NavLink>
-        <NavLink activeClassName="nav-link__active--mobile" to="/claw-customization" exact>
+        <NavLink to="/claw-customization">
           <div className="profile-sub-link">
             <span>{clawIcon}</span>
             <span>Claw</span>
           </div>
         </NavLink>
-        <NavLink to="/" exact>
+        <NavLink to="/">
           <div className="profile-sub-link">
             <span>{bellIcon}</span>
             <span>Notifications</span>
@@ -160,17 +160,17 @@ const HeadeNavLinks: React.FC = () => {
     <nav className={container}>
       <ul>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/" exact>
+          <NavLink to="/">
             <span>Play </span>
           </NavLink>
         </li>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/about" exact>
+          <NavLink to="/about">
             <span>About </span>
           </NavLink>
         </li>
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/leaderboards" exact>
+          <NavLink to="/leaderboards">
             <span> Leaderboards </span>
           </NavLink>
         </li>
@@ -181,7 +181,7 @@ const HeadeNavLinks: React.FC = () => {
         </li> */}
 
         <li className="nav-link-item">
-          <NavLink activeClassName="nav-link__active" to="/Privacy" exact>
+          <NavLink to="/Privacy">
             <span> Privacy </span>
           </NavLink>
         </li>

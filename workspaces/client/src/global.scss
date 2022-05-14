@@ -1,11 +1,7 @@
+// load fonts the fun way
 @import url('https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Jost:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 :root {
   --gold: #bd9e3c;
@@ -26,72 +22,9 @@
   --sideNavWidth: 85px;
   --topHeaderHeight: 50px;
   --subHeaderHeight: 40px;
-  --headerHeight: var(--topHeaderHeight);
+  --headerHeight: 50px;
   // --headerHeight: calc(var(--topHeaderHeight) + var(--subHeaderHeight));
   --jost: 'Inter', sans-serif;
   --rubik: 'Rubik', sans-serif;
   --inter: 'Inter', sans-serif;
-}
-
-@media only screen and (max-width: 600px) {
-  :root {
-    --topHeaderHeight: 60px;
-    --subHeaderHeight: 36px;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-body {
-  height: 100vh;
-  // background-color: #bdbdbd;
-  color: #ffffff;
-  background-color: var(--blackPrimary);
-  // overflow-y: scroll;
-
-  font-weight: 400;
-}
-
-button {
-  background-color: inherit;
-  border: none;
-  color: inherit;
-}
-
-body,
-button,
-span,
-p,
-select {
-  font-family: var(--inter);
-  font-size: 13px;
-}
-
-h1,
-h2,
-h3 {
-  font-family: var(--rubik);
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: 600;
-  // letter-spacing: 1px;
-  margin-top: 20px;
-}
-
-h2 {
-  // font-weight: 400;
-}
-
-h3 {
-  font-weight: 800;
-}
-
-@media only screen and (min-width: 1400px) {
-  :root {
-    // --sideNavWidth: 256px;
-  }
 }

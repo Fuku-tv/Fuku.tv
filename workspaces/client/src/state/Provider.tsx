@@ -11,7 +11,7 @@ import store from './store';
  * direct child component to the parent Provider component (allows consumption of parent providers at this level)
  * @param props
  */
-const ProviderChild: React.FC = (props) => {
+const ProviderChild: React.FC<{ children: React.ReactNode }> = (props) => {
   const auth0 = useAuth0();
   const { state, actions } = useAuthState();
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const ProviderChild: React.FC = (props) => {
   return <>{props.children}</>;
 };
 
-export const Provider: React.FC = (props) => (
+export const Provider: React.FC<{ children: React.ReactNode }> = (props) => (
   <Auth0Provider domain="fukutv-alpha.us.auth0.com" clientId="6N4jkRkDRisBK9GjkCsMjLmESvOpAZN1" redirectUri={globalThis.window.location.origin}>
     <ReduxProvider store={store}>
       <ProviderChild> {props.children}</ProviderChild>

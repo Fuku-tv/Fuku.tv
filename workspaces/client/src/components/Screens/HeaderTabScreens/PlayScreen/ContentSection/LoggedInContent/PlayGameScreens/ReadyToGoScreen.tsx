@@ -5,7 +5,7 @@ import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Controls from '../GameComponents/Controls/Controls';
 import StartGameStopGameButtons from './StartGameStopGameButtons';
 
@@ -16,7 +16,7 @@ interface PROPS {
 const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
   // const old = <Buttons/>;
   const { state, actions } = useGameState();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [modalIsActive, setModalIsActive] = React.useState<boolean>(false);
 
   // const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';

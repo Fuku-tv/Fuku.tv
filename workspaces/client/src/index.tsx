@@ -1,14 +1,20 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
+import React from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+
 import App from './App';
 
-const rootElement = document.getElementById('app');
-if (rootElement.hasChildNodes()) {
-  ReactDOM.hydrate(<App />, rootElement);
-} else {
-  ReactDOM.render(<App />, rootElement);
+const container = document.querySelector('#app');
+
+// if statement for typescript strict null checking
+if (container) {
+  // hydrate the app if it's already rendered on the client
+  if (container.hasChildNodes()) {
+    hydrateRoot(container, <App />);
+  }
+  // otherwise render the app on the client
+  else {
+    createRoot(container).render(<App />);
+  }
 }
 
 interface HotModule {
@@ -20,13 +26,3 @@ interface HotModule {
 if ((module as HotModule).hot) {
   (module as HotModule).hot.accept();
 }
-
-// Sentry.init({
-//   dsn: 'https://b0a77ca8f00e4227a7b8d64c3c160f2a@o879857.ingest.sentry.io/5832905',
-//   integrations: [new Integrations.BrowserTracing()],
-
-//   // Set tracesSampleRate to 1.0 to capture 100%
-//   // of transactions for performance monitoring.
-//   // We recommend adjusting this value in production
-//   tracesSampleRate: 1.0,
-// });

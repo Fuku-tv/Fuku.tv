@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Center, Flex, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Heading } from '@chakra-ui/react';
+import { Center, Flex, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Heading, DarkMode } from '@chakra-ui/react';
 import useLeaderboardState from 'src/state/hooks/useLeaderboardState';
 import LeaderboardPodium from './LeaderboardPodium/LeaderboardPodium';
 
@@ -17,7 +17,7 @@ const LeaderboardsScreen: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <DarkMode>
       <Heading paddingTop={12}>Leaderboards</Heading>
       <Flex alignItems="center" wrap="wrap" direction="row">
         <TableContainer flexBasis="100%" maxWidth="665px">
@@ -48,7 +48,7 @@ const LeaderboardsScreen: React.FC = () => {
         </TableContainer>
         <LeaderboardPodium first={state.playerList[0]} second={state.playerList[1]} third={state.playerList[2]} />
       </Flex>
-    </>
+    </DarkMode>
   );
 };
 

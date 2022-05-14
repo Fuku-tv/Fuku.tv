@@ -1,4 +1,4 @@
-import { EnhancedStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@reduxjs/toolkit';
 import Fuku from './fukuClass';
 
 const fuku = new Fuku();

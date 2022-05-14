@@ -1,25 +1,19 @@
 import * as React from 'react';
 
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
+import { Link as ReactLink } from 'react-router-dom';
 import { Squash as Hamburger } from 'hamburger-react';
-import useAuthState from 'src/state/hooks/useAuthState';
-import { useGameState } from 'src/state/hooks';
 
-import ContentContainer from '../UIElements/ContentContainer/ContentContainer';
-import NavLinks from './NavLinks/NavLinks';
-import SideDrawer from '../UIElements/SideDrawer/SideDrawer';
-import HeaderProfileDropdown from './HeaderProfileDropdown/HeaderProfileDropdown';
-import HeadeNavLinks from './HeadeNavLinks/HeadeNavLinks';
-import GameChat from '../UIElements/GameChat/GameChat';
-import styles from './Header.module.scss';
+import HeadeNavLinks from 'src/components/Header/HeadeNavLinks/HeadeNavLinks';
+import NavLinks from 'src/components/Header/NavLinks/NavLinks';
+import GameChat from 'src/components/UIElements/GameChat/GameChat';
+import { Box, Button, Container, Flex, HStack, Icon, Link } from '@chakra-ui/react';
+import FullDrawer from 'src/components/elements/FullDrawer';
+import { FaComments } from 'react-icons/fa';
 
 const Header: React.FC = () => {
-  const { state, actions } = useAuthState();
-  const gameState = useGameState();
   const [chatIsOpen, setChatIsOpen] = React.useState<boolean>(false);
   const [navIsOpen, setNavIsOpen] = React.useState<boolean>(false);
-
   const chatClickHandler = () => {
     setNavIsOpen(false);
     setChatIsOpen(!chatIsOpen);
@@ -30,107 +24,40 @@ const Header: React.FC = () => {
     setNavIsOpen(!navIsOpen);
   };
 
-  const sideDrawerContentChat = (
-    <SideDrawer closeDrawer={chatClickHandler} show={chatIsOpen}>
-      <GameChat />
-    </SideDrawer>
-  );
-  const sideDrawerContentLinks = (
-    <SideDrawer closeDrawer={navClickHandler} show={navIsOpen}>
-      <NavLinks />
-    </SideDrawer>
-  );
-  const profileButtonAuthContent = (
-    <>
-      <HeaderProfileDropdown id={styles['header-profile-button']} />
-    </>
-  );
-
-  const profileButton = (
-    <div className={styles['user-actions-container']}>
-      {state.isAuthenticated ? (
-        profileButtonAuthContent
-      ) : (
-        <button type="button" id={styles['profile-dropdown-button']} onClick={actions.loginWithRedirect} onKeyDown={actions.loginWithRedirect}>
-          {signInIcon}
-          <span>SIGN IN</span>
-        </button>
-      )}
-    </div>
-  );
-
-  const mobileButtons = (
-    <div className={styles['mobile-button-wrapper']}>
-      <button
-        type="button"
-        id={styles['chat-button']}
-        onClick={chatClickHandler}
-        onKeyDown={chatClickHandler}
-        className={`${styles['icon-wrapper']} ${styles['mobile-button']}  ${chatIsOpen && styles.active}`}
-      >
-        {!chatIsOpen ? chatIcon : close}
-      </button>
-      <button
-        type="button"
-        onClick={navClickHandler}
-        onKeyDown={navClickHandler}
-        className={`${styles['hamburger-icon-wrapper']} ${styles['mobile-button']}  ${navIsOpen && styles.active}`}
-      >
-        <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} />
-      </button>
-    </div>
-  );
-
-  const feedInformationBar = (
-    <div className={`video-feed__information-container `}>
-      <div id="points" className="user-info-item">
-        <span className="user-info-item__title">My Points</span>
-        <span className="user-info-item__value">{gameState.state.points}</span>
-      </div>
-      <div className="game-plays-container">
-        <div id="credits" className="user-info-item">
-          <span className="user-info-item__title">Credits:</span>
-          <span className="user-info-item__value">{gameState.state.credits}</span>
-        </div>
-        <div id="freeplay-credits" className="user-info-item">
-          <span className="user-info-item__title">Freeplay:</span>
-          <span className="user-info-item__value">{gameState.state.freeplay}</span>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
-    <>
-      <header>
-        <div className={styles['header__top-row']}>
-          <ContentContainer>
-            <div className={styles['header-content-wrapper']}>
-              <NavLink id={styles.logo} to="/" exact>
-                {fukuLogo}
-              </NavLink>
-              {!isMobile && <HeadeNavLinks />}
+    <Box as="header" position="sticky" top={0} height={50} bgGradient="linear(to-r, #6e48aa, #593a8a)" zIndex={100}>
+      <Container maxWidth={{ base: '1050px', '2xl': '1350px' }} height="100%">
+        <HStack height="100%" justifyContent="space-between">
+          <Link as={ReactLink} to="/">
+            <FukuLogo />
+          </Link>
 
-              {isMobile && mobileButtons}
-            </div>
-          </ContentContainer>
-        </div>
-        {/* {state.isAuthenticated && (
-          <div className={styles['header__bottom-row']}>
-            <ContentContainer>{feedInformationBar}</ContentContainer>
-          </div>
-        )} */}
-        {sideDrawerContentLinks}
-        {sideDrawerContentChat}
-      </header>
-    </>
+          {!isMobile ? (
+            <HeadeNavLinks />
+          ) : (
+            <Flex>
+              <Button variant="unstyled" type="reset" paddingRight="14px" paddingTop="5px" onClick={chatClickHandler} onKeyDown={chatClickHandler}>
+                {!chatIsOpen ? <Icon as={FaComments} boxSize={25} display="block" /> : <Close />}
+              </Button>
+              <Hamburger distance="lg" duration={0.3} size={24} toggled={navIsOpen} toggle={navClickHandler} />
+            </Flex>
+          )}
+        </HStack>
+      </Container>
+      <FullDrawer closeDrawer={navClickHandler} show={navIsOpen}>
+        <NavLinks />
+      </FullDrawer>
+      <FullDrawer closeDrawer={chatClickHandler} show={chatIsOpen}>
+        <GameChat />
+      </FullDrawer>
+    </Box>
   );
 };
 
 export default Header;
 
-const fukuLogo = (
-  <svg id={styles.active} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
+const FukuLogo = () => (
+  <svg style={{ color: 'white', fill: 'white', height: '28px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.55 147.32">
     <g id="icon">
       <path
         d="M30.39,42c2.3.76,2.3.78.57,2.62a1,1,0,0,0-.29.64c0,5.46,0,10.91,0,16.53,2.18,0,4.29,0,6.4,0,.23,0,.49-.34.66-.57.37-.52.68-1.07,1-1.66l7.73,5.91c0,.1,0,.21,0,.23-1.46,1.15-2,2.8-2.68,4.47-2.89,7.43-7.26,14-12,20.37-.21.28-.4.56-.66.93,1.34.63,2.61,1.23,3.86,1.85a55.42,55.42,0,0,1,11.85,7.85,1,1,0,0,1,.32,1.5c-1.59,3.08-3.12,6.19-4.74,9.41a44.28,44.28,0,0,0-11.77-9.83v47.85H21.38V103L7.82,115.1l-1.9-4.55v-8.09c11.62-8.32,20.4-19,27.21-31.75H6.83V61.77H21.39V48.71c0-2.23,0-4.47.06-6.69Z"
@@ -165,41 +92,20 @@ const fukuLogo = (
   </svg>
 );
 
-const close = (
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.001 512.001">
+const Close = () => (
+  <svg
+    style={{ color: 'white', fill: 'white', height: '25px', display: 'block' }}
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    id="Capa_1"
+    x="0px"
+    y="0px"
+    viewBox="0 0 512.001 512.001"
+  >
     <g>
       <g>
         <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z" />
       </g>
     </g>
   </svg>
-);
-
-const chatIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    data-icon="comments"
-    className="svg-inline--fa fa-comments fa-w-18"
-    role="img"
-    viewBox="0 0 576 512"
-  >
-    <path
-      fill="currentColor"
-      d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z"
-    />
-  </svg>
-);
-
-const signInIcon = (
-  <div className={styles['sign-in-icon-wrapper']}>
-    <svg xmlns="http://www.w3.org/2000/svg" height="512pt" viewBox="0 -32 512.016 512" width="512pt">
-      <path d="m192 213.339844c-58.816406 0-106.667969-47.847656-106.667969-106.664063 0-58.816406 47.851563-106.6679685 106.667969-106.6679685s106.667969 47.8515625 106.667969 106.6679685c0 58.816407-47.851563 106.664063-106.667969 106.664063zm0-181.332032c-41.171875 0-74.667969 33.492188-74.667969 74.667969 0 41.171875 33.496094 74.664063 74.667969 74.664063s74.667969-33.492188 74.667969-74.664063c0-41.175781-33.496094-74.667969-74.667969-74.667969zm0 0" />
-      <path d="m368 448.007812h-352c-8.832031 0-16-7.167968-16-16v-74.667968c0-55.871094 45.460938-101.332032 101.332031-101.332032h181.335938c55.871093 0 101.332031 45.460938 101.332031 101.332032v74.667968c0 8.832032-7.167969 16-16 16zm-336-32h320v-58.667968c0-38.226563-31.105469-69.332032-69.332031-69.332032h-181.335938c-38.226562 0-69.332031 31.105469-69.332031 69.332032zm0 0" />
-      <path d="m496 218.675781h-181.332031c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h181.332031c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0" />
-      <path d="m410.667969 304.007812c-4.097657 0-8.191407-1.558593-11.308594-4.691406-6.25-6.253906-6.25-16.386718 0-22.636718l74.027344-74.027344-74.027344-74.027344c-6.25-6.25-6.25-16.382812 0-22.632812s16.382813-6.25 22.636719 0l85.332031 85.332031c6.25 6.25 6.25 16.386719 0 22.636719l-85.332031 85.332031c-3.136719 3.15625-7.234375 4.714843-11.328125 4.714843zm0 0" />
-    </svg>
-  </div>
 );
