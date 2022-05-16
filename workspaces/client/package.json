@@ -53,6 +53,7 @@
     "@parcel/packager-raw-url": "^2.5.0",
     "@parcel/transformer-image": "^2.5.0",
     "@parcel/transformer-sass": "^2.5.0",
+    "@types/canvas-confetti": "^1.4.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "@types/redux": "^3.6.0",

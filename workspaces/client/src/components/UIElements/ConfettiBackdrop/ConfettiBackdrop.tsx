@@ -1,11 +1,8 @@
 import * as React from 'react';
 
-import ReactDOM from 'react-dom';
 import confetti from 'canvas-confetti';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
-import './ConfettiBackdrop.scss';
-import { gameActions } from 'src/state/actions';
 
 interface Props {
   onClick?: () => void;
@@ -24,8 +21,6 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
     // const canvas: any = document.getElementById('confetti');
     const canvas = canvasRef.current;
     canvas.confetti = canvas.confetti || confetti.create(canvas, { resize: true });
-    const end = Date.now() + 15 * 1000;
-    const colors = ['#FF70FA', '#e2a803'];
     const count = 200;
     const defaults = {
       origin: { y: 1 },
@@ -90,12 +85,14 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
     // End delayed confetti
   };
 
-  // React.useEffect(() => {
-  //   blastConfetti();
-  //   return () => {
-  //     removeConfetti();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    blastConfetti();
+    return () => {
+      removeConfetti();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const content = (
     <div className="confetti-backdrop" onKeyDown={() => removeConfetti()} onClick={() => removeConfetti()} role="button" tabIndex={0}>
