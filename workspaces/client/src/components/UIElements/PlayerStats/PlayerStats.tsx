@@ -23,11 +23,11 @@ const PlayerStats: React.FC<Props> = (props) => (
     padding="5px"
     transition="600ms"
   >
-    <Chip fontWeight="bold" textColor="black" title="My Points" value={props.points} titleColor="#bd9e3c" valueColor="#d4bf39" />
+    <Chip fontWeight="bold" textColor="black" title="My Points" value={props.points} primary="#bd9e3c" secondary="#d4bf39" />
 
     <Flex>
-      <Chip marginLeft={2} title="Credits:" value={props.credits} titleColor="#7a61a18a" valueColor="#7a61a1" />
-      <Chip marginLeft={2} title="Freeplay:" value={props.freeplay} titleColor="#7a61a18a" valueColor="#7a61a1" />
+      <Chip marginLeft={2} title="Credits:" value={props.credits} primary="#7a61a18a" secondary="#7a61a1" />
+      <Chip marginLeft={2} title="Freeplay:" value={props.freeplay} primary="#7a61a18a" secondary="#7a61a1" />
     </Flex>
   </Flex>
 );

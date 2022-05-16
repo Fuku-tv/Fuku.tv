@@ -3,12 +3,14 @@ import * as React from 'react';
 import confetti from 'canvas-confetti';
 import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
+import { Box, Button } from '@chakra-ui/react';
+import { css } from '@emotion/css';
 
 interface Props {
   onClick?: () => void;
 }
 const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
-  const { state, actions } = useAuthState();
+  const { state } = useAuthState();
   const gameState = useGameState();
   const canvasRef = React.useRef(null);
   const removeConfetti = () => {
@@ -85,25 +87,61 @@ const ConfettiBackdrop: React.FC<Props> = ({ onClick }) => {
     // End delayed confetti
   };
 
-  React.useEffect(() => {
-    blastConfetti();
-    return () => {
-      removeConfetti();
-    };
+  // React.useEffect(() => {
+  //   blastConfetti();
+  //   return () => {
+  //     removeConfetti();
+  //   };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const content = (
-    <div className="confetti-backdrop" onKeyDown={() => removeConfetti()} onClick={() => removeConfetti()} role="button" tabIndex={0}>
-      <div className="player-congrats">
-        <h2 className="player-name">Congratulations!</h2>
-        <div className="value-won">
-          {state.name} won <span id="value">{gameState.state.pointsWon}</span> points!
-        </div>
-      </div>
-      <canvas ref={canvasRef} id="confetti" height="100%" width="100%" />
-    </div>
+    <Box
+      position="absolute"
+      top={0}
+      left={0}
+      width="100%"
+      height="100%"
+      zIndex={10000}
+      background="rgba(8, 8, 8, 0.657);"
+      onKeyDown={() => removeConfetti()}
+      onClick={() => removeConfetti()}
+      role="button"
+      tabIndex={0}
+    >
+      <Box position="absolute" top="50%" left="50%" textAlign="center" transform="translate(-50%, -50%)">
+        <h2 style={{ fontSize: '32px' }}>Congratulations!</h2>
+        <Box paddingTop="10px" fontSize="16px">
+          {state.name} won{' '}
+          <Box
+            as="span"
+            fontWeight="bold"
+            position="relative"
+            _after={{
+              content: "''",
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              backgroundColor: '#fff',
+              height: '2px',
+              width: '100%',
+            }}
+            id="value"
+          >
+            {gameState.state.pointsWon}
+          </Box>{' '}
+          points!
+        </Box>
+      </Box>
+      <canvas
+        ref={canvasRef}
+        className={css`
+          height: 100%;
+          width: 100%;
+        `}
+      />
+    </Box>
   );
   return content;
 };
