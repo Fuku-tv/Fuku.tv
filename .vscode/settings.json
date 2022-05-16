@@ -8,6 +8,5 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "npm.packageManager": "yarn",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "breadcrumbs.enabled": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "breadcrumbs.enabled": true
 }
