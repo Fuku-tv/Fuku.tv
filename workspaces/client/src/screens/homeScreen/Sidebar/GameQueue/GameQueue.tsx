@@ -7,10 +7,10 @@ const GameQueue: React.FC = () => {
 
   return (
     <Center padding="6px">
-      {!state.currentlyPlaying ? (
+      {state.currentlyPlaying ? (
         <Stack alignItems="center">
           <Text>Now Playing</Text>
-          <Text fontWeight="bold">{state.currentlyPlaying} testy</Text>
+          <Text fontWeight="bold">{state.currentlyPlaying}</Text>
         </Stack>
       ) : (
         <Box padding={3}>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 // import {Messages} from '../../Messages';
-import useAuthState from 'src/state/hooks/useAuthState';
 import { isMobile } from 'react-device-detect';
 import GameChat from 'src/components/UIElements/GameChat/GameChat';
 
