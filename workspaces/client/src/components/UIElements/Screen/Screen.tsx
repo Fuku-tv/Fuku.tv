@@ -5,6 +5,7 @@ import ContentContainer from '../ContentContainer/ContentContainer';
 interface PROPS {
   id: string;
   title: string;
+  children: React.ReactNode;
 }
 
 const Screen: React.FC<PROPS> = (props) => (

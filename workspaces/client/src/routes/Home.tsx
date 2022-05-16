@@ -1,6 +1,6 @@
 import React from 'react';
-import PlayScreen from 'src/components/Screens/HeaderTabScreens/PlayScreen/PlayScreen';
+import HomeScreen from 'src/screens/homeScreen/HomeScreen';
 
-const Home: React.FC = (props) => <PlayScreen />;
+const Home: React.FC = (props) => <HomeScreen />;
 
 export default Home;

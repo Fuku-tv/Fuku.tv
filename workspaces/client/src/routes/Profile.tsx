@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileScreen from 'src/components/Screens/ProfileScreen/ProfileScreen';
+import ProfileScreen from 'src/screens/profileScreen/ProfileScreen';
 
-const Profile = (props) => <ProfileScreen />;
+const Profile: React.FC = (props) => <ProfileScreen />;
 
 export default Profile;

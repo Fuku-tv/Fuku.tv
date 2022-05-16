@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import * as React from 'react';
 
 import { useGameState } from 'src/state/hooks';
@@ -11,7 +12,6 @@ interface Props {
 const VideoFeed: React.FC<Props> = (props) => {
   const { actions, state } = useGameState();
   const canvasRef = React.useRef(null);
-  const [confettiIsActive, setConfettiIsActive] = React.useState<boolean>(true);
   React.useEffect(() => {
     actions.startStream(canvasRef.current);
 
@@ -23,7 +23,16 @@ const VideoFeed: React.FC<Props> = (props) => {
   return (
     <>
       {state.winnerModalActive && <ConfettiBackdrop />}
-      <canvas ref={canvasRef} width={props.width} height={props.height} />
+      <canvas
+        className={css`
+          width: 100%;
+          display: block;
+          max-height: 500px;
+        `}
+        ref={canvasRef}
+        width={props.width}
+        height={props.height}
+      />
     </>
   );
 };

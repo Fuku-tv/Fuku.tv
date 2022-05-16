@@ -1,29 +1,34 @@
+import { Flex } from '@chakra-ui/react';
 import * as React from 'react';
-import './PlayerStats.scss';
-import { useAuthState, useGameState } from 'src/state/hooks';
+import Chip from 'src/components/elements/Chip';
 
-import { CSSTransition } from 'react-transition-group';
+interface Props {
+  points: number;
+  credits: number;
+  freeplay: number;
+}
 
-const PlayerStats: React.FC = () => {
-  const { state, actions } = useGameState();
-  const authState = useAuthState();
-  return (
-    <div className={`player-stats-container `}>
-      <div id="points" className="user-info-item">
-        <span className="user-info-item__title">My Points</span>
-        <span className="user-info-item__value">{state.points}</span>
-      </div>
-      <div className="game-plays-container">
-        <div id="credits" className="user-info-item">
-          <span className="user-info-item__title">Credits:</span>
-          <span className="user-info-item__value">{state.credits}</span>
-        </div>
-        <div id="freeplay-credits" className="user-info-item">
-          <span className="user-info-item__title">Freeplay:</span>
-          <span className="user-info-item__value">{state.freeplay}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
+const PlayerStats: React.FC<Props> = (props) => (
+  <Flex
+    position="absolute"
+    bottom={0}
+    width="100%"
+    paddingY="15px"
+    alignItems="center"
+    justifyContent="space-between"
+    lineHeight="14px"
+    textAlign="center"
+    color="white"
+    zIndex={300}
+    padding="5px"
+    transition="600ms"
+  >
+    <Chip fontWeight="bold" textColor="black" title="My Points" value={props.points} titleColor="#bd9e3c" valueColor="#d4bf39" />
+
+    <Flex>
+      <Chip marginLeft={2} title="Credits:" value={props.credits} titleColor="#7a61a18a" valueColor="#7a61a1" />
+      <Chip marginLeft={2} title="Freeplay:" value={props.freeplay} titleColor="#7a61a18a" valueColor="#7a61a1" />
+    </Flex>
+  </Flex>
+);
 export default PlayerStats;

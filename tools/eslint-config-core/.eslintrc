@@ -42,7 +42,8 @@
     "import/no-unresolved": "off",
 
     //disallow unassigned imports
-    "import/no-unassigned-import": "error",
+    //TODO Change from warning to error when all the scss files are migrated to Chakra
+    "import/no-unassigned-import": "warn",
 
     // not needed, we do not publish packages to NPM.
     "import/no-extraneous-dependencies": "off",

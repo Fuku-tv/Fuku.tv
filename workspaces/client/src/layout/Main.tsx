@@ -5,7 +5,7 @@ import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 
 import { Box, Container } from '@chakra-ui/react';
-import ClawCustomizationScreen from 'src/components/Screens/ClawCustomizationScreen/ClawCustomizationScreen';
+import ClawCustomizationScreen from 'src/screens/ClawCustomizationScreen/ClawCustomizationScreen';
 import SuspensePage from 'src/components/elements/SuspensePage';
 
 const HomePage = React.lazy(() => import('src/routes/Home'));

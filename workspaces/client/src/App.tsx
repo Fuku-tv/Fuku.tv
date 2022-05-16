@@ -1,8 +1,8 @@
-import { ChakraProvider, DarkMode, extendTheme, Flex, Stack } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, Flex } from '@chakra-ui/react';
 import * as React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Header from './layout/Header';
+import Header from './layout/header';
 import Main from './layout/Main';
 import Provider from './state';
 
@@ -10,11 +10,19 @@ import Provider from './state';
 const theme = extendTheme({
   // lock on dark mode
   config: { initialColorMode: 'dark', useSystemColorMode: false },
-
+  styles: {
+    global: {
+      html: {
+        // prevent scrollbar from shifting content to the left
+        overflowY: 'overlay',
+      },
+    },
+  },
   // load font
 
   fonts: {
     body: 'Inter, sans-serif',
+    heading: 'Inter, sans-serif',
   },
 });
 
