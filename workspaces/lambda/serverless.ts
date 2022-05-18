@@ -23,7 +23,6 @@ const serverlessConfiguration: Serverless = {
     },
   },
   provider: {
-    lambdaHashingVersion: 20201221,
     apiGateway: {
       shouldStartNameWithService: true,
     },
@@ -34,13 +33,17 @@ const serverlessConfiguration: Serverless = {
       LAMBDA_ENV: STAGE,
     },
     region: 'us-east-1',
-    iamRoleStatements: [
-      {
-        Effect: 'Allow',
-        Action: ['dynamodb:*', 'ses:*', 'secretsmanager:*'],
-        Resource: '*',
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: ['dynamodb:*', 'ses:*', 'secretsmanager:*'],
+            Resource: '*',
+          },
+        ],
       },
-    ],
+    },
   },
   plugins: ['serverless-bundle', 'serverless-dynamodb-local', 'serverless-offline'],
 

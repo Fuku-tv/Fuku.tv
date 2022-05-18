@@ -2,6 +2,7 @@ import WSAvcPlayer from 'h264-live-player';
 
 import { constants, env } from 'fuku.tv-shared';
 import type { EnhancedStore } from '@reduxjs/toolkit';
+import type { Store } from 'redux';
 
 // const { state, actions } = useGameState();
 
@@ -32,7 +33,7 @@ class Fuku {
   currentVideoUri: typeof constants.Video.front | typeof constants.Video.side = constants.Video.front;
 
   // TODO remove UGLY UGLY UGLY hack
-  uglyHackStore: EnhancedStore;
+  uglyHackStore: Store;
 
   start(): void {
     if (this.uglyHackStore === null || this.uglyHackStore === undefined) {
