@@ -1,13 +1,9 @@
 import * as React from 'react';
-// import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
-
-// import './LoggedInContent.scss';
+import TransparentGameControls from '../../VideoFeedSection/TransparentGameControls/TransparentGameControls';
 
 import LetsPlayScreen from './PlayGameScreens/LetsPlayScreen';
 import ReadyToGoScreen from './PlayGameScreens/ReadyToGoScreen';
-import CurrentlyPlayingScreen from './PlayGameScreens/CurrentlyPlayingScreen';
-import TransparentGameControls from '../../VideoFeedSection/TransparentGameControls/TransparentGameControls';
 
 const LoggedInContent: React.FC = () => {
   // const old = <Buttons/>;

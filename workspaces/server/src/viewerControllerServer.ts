@@ -68,6 +68,7 @@ export class ControllerServer extends WebsocketServerBase {
         command: constants.PlayerCommand.chatmsg,
         user: message.username,
         chatmessage: message.chatmessage,
+        picture: message?.pictureUrl,
       });
     });
     queueSubscriber.onMessage((data) => {

@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 interface Props {
   direction: string;
   show: boolean;
-  onCancel?: () => void;
+  children: React.ReactNode;
 }
 
 const directions = {

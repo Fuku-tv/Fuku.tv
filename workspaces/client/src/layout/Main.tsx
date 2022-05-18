@@ -6,13 +6,11 @@ import { useGameState } from 'src/state/hooks';
 
 import { Box, Container } from '@chakra-ui/react';
 import ClawCustomizationScreen from 'src/screens/ClawCustomizationScreen/ClawCustomizationScreen';
-import SuspensePage from 'src/components/elements/SuspensePage';
-
-const HomePage = React.lazy(() => import('src/routes/Home'));
-const LeaderboardsPage = React.lazy(() => import('src/routes/Leaderboards'));
-const PrivacyPage = React.lazy(() => import('src/routes/Privacy'));
-const AboutPage = React.lazy(() => import('src/routes/About'));
-const ProfilePage = React.lazy(() => import('src/routes/Profile'));
+import Home from 'src/routes/Home';
+import About from 'src/routes/About';
+import Leaderboards from 'src/routes/Leaderboards';
+import Privacy from 'src/routes/Privacy';
+import Profile from 'src/routes/Profile';
 
 const Main: React.FC = () => {
   const { actions } = useGameState();
@@ -28,12 +26,12 @@ const Main: React.FC = () => {
     <Box as="main" width="100%" flexGrow={1} backgroundColor="gray.900" className={!authState.state.isAuthenticated && 'logged-out'}>
       <Container maxWidth={{ base: '1050px', '2xl': '1350px' }}>
         <Routes>
-          <Route path="/" element={<SuspensePage component={HomePage} />} />
+          <Route path="/" element={<Home />} />
 
-          <Route path="/about" element={<SuspensePage component={AboutPage} />} />
-          <Route path="/leaderboards" element={<SuspensePage component={LeaderboardsPage} />} />
-          <Route path="/privacy" element={<SuspensePage component={PrivacyPage} />} />
-          <Route path="/profile" element={<SuspensePage component={ProfilePage} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/leaderboards" element={<Leaderboards />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* <Route path="/prizes" exact>
               <PrizesScreen />

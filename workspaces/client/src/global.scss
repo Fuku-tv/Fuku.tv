@@ -28,3 +28,22 @@
   --rubik: 'Rubik', sans-serif;
   --inter: 'Inter', sans-serif;
 }
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 8px;
+  cursor: pointer;
+  // background-color: rgb(193, 193, 193);
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+  background: #686868;
+  width: 8px;
+  border-radius: 8px;
+}
+
+/* Scrollbar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7d7d7d;
+}

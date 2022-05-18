@@ -2,7 +2,6 @@ import WSAvcPlayer from 'h264-live-player';
 
 import { constants, env } from 'fuku.tv-shared';
 import type { EnhancedStore } from '@reduxjs/toolkit';
-import { useGameState } from 'src/state/hooks';
 
 // const { state, actions } = useGameState();
 
@@ -253,7 +252,7 @@ class Fuku {
         break;
       case PlayerCommand.chatmsg:
         console.log('Receving message from socket', cmd);
-        this.updateChat(cmd.user, cmd.chatmessage);
+        this.updateChat(cmd.user, cmd.chatmessage, cmd.picture);
         break;
       case GameState.playing:
         this.uglyHackStore.dispatch({
@@ -291,10 +290,10 @@ class Fuku {
     });
   }
 
-  private updateChat(user, message) {
+  private updateChat(user, message, picture) {
     // TODO find out what is sending th double chatMessage command from server
     if (message === null || message === undefined || message === '') return;
-    const chatMessage = { user, message };
+    const chatMessage = { user, message, picture };
     this.uglyHackStore.dispatch({
       type: 'GAME/sendChatMessage',
       payload: chatMessage,

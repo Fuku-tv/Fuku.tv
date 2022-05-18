@@ -1,45 +1,36 @@
 import * as React from 'react';
-import './MessageItem.scss';
-// import {ReactComponent as DownArrow} from 'src/shared/icons/downArrow.svg';
-// import { ReactComponent as UpArrow } from 'src/shared/icons/upArrow.svg';
 import useAuthState from 'src/state/hooks/useAuthState';
-import ProfileImage from 'src/components/UIElements/ProfileImage/ProfileImage';
+import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
 
-interface PROPS {
+interface Props {
   picture?: string;
   userName: string;
   message: string;
-  allMessages: Array[];
-
-  index: number;
 }
 
-const MessageItem: React.FC<PROPS> = ({ picture, userName, message, allMessages, index }) => {
-  const [messageList, setMessageList] = React.useState([]);
-  const { state, actions } = useAuthState();
-  // React.useEffect(() => {
-  //   setMessageList(props.messages);
-  // }, [props.messages]);
+const MessageItem: React.FC<Props> = ({ picture, userName, message }) => {
+  const { state } = useAuthState();
 
-  React.useEffect(() => {
-    console.log('prev', userName);
-  }, [userName]);
+  const isOutgoingMessage = state.nickname === userName;
 
-  const messageName = <div className="message__title">{userName}</div>;
   return (
-    <div className={`message-item-row ${state.nickname === userName && 'outgoing'}`}>
-      <div className="message-item-wrapper">
-        <ProfileImage image={picture} size={24} />
-        <div className="message-item__message-container">
-          {messageName}
+    <Flex color="#222" textAlign="left" justifyContent={isOutgoingMessage ? 'flex-end' : 'flex-start'}>
+      <Flex flexDirection={isOutgoingMessage ? 'row-reverse' : 'row'} width="100%" alignItems="flex-end" padding={2}>
+        <Avatar margin={isOutgoingMessage ? '0 0 0 6px' : '0 6px 0 0'} src={picture} boxSize={6} />
+        <Stack spacing="5px" width="74%">
+          <Text fontSize="11px" color="white" fontWeight={500}>
+            {userName}
+          </Text>
 
-          <div className="message-item">
-            <div className="message__message-content">{message}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Box background="#fafafa" borderRadius="2px" padding="3px">
+            <Text fontSize={11} lineHeight={4} fontWeight={500} overflowWrap="break-word">
+              {message}
+            </Text>
+          </Box>
+        </Stack>
+      </Flex>
+    </Flex>
   );
 };
 
-export default MessageItem;
+export default React.memo(MessageItem);

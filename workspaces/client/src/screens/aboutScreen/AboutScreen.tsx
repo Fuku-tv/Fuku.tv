@@ -3,7 +3,7 @@ import * as React from 'react';
 import FukuIcon from 'src/components/icons/FukuIcon';
 
 const Header: React.FC = () => (
-  <Center className="about-inner-wrapper" color="white" textAlign="center" flexDirection="column">
+  <Center color="white" textAlign="center" flexDirection="column">
     <Box as="section" paddingY="50px">
       <Flex justifyContent="center" alignItems="center" lineHeight="11px" fontFamily="East Sea Dokdo, cursive" fontSize="88px">
         <Box display="inline-block" marginRight="8px">

@@ -3,11 +3,12 @@ import { useGameState } from 'src/state/hooks';
 import Timer from 'src/components/game/Timer/Timer';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
-import SwitchCameraButton from 'src/components/UIElements/SwitchCameraButton/SwitchCameraButton';
 
 import { CSSTransition } from 'react-transition-group';
+import SwitchCameraButton from 'src/components/elements/SwitchCameraButton';
 import DropClawButton from '../../ContentSection/LoggedInContent/GameComponents/DropClawButton/DropClawButton';
 import ControlButton from '../../ContentSection/LoggedInContent/GameComponents/Controls/ControlButton';
+
 import './TransparentGameControls.scss';
 
 const TransparentGameControls: React.FC = () => {
@@ -82,7 +83,7 @@ const TransparentGameControls: React.FC = () => {
     <div className="content-wrapper">
       <Timer />
       <DropClawButton />
-      <SwitchCameraButton />
+      <SwitchCameraButton borderRadius="full" onPointerDown={() => actions.buttonDownEvent('swapvideo')} />
 
       <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
     </div>
