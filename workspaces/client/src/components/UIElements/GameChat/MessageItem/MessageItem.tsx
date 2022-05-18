@@ -16,7 +16,7 @@ const MessageItem: React.FC<Props> = ({ picture, userName, message }) => {
   return (
     <Flex color="#222" textAlign="left" justifyContent={isOutgoingMessage ? 'flex-end' : 'flex-start'}>
       <Flex flexDirection={isOutgoingMessage ? 'row-reverse' : 'row'} width="100%" alignItems="flex-end" padding={2}>
-        <Avatar margin={isOutgoingMessage ? '0 0 0 6px' : '0 6px 0 0'} src={picture} boxSize={6} />
+        <Avatar ignoreFallback margin={isOutgoingMessage ? '0 0 0 6px' : '0 6px 0 0'} src={picture} boxSize={6} />
         <Stack spacing="5px" width="74%">
           <Text fontSize="11px" color="white" fontWeight={500}>
             {userName}
