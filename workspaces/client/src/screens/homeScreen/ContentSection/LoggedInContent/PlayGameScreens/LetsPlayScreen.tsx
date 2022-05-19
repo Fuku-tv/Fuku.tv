@@ -3,6 +3,7 @@ import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 
+import { Box } from '@chakra-ui/react';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
 
 // import './ControlsSection.scss';
@@ -17,7 +18,7 @@ const LetsPlayScreen: React.FC<Props> = ({ gameStatus }) => {
 
   return (
     <SlideableContent direction="left" show={gameStatus !== 'controlsVisible'}>
-      <div className="play-game-button-container">
+      <Box>
         <TitleDescription
           title="Let's Play Fuku"
           descriptionStart="You currently have"
@@ -34,7 +35,7 @@ const LetsPlayScreen: React.FC<Props> = ({ gameStatus }) => {
           color="purple"
           center
         />
-      </div>
+      </Box>
     </SlideableContent>
   );
 };

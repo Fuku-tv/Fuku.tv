@@ -1,20 +1,26 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { isMobile } from 'react-device-detect';
-import './Timer.scss';
+
+import { Box, Flex, useBreakpointValue } from '@chakra-ui/react';
+
+import TimerBox from './TimerBox';
 
 const Timer: React.FC = () => {
-  const { state, actions } = useGameState();
-  const visible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
+  const { state } = useGameState();
   const [timerIsActive, setTimerIsActive] = React.useState<boolean>(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
+  const [duration, setDuration] = React.useState<number>(state.timer);
   const currentTime = React.useRef(null);
   const prevTime = React.useRef(null);
   const isNewTimeFirstTick = React.useRef<boolean>(false);
   const [, setOneLastRerender] = React.useState<number>(0);
+  const size = useBreakpointValue({ base: 80, md: 110 });
+  const strokeWidth = useBreakpointValue({ base: 3, md: 5 });
 
+  React.useEffect(() => {
+    setDuration(state.timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const renderTime = ({ remainingTime }) => {
     if (currentTime.current !== remainingTime) {
       isNewTimeFirstTick.current = true;
@@ -31,38 +37,26 @@ const Timer: React.FC = () => {
       }, 20);
     }
 
-    const isTimeUp = isNewTimeFirstTick.current;
-    if (remainingTime === 0) {
-      return <div className="time-up">Time&apos;s Up!</div>;
-    }
-
     return (
-      <div className="time-wrapper">
-        <div key={remainingTime} className={`time ${isTimeUp ? 'up' : ''}`}>
-          {remainingTime}
-        </div>
-        {prevTime.current !== null && (
-          <div key={prevTime.current} className={`time ${!isTimeUp ? 'down' : ''}`}>
-            {prevTime.current}
-          </div>
-        )}
-      </div>
+      <Box position="relative" borderRadius="50px" width="calc(100% - 10px)" height="calc(100% - 10px)" overflow="hidden">
+        <TimerBox>{remainingTime === 0 ? <Box fontSize={{ base: '12px', md: '16px' }}>Time&apos;s Up!</Box> : remainingTime}</TimerBox>
+      </Box>
     );
   };
   return (
-    <div className="timer-container">
+    <Flex position="relative" justifyContent="center">
       <CountdownCircleTimer
         isPlaying={timerIsActive}
-        duration={state.timer}
-        colors={[['#a07bd9', 0.66], ['#ffd651', 0.88], ['#ff3c3c']]}
-        size={isMobile ? 80 : 110}
-        // size={isMobile ? 150 : 180}
-        strokeWidth={isMobile ? 3 : 5}
+        duration={duration}
+        colors={['#a07bd9', '#ffd651', '#ff3c3c']}
+        colorsTime={[20, 10, 0]}
+        size={size}
+        strokeWidth={strokeWidth}
         onComplete={() => setTimerIsActive(false)}
       >
         {renderTime}
       </CountdownCircleTimer>
-    </div>
+    </Flex>
   );
 };
 export default Timer;

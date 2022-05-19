@@ -34,7 +34,7 @@
     "react-awesome-button": "^6.5.1",
     "react-circular-progressbar": "^2.0.4",
     "react-cookie-consent": "^7.4.1",
-    "react-countdown-circle-timer": "^2.5.1",
+    "react-countdown-circle-timer": "^3.0.9",
     "react-device-detect": "^1.15.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",

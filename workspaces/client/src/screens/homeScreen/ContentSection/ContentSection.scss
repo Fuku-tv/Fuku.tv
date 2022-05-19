@@ -1,59 +1,26 @@
-#content-section {
-  position: relative;
+.table {
+  font-size: 14px;
+}
+
+.header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-  height: 100%;
-  padding: 40px 10px;
-  // padding-top: 35px;
-  // overflow-y: auto;
-  overflow-x: hidden;
-  background: #111111;
-  min-height: 220px;
-
-  .start-stop-buttons-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .table {
+  div {
     font-size: 14px;
   }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    div {
-      font-size: 14px;
-    }
-  }
-  .dynamic-number span:first-child {
-    margin-right: 5px;
-  }
-  .sign-in-prompt {
-    display: block;
-    margin: 30px auto;
-    text-align: center;
-  }
-
-  #player-queue-section {
-    // flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 280px;
-  }
+}
+.dynamic-number span:first-child {
+  margin-right: 5px;
+}
+.sign-in-prompt {
+  display: block;
+  margin: 30px auto;
+  text-align: center;
 }
 
-@media only screen and (min-width: 600px) {
-  #content-section {
-    overflow: hidden;
-  }
-}
-@media only screen and (max-width: 600px) {
-  #content-section {
-    padding: 20px 0;
-  }
+#player-queue-section {
+  // flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 280px;
 }

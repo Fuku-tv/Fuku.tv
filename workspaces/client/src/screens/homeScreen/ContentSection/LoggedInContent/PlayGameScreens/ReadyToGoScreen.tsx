@@ -1,27 +1,17 @@
 import * as React from 'react';
-// import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
-import PointsForCreditsModal from 'src/components/UIElements/PointsForCreditsModal/PointsForCreditsModal';
 import TitleDescription from 'src/components/UIElements/TitleDescription/TitleDescription';
-import { useNavigate } from 'react-router-dom';
-import Controls from '../GameComponents/Controls/Controls';
+import { HStack } from '@chakra-ui/react';
 import StartGameStopGameButtons from './StartGameStopGameButtons';
 
-interface PROPS {
+interface Props {
   gameStatus: string;
 }
 
-const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
-  // const old = <Buttons/>;
+const ReadyToGoScreen: React.FC<Props> = ({ gameStatus }) => {
   const { state, actions } = useGameState();
-  const navigate = useNavigate();
-  const [modalIsActive, setModalIsActive] = React.useState<boolean>(false);
-
-  // const controlsVisible = state.gameStatus === 'gamestandby' || state.gameStatus === 'gameplay';
-  // const gamestandby = state.gameStatus === 'gamestandby';
-  // const gameplay = state.gameStatus === 'gameplay';
 
   const pointsScreen = (
     <>
@@ -31,8 +21,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
         dynamicNumber={state.points}
         descriptionEnd="points, you can trade 200 points for another round or purchase more credits"
       />{' '}
-      <DepthButton id="spend-points-button" buttonText="" />
-      <div id="start" className="start-stop-buttons-container">
+      <HStack justifyContent="center">
         <DepthButton
           onPointerUp={() => actions.buttonUpEvent('stop')}
           onPointerDown={() => actions.buttonDownEvent('stop')}
@@ -52,7 +41,7 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
           height={42}
           color="purple"
         />
-      </div>
+      </HStack>
     </>
   );
 
@@ -74,7 +63,6 @@ const ReadyToGoScreen: React.FC<PROPS> = ({ gameStatus }) => {
 
   return (
     <>
-      <PointsForCreditsModal closeDrawer={() => setModalIsActive(false)} show={modalIsActive} />
       <SlideableContent
         direction={state.gameStatus === 'gameplay' ? 'left' : 'right'}
         show={gameStatus === 'controlsVisible' && state.gameStatus === 'gamestandby'}

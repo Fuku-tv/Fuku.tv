@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './SlideableContent.scss';
 import { CSSTransition } from 'react-transition-group';
+import { Box } from '@chakra-ui/react';
 
 interface Props {
   direction: string;
@@ -19,7 +20,9 @@ const directions = {
 
 const SlideableContent: React.FC<Props> = (props) => (
   <CSSTransition in={props.show} timeout={500} classNames={directions[props.direction]} mountOnEnter unmountOnExit>
-    <div className="slideable-content-container">{props.children}</div>
+    <Box width="100%" minHeight="128px" className="slideable-content-container">
+      {props.children}
+    </Box>
   </CSSTransition>
 );
 export default SlideableContent;

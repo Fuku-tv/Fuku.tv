@@ -6,7 +6,7 @@ const GameQueue: React.FC = () => {
   const { state } = useGameState();
 
   return (
-    <Center padding="6px">
+    <Center padding="6px" minHeight="96px">
       {state.currentlyPlaying ? (
         <Stack alignItems="center">
           <Text>Now Playing</Text>

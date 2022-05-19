@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useGameState } from 'src/state/hooks';
 import Timer from 'src/components/game/Timer/Timer';
-import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
 import SlideableContent from 'src/components/UIElements/SlideableContent/SlideableContent';
 
-import { CSSTransition } from 'react-transition-group';
 import SwitchCameraButton from 'src/components/elements/SwitchCameraButton';
+import { Box, Flex } from '@chakra-ui/react';
 import DropClawButton from '../../ContentSection/LoggedInContent/GameComponents/DropClawButton/DropClawButton';
 import ControlButton from '../../ContentSection/LoggedInContent/GameComponents/Controls/ControlButton';
 
@@ -14,7 +13,6 @@ import './TransparentGameControls.scss';
 const TransparentGameControls: React.FC = () => {
   const { state, actions } = useGameState();
   const gameplay = state.gameStatus === 'gameplay';
-  const buttonControls = React.useRef(null);
 
   const forwardContolBtns = (
     <>
@@ -77,23 +75,23 @@ const TransparentGameControls: React.FC = () => {
     </>
   );
 
-  const arrowBtns = <div ref={buttonControls} className="button-controls-container" />;
-
-  const btnContent = (
-    <div className="content-wrapper">
-      <Timer />
-      <DropClawButton />
-      <SwitchCameraButton borderRadius="full" onPointerDown={() => actions.buttonDownEvent('swapvideo')} />
-
-      <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
-    </div>
-  );
-
   return (
     <SlideableContent direction={!gameplay ? 'up' : 'down'} show={gameplay}>
-      <div id="transparent-game-controls" className="controls-container">
-        {btnContent}
-      </div>
+      <Box paddingX={{ base: 0, md: '10px' }}>
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          padding={{ base: 0, md: '10px 3rem' }}
+          position="relative"
+          className="content-wrapper"
+        >
+          <Timer />
+          <DropClawButton />
+
+          <div className="button-controls-container">{state.cameraIsForward ? forwardContolBtns : sideContolBtns}</div>
+          <SwitchCameraButton borderRadius="full" onPointerDown={() => actions.buttonDownEvent('swapvideo')} />
+        </Flex>
+      </Box>
     </SlideableContent>
   );
 };

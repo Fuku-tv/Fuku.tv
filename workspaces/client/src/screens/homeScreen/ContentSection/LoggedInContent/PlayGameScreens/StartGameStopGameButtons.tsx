@@ -1,7 +1,7 @@
 import * as React from 'react';
-// import {Buttons} from '../../../Buttons';
 import { useGameState } from 'src/state/hooks';
 import DepthButton from 'src/components/UIElements/DepthButton/DepthButton';
+import { Flex } from '@chakra-ui/react';
 
 const StartGameStopGameButtons: React.FC = () => {
   // const old = <Buttons/>;
@@ -20,7 +20,7 @@ const StartGameStopGameButtons: React.FC = () => {
   };
 
   return (
-    <div id="start" className="start-stop-buttons-container">
+    <Flex justifyContent="center" alignItems="center">
       <DepthButton
         onPointerUp={() => pointerUpHandler('stop')}
         onPointerDown={() => pointerDownpHandler('stop')}
@@ -40,7 +40,7 @@ const StartGameStopGameButtons: React.FC = () => {
         height={42}
         color="purple"
       />
-    </div>
+    </Flex>
   );
 };
 
