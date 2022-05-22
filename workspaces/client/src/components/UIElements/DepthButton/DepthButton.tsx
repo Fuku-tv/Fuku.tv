@@ -5,7 +5,7 @@ import './DepthButton.scss';
 import { useAuthState, useGameState } from 'src/state/hooks';
 
 interface Props {
-  onClick?: () => void;
+  // onClick?: () => void;
   onPointerDown?: () => void;
   onPointerUp?: () => void;
   id: string;
@@ -63,7 +63,7 @@ const DepthButton: React.FC<Props> = ({ buttonText, id, width, height, onPointer
       className="depth-button2-container"
     >
       <div style={shadowStyles} className={`shadow ${color}`} />
-      <button onPointerUp={onPointerUp} onPointerDown={onPointerDown} className={buttonIsDown && 'button--down'} id={id}>
+      <button type="button" onPointerUp={onPointerUp} onPointerDown={onPointerDown} className={buttonIsDown ? 'button--down' : ''} id={id}>
         <div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
           {buttonText}
         </div>
@@ -71,7 +71,7 @@ const DepthButton: React.FC<Props> = ({ buttonText, id, width, height, onPointer
     </div>
   );
   const transparentButtonContent = (
-    <button className="transparent-button" onPointerUp={onPointerUp} onPointerDown={onPointerDown} id={id}>
+    <button type="button" className="transparent-button" onPointerUp={onPointerUp} onPointerDown={onPointerDown} id={id}>
       <div style={buttonContentWrapperStyles} className={`button__content-wrapper ${color}`}>
         {buttonText}
       </div>

@@ -11,10 +11,6 @@
   position: absolute;
   transform: translateX(120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(120%);
-  -moz-transform: translateX(120%);
-  -ms-transform: translateX(120%);
-  -o-transform: translateX(120%);
 }
 .left_to_right-enter-active {
   transform: translateX(0);
@@ -26,28 +22,16 @@
   position: absolute;
   transform: translateX(120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(120%);
-  -moz-transform: translateX(120%);
-  -ms-transform: translateX(120%);
-  -o-transform: translateX(120%);
 }
 .left_to_right-exit-active {
   transform: translateX(120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(120%);
-  -moz-transform: translateX(120%);
-  -ms-transform: translateX(120%);
-  -o-transform: translateX(120%);
 }
 
 .right_to_left-enter {
   position: absolute;
   transform: translateX(-120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(-120%);
-  -moz-transform: translateX(-120%);
-  -ms-transform: translateX(-120%);
-  -o-transform: translateX(-120%);
 }
 .right_to_left-enter-active {
   transform: translateX(0);
@@ -59,18 +43,10 @@
   position: absolute;
   transform: translateX(-120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(-120%);
-  -moz-transform: translateX(-120%);
-  -ms-transform: translateX(-120%);
-  -o-transform: translateX(-120%);
 }
 .right_to_left-exit-active {
   transform: translateX(-120%);
   transition: transform 500ms;
-  -webkit-transform: translateX(-120%);
-  -moz-transform: translateX(-120%);
-  -ms-transform: translateX(-120%);
-  -o-transform: translateX(-120%);
 }
 
 //Vertical
@@ -78,10 +54,6 @@
   position: absolute;
   transform: translateY(100%);
   transition: transform 500ms;
-  -webkit-transform: translateY(100%);
-  -moz-transform: translateY(100%);
-  -ms-transform: translateY(100%);
-  -o-transform: translateY(100%);
 }
 .down_to_up-enter-active {
   position: absolute;
@@ -92,29 +64,17 @@
   position: absolute;
   transform: translateY(100%);
   transition: transform 500ms;
-  -webkit-transform: translateY(100%);
-  -moz-transform: translateY(100%);
-  -ms-transform: translateY(100%);
-  -o-transform: translateY(100%);
 }
 .down_to_up-exit-active {
   position: absolute;
   transform: translateY(100%);
   transition: transform 500ms;
-  -webkit-transform: translateY(100%);
-  -moz-transform: translateY(100%);
-  -ms-transform: translateY(100%);
-  -o-transform: translateY(100%);
 }
 
 .up_to_down-enter {
   position: absolute;
   transform: translateY(0);
   transition: transform 500ms;
-  -webkit-transform: translateY(0);
-  -moz-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
 }
 .up_to_down-enter-active {
   position: absolute;
@@ -125,18 +85,10 @@
   position: absolute;
   transform: translateY(120%);
   transition: transform 500ms;
-  -webkit-transform: translateY(120%);
-  -moz-transform: translateY(120%);
-  -ms-transform: translateY(120%);
-  -o-transform: translateY(120%);
   opacity: 0;
 }
 .up_to_down-exit-active {
   position: absolute;
   transform: translateY(120%);
   transition: transform 500ms;
-  -webkit-transform: translateY(120%);
-  -moz-transform: translateY(120%);
-  -ms-transform: translateY(120%);
-  -o-transform: translateY(120%);
 }

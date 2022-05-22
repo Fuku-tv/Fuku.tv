@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unassigned-import */
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 
@@ -17,12 +18,12 @@ if (container) {
   }
 }
 
-interface HotModule {
-  hot?: {
-    accept: () => void;
-  };
-}
+// interface HotModule {
+//   hot?: {
+//     accept: () => void;
+//   };
+// }
 
-if ((module as HotModule).hot) {
-  (module as HotModule).hot.accept();
-}
+// if ((module as HotModule).hot) {
+//   (module as HotModule).hot.accept();
+// }

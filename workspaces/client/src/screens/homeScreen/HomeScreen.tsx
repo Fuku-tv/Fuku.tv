@@ -26,7 +26,7 @@ const HomeScreen: React.FC = () => {
             </Center>
 
             <Center>
-              <Heading as="h2" fontSize="15px" letterSpacing={1} lineHeight={1.5} height="22.5px" fontFamily="Inter, sans-serif" fontWeight={600}>
+              <Heading as="h2" fontSize="15px" letterSpacing={1} lineHeight={1.5} height="22.5px" fontWeight={600}>
                 Fuku Claw Game
               </Heading>
             </Center>

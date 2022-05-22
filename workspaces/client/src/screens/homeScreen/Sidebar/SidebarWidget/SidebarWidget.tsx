@@ -16,7 +16,7 @@ interface Props {
 const SidebarWidget: React.FC<Props> = (props) => (
   <Flex flexDirection="column" width="100%" height={props.fullHeight ? '100%' : 'initial'}>
     <HStack justifyContent="space-between">
-      <Heading as="h3" fontFamily="Inter, sans-serif" fontSize="14px" fontWeight={400} className="title">
+      <Heading as="h3" fontSize="14px" fontWeight={400} className="title">
         {props.title}
       </Heading>
       {props.header}

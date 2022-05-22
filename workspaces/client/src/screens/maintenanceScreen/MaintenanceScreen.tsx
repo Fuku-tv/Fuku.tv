@@ -1,7 +1,7 @@
 import { Center, Container, Heading, Link, Text } from '@chakra-ui/react';
 import React from 'react';
 
-const MaintenanceScreen = (props: Props) => (
+const MaintenanceScreen = (props) => (
   <Container paddingTop={10}>
     <Center flexDirection="column">
       <Heading as="h1" marginY={10}>
