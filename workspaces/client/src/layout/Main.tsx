@@ -5,7 +5,6 @@ import useAuthState from 'src/state/hooks/useAuthState';
 import { useGameState } from 'src/state/hooks';
 
 import { Box, Container } from '@chakra-ui/react';
-import ClawCustomizationScreen from 'src/screens/ClawCustomizationScreen/ClawCustomizationScreen';
 import Home from 'src/routes/Home';
 import About from 'src/routes/About';
 import Leaderboards from 'src/routes/Leaderboards';
@@ -14,7 +13,6 @@ import Profile from 'src/routes/Profile';
 
 const Main: React.FC = () => {
   const { actions } = useGameState();
-  const authState = useAuthState();
   React.useEffect(() => {
     actions.mountStore();
 
@@ -23,7 +21,7 @@ const Main: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Box as="main" width="100%" flexGrow={1} backgroundColor="gray.900" className={!authState.state.isAuthenticated && 'logged-out'}>
+    <Box as="main" width="100%" flexGrow={1} backgroundColor="gray.900">
       <Container maxWidth={{ base: '1050px', '2xl': '1350px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -31,7 +29,7 @@ const Main: React.FC = () => {
           <Route path="/about" element={<About />} />
           <Route path="/leaderboards" element={<Leaderboards />} />
           <Route path="/privacy" element={<Privacy />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
 
           {/* <Route path="/prizes" exact>
               <PrizesScreen />
@@ -40,7 +38,7 @@ const Main: React.FC = () => {
               <StoreScreen />
             </Route> */}
 
-          <Route path="/claw-customization" element={<ClawCustomizationScreen />} />
+          {/* <Route path="/claw-customization" element={<ClawCustomizationScreen />} /> */}
           <Route path="*" element={<div>Not Found</div>} />
         </Routes>
       </Container>
