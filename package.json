@@ -26,7 +26,8 @@
     "build:iot": "yarn workspace fuku.tv-iot build",
     "update": "yarn upgrade-interactive --latest",
     "assemble": "turbo run assemble",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "sst deploy"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

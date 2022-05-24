@@ -1,7 +1,8 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
-import { createStoreHook, TypedUseSelectorHook, useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
+import type { AnyAction, Store } from '@reduxjs/toolkit';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { createStoreHook, useDispatch as useReduxDispatch, useSelector as useReduxSelector } from 'react-redux';
 
-import { RootDispatch, RootState } from 'src/state/store';
+import type { RootDispatch, RootState } from 'src/state/store';
 
 interface TypedHooks<S, D> {
   useSelector: TypedUseSelectorHook<S>;

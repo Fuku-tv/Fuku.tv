@@ -17,13 +17,3 @@ if (container) {
     createRoot(container).render(<App />);
   }
 }
-
-// interface HotModule {
-//   hot?: {
-//     accept: () => void;
-//   };
-// }
-
-// if ((module as HotModule).hot) {
-//   (module as HotModule).hot.accept();
-// }

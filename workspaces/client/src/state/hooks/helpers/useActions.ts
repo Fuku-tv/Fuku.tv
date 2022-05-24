@@ -1,4 +1,5 @@
-import { ActionCreator, ActionCreatorsMapObject, bindActionCreators } from 'redux';
+import type { ActionCreatorsMapObject } from 'redux';
+import { ActionCreator, bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 
