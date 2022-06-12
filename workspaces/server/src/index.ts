@@ -4,12 +4,12 @@ import path from 'path';
 import RedisServer from 'redis-server';
 import { initializeDatabase } from 'fuku.tv-shared/dynamodb';
 import * as Sentry from '@sentry/node';
-import * as Tracing from '@sentry/tracing';
 import { env, LoggerClass, LogLevel } from 'fuku.tv-shared';
 import { getStage } from 'fuku.tv-shared/env';
 import { ControllerServer } from './viewerControllerServer';
 import { VideoServer } from './viewerVideoServer';
 import { DiscordBotServer } from './discordBotServer';
+import WebRtcServer from './webRtcServer';
 
 const STAGE = getStage();
 
@@ -95,7 +95,9 @@ videoHttpsServer.listen(10889);
 const video = new VideoServer(videoHttpsServer);
 const controller = new ControllerServer(controllerHttpsServer);
 const discord = new DiscordBotServer();
+const webRtc = new WebRtcServer(pfxCredentials);
 
-controller.run();
-video.run();
+// controller.run();
+// video.run();
 discord.run();
+webRtc.run(10890);

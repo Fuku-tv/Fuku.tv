@@ -1,5 +1,5 @@
 import { constants } from 'fuku.tv-shared';
-import ws from 'ws';
+import type ws from 'ws';
 import crypto from 'crypto';
 
 class Viewer {

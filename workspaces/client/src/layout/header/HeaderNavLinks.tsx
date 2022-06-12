@@ -19,6 +19,9 @@ const HeadeNavLinks: React.FC = () => {
           <Tab as={NavLink} to="/" _activeLink={activeLinkStyle} paddingX={22}>
             Play
           </Tab>
+          <Tab as={NavLink} to="/test" _activeLink={activeLinkStyle} paddingX={22}>
+            WebRTC test
+          </Tab>
           <Tab as={NavLink} to="/about" _activeLink={activeLinkStyle} paddingX={22}>
             About
           </Tab>

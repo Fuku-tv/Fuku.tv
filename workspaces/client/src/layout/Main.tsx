@@ -9,7 +9,7 @@ import Home from 'src/routes/Home';
 import About from 'src/routes/About';
 import Leaderboards from 'src/routes/Leaderboards';
 import Privacy from 'src/routes/Privacy';
-import Profile from 'src/routes/Profile';
+import Test from 'src/routes/WebRtcTest';
 
 const Main: React.FC = () => {
   const { actions } = useGameState();
@@ -29,6 +29,7 @@ const Main: React.FC = () => {
           <Route path="/about" element={<About />} />
           <Route path="/leaderboards" element={<Leaderboards />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/test" element={<Test />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
 
           {/* <Route path="/prizes" exact>

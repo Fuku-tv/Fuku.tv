@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocument, PutCommandInput, DeleteCommandInput, ScanCommandInput, GetCommandInput } from '@aws-sdk/lib-dynamodb';
-import { BaseModel } from './models';
+import type { PutCommandInput, DeleteCommandInput, ScanCommandInput, GetCommandInput } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
+import type { BaseModel } from './models';
 
 const documentClient = DynamoDBDocument.from(new DynamoDBClient({ apiVersion: 'latest', region: 'us-east-1' }));
 

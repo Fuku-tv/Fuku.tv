@@ -1,4 +1,5 @@
-import { DynamoDB, CreateTableInput } from '@aws-sdk/client-dynamodb';
+import type { CreateTableInput } from '@aws-sdk/client-dynamodb';
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import * as path from 'path';
 import { getStage } from '../env';
 import { LoggerClass, LogLevel } from '../logger';
