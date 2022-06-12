@@ -24,6 +24,19 @@ export const fukuVideoServerURL = (): string => {
   return 'wss://prod.fuku.tv:10889';
 };
 
+export const webRtcServerURL = (): string => {
+  if (process.env.NODE_ENV === 'development') {
+    // Local Development
+    return 'https://localhost:10890';
+  }
+  if (process.env.EB_ENVIRONMENT !== 'production') {
+    // Dev Environment
+    return 'https://dev.fuku.tv:10889';
+  }
+  // Prod Environment
+  return 'https://prod.fuku.tv:10890';
+};
+
 /**
  * Gets the current stage of the application
  */

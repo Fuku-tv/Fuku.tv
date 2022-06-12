@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { webRtcServerURL } from 'fuku.tv-shared/env';
+
+const WEBRTC_URL = webRtcServerURL();
 
 export function createPeer(): RTCPeerConnection {
   const peer = new RTCPeerConnection({
@@ -16,7 +19,7 @@ export function createPeer(): RTCPeerConnection {
       sdp: peer.localDescription,
     };
 
-    const { data } = await axios.post('https://localhost:10890/consumer', payload);
+    const { data } = await axios.post(`${WEBRTC_URL}/consumer`, payload);
     const desc = new RTCSessionDescription(data.sdp);
     peer.setRemoteDescription(desc).catch((e) => console.log('error', e));
   };
@@ -44,7 +47,7 @@ export function createBroadcaster(): RTCPeerConnection {
       sdp: peer.localDescription,
     };
 
-    const { data } = await axios.post('https://localhost:10890/broadcast', payload);
+    const { data } = await axios.post(`${WEBRTC_URL}/broadcast`, payload);
     const desc = new RTCSessionDescription(data.sdp);
     peer.setRemoteDescription(desc).catch((e) => console.log(e));
   };
