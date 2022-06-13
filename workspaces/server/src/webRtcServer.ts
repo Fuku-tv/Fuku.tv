@@ -3,10 +3,13 @@ import https from 'https';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import { LoggerClass } from 'fuku.tv-shared';
 
 let senderStream;
 
 const app = express();
+
+const logger = new LoggerClass('WebRTCServer');
 
 // parse body to json
 app.use(bodyParser.json());
@@ -18,13 +21,21 @@ app.post('/consumer', async ({ body }, res) => {
   const peer = new webrtc.RTCPeerConnection({
     iceServers: [
       {
-        urls: ['stun:stun.l.google.com:19302'],
+        urls: 'turn:openrelay.metered.ca:80',
+        username: 'openrelayproject',
+        credential: 'openrelayproject',
+      },
+      {
+        urls: 'turn:openrelay.metered.ca:443',
+        username: 'openrelayproject',
+        credential: 'openrelayproject',
       },
     ],
   });
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
   if (!senderStream) {
+    logger.logError('senderStream is not defined');
     res.send('error, no sender stream present');
     res.end();
     return;
@@ -35,7 +46,7 @@ app.post('/consumer', async ({ body }, res) => {
   const payload = {
     sdp: peer.localDescription,
   };
-
+  logger.logInfo(`peer connected to broadcast ${senderStream.id}`);
   res.json(payload);
 });
 
@@ -47,7 +58,11 @@ app.post('/broadcast', async ({ body }, res) => {
       },
     ],
   });
-  peer.ontrack = (e) => handleTrackEvent(e, peer);
+  peer.ontrack = (e) => {
+    const [stream] = e.streams;
+    senderStream = stream;
+    logger.logInfo(`added stream track ${stream.id} from broadcaster`);
+  };
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
   const answer = await peer.createAnswer();
@@ -55,13 +70,14 @@ app.post('/broadcast', async ({ body }, res) => {
   const payload = {
     sdp: peer.localDescription,
   };
-
+  logger.logInfo(`open broadcast for ${senderStream.id}`);
   res.json(payload);
 });
 
 // close broadcast
 app.delete('/broadcast', async ({ body }, res) => {
-  senderStream = null;
+  logger.logInfo(`close broadcast for ${senderStream.id}`);
+  senderStream = undefined;
 });
 
 app.get('/', (req, res) => {

@@ -6,7 +6,14 @@ const WEBRTC_URL = getWebRtcServerURL();
 const config = {
   iceServers: [
     {
-      urls: ['stun:stun.l.google.com:19302'],
+      urls: 'turn:openrelay.metered.ca:80',
+      username: 'openrelayproject',
+      credential: 'openrelayproject',
+    },
+    {
+      urls: 'turn:openrelay.metered.ca:443',
+      username: 'openrelayproject',
+      credential: 'openrelayproject',
     },
   ],
 };
@@ -22,8 +29,9 @@ export function createPeer(): RTCPeerConnection {
     };
 
     const { data } = await axios.post(`${WEBRTC_URL}/consumer`, payload);
+
     const desc = new RTCSessionDescription(data.sdp);
-    peer.setRemoteDescription(desc).catch((e) => console.log('error', e));
+    peer.setRemoteDescription(desc).catch((e) => console.log('no broadcaster is present', e));
   };
 
   return peer;

@@ -33,6 +33,7 @@ const VideoFeed: React.FC<Props> = (props) => {
   return (
     <>
       {state.winnerModalActive && <ConfettiBackdrop />}
+
       <video
         className={css`
           width: 100%;
