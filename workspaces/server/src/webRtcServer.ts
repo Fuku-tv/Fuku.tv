@@ -11,6 +11,26 @@ const app = express();
 
 const logger = new LoggerClass('WebRTCServer');
 
+const config = {
+  sdpSemantics: 'unified-plan',
+  portRange: {
+    min: 10000,
+    max: 20000,
+  },
+  iceServers: [
+    {
+      urls: 'turn:openrelay.metered.ca:80',
+      username: 'openrelayproject',
+      credential: 'openrelayproject',
+    },
+    {
+      urls: 'turn:openrelay.metered.ca:443',
+      username: 'openrelayproject',
+      credential: 'openrelayproject',
+    },
+  ],
+};
+
 // parse body to json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,20 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.post('/consumer', async ({ body }, res) => {
-  const peer = new webrtc.RTCPeerConnection({
-    iceServers: [
-      {
-        urls: 'turn:openrelay.metered.ca:80',
-        username: 'openrelayproject',
-        credential: 'openrelayproject',
-      },
-      {
-        urls: 'turn:openrelay.metered.ca:443',
-        username: 'openrelayproject',
-        credential: 'openrelayproject',
-      },
-    ],
-  });
+  const peer = new webrtc.RTCPeerConnection(config);
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
   if (!senderStream) {
@@ -46,18 +53,12 @@ app.post('/consumer', async ({ body }, res) => {
   const payload = {
     sdp: peer.localDescription,
   };
-  logger.logInfo(`peer connected to broadcast ${senderStream.id}`);
+  logger.logInfo(`peer connected to broadcast ${senderStream?.id}`);
   res.json(payload);
 });
 
 app.post('/broadcast', async ({ body }, res) => {
-  const peer = new webrtc.RTCPeerConnection({
-    iceServers: [
-      {
-        urls: 'stun:stun.stunprotocol.org',
-      },
-    ],
-  });
+  const peer = new webrtc.RTCPeerConnection(config);
   peer.ontrack = (e) => {
     const [stream] = e.streams;
     senderStream = stream;
@@ -70,18 +71,18 @@ app.post('/broadcast', async ({ body }, res) => {
   const payload = {
     sdp: peer.localDescription,
   };
-  logger.logInfo(`open broadcast for ${senderStream.id}`);
+  logger.logInfo(`open broadcast for ${senderStream?.id}`);
   res.json(payload);
 });
 
 // close broadcast
 app.delete('/broadcast', async ({ body }, res) => {
-  logger.logInfo(`close broadcast for ${senderStream.id}`);
+  logger.logInfo(`close broadcast for ${senderStream?.id}`);
   senderStream = undefined;
 });
 
 app.get('/', (req, res) => {
-  res.send(`active remote connections: ${JSON.stringify(senderStream, null, 4)}`);
+  res.send(`active remote connection: ${senderStream?.id}`);
   res.end();
 });
 
