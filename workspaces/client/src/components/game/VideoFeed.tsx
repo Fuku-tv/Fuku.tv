@@ -40,6 +40,7 @@ const VideoFeed: React.FC<Props> = (props) => {
           max-height: 500px;
         `}
         autoPlay
+        muted
         ref={videoRef}
         width={props.width}
         height={props.height}
