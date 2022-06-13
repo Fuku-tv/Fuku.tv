@@ -24,7 +24,7 @@ export const fukuVideoServerURL = (): string => {
   return 'wss://prod.fuku.tv:10889';
 };
 
-export const webRtcServerURL = (): string => {
+export const getWebRtcServerURL = (): string => {
   if (process.env.NODE_ENV === 'development') {
     // Local Development
     return 'https://localhost:10890';

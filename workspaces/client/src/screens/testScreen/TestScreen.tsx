@@ -1,6 +1,8 @@
 import { Button } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import axios from 'axios';
+import React, { useEffect, useRef } from 'react';
 import { createBroadcaster } from 'src/services/webRtcViewer';
+import { getWebRtcServerURL } from 'fuku.tv-shared/env';
 
 const TestScreen = () => {
   const videoRef = useRef(null);
@@ -12,7 +14,16 @@ const TestScreen = () => {
     videoRef.current.srcObject = stream;
   };
 
-  const stopStream = async () => {};
+  const stopStream = () => {
+    axios.delete(`${getWebRtcServerURL()}/broadcast`);
+  };
+
+  useEffect(() => {
+    console.log('useEffect');
+    return () => {
+      stopStream();
+    };
+  }, []);
 
   return (
     <div>

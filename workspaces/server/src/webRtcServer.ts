@@ -18,16 +18,12 @@ app.post('/consumer', async ({ body }, res) => {
   const peer = new webrtc.RTCPeerConnection({
     iceServers: [
       {
-        urls: 'stun:stun.stunprotocol.org',
+        urls: ['stun:stun.l.google.com:19302'],
       },
     ],
   });
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
-  if (!senderStream) {
-    res.end('error, no sender stream');
-    return;
-  }
   senderStream.getTracks().forEach((track) => peer.addTrack(track, senderStream));
   const answer = await peer.createAnswer();
   await peer.setLocalDescription(answer);
@@ -56,6 +52,11 @@ app.post('/broadcast', async ({ body }, res) => {
   };
 
   res.json(payload);
+});
+
+// close broadcast
+app.delete('/broadcast', async ({ body }, res) => {
+  senderStream = null;
 });
 
 app.get('/', (req, res) => {

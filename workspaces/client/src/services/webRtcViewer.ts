@@ -1,16 +1,18 @@
 import axios from 'axios';
-import { webRtcServerURL } from 'fuku.tv-shared/env';
+import { getWebRtcServerURL } from 'fuku.tv-shared/env';
 
-const WEBRTC_URL = webRtcServerURL();
+const WEBRTC_URL = getWebRtcServerURL();
+
+const config = {
+  iceServers: [
+    {
+      urls: ['stun:stun.l.google.com:19302'],
+    },
+  ],
+};
 
 export function createPeer(): RTCPeerConnection {
-  const peer = new RTCPeerConnection({
-    iceServers: [
-      {
-        urls: 'stun:stun.stunprotocol.org',
-      },
-    ],
-  });
+  const peer = new RTCPeerConnection(config);
   peer.addTransceiver('video', { direction: 'recvonly' });
   peer.onnegotiationneeded = async () => {
     const offer = await peer.createOffer();
@@ -32,14 +34,7 @@ export function createPeer(): RTCPeerConnection {
  * @returns
  */
 export function createBroadcaster(): RTCPeerConnection {
-  const peer = new RTCPeerConnection({
-    iceServers: [
-      {
-        urls: 'stun:stun.stunprotocol.org',
-      },
-    ],
-  });
-
+  const peer = new RTCPeerConnection(config);
   peer.onnegotiationneeded = async () => {
     const offer = await peer.createOffer();
     await peer.setLocalDescription(offer);

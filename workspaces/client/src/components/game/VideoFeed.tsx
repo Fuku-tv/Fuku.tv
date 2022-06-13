@@ -17,6 +17,7 @@ const VideoFeed: React.FC<Props> = (props) => {
 
   const start = () => {
     const peer = webRtcViewer.createPeer();
+
     peer.ontrack = (event) => {
       // check for valid videorRef
 
@@ -25,11 +26,13 @@ const VideoFeed: React.FC<Props> = (props) => {
       videoRef.current.srcObject = event.streams[0];
     };
   };
+  React.useEffect(() => {
+    start();
+  }, []);
 
   return (
     <>
       {state.winnerModalActive && <ConfettiBackdrop />}
-      <Button onClick={start}>Start video</Button>
       <video
         className={css`
           width: 100%;
