@@ -24,6 +24,11 @@ app.post('/consumer', async ({ body }, res) => {
   });
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
+  if (!senderStream) {
+    res.send('error, no sender stream present');
+    res.end();
+    return;
+  }
   senderStream.getTracks().forEach((track) => peer.addTrack(track, senderStream));
   const answer = await peer.createAnswer();
   await peer.setLocalDescription(answer);
