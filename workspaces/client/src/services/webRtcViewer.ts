@@ -6,20 +6,14 @@ const WEBRTC_URL = getWebRtcServerURL();
 const config = {
   iceServers: [
     {
-      urls: 'turn:openrelay.metered.ca:80',
-      username: 'openrelayproject',
-      credential: 'openrelayproject',
-    },
-    {
-      urls: 'turn:openrelay.metered.ca:443',
-      username: 'openrelayproject',
-      credential: 'openrelayproject',
+      urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
     },
   ],
 };
 
 export function createPeer(): RTCPeerConnection {
   const peer = new RTCPeerConnection(config);
+
   peer.addTransceiver('video', { direction: 'recvonly' });
   peer.onnegotiationneeded = async () => {
     const offer = await peer.createOffer();
