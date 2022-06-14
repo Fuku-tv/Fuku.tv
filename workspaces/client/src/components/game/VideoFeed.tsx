@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as webRtcViewer from 'src/services/webRtcViewer';
 
 import { useGameState } from 'src/state/hooks';
+import type { Socket } from 'socket.io-client';
 import ConfettiBackdrop from '../UIElements/ConfettiBackdrop/ConfettiBackdrop';
 
 interface Props {
@@ -13,21 +14,24 @@ interface Props {
 
 const VideoFeed: React.FC<Props> = (props) => {
   const { actions, state } = useGameState();
+  const [stream, setStream] = React.useState<MediaStream>(null);
+  const [socket, setSocket] = React.useState<Socket>(null);
   const videoRef = React.useRef(null);
 
-  const start = () => {
-    const peer = webRtcViewer.createPeer();
-
-    peer.ontrack = (event) => {
-      // check for valid videorRef
-
-      console.log('got remote track', event.streams[0]);
-      // eslint-disable-next-line prefer-destructuring
-      videoRef.current.srcObject = event.streams[0];
-    };
-  };
+  const start = React.useCallback(async () => {
+    const peer = webRtcViewer.createViewer((remoteStream) => {
+      videoRef.current.srcObject = remoteStream;
+    });
+    setSocket(peer);
+    setStream(stream);
+  }, [stream]);
   React.useEffect(() => {
     start();
+    return () => {
+      if (socket) socket.close();
+      if (stream) stream.getTracks().forEach((track) => track.stop());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

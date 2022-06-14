@@ -1,53 +1,82 @@
-import axios from 'axios';
 import { getWebRtcServerURL } from 'fuku.tv-shared/env';
+import type { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const WEBRTC_URL = getWebRtcServerURL();
 
-const config = {
-  iceServers: [
-    {
-      urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
-    },
-  ],
-};
-
-export function createPeer(): RTCPeerConnection {
-  const peer = new RTCPeerConnection(config);
-
-  peer.addTransceiver('video', { direction: 'recvonly' });
-  peer.onnegotiationneeded = async () => {
-    const offer = await peer.createOffer();
-    await peer.setLocalDescription(offer);
-    const payload = {
-      sdp: peer.localDescription,
+export function createViewer(callback: (stream: MediaStream) => void): Socket {
+  const socket = io(WEBRTC_URL);
+  const peerConnection = new RTCPeerConnection();
+  socket.on('offer', (id, description) => {
+    peerConnection
+      .setRemoteDescription(description)
+      .then(() => peerConnection.createAnswer())
+      .then((sdp) => peerConnection.setLocalDescription(sdp))
+      .then(() => {
+        socket.emit('answer', id, peerConnection.localDescription);
+      });
+    peerConnection.ontrack = (event) => {
+      callback(event.streams[0]);
+      // video.srcObject = event.streams[0];
     };
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        socket.emit('candidate', id, event.candidate);
+      }
+    };
+  });
 
-    const { data } = await axios.post(`${WEBRTC_URL}/consumer`, payload);
+  socket.on('candidate', (id, candidate) => {
+    peerConnection.addIceCandidate(new RTCIceCandidate(candidate)).catch((e) => console.error(e));
+  });
 
-    const desc = new RTCSessionDescription(data.sdp);
-    peer.setRemoteDescription(desc).catch((e) => console.log('no broadcaster is present', e));
-  };
+  socket.on('connect', () => {
+    socket.emit('watcher');
+  });
 
-  return peer;
+  socket.on('broadcaster', () => {
+    socket.emit('watcher');
+  });
+
+  return socket;
 }
 
-/**
- * test method for a client broadcaster via the web browser
- * @returns
- */
-export function createBroadcaster(): RTCPeerConnection {
-  const peer = new RTCPeerConnection(config);
-  peer.onnegotiationneeded = async () => {
-    const offer = await peer.createOffer();
-    await peer.setLocalDescription(offer);
-    const payload = {
-      sdp: peer.localDescription,
+export function createBroadcaster(stream: MediaStream): Socket {
+  const peerConnections: { [key: string]: RTCPeerConnection } = {};
+  const socket = io(WEBRTC_URL);
+  // complete connection with watcher
+  socket.on('answer', (id, description) => {
+    peerConnections[id].setRemoteDescription(description);
+  });
+  // new watcher is connecting
+  socket.on('watcher', (id) => {
+    const peerConnection = new RTCPeerConnection();
+    peerConnections[id] = peerConnection;
+
+    stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        socket.emit('candidate', id, event.candidate);
+      }
     };
 
-    const { data } = await axios.post(`${WEBRTC_URL}/broadcast`, payload);
-    const desc = new RTCSessionDescription(data.sdp);
-    peer.setRemoteDescription(desc).catch((e) => console.log(e));
-  };
-
-  return peer;
+    peerConnection
+      .createOffer()
+      .then((sdp) => peerConnection.setLocalDescription(sdp))
+      .then(() => {
+        socket.emit('offer', id, peerConnection.localDescription);
+      });
+  });
+  // watcher has a new ICE candidate
+  socket.on('candidate', (id, candidate) => {
+    peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+  });
+  // watcher has disconnected
+  socket.on('disconnectPeer', (id) => {
+    console.log('peer disconnected', id);
+    peerConnections[id].close();
+    delete peerConnections[id];
+  });
+  return socket;
 }
